@@ -1,16 +1,32 @@
 {
   "version": "0.0.0",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
   "dependencies": {
     "vue": "^3.5.24"
   },
   "devDependencies": {
+    "@eslint/js": "^9.36.0",
     "@types/node": "^24.10.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-define-config": "^2.1.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.9.3",
     "vite": "^7.2.2",
+    "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^3.1.3"
   }
 }
