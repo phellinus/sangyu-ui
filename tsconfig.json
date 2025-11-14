@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@sangyu-ui/utils": [
+        "packages/utils/src"
+      ]
+    }
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
