@@ -6,7 +6,8 @@ export default defineConfig({
   description: "This is a Sangyu Component library",
   rewrites: {
     'docs/(.*)': '(.*)',
-    'packages/sangyu-ui/src/:comp/(.*)': 'components/:comp/(.*)'
+    'packages/sangyu-ui/src/:comp/(.*)': 'components/:comp/(.*)',
+    'packages/utils/src/(.*)': 'utils/(.*)'
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -21,8 +22,14 @@ export default defineConfig({
       {
         text: '按钮',
         link:'/components/button/'
-      }
-     ]
+      },
+     ],
+      '/utils/':[
+        {
+          text: 'genClass',
+          link:'/utils/gen-class'
+        }
+      ]
     },
 
     socialLinks: [
