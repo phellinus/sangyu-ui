@@ -1,6 +1,6 @@
 <template>
     <div :class="c('primary')">
-        {{ c('primary') }}
+        {{ c('a', 'b', cm('pmimary')) }}
         {{ clx }}
     </div>
     <button style="background-color: aqua" @click="handleClick">切换</button>
@@ -9,7 +9,7 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { useClassnames } from '../gen-class';
-    const { c, cx } = useClassnames('button');
+    const { c, cx, ce, cm } = useClassnames('button');
     const testRef = ref(false);
     const handleClick = () => {
         testRef.value = !testRef.value;
