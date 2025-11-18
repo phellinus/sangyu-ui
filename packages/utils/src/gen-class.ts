@@ -19,7 +19,7 @@ export function useClassnames(componentName: string) {
                     }
                 }
                 return `${prev}-${cur}`;
-            }, componentClass);
+            }, componentClass) as string;
 
         return componentClass;
     };
