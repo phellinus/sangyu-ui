@@ -1,6 +1,7 @@
 @import "../../style/index.less";
 
 .sy-button{
+    height: 32px;
     background: none;
     cursor: pointer;
     border: 1px solid var(--sy-color-border);
@@ -8,7 +9,20 @@
     color: inherit;
     padding: 4px 10px;
     border-radius: 4px;
-
+    display: inline-flex;
+    align-items: center;
+    &-size{
+        &--small{
+            height: 24px;
+            padding: 0 7px;
+            font-size: 12px;
+        }
+        &--large{
+            height: 40px;
+            padding: 6px 15px;
+            font-size: 16px;
+        }
+    }
     &--default{
         border-color: var(--sy-color-border);
         color: var(--sy-color-text);
@@ -54,5 +68,11 @@
             border-color: var(--sy-color-primary-active);
             background-color: var(--sy-color-primary-active );
         }
+    }
+    &:disabled{
+        cursor: not-allowed;
+        border-color: #d9d9d9;
+        color: #bfbfbf;
+        background-color: #f0f0f0;
     }
 }

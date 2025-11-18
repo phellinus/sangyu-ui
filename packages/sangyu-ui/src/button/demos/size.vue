@@ -1,16 +1,16 @@
 <docs>
 ---
-    title: 基础语法
+    title: 按钮尺寸
 ---
 
-这是一个基础的使用方式
+目前提供三种组件库small default large三种尺寸，通过size属性进行设置。
 </docs>
 
 <template>
     <div class="content">
-        <sy-button @click="handleCLick">按钮一</sy-button>
+        <sy-button size="small" @click="handleCLick">按钮一</sy-button>
         <sy-button type="dashed" @click="handleCLick">按钮二</sy-button>
-        <sy-button type="primary" @click="handleCLick">按钮三</sy-button>
+        <sy-button size="large" type="primary" @click="handleCLick">按钮三</sy-button>
     </div>
 </template>
 
