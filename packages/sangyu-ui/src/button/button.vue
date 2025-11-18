@@ -15,16 +15,46 @@
     const emits = defineEmits(['click']);
     const props = defineProps({
         type: {
-            type: String as PropType<'primary' | 'default' | 'dashed'>,
+            type: String as PropType<
+                'primary' | 'default' | 'dashed' | 'filled' | 'border' | 'flat' | 'line' | 'gradient' | 'relief'
+            >,
             default: 'default',
         },
         disabled: {
             type: Boolean as PropType<boolean>,
             default: false,
         },
+        href: {
+            type: String as PropType<string>,
+            default: '',
+        },
+        color: {
+            type: String as PropType<string>,
+            default: '',
+        },
+        lineOrigin: {
+            type: String as PropType<'left' | 'right' | 'center'>,
+            default: 'center',
+        },
+        linePosition: {
+            type: String as PropType<'top' | 'bottom'>,
+            default: 'bottom',
+        },
         size: {
             type: String as PropType<'small' | 'default' | 'large'>,
             default: 'default',
+        },
+        textColor: {
+            type: String as PropType<string>,
+            default: '',
+        },
+        radius: {
+            type: String as PropType<'small' | 'default' | 'large'>,
+            default: 'default',
+        },
+        gradientColorSecondary: {
+            type: String as PropType<string>,
+            default: '',
         },
     });
     const { c, cx, cm } = useClassnames('button');
