@@ -15,6 +15,10 @@ export default defineConfig({
     resolve: {
         alias: [
             {
+                find: /^sangyu-ui/,
+                replacement: path.resolve(baseUrl, 'packages/sangyu-ui/src'),
+            },
+            {
                 find: /^@sangyu-ui\/utils/,
                 replacement: path.resolve(baseUrl, 'packages/utils/src'),
             },

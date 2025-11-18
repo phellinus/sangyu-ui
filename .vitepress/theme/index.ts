@@ -4,7 +4,8 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
 import { AntdTheme } from 'vite-plugin-vitepress-demo/theme'
-
+import sangyu from "sangyu-ui" 
+import 'sangyu-ui/style.ts'
 export default {
   extends: DefaultTheme,
   Layout: () => {
@@ -15,5 +16,6 @@ export default {
   enhanceApp({ app, router, siteData }) {
     // ...
     app.component('Demo', AntdTheme)
+    app.use(sangyu)
   }
 } satisfies Theme

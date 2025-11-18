@@ -10,7 +10,7 @@
     test();
 </script>
 <template>
-    <div>button的例子</div>
+    <div><sy-button /></div>
 </template>
 
 <script setup lang="ts"></script>
