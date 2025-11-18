@@ -24,50 +24,19 @@
         }
     }
     &--default{
-        border-color: var(--sy-color-border);
-        color: var(--sy-color-text);
-
-        &:hover{ 
-            border-color: var(--sy-color-primary-hover);
-            color: var(--sy-color-primary-hover);
-        }
-
-        &:active{
-            border-color: var(--sy-color-primary-active);
-            color: var(--sy-color-primary-active);
-        }
+        .sy-button-outline();
+        .sy-button-states(--sy-color-primary-hover, --sy-color-primary-active);
     }
 
     &--dashed{
         border-style: dashed;
-        border-color: var(--sy-color-border);
-        color: var(--sy-color-text);
-
-        &:hover{ 
-            border-color: var(--sy-color-primary-hover);
-            color: var(--sy-color-primary-hover);
-        }
-
-        &:active{
-            border-color: var(--sy-color-primary-active);
-            color: var(--sy-color-primary-active);
-        }
+        .sy-button-outline();
+        .sy-button-states(--sy-color-primary-hover, --sy-color-primary-active);
     }
 
     &--primary{
-        border-color: var(--sy-color-primary);
-        color: white;
-        background-color: var(--sy-color-primary);
-
-        &:hover{ 
-            border-color: var(--sy-color-primary-hover);
-            background-color: var(--sy-color-primary-hover);
-        }
-
-        &:active{
-            border-color: var(--sy-color-primary-active);
-            background-color: var(--sy-color-primary-active );
-        }
+        .sy-button-solid();
+        .sy-button-states(--sy-color-primary-hover, --sy-color-primary-active, true, false);
     }
     &:disabled{
         cursor: not-allowed;
