@@ -13,7 +13,7 @@
         <sy-button color="success" type="filled" @click="handleCLick">success</sy-button>
         <sy-button color="warning" type="filled" @click="handleCLick">warning</sy-button>
         <sy-button color="error" type="filled" @click="handleCLick">error</sy-button>
-        <sy-button color="rgb(134, 4, 98)" type="filled" @click="handleCLick">RGB</sy-button>
+        <sy-button color="rgb(70, 130, 180)" type="filled" @click="handleCLick">RGB</sy-button>
         <sy-button disabled type="filled" @click="handleCLick">Disabled</sy-button>
     </div>
 </template>

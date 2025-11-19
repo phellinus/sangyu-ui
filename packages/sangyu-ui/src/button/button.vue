@@ -78,22 +78,38 @@
             [c('size', cm(props.size))]: true,
         };
     });
-    const handleCLick = (e: Event) => {
+    const handleCLick = (e: MouseEvent) => {
         emits('click', e);
+        const { clientX, clientY, currentTarget } = e;
         nextTick(() => {
             if (props.href) {
                 window.location.href = props.href;
             }
             if (props.type === 'filled') {
-                //写这个位置
+                const target = currentTarget as HTMLElement | null;
+                if (!target) return;
+                const ripple = document.createElement('span');
+                const rect = target.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const offsetX = clientX - rect.left - size / 2;
+                const offsetY = clientY - rect.top - size / 2;
+                ripple.className = 'sy-button__ripple';
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+                ripple.style.left = `${offsetX}px`;
+                ripple.style.top = `${offsetY}px`;
+                target.appendChild(ripple);
+                ripple.addEventListener('animationend', () => {
+                    ripple.remove();
+                });
             }
         });
     };
-    const mouseoverx = (e: Event) => {
+    const mouseoverx = (e: MouseEvent) => {
         emits('mouseover', e);
         state.hover = true;
     };
-    const mouseoutx = (e: Event) => {
+    const mouseoutx = (e: MouseEvent) => {
         emits('mouseout', e);
         state.hover = false;
     };
@@ -135,4 +151,26 @@
     });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+    button {
+        position: relative;
+        overflow: hidden;
+    }
+
+    :deep(.sy-button__ripple) {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        opacity: 0.4;
+        pointer-events: none;
+        background-color: rgba(255, 255, 255, 0.6);
+        animation: sy-button-ripple 600ms ease-out;
+    }
+
+    @keyframes sy-button-ripple {
+        to {
+            transform: scale(2.5);
+            opacity: 0;
+        }
+    }
+</style>
