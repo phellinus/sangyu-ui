@@ -1,3 +1,7 @@
+# filled
+
+<demo src="./demos/filled-button.vue"></demo>
+
 # 按钮
 
 <demo src="./demos/basic.vue"></demo>
