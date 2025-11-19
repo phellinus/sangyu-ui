@@ -1,2 +1,2 @@
 export { useClassnames } from './gen-class';
-export { getColor } from './get-color';
+export { getColor, getColorWithAlpha } from './get-color';

@@ -2,6 +2,14 @@
 
 <demo src="./demos/filled-button.vue"></demo>
 
+# border
+
+<demo src="./demos/border-button.vue"></demo>
+
+# flat
+
+<demo src="./demos/flat-button.vue"></demo>
+
 # 按钮
 
 <demo src="./demos/basic.vue"></demo>
