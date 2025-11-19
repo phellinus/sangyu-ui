@@ -81,29 +81,53 @@
     });
     const handleCLick = (e: MouseEvent) => {
         emits('click', e);
-        state.active = true;
         const { clientX, clientY, currentTarget } = e;
+
         nextTick(() => {
             if (props.href) {
                 window.location.href = props.href;
             }
-            if (props.type === 'filled') {
-                const target = currentTarget as HTMLElement | null;
-                if (!target) return;
-                const ripple = document.createElement('span');
+
+            const target = currentTarget as HTMLElement | null;
+            if (!target) return;
+
+            // filled 和 border 都加波纹
+            if (props.type === 'filled' || props.type === 'border') {
                 const rect = target.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
                 const offsetX = clientX - rect.left - size / 2;
                 const offsetY = clientY - rect.top - size / 2;
+
+                const ripple = document.createElement('span');
                 ripple.className = 'sy-button__ripple';
                 ripple.style.width = `${size}px`;
                 ripple.style.height = `${size}px`;
                 ripple.style.left = `${offsetX}px`;
                 ripple.style.top = `${offsetY}px`;
+
+                // 如果是 border，可以把波纹颜色设成按钮色带一点透明
+                if (props.type === 'border') {
+                    ripple.style.backgroundColor = getColorWithAlpha(getColor(props.color), 0.3);
+                }
+
                 target.appendChild(ripple);
+
                 ripple.addEventListener('animationend', () => {
                     ripple.remove();
+
+                    // ⚠️ 这里才让 border 进入 active 状态，背景变成 props.color
+                    if (props.type === 'border') {
+                        state.active = true;
+                    }
                 });
+            } else {
+                // 其他类型如果有用到 active，可以按需处理
+                state.active = true;
+            }
+
+            // filled 不依赖 active 改背景，但如果你后面想用到 active，这里可以顺便设
+            if (props.type === 'filled') {
+                state.active = true;
             }
         });
     };
@@ -160,8 +184,16 @@
         if (props.type === 'flat') {
             return {
                 border: 'none',
-                backgroundColor: 'transparent',
-                color: props.textColor != '' ? getColor(props.textColor) : getColor(props.color),
+                backgroundColor: state.active
+                    ? getColor(props.color)
+                    : state.hover
+                      ? getColorWithAlpha(getColor(props.color), 0.2)
+                      : 'transparent',
+                color: state.active
+                    ? 'white'
+                    : props.textColor != ''
+                      ? getColor(props.textColor)
+                      : getColor(props.color),
             };
         }
         // dashed 类型
@@ -187,7 +219,7 @@
         transform: scale(0);
         opacity: 0.4;
         pointer-events: none;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255);
         animation: sy-button-ripple 600ms ease-out;
     }
 
