@@ -34,9 +34,13 @@
 
 <demo src="./demos/radius.vue"></demo>
 
+# 跳转按钮
 
+<demo src="./demos/href-button.vue"></demo>
 
+# 按钮的文字颜色
 
+<demo src="./demos/text-color.vue"></demo>
 ## API
 
 ### 属性

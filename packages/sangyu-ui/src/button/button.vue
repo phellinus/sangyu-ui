@@ -23,9 +23,7 @@
     const emits = defineEmits(['click', 'mouseover', 'mouseout', 'blur']);
     const props = defineProps({
         type: {
-            type: String as PropType<
-                'primary' | 'default' | 'dashed' | 'filled' | 'border' | 'flat' | 'line' | 'gradient' | 'relief'
-            >,
+            type: String as PropType<'filled' | 'border' | 'flat' | 'line' | 'gradient' | 'relief'>,
             default: 'filled',
         },
         disabled: {
