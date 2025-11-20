@@ -77,6 +77,8 @@
             [c()]: true,
             [c(cm(props.type))]: true,
             [c('size', cm(props.size))]: true,
+            [c(`${props.type}`, 'position', cm(props.linePosition))]: true,
+            [c(`${props.type}`, 'origin', cm(props.lineOrigin))]: true,
         };
     });
     const handleCLick = (e: MouseEvent) => {
@@ -91,8 +93,9 @@
             const target = currentTarget as HTMLElement | null;
             if (!target) return;
 
-            // filled 和 border 都加波纹
-            if (props.type === 'filled' || props.type === 'border') {
+            const rippleEnabled = ['filled', 'border', 'flat'];
+
+            if (rippleEnabled.includes(props.type)) {
                 const rect = target.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
                 const offsetX = clientX - rect.left - size / 2;
@@ -105,9 +108,17 @@
                 ripple.style.left = `${offsetX}px`;
                 ripple.style.top = `${offsetY}px`;
 
-                // 如果是 border，可以把波纹颜色设成按钮色带一点透明
+                // 波纹颜色根据类型定制
                 if (props.type === 'border') {
-                    ripple.style.backgroundColor = getColorWithAlpha(getColor(props.color), 0.3);
+                    ripple.style.backgroundColor = getColorWithAlpha(getColor(props.color), 1);
+                }
+
+                if (props.type === 'flat') {
+                    ripple.style.backgroundColor = getColorWithAlpha(getColor(props.color), 1);
+                }
+
+                if (props.type === 'flat') {
+                    state.active = false;
                 }
 
                 target.appendChild(ripple);
@@ -115,20 +126,21 @@
                 ripple.addEventListener('animationend', () => {
                     ripple.remove();
 
-                    // ⚠️ 这里才让 border 进入 active 状态，背景变成 props.color
-                    if (props.type === 'border') {
+                    // 波纹结束后再切换至 active，避免直接变色
+                    if (props.type === 'border' || props.type === 'flat') {
                         state.active = true;
                     }
                 });
-            } else {
-                // 其他类型如果有用到 active，可以按需处理
-                state.active = true;
+
+                if (props.type === 'filled') {
+                    state.active = true;
+                }
+
+                return;
             }
 
-            // filled 不依赖 active 改背景，但如果你后面想用到 active，这里可以顺便设
-            if (props.type === 'filled') {
-                state.active = true;
-            }
+            // 其他类型需要 active 状态变化时直接处理
+            state.active = true;
         });
     };
     const mouseoverx = (e: MouseEvent) => {
@@ -194,6 +206,17 @@
                     : props.textColor != ''
                       ? getColor(props.textColor)
                       : getColor(props.color),
+            };
+        }
+        if (props.type === 'line') {
+            const mainColor = getColor(props.color);
+            const fadeColor = getColorWithAlpha(mainColor, 0.3);
+
+            return {
+                border: 'none',
+                color: props.textColor != '' ? getColor(props.textColor) : getColor(props.color),
+                '--sy-line-color': mainColor,
+                '--sy-line-color-fade': state.active ? mainColor : fadeColor,
             };
         }
         // dashed 类型

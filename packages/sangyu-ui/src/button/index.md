@@ -10,6 +10,10 @@
 
 <demo src="./demos/flat-button.vue"></demo>
 
+# line
+
+<demo src="./demos/line-button.vue"></demo>
+
 # 按钮
 
 <demo src="./demos/basic.vue"></demo>
@@ -17,6 +21,7 @@
 <demo src="./demos/disable.vue"></demo>
 
 <demo src="./demos/size.vue"></demo>
+
 
 
 

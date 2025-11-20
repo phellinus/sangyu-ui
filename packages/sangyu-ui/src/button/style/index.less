@@ -1,6 +1,7 @@
 @import "../../style/index.less";
 
 .sy-button{
+    position: relative;
     height: 32px;
     background: none;
     cursor: pointer;
@@ -39,6 +40,72 @@
         .sy-button-states(--sy-color-primary-hover, --sy-color-primary-active, true, false);
     }
 
+    &--line{
+        position: relative;
+        border: none;
+        background: none;
+        &::before { 
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--sy-line-color-fade);
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--sy-line-color-fade);
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+        &:hover::after {
+            background-color: var(--sy-line-color);
+        }
+    }
+    &-line-position--bottom::before,
+    &-line-position--bottom::after {
+        bottom: 0;
+    }
+    &-line-position--top::before,
+    &-line-position--top::after {
+        top: 0;
+    }
+    &-line-origin{
+         /* 动画方向控制 */
+        &--left::after {
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        &--left:hover::after {
+            transform: scaleX(1);
+        }
+        /* 从右到左 */
+        &--right::after {
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+        &--right:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* 从中间向两端扩散 */
+        &--center::after {
+            transform: scaleX(0);
+            transform-origin: center;
+        }
+        &--center:hover::after {
+            transform: scaleX(1);
+        }
+    }
     // &--filled{
         
     // }
