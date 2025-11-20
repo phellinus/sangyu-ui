@@ -7,9 +7,9 @@
             :style="[buttonStyle, props.customStyle]"
             v-on="listeners"
         >
-            <span class="sy-text">
+            <div class="sy-text">
                 <slot />
-            </span>
+            </div>
         </button>
     </div>
 </template>
