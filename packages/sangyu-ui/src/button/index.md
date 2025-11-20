@@ -23,7 +23,7 @@
 ## Relief类型
 
 <demo src="./demos/relief-button.vue"></demo>
-   
+
 ## 按钮的尺寸
 
 <demo src="./demos/size.vue"></demo>
@@ -48,15 +48,25 @@
 
 ### 属性
 
-| 属性名   | 类型                          | 说明           | 默认值    |
-| -------- | ----------------------------- | -------------- | --------- |
-| type     | `default`  \|`primary`\|`dashed` | 按钮的各种类型 | `default` |
-| size     | `default` \|`small`\|`large`    | 按钮的尺寸     | `default` |
-| disabled | `boolean`                     | 禁用           | `false`   |
+| 属性名                 | 类型                                                         | 说明                                                         | 默认值      |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------- |
+| type                   | ` 'filled' \| 'border' \| 'flat' \| 'line' \| 'gradient' \| 'relief'` | 按钮视觉样式类型                                             | `'filled'`  |
+| size                   | `'small' \| 'default' \| 'large'`                            | 按钮尺寸                                                     | `'default'` |
+| disabled               | `boolean`写·                                                 | 是否禁用                                                     | `false`     |
+| href                   | `string`                                                     | 配置后点击会跳转到该链接                                     | `''`        |
+| color                  | `string`                                                     | 支持主题色关键词 (`primary`/`success`/`warning`/`error`) 或任意自定义 CSS 颜色 | `'primary'` |
+| textColor              | `string`                                                     | 文本颜色，同样支持主题色或自定义颜色；为空时跟随类型的默认颜色 | `''`        |
+| lineOrigin             | `'left' \| 'right' \| 'center'`                              | `line` 类型的动画起点位置                                    | `'center'`  |
+| linePosition           | `'top' \| 'bottom'`                                          | `line` 类型的描边位置                                        | `'bottom'`  |
+| radius                 | `'small' \| 'default' \| 'large'`                            | 圆角尺寸                                                     | `'default'` |
+| gradientColorSecondary | `string`                                                     | 渐变按钮的第二个颜色值                                       | `''`        |
+| customStyle            | `string`                                                     | 追加到按钮上的自定义内联样式（支持任何合法 CSS 字符串）      | `''`        |
 
 ### 事件
 
-| 事件名 | 说明                 | 类型                         |
-| ------ | -------------------- | ---------------------------- |
-| click  | 点击按钮后触发的事件 | `(event:MouseEvent) => void` |
-
+| 事件名    | 说明                               | 类型                          |
+| --------- | ---------------------------------- | ----------------------------- |
+| click     | 点击按钮后触发                     | `(event: MouseEvent) => void` |
+| mouseover | 鼠标进入按钮区域时触发             | `(event: MouseEvent) => void` |
+| mouseout  | 鼠标离开按钮区域时触发             | `(event: MouseEvent) => void` |
+| blur      | 按钮失去焦点时触发（如点击后转移焦点） | `(event: MouseEvent) => void` |

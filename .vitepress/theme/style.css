@@ -127,6 +127,7 @@
   --vp-custom-block-tip-text: var(--vp-c-text-1);
   --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
   --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+  --vp-sidebar-width: 200px;
 }
 
 /**
@@ -137,3 +138,31 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/**
+ * Layout tweaks
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-layout-max-width: 1600px;
+  --sy-doc-main-width: 940px;
+  --sy-doc-aside-width: 200px;
+}
+
+.VPDoc.has-aside .content-container {
+  max-width: var(--sy-doc-main-width) !important;
+}
+
+.VPDoc .main,
+.VPDoc .main .vp-doc {
+  max-width: var(--sy-doc-main-width) !important;
+  margin: 0 auto;
+}
+
+.VPDoc .aside {
+  max-width: var(--sy-doc-aside-width);
+}
+
+.VPDoc .aside-container,
+.VPDoc .aside-curtain {
+  width: var(--sy-doc-aside-width);
+}
