@@ -30,9 +30,9 @@
 
 <demo src="./demos/disable.vue"></demo>
 
-# 按钮
+# 按钮圆角
 
-<demo src="./demos/basic.vue"></demo>
+<demo src="./demos/radius.vue"></demo>
 
 
 

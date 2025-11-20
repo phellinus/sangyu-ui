@@ -83,6 +83,7 @@
             [c()]: true,
             [c(cm(props.type))]: true,
             [c('size', cm(props.size))]: true,
+            [c('radius', cm(props.radius))]: true,
             [c(`${props.type}`, 'position', cm(props.linePosition))]: true,
             [c(`${props.type}`, 'origin', cm(props.lineOrigin))]: true,
         };
