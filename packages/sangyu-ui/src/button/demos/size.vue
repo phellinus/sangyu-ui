@@ -8,9 +8,9 @@
 
 <template>
     <div class="content">
-        <sy-button size="small" @click="handleCLick">按钮一</sy-button>
-        <sy-button type="dashed" @click="handleCLick">按钮二</sy-button>
-        <sy-button size="large" type="primary" @click="handleCLick">按钮三</sy-button>
+        <sy-button size="small" color="primary" @click="handleCLick">按钮一</sy-button>
+        <sy-button color="success" @click="handleCLick">按钮二</sy-button>
+        <sy-button size="large" color="warning" @click="handleCLick">按钮三</sy-button>
     </div>
 </template>
 

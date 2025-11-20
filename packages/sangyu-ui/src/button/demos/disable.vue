@@ -8,9 +8,12 @@
 
 <template>
     <div class="content">
-        <sy-button disabled @click="handleCLick">按钮一</sy-button>
-        <sy-button disabled type="dashed" @click="handleCLick">按钮二</sy-button>
-        <sy-button disabled type="primary" @click="handleCLick">按钮三</sy-button>
+        <sy-button disabled type="filled" @click="handleCLick">Disabled</sy-button>
+        <sy-button disabled type="border" @click="handleCLick">Disabled</sy-button>
+        <sy-button disabled type="flat" @click="handleCLick">Disabled</sy-button>
+        <sy-button disabled type="line" @click="handleCLick">Disabled</sy-button>
+        <sy-button disabled type="gradient" @click="handleCLick">Disabled</sy-button>
+        <sy-button disabled type="relief" @click="handleCLick">Disabled</sy-button>
     </div>
 </template>
 

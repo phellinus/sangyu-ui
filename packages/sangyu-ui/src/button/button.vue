@@ -7,7 +7,9 @@
             :style="[buttonStyle, props.customStyle]"
             v-on="listeners"
         >
-            <slot />
+            <span class="sy-text">
+                <slot />
+            </span>
         </button>
     </div>
 </template>
@@ -233,7 +235,13 @@
                 boxShadow: state.hover ? `0px 8px 25px -8px ${getColor(props.color)}` : null,
             };
         }
-        // dashed 类型
+        if (props.type === 'relief') {
+            return {
+                backgroundColor: getColor(props.color),
+                color: props.textColor != '' ? getColor(props.textColor) : 'white',
+                '--border-color': darkenColor(props.color, 0.3),
+            };
+        }
         if (props.type === 'dashed') {
             styles.backgroundColor = '#fff';
             styles.border = `1px dashed ${props.color ?? '#409eff'}`;

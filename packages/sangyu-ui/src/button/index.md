@@ -1,30 +1,38 @@
-# filled
+## Filled类型
 
 <demo src="./demos/filled-button.vue"></demo>
 
-# border
+## Border类型
 
 <demo src="./demos/border-button.vue"></demo>
 
-# flat
+## Flat类型
 
 <demo src="./demos/flat-button.vue"></demo>
 
-# line
+## Line类型
 
 <demo src="./demos/line-button.vue"></demo>
 
-# gradient
+## Gradient类型
 
 <demo src="./demos/gradient-button.vue"></demo>
+
+## Relief类型
+
+<demo src="./demos/relief-button.vue"></demo>
+   
+## 按钮的尺寸
+
+<demo src="./demos/size.vue"></demo>
+
+## 禁用按钮
+
+<demo src="./demos/disable.vue"></demo>
 
 # 按钮
 
 <demo src="./demos/basic.vue"></demo>
-
-<demo src="./demos/disable.vue"></demo>
-
-<demo src="./demos/size.vue"></demo>
 
 
 
