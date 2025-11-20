@@ -1,3 +1,5 @@
+# SyButton 按钮
+
 ## Filled类型
 
 <demo src="./demos/filled-button.vue"></demo>
@@ -30,17 +32,18 @@
 
 <demo src="./demos/disable.vue"></demo>
 
-# 按钮圆角
+## 按钮圆角
 
 <demo src="./demos/radius.vue"></demo>
 
-# 跳转按钮
+## 跳转按钮
 
 <demo src="./demos/href-button.vue"></demo>
 
-# 按钮的文字颜色
+## 按钮的文字颜色
 
 <demo src="./demos/text-color.vue"></demo>
+
 ## API
 
 ### 属性

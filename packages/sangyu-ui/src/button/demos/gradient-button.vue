@@ -3,7 +3,20 @@
     title: 按钮类型 - gradient
 ---
 
-要添加带边缘的按钮类型，我们更改该值`flat`。
+`gradient` 按钮使用**渐变背景色**进行填充，是一种视觉张力更强的按钮类型。  
+它通过主色 `color` 和次级渐变色 `gradient-color-secondary` 生成线性渐变，并支持调整渐变方向。
+
+常用属性：
+- `color`：渐变起始颜色  
+- `gradient-color-secondary`：渐变结束颜色  
+- `gradient-direction`：渐变方向（默认为 `30deg`）
+
+适用于：
+- 需要突出强操作意图的按钮  
+- 需要在视觉上更引人注意的区域  
+- 活动按钮、促销按钮、强调操作等场景  
+
+使用方式：设置 `type="gradient"`。
 
 </docs>
 
