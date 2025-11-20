@@ -70,6 +70,17 @@
             background-color: var(--sy-line-color);
         }
     }
+    &--gradient{
+        transform: translateY(0);
+        transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+        &:hover{
+            transform: translateY(-3px);
+        }
+        &:active {
+            transform: translateY(-1px) scale(0.97);
+            transition: transform 0.1s ease-out;   /* active 反应要更迅速 */
+        }   
+    }
     &-line-position--bottom::before,
     &-line-position--bottom::after {
         bottom: 0;
@@ -114,5 +125,6 @@
         border-color: #d9d9d9;
         color: #bfbfbf;
         background-color: #f0f0f0;
+        transform: translateX(0) translateY(0);
     }
 }

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-    import { getColor, useClassnames, getColorWithAlpha } from '@sangyu-ui/utils';
+    import { getColor, useClassnames, getColorWithAlpha, darkenColor } from '@sangyu-ui/utils';
     import { PropType, computed, nextTick, reactive, type CSSProperties } from 'vue';
     defineOptions({
         name: 'SyButton',
@@ -57,6 +57,10 @@
         radius: {
             type: String as PropType<'small' | 'default' | 'large'>,
             default: 'default',
+        },
+        gradientDirection: {
+            type: String as PropType<string>,
+            default: '30deg',
         },
         gradientColorSecondary: {
             type: String as PropType<string>,
@@ -126,7 +130,6 @@
                 ripple.addEventListener('animationend', () => {
                     ripple.remove();
 
-                    // 波纹结束后再切换至 active，避免直接变色
                     if (props.type === 'border' || props.type === 'flat') {
                         state.active = true;
                     }
@@ -217,6 +220,17 @@
                 color: props.textColor != '' ? getColor(props.textColor) : getColor(props.color),
                 '--sy-line-color': mainColor,
                 '--sy-line-color-fade': state.active ? mainColor : fadeColor,
+            };
+        }
+        if (props.type === 'gradient') {
+            const grcolor = props.gradientColorSecondary
+                ? getColor(props.gradientColorSecondary)
+                : darkenColor(props.color);
+            return {
+                background: `linear-gradient(${props.gradientDirection}, ${getColor(props.color)} 0%, ${grcolor} 100%)`,
+                color: props.textColor != '' ? getColor(props.textColor) : 'white',
+                border: 'none',
+                boxShadow: state.hover ? `0px 8px 25px -8px ${getColor(props.color)}` : null,
             };
         }
         // dashed 类型

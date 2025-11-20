@@ -14,6 +14,10 @@
 
 <demo src="./demos/line-button.vue"></demo>
 
+# gradient
+
+<demo src="./demos/gradient-button.vue"></demo>
+
 # 按钮
 
 <demo src="./demos/basic.vue"></demo>
