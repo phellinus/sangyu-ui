@@ -23,6 +23,11 @@ export default defineConfig({
         text: '按钮',
         link:'/components/button/'
       },
+      {
+        text: '输入框',
+        link:'/components/input/'
+
+      }
      ],
       '/utils/':[
         {
