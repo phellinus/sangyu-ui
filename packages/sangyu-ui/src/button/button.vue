@@ -16,60 +16,27 @@
 
 <script setup lang="ts">
     import { getColor, useClassnames, getColorWithAlpha, darkenColor } from '@sangyu-ui/utils';
-    import { PropType, computed, nextTick, reactive, type CSSProperties } from 'vue';
+    import { computed, nextTick, reactive, type CSSProperties } from 'vue';
+    import { ButtonProps } from './interface';
     defineOptions({
         name: 'SyButton',
     });
-    const emits = defineEmits(['click', 'mouseover', 'mouseout', 'blur']);
-    const props = defineProps({
-        type: {
-            type: String as PropType<'filled' | 'border' | 'flat' | 'line' | 'gradient' | 'relief'>,
-            default: 'filled',
-        },
-        disabled: {
-            type: Boolean as PropType<boolean>,
-            default: false,
-        },
-        href: {
-            type: String as PropType<string>,
-            default: '',
-        },
-        color: {
-            type: String as PropType<string>,
-            default: 'primary',
-        },
-        lineOrigin: {
-            type: String as PropType<'left' | 'right' | 'center'>,
-            default: 'center',
-        },
-        linePosition: {
-            type: String as PropType<'top' | 'bottom'>,
-            default: 'bottom',
-        },
-        size: {
-            type: String as PropType<'small' | 'default' | 'large'>,
-            default: 'default',
-        },
-        textColor: {
-            type: String as PropType<string>,
-            default: '',
-        },
-        radius: {
-            type: String as PropType<'small' | 'default' | 'large'>,
-            default: 'default',
-        },
-        gradientDirection: {
-            type: String as PropType<string>,
-            default: '30deg',
-        },
-        gradientColorSecondary: {
-            type: String as PropType<string>,
-            default: '',
-        },
-        customStyle: {
-            type: String as PropType<string>,
-            default: '',
-        },
+    const emits = defineEmits<{
+        (e: 'click' | 'mouseover' | 'mouseout' | 'blur', evt: MouseEvent): void;
+    }>();
+    const props = withDefaults(defineProps<ButtonProps>(), {
+        type: 'filled',
+        disabled: false,
+        href: '',
+        color: 'primary',
+        lineOrigin: 'center',
+        linePosition: 'bottom',
+        size: 'default',
+        textColor: '',
+        radius: 'default',
+        gradientDirection: '30deg',
+        gradientColorSecondary: '',
+        customStyle: '',
     });
     const state = reactive({
         hover: false,

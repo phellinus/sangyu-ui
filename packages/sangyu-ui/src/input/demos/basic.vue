@@ -9,12 +9,15 @@ Input按钮组件的基础使用
 
 <template>
     <div class="content">
-        <SyInput placeholder="请输入内容" />
+        value: {{ value }}
+        <SyInput v-model="value" placeholder="请输入内容" />
     </div>
 </template>
 
 <script setup lang="ts">
+    import { ref } from 'vue';
     import SyInput from '../input.vue';
+    const value = ref('');
 </script>
 <style scoped>
     .content {
