@@ -1,6 +1,12 @@
 <template>
     <div :class="cls" :style="inputStyle">
+        <span v-if="$slots.prefix" :class="c(ce('prefix'))">
+            <slot name="prefix"></slot>
+        </span>
         <input ref="inputRef" :class="inputCls" :value="modelValue" :disabled="props.disabled" @input="handleInput" />
+        <span v-if="$slots.suffix" :class="c(ce('suffix'))">
+            <slot name="suffix"></slot>
+        </span>
     </div>
 </template>
 
@@ -13,6 +19,10 @@
     defineOptions({
         name: 'SyInput',
     });
+    defineSlots<{
+        prefix(): any;
+        suffix(): any;
+    }>();
     const props = withDefaults(defineProps<InputProps>(), {
         focusBorderColor: 'primary',
         borderColor: '#1a1a1a',
@@ -22,7 +32,7 @@
     const emit = defineEmits<{
         'update:modelValue': [string];
     }>();
-    const { c, cx, cm } = useClassnames('input');
+    const { c, cx, cm, ce } = useClassnames('input');
     const cls = cx(() => {
         return {
             [c()]: true,
