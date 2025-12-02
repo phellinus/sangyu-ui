@@ -10,7 +10,9 @@ Input按钮组件的基础使用
 <template>
     <div class="content">
         value: {{ value }}
+        <SyInput v-model="value" placeholder="请输入内容" size="small" />
         <SyInput v-model="value" placeholder="请输入内容" />
+        <SyInput v-model="value" placeholder="请输入内容" disabled size="large" />
     </div>
 </template>
 
