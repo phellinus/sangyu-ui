@@ -1,9 +1,21 @@
 <template>
-    <div :class="cls" :style="inputStyle">
+    <div :class="cls" :style="inputStyle" v-bind="omit($attrs, originInputProps)">
         <span v-if="$slots.prefix" :class="c(ce('prefix'))">
             <slot name="prefix"></slot>
         </span>
-        <input ref="inputRef" :class="inputCls" :value="modelValue" :disabled="props.disabled" @input="handleInput" />
+        <div class="sy-input-center">
+            <input
+                ref="inputRef"
+                v-bind="pick($attrs, originInputProps)"
+                :class="inputCls"
+                :value="modelValue"
+                :placeholder="props.placeholder ? ' ' : ''"
+                :disabled="props.disabled"
+                @input="handleInput"
+            />
+            <span class="sy-input-center-ph" aria-hidden="true">{{ props.placeholder }}</span>
+        </div>
+
         <span v-if="$slots.suffix" :class="c(ce('suffix'))">
             <slot name="suffix"></slot>
         </span>
@@ -12,12 +24,14 @@
 
 <script setup lang="ts">
     import { nextTick, onMounted, ref } from 'vue';
-    import { InputProps } from './interface';
+    import { InputProps, originInputProps } from './interface';
     import { getColor, useClassnames } from '@sangyu-ui/utils';
+    import { omit, pick } from 'lodash-es';
     const inputRef = ref<HTMLInputElement>();
 
     defineOptions({
         name: 'SyInput',
+        inheritAttrs: false,
     });
     defineSlots<{
         prefix(): any;
@@ -65,8 +79,18 @@
             setInputValue();
         });
     };
+    const focus = () => {
+        inputRef.value?.focus();
+    };
+    const blur = () => {
+        inputRef.value?.blur();
+    };
     onMounted(() => {
         setInputValue();
+    });
+    defineExpose({
+        focus,
+        blur,
     });
 </script>
 

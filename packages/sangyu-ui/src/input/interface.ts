@@ -4,4 +4,7 @@ export interface InputProps {
     borderColor?: string;
     disabled?: boolean;
     size?: 'small' | 'default' | 'large';
+    placeholder: string;
 }
+
+export const originInputProps = ['autocomplete', 'placeholder'];

@@ -10,7 +10,7 @@ Input按钮组件的基础使用
 <template>
     <div class="content">
         value: {{ value }}
-        <SyInput v-model="value" placeholder="请输入内容" size="small">
+        <SyInput ref="smRef" v-model="value" placeholder="请输入内容" size="small">
             <template #prefix>
                 <div>prefix</div>
             </template>
@@ -21,13 +21,19 @@ Input按钮组件的基础使用
             </template>
         </SyInput>
         <SyInput v-model="value" placeholder="请输入内容" disabled size="large" />
+        <SyInput v-model="test" placeholder="请输入内容" />
     </div>
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import SyInput from '../input.vue';
     const value = ref('');
+    const smRef = ref();
+    const test = ref('');
+    onMounted(() => {
+        smRef.value.focus();
+    });
 </script>
 <style scoped>
     .content {
