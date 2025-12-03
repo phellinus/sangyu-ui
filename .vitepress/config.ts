@@ -7,7 +7,8 @@ export default defineConfig({
   rewrites: {
     'docs/(.*)': '(.*)',
     'packages/sangyu-ui/src/:comp/(.*)': 'components/:comp/(.*)',
-    'packages/utils/src/(.*)': 'utils/(.*)'
+    'packages/utils/src/(.*)': 'utils/(.*)',
+    'packages/icons/docs/(.*)': 'components/icons/(.*)'
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -19,6 +20,10 @@ export default defineConfig({
     ],
     sidebar: {
      '/components/':[
+      {
+        text: '图标',
+        link:'/components/icons/'
+      },
       {
         text: '按钮',
         link:'/components/button/'

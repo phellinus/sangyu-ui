@@ -5,6 +5,9 @@
       "@sangyu-ui/utils": [
         "packages/utils/src"
       ],
+      "@sangyu-ui/icons": [
+        "packages/icons/src"
+      ],
       "sangyu-ui":[
         "packages/sangyu-ui/src"
       ],

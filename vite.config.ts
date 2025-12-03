@@ -22,6 +22,10 @@ export default defineConfig({
                 find: /^@sangyu-ui\/utils/,
                 replacement: path.resolve(baseUrl, 'packages/utils/src'),
             },
+            {
+                find: /^@sangyu-ui\/icons/,
+                replacement: path.resolve(baseUrl, 'packages/icons/src'),
+            },
         ],
     },
 });
