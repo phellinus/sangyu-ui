@@ -12,16 +12,21 @@ Input按钮组件的基础使用
         value: {{ value }}
         <SyInput ref="smRef" v-model="value" placeholder="请输入内容" size="small">
             <template #prefix>
-                <div>prefix</div>
+                <div>A</div>
             </template>
         </SyInput>
-        <SyInput v-model="value" placeholder="请输入内容">
+        <SyInput v-model="value" placeholder="请输入内容" width="90px">
             <template #prefix>
-                <div>prefix</div>
+                <div>A</div>
             </template>
         </SyInput>
-        <SyInput v-model="value" placeholder="请输入内容" disabled size="large" />
-        <SyInput v-model="test" placeholder="请输入内容" />
+        <SyInput v-model="value" placeholder="请输入内容" size="large">
+            <template #prefix>
+                <div>A</div>
+            </template>
+        </SyInput>
+        <SyInput v-model="test" placeholder="请输入内容" type="border" />
+        <SyInput v-model="test" placeholder="请输入内容" type="password" />
     </div>
 </template>
 
@@ -38,6 +43,7 @@ Input按钮组件的基础使用
 <style scoped>
     .content {
         display: flex;
+        align-items: flex-start;
         gap: 10px;
     }
 </style>
