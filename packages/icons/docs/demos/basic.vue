@@ -6,13 +6,18 @@ title: 图标库
 </docs>
 
 <template>
-    <div>icon</div>
+    <div style="font-size: 20px">
+        <div style="color: aqua; font-size: 20px">
+            <SyAiming />
+        </div>
+        <div style="color: aqua; font-size: 10px">
+            <SyAiming />
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-    import { test } from '@sangyu-ui/icons';
-
-    test();
+    import { SyAiming } from '@sangyu-ui/icons';
 </script>
 
 <style lang="scss" scoped></style>
