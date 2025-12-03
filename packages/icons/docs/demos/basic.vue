@@ -7,17 +7,13 @@ title: 图标库
 
 <template>
     <div style="font-size: 20px">
-        <div style="color: aqua; font-size: 20px">
-            <SyAiming />
-        </div>
-        <div style="color: aqua; font-size: 10px">
-            <SyAiming />
-        </div>
+        <SyIcon name="aim" />
+        <sy-icon name="aim" color="primary" />
     </div>
 </template>
 
 <script setup lang="ts">
-    import { SyAiming } from '@sangyu-ui/icons';
+    import { SyIcon } from '@sangyu-ui/icons';
 </script>
 
 <style lang="scss" scoped></style>
