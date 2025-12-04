@@ -106,7 +106,7 @@ title: SyIcon 参数示例
     const controls = reactive({
         name: 'loading',
         size: 44,
-        color: '#165DFF',
+        color: '#000000',
         strokeWidth: 4,
         spin: true,
     });
