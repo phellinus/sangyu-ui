@@ -24,7 +24,8 @@ title: 图标库
                 </div>
             </button>
         </div>
-
+        <sy-icon name="aim" :strokeWidth="1" />
+        <sy-icon name="aim" :strokeWidth="6" />
         <div v-if="toast.show" class="toast" role="status" aria-live="polite">已复制：{{ toast.text }}</div>
     </div>
 </template>

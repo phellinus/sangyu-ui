@@ -21,12 +21,12 @@ export default defineConfig({
     sidebar: {
      '/components/':[
       {
-        text: '图标',
-        link:'/components/icons/'
-      },
-      {
         text: '按钮',
         link:'/components/button/'
+      },
+       {
+        text: '图标',
+        link:'/components/icons/'
       },
       {
         text: '输入框',

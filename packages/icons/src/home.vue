@@ -1,15 +1,14 @@
 <template>
-    <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1em" height="1em" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="4">
         <path
             d="M9 18V42H39V18L24 6L9 18Z"
             fill="none"
             stroke="currentColor"
-            stroke-width="4"
             stroke-linecap="round"
             stroke-linejoin="round"
         />
-        <path d="M19 29V42H29V29H19Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
-        <path d="M9 42H39" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+        <path d="M19 29V42H29V29H19Z" fill="none" stroke="currentColor" stroke-linejoin="round" />
+        <path d="M9 42H39" stroke="currentColor" stroke-linecap="round" />
     </svg>
 </template>
 

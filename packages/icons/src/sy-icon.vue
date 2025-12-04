@@ -94,7 +94,13 @@
     });
 
     const mergedAttrs = computed(() => {
-        const { class: classAttr, style: styleAttr, strokeWidth, ...restAttrs } = attrs;
+        const {
+            class: classAttr,
+            style: styleAttr,
+            strokeWidth,
+            'stroke-width': strokeWidthKebab,
+            ...restAttrs
+        } = attrs;
         const styleList: StyleValue[] = [];
 
         if (styleAttr) {
@@ -103,11 +109,16 @@
 
         styleList.push(iconStyle.value);
 
+        const resolvedStrokeWidth =
+            props.strokeWidth ??
+            (strokeWidth as number | string | undefined) ??
+            (strokeWidthKebab as number | string | undefined);
+
         return {
             ...restAttrs,
             class: ['sy-icon', classAttr, props.spin ? 'sy-icon--spin' : null],
             style: styleList.length === 1 ? styleList[0] : styleList,
-            strokeWidth: props.strokeWidth ?? (strokeWidth as number | undefined),
+            ...(resolvedStrokeWidth !== undefined ? { 'stroke-width': resolvedStrokeWidth } : {}),
         };
     });
 </script>
