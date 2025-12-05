@@ -55,7 +55,7 @@ Input按钮组件的基础使用
     const value2 = ref('');
     const smRef = ref();
     onMounted(() => {
-        smRef.value.focus();
+        //smRef.value.focus();
     });
 </script>
 <style scoped>

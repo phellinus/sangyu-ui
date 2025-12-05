@@ -58,6 +58,7 @@
     import { InputProps, originInputProps } from './interface';
     import { getColor, useClassnames } from '@sangyu-ui/utils';
     import { omit, pick } from 'lodash-es';
+
     const inputRef = ref<HTMLInputElement>();
 
     defineOptions({
@@ -79,6 +80,7 @@
         clearable: false,
         bgColor: '#F5F7F8',
         textColor: 'black',
+        lineColor: '#F1F3F4',
     });
     const emit = defineEmits<{
         'update:modelValue': [string];
@@ -122,6 +124,8 @@
         '--border-color': getColor(props.borderColor),
         '--focus-border-color': getColor(props.focusColor),
         '--label-color': getColor(props.labelColor),
+        '--line-color': getColor(props.lineColor),
+        '--focu-line-color': getColor(props.focuLine),
     };
     const setInputValue = () => {
         const _input = inputRef.value;

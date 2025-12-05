@@ -42,6 +42,37 @@
     &--underline.hasfocu {
         border-bottom: 2px solid var(--focus-border-color);
     }
+    // bottom-line 类型
+    &--bottom-line {
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--line-color);
+        }
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--line-color);
+            transform: scaleX(0);
+            transform-origin: center;
+
+            transition: transform 0.5s ease, background-color 0.5s ease;
+        }
+    }
+    &--bottom-line.hasfocu {
+        &::after {
+            transform: scaleX(1);
+            background-color: var(--focu-line-color);
+        }
+    }
     &--label-border { 
         border-color: var(--border-color);
         .sy-input-center-ph--label.is-float{

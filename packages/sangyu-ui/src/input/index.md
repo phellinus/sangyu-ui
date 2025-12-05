@@ -8,6 +8,12 @@
 
 <demo src='./demos/underline-input.vue'></demo>
 
+# bottom-line-input
+
+<demo src='./demos/bottom-line.vue'></demo>
+
 # 图标按钮
 
 <demo src='./demos/icon-input.vue'></demo>
+
+
