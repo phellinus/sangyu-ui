@@ -1,7 +1,7 @@
 <template>
     <div
         :class="[cls, { hasfocu: isFloat }]"
-        :style="inputStyle"
+        :style="[inputStyle, props.customStyle]"
         v-bind="omit($attrs, originInputProps)"
         @mousedown.prevent="!props.disabled && inputRef?.focus()"
     >
@@ -26,12 +26,12 @@
             />
             <!-- lable模式 -->
             <span
-                v-if="props.placeholder && (props.type === 'label' || props.type === 'label-border')"
+                v-if="props.label || props.type === 'label-border'"
                 class="sy-input-center-ph sy-input-center-ph--label"
                 :class="{ 'is-float': isFloat }"
                 aria-hidden="true"
             >
-                {{ props.placeholder }}
+                {{ props.label }}
             </span>
             <transition v-else name="sy-input-center-placeholder">
                 <span
@@ -72,7 +72,7 @@
     }>();
     const props = withDefaults(defineProps<InputProps>(), {
         focusBorderColor: 'primary',
-        borderColor: 'primary',
+        borderColor: 'rgba(0, 0, 0, 0.2)',
         disabled: false,
         size: 'default',
         type: 'filled',
@@ -102,6 +102,7 @@
         return {
             [c()]: true,
             [c(cm(props.type))]: true,
+            [c(cm('label'))]: !!props.label,
             [c(cm('disabled'))]: props.disabled,
             [c(cm(props.size))]: !!props.size,
         };
@@ -119,7 +120,8 @@
         backgroundColor: getColor(props.bgColor),
         '--sy-input-bg': getColor(props.bgColor),
         '--border-color': getColor(props.borderColor),
-        '--focus-border-color': getColor(props.focusBorderColor),
+        '--focus-border-color': getColor(props.focusColor),
+        '--label-color': getColor(props.labelColor),
     };
     const setInputValue = () => {
         const _input = inputRef.value;

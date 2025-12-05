@@ -10,34 +10,34 @@ Input按钮组件的基础使用
 <template>
     <div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-border-color="primary">
+            <SyInput ref="smRef" v-model="value1" size="small" focus-color="primary">
                 <template #fronticon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value2" placeholder="请输入内容" focus-border-color="success">
+            <SyInput v-model="value2" placeholder="请输入内容" focus-color="success">
                 <template #fronticon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-border-color="error">
+            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error">
                 <template #fronticon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
         </div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-border-color="primary">
+            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-color="primary">
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value2" placeholder="请输入内容" focus-border-color="success">
+            <SyInput v-model="value2" placeholder="请输入内容" focus-color="success">
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-border-color="error">
+            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error">
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>

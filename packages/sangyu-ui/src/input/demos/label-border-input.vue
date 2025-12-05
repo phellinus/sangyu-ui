@@ -13,12 +13,14 @@ Input按钮组件的基础使用
             ref="smRef"
             v-model="value1"
             type="label-border"
-            placeholder="请输入内容"
+            border-color="primary"
+            focus-color="success"
+            label="请输入内容"
             size="small"
             bg-color="white"
         ></SyInput>
-        <SyInput v-model="value2" placeholder="请输入内容" type="label-border" bg-color="white"></SyInput>
-        <SyInput v-model="value" placeholder="请输入内容" type="label-border" size="large"></SyInput>
+        <SyInput v-model="value2" label="请输入内容" type="label-border" bg-color="white"></SyInput>
+        <SyInput v-model="value" label="请输入内容" type="label-border" size="large"></SyInput>
     </div>
 </template>
 

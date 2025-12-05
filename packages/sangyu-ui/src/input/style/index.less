@@ -43,13 +43,15 @@
         border-bottom: 2px solid var(--focus-border-color);
     }
     &--label-border { 
-        border-color: var(--focus-border-color);
+        border-color: var(--border-color);
         .sy-input-center-ph--label.is-float{
             transform: translate(calc(-0.6 * var(--sy-input-padding-x)), calc(-50% - 0.8em - var(--sy-input-padding-y))) scale(0.85);
             background-color: var(--sy-input-bg);
             color: var(--focus-border-color);
         }
-
+        &.hasfocu {
+            border-color: var(--focus-border-color);
+        }
     }
 
     &:focus-within,
@@ -157,7 +159,7 @@
 
             &--label.is-float {
                 transform: translate(calc(-1 * var(--sy-input-padding-x)), calc(-80% - 1em - var(--sy-input-padding-y))) scale(0.85);
-                color: inherit;
+                color: var(--label-color);
                 opacity: 1;
             }
         }

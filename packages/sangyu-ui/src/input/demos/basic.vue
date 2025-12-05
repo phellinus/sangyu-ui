@@ -25,13 +25,7 @@ Input按钮组件的基础使用
                 <div>A</div>
             </template>
         </SyInput>
-        <SyInput
-            v-model="test"
-            placeholder="请输入内容"
-            type="border"
-            border-color="success"
-            focus-border-color="primary"
-        />
+        <SyInput v-model="test" placeholder="请输入内容" type="border" border-color="success" focus-color="primary" />
         <SyInput v-model="test" placeholder="请输入内容" type="password" />
     </div>
 </template>
