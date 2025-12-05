@@ -1,1 +1,30 @@
+.icon-side-base() {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
 
+    align-self: stretch;
+    margin-top: calc(-0.8 * var(--sy-input-padding-y));
+    margin-bottom: calc(-0.8 * var(--sy-input-padding-y));
+    border-radius: inherit;
+
+    padding: 0 calc(var(--sy-input-padding-y) + 2px);
+
+    transition: transform 0.18s ease, opacity 0.18s ease,
+      box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+  }
+
+// input输入框这个组件的图标插槽的hover样式
+.icon-side-hover(@xSign, @shadowX) {
+    &:hover {
+      background-color: rgb(249, 252, 253);
+      transform: translate(
+        calc(@xSign * 0.7 * var(--sy-input-padding-x)),
+        calc(-0.7 * var(--sy-input-padding-x))
+      );
+      box-shadow: @shadowX 10px 10px -10px rgba(0, 0, 0, 0.1);
+      color: var(--focus-border-color);
+    }
+  }

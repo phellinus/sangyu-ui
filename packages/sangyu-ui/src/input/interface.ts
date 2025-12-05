@@ -7,9 +7,10 @@ export interface InputProps {
     focusBorderColor?: string;
     borderColor?: string;
     disabled?: boolean;
+    label?: string;
     size?: 'small' | 'default' | 'large';
     placeholder?: string;
-    type?: 'filled' | 'border' | 'label' | 'password' | 'label-border';
+    type?: 'filled' | 'border' | 'label' | 'password' | 'label-border' | 'underline';
     clearable?: boolean;
     showPassword?: boolean;
 }

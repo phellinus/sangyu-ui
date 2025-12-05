@@ -1,12 +1,15 @@
 <template>
     <div
-        :class="cls"
+        :class="[cls, { hasfocu: isFloat }]"
         :style="inputStyle"
         v-bind="omit($attrs, originInputProps)"
         @mousedown.prevent="!props.disabled && inputRef?.focus()"
     >
         <span v-if="$slots.prefix" :class="c(ce('prefix'))">
             <slot name="prefix"></slot>
+        </span>
+        <span v-if="$slots.fronticon" :class="c(ce('fronticon'))">
+            <slot name="fronticon"></slot>
         </span>
         <div class="sy-input-center">
             <input
@@ -44,6 +47,9 @@
         <span v-if="$slots.suffix" :class="c(ce('suffix'))">
             <slot name="suffix"></slot>
         </span>
+        <span v-if="$slots.backicon" :class="c(ce('backicon'))">
+            <slot name="backicon"></slot>
+        </span>
     </div>
 </template>
 
@@ -61,6 +67,8 @@
     defineSlots<{
         prefix(): any;
         suffix(): any;
+        fronticon(): any;
+        backicon(): any;
     }>();
     const props = withDefaults(defineProps<InputProps>(), {
         focusBorderColor: 'primary',
