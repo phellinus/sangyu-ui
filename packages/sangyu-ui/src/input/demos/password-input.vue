@@ -20,6 +20,7 @@ Input按钮组件的基础使用
                 focus-color="primary"
                 type="bottom-line"
                 focu-line="primary"
+                disabled
             >
                 <template #backicon>
                     <SyIcon

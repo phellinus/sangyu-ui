@@ -124,6 +124,22 @@
         .sy-input-input {
             cursor: not-allowed;
         }
+
+        .sy-input__prefix,
+        .sy-input__suffix,
+        .sy-input__fronticon,
+        .sy-input__backicon { 
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        > .sy-input__fronticon,
+        > .sy-input__backicon {
+            transform: none !important;
+            box-shadow: none !important;
+            background-color: transparent !important;
+            color: var(--sy-color-text-disabled) !important;
+            transition: none !important; // ✅ 直接禁用动画
+        }
     }
 
     &__prefix,
@@ -135,7 +151,7 @@
     }
 
     &__prefix { 
-        margin-right: var(--sy-input-gap); 
+        margin-right: var(--sy-input-gap);
     }
     &__suffix { margin-left: var(--sy-input-gap); }
 

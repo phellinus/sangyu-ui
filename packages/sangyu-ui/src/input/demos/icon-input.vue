@@ -10,7 +10,7 @@ Input按钮组件的基础使用
 <template>
     <div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" size="small" focus-color="primary">
+            <SyInput ref="smRef" v-model="value1" size="small" focus-color="primary" disabled>
                 <template #fronticon>
                     <SyIcon name="search" />
                 </template>
