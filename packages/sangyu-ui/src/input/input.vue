@@ -3,7 +3,6 @@
         :class="[cls, { hasfocu: isFloat }]"
         :style="[inputStyle, props.customStyle]"
         v-bind="omit($attrs, originInputProps)"
-        @mousedown.prevent="!props.disabled && inputRef?.focus()"
     >
         <span v-if="$slots.prefix" :class="c(ce('prefix'))">
             <slot name="prefix"></slot>
@@ -15,7 +14,7 @@
             <input
                 ref="inputRef"
                 v-bind="pick($attrs, originInputProps)"
-                :type="props.type == 'password' ? 'password' : 'text'"
+                :type="inputType"
                 :class="inputCls"
                 :value="modelValue"
                 :placeholder="props.placeholder ? ' ' : ''"
@@ -50,6 +49,39 @@
         <span v-if="$slots.backicon" :class="c(ce('backicon'))">
             <slot name="backicon"></slot>
         </span>
+        <span
+            v-if="props.clearable && String(props.modelValue ?? '') !== ''"
+            :class="c(ce('suffix'))"
+            @click="handleClear"
+        >
+            <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke-width="4"
+            >
+                <path
+                    d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linejoin="round"
+                />
+                <path
+                    d="M29.6567 18.3432L18.343 29.6569"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+                <path
+                    d="M18.3433 18.3432L29.657 29.6569"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </span>
     </div>
 </template>
 
@@ -81,6 +113,8 @@
         bgColor: '#F5F7F8',
         textColor: 'black',
         lineColor: '#F1F3F4',
+        password: false,
+        showPassword: false,
     });
     const emit = defineEmits<{
         'update:modelValue': [string];
@@ -90,7 +124,12 @@
     const isFloat = computed(() => {
         return focused.value || String(props.modelValue ?? '') !== '';
     });
-
+    const inputType = computed(() => {
+        // 不是密码框：永远 text
+        if (!props.password) return 'text';
+        // 是密码框：showPassword=true 显示明文，否则隐藏
+        return props.showPassword ? 'text' : 'password';
+    });
     const onFocus = () => {
         if (props.disabled) return;
         focused.value = true;
@@ -138,6 +177,13 @@
         const target = e.target as HTMLInputElement;
         if (props.modelValue === target.value) return;
         emit('update:modelValue', target.value);
+        nextTick(() => {
+            setInputValue();
+        });
+    };
+    //清空输入框
+    const handleClear = () => {
+        emit('update:modelValue', '');
         nextTick(() => {
             setInputValue();
         });

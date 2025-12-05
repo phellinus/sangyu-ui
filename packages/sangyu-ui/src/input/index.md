@@ -16,4 +16,8 @@
 
 <demo src='./demos/icon-input.vue'></demo>
 
+## 密码输入框
 
+<demo src='./demos/password-input.vue'></demo>
+
+<demo src='./demos/clearable-input.vue'></demo>

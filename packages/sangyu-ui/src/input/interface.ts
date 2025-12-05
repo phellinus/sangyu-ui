@@ -14,8 +14,9 @@ export interface InputProps {
     focuLine?: string; //输入框聚焦后的底部线段的颜色
     size?: 'small' | 'default' | 'large';
     placeholder?: string;
-    type?: 'filled' | 'border' | 'password' | 'label-border' | 'underline' | 'bottom-line';
+    type?: 'filled' | 'border' | 'label-border' | 'underline' | 'bottom-line';
     clearable?: boolean;
+    password?: boolean; //是否是密码框
     showPassword?: boolean;
 }
 
