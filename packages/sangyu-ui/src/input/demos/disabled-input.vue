@@ -1,43 +1,46 @@
 <docs>
 ---
-    title: Input - 基础使用
+    title:  禁用输入框
 ---
 
-Input按钮组件的基础使用
+禁用输入框
 
 </docs>
 
 <template>
     <div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" size="small" focus-color="primary">
+            <SyInput ref="smRef" v-model="value1" type="border" size="small" focus-color="primary" disabled></SyInput>
+            <SyInput v-model="value2" placeholder="请输入内容" focus-color="success" disabled>
                 <template #fronticon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value2" placeholder="请输入内容" focus-color="success">
-                <template #fronticon>
-                    <SyIcon name="search" />
-                </template>
-            </SyInput>
-            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error">
+            <SyInput
+                v-model="value"
+                type="bottom-line"
+                placeholder="请输入内容"
+                size="large"
+                focus-color="error"
+                disabled
+            >
                 <template #fronticon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
         </div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-color="primary">
+            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-color="primary" disabled>
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value2" placeholder="请输入内容" focus-color="success">
+            <SyInput v-model="value2" placeholder="请输入内容" focus-color="success" disabled>
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error">
+            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error" disabled>
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>

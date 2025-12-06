@@ -2,7 +2,6 @@ const themeColorMap: Record<string, string> = {
     primary: 'var(--sy-color-primary)',
     success: 'var(--sy-color-success)',
     warning: 'var(--sy-color-warning)',
-    warging: 'var(--sy-color-warning)',
     error: 'var(--sy-color-error)',
 };
 //根据颜色判断是主题色还是自定义色

@@ -1,6 +1,6 @@
 <docs>
 ---
-    title: label-border-input - 基础使用
+    title: border 类型的输入框
 ---
 
 Input按钮组件的基础使用
@@ -12,22 +12,27 @@ Input按钮组件的基础使用
         <SyInput
             ref="smRef"
             v-model="value1"
-            type="label-border"
-            border-color="primary"
-            focus-color="success"
             label="请输入内容"
             size="small"
+            type="border"
             bg-color="white"
+            focus-color="primary"
+            label-color="primary"
         ></SyInput>
-        <SyInput v-model="value2" label="请输入内容" type="label-border" bg-color="white"></SyInput>
+        <SyInput
+            v-model="value2"
+            type="border"
+            placeholder="请输入内容"
+            border-color="warning"
+            focus-color="error"
+        ></SyInput>
         <SyInput
             v-model="value"
+            type="border"
             label="请输入内容"
-            type="label-border"
-            border-color="warning"
-            bg-color="white"
-            focus-color="error"
             size="large"
+            bg-color="white"
+            focus-color="success"
         ></SyInput>
     </div>
 </template>

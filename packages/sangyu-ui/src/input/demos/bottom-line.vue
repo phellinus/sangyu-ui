@@ -1,6 +1,6 @@
 <docs>
 ---
-    title: Input - 基础使用
+    title: bottom-line类型的输入框
 ---
 
 Input按钮组件的基础使用
@@ -18,7 +18,6 @@ Input按钮组件的基础使用
                 focus-color="primary"
                 type="bottom-line"
                 focu-line="primary"
-                disabled
             >
                 <template #fronticon>
                     <SyIcon name="search" />
@@ -44,17 +43,41 @@ Input按钮组件的基础使用
             ></SyInput>
         </div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-color="primary">
+            <SyInput
+                ref="smRef"
+                v-model="value1"
+                type="bottom-line"
+                placeholder="请输入内容"
+                size="small"
+                focus-color="primary"
+                focu-line="cyan"
+            >
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value2" label="请输入内容" focus-color="success" bg-color="white" type="bottom-line">
+            <SyInput
+                v-model="value2"
+                label="请输入内容"
+                focus-color="error"
+                bg-color="white"
+                line-color="warning"
+                focu-line="error"
+                label-color="error"
+                type="bottom-line"
+            >
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error">
+            <SyInput
+                v-model="value"
+                type="bottom-line"
+                focu-line="cyan"
+                placeholder="请输入内容"
+                size="large"
+                focus-color="error"
+            >
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>

@@ -40,7 +40,14 @@ Input按钮组件的基础使用
             ></SyInput>
         </div>
         <div class="content">
-            <SyInput ref="smRef" v-model="value1" placeholder="请输入内容" size="small" focus-color="primary">
+            <SyInput
+                ref="smRef"
+                v-model="value1"
+                type="underline"
+                placeholder="请输入内容"
+                size="small"
+                focus-color="primary"
+            >
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
@@ -50,7 +57,7 @@ Input按钮组件的基础使用
                     <SyIcon name="search" />
                 </template>
             </SyInput>
-            <SyInput v-model="value" placeholder="请输入内容" size="large" focus-color="error">
+            <SyInput v-model="value" type="underline" placeholder="请输入内容" size="large" focus-color="error">
                 <template #backicon>
                     <SyIcon name="search" />
                 </template>
