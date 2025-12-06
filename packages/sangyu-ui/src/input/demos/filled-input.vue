@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: filled类型的输入框
+title: Filled 输入框
 ---
-
-filled类型是SyInput的默认类型
-
+默认的填充样式，拥有柔和背景与圆角，适合大多数表单场景；示例展示不同尺寸与 label 组合。
 </docs>
 
 <template>

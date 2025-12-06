@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: Input - 基础使用
+title: 浮动 Label 输入框
 ---
-
-Input按钮组件的基础使用
-
+仅配置 `label` 即可获得浮动提示词，配合不同尺寸与类型演示标签上浮效果，适合需要明确字段语义的场景。
 </docs>
 
 <template>

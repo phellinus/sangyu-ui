@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: border 类型的输入框
+title: Border 输入框
 ---
-
-Input按钮组件的基础使用
-
+通过 `type="border"` 展示描边型输入框，支持不同尺寸、label 与自定义边框/聚焦颜色，适合作为卡片或表单分栏中的输入场景。
 </docs>
 
 <template>

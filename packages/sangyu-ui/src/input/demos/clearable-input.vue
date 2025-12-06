@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: Input - 基础使用
+title: 可清空输入框
 ---
-
-Input按钮组件的基础使用
-
+启用 `clearable` 后输入框会在有内容时出现清除按钮，点击即可重置 `modelValue`，适合搜索框或快捷输入场景。
 </docs>
 
 <template>

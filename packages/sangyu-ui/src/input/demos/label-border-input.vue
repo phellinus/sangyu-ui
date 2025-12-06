@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: label-border-input - 基础使用
+title: Label-Border 输入框
 ---
-
-Input按钮组件的基础使用
-
+结合描边与浮动标签的视觉样式，label 在聚焦或有值时上浮，可自定义边框、背景与焦点颜色，适合需要占位提示的复杂表单。
 </docs>
 
 <template>

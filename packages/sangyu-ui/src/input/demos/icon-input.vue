@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: Input - 基础使用
+title: 图标输入框
 ---
-
-Input按钮组件的基础使用
-
+利用 `prefix`/`suffix` 与 `fronticon`/`backicon` 插槽在输入框前后插入图标，常见于搜索、金额等需要视觉引导的场景。
 </docs>
 
 <template>

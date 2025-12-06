@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: Input - 基础使用
+title: 密码输入框
 ---
-
-Input按钮组件的基础使用
-
+`password` + `showPassword` 支持明暗文切换，搭配后缀图标即可在点击时切换图标与输入类型，常见于登录/注册场景。
 </docs>
 
 <template>

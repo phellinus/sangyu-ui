@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: bottom-line类型的输入框
+title: Bottom-Line 输入框
 ---
-
-Input按钮组件的基础使用
-
+展示极简的底部线条样式，可搭配前后图标、label 与不同焦点颜色，适合需要轻量感的表单或暗色背景。
 </docs>
 
 <template>

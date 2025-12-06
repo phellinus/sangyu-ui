@@ -1,10 +1,8 @@
 <docs>
 ---
-    title: Input - 基础使用
+title: Underline 输入框
 ---
-
-Input按钮组件的基础使用
-
+突出底部描边的 `type="underline"` 样式，示例展示前后图标、label 与多尺寸组合，适合轻量型表单。
 </docs>
 
 <template>
