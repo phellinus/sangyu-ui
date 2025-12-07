@@ -6,6 +6,9 @@ hero:
   name: "Sangyu UI"
   text: "Vue 3 时代的高颜值组件库"
   tagline: 统一设计语言 · 高效工程化 · 可塑的多主题体验
+  image:
+    src: docs/logo.jpg
+    alt: Sangyu UI
   actions:
     - theme: brand
       text: 快速了解
