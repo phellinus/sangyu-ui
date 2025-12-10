@@ -2,7 +2,9 @@
     "extends":["../../tsconfig.json"],
     "compilerOptions": {
         "resolveJsonModule": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "jsxImportSource": "vue",
+        "jsx": "preserve",
     },
     "include": [
         "src/**/*.ts",

@@ -2,12 +2,14 @@ import { defineConfig } from 'vite';
 import { vitepressDemo } from 'vite-plugin-vitepress-demo';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 // import vue from '@vitejs/plugin-vue';
 
 const baseUrl = fileURLToPath(new URL('.', import.meta.url));
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
+        vueJsx(),
         vitepressDemo({
             glob: ['**/demos/*.vue'],
         }),

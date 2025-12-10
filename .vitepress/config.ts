@@ -21,18 +21,21 @@ export default defineConfig({
     sidebar: {
      '/components/':[
       {
-        text: '按钮',
+        text: 'SyButton 按钮',
         link:'/components/button/'
       },
        {
-        text: '图标',
+        text: 'SyIcon 图标',
         link:'/components/icons/'
       },
       {
-        text: '输入框',
+        text: 'SyInput输入框',
         link:'/components/input/'
-
-      }
+      },
+      {
+        text: 'SyTooltip 提示',
+        link:'/components/tooltip/'
+      },
      ],
       '/utils/':[
         {
