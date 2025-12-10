@@ -7,8 +7,11 @@ title: tooltip的基础使用
 
 <template>
     <div>
-        <SyTooltip content="这是提示">
-            <SyButton>Hover me</SyButton>
+        <SyTooltip placement="top" content="测试内容">
+            <span>12312</span>
+            <template #content>
+                <div>qweeqe</div>
+            </template>
         </SyTooltip>
     </div>
 </template>
