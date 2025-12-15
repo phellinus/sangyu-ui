@@ -1,1 +1,19 @@
 @import '../../style/index.less';
+
+.sy-tooltip {
+	z-index: 10;
+    font-size: 14px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    background-color: var(--tooltip-color);
+
+    &-arrow {
+	 	width: 8px;
+		height: 8px;
+		transform: rotate(45deg);
+		background: var(--tooltip-color);
+		pointer-events: none;
+    }
+}

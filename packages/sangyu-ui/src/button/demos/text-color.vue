@@ -11,32 +11,32 @@
 </docs>
 
 <template>
-    <div class="content">
-        <sy-button color="primary" textColor="#E0FFFF" type="filled" @click="handleCLick">SangYu</sy-button>
-        <sy-button color="success" textColor="#1E7F34" type="border" @click="handleCLick">SangYu</sy-button>
-        <sy-button color="warning" textColor="#409eff" type="flat" @click="handleCLick">SangYu</sy-button>
-        <sy-button color="error" textColor="#D62828" type="line" @click="handleCLick">SangYu</sy-button>
-        <sy-button
-            color="rgb(70, 130, 180)"
-            gradientColorSecondary="rgb(10, 80, 10)"
-            textColor="#F0F8FF"
-            type="gradient"
-            @click="handleCLick"
-        >
-            SangYu
-        </sy-button>
-        <sy-button color="blue" textColor="#ffffff" type="relief" @click="handleCLick">SangYu</sy-button>
-    </div>
+	<div class="content">
+		<sy-button color="primary" textColor="#E0FFFF" type="filled" @click="handleCLick">SangYu</sy-button>
+		<sy-button color="success" textColor="#1E7F34" type="border" @click="handleCLick">SangYu</sy-button>
+		<sy-button color="warning" textColor="#409eff" type="flat" @click="handleCLick">SangYu</sy-button>
+		<sy-button color="error" textColor="#D62828" type="line" @click="handleCLick">SangYu</sy-button>
+		<sy-button
+			color="rgb(70, 130, 180)"
+			gradientColorSecondary="rgb(10, 80, 10)"
+			textColor="#F0F8FF"
+			type="gradient"
+			@click="handleCLick"
+		>
+			SangYu
+		</sy-button>
+		<sy-button color="blue" textColor="#ffffff" type="relief" @click="handleCLick">SangYu</sy-button>
+	</div>
 </template>
 
 <script setup lang="ts">
-    const handleCLick = () => {
-        console.log('click');
-    };
+	const handleCLick = () => {
+		console.log('click');
+	};
 </script>
 <style scoped>
-    .content {
-        display: flex;
-        gap: 10px;
-    }
+	.content {
+		display: flex;
+		gap: 10px;
+	}
 </style>

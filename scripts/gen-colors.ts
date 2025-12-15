@@ -5,27 +5,27 @@ import path from 'path';
 
 let colors = '';
 blue.forEach((item, index) => {
-    colors += `--sy-color-primary-${index + 1}:${item};\n`;
+	colors += `--sy-color-primary-${index + 1}:${item};\n`;
 });
 colors += `\n`;
 
 green.forEach((item, index) => {
-    colors += `--sy-color-success-${index + 1}:${item};\n`;
+	colors += `--sy-color-success-${index + 1}:${item};\n`;
 });
 colors += `\n`;
 
 red.forEach((item, index) => {
-    colors += `--sy-color-error-${index + 1}:${item};\n`;
+	colors += `--sy-color-error-${index + 1}:${item};\n`;
 });
 colors += `\n`;
 
 gold.forEach((item, index) => {
-    colors += `--sy-color-warning-${index + 1}:${item};\n`;
+	colors += `--sy-color-warning-${index + 1}:${item};\n`;
 });
 colors += `\n`;
 
 grey.forEach((item, index) => {
-    colors += `--gray-${index + 1}:${item};\n`;
+	colors += `--gray-${index + 1}:${item};\n`;
 });
 
 const baseUrl = fileURLToPath(new URL('../', import.meta.url));

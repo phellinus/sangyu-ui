@@ -7,7 +7,7 @@ export default {
     trailingComma: 'all',
     printWidth: 120,
     tabWidth: 4,
-    useTabs: false,
+    useTabs: true,
     semi: true,
     vueIndentScriptAndStyle: true,
     quoteProps: 'as-needed',
