@@ -1,17 +1,15 @@
 <template>
-	<div>
-		<button
-			:class="cls"
-			:disabled="props.disabled"
-			:size="props.size"
-			:style="[buttonStyle, props.customStyle]"
-			v-on="listeners"
-		>
-			<div class="sy-text">
-				<slot />
-			</div>
-		</button>
-	</div>
+	<button
+		:class="cls"
+		:disabled="props.disabled"
+		:size="props.size"
+		:style="[buttonStyle, props.customStyle]"
+		v-on="listeners"
+	>
+		<div class="sy-text">
+			<slot />
+		</div>
+	</button>
 </template>
 
 <script setup lang="ts">

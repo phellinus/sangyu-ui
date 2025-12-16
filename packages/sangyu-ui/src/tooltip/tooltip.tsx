@@ -1,4 +1,4 @@
-import { Placement, useFloating, arrow, offset, flip } from '@floating-ui/vue';
+import { Placement, useFloating, arrow, offset, flip, autoUpdate } from '@floating-ui/vue';
 import { computed, createVNode, CSSProperties, defineComponent, PropType, ref, VNode } from 'vue';
 import { filterEmpty, isBaseType } from '@v-c/utils';
 import { getColorWithAlpha, useClassnames } from '@sangyu-ui/utils';
@@ -21,13 +21,20 @@ export default defineComponent({
 			type: String as PropType<'hover' | 'click'>,
 			default: 'hover',
 		},
+		type: {
+			type: String as PropType<'border' | 'filled' | 'border-thick'>,
+			default: 'filled',
+		},
 		showArrow: {
 			type: Boolean as PropType<boolean>,
 			default: true,
 		},
 		arrowSize: {
 			type: Number as PropType<number>,
-			default: 8,
+			default: 6,
+		},
+		customStyle: {
+			type: Object as PropType<CSSProperties>,
 		},
 	},
 	setup(props, { slots }) {
@@ -39,22 +46,21 @@ export default defineComponent({
 		const placement = computed(() => props.placement);
 
 		const middleware = computed(() => {
-			const list: any[] = [
-				// 有箭头时一般会希望间距更大点（可按你需求调整）
-				offset(props.showArrow ? 10 : 6),
-				flip(),
-			];
+			const list: any[] = [offset(props.showArrow ? 10 : 6), flip()];
 			if (props.showArrow) list.push(arrow({ element: floatingArrow }));
 			return list;
 		});
 
 		const { floatingStyles, middlewareData } = useFloating(reference, floating, {
 			placement,
+			strategy: 'fixed',
+			whileElementsMounted: autoUpdate,
 			middleware,
 		});
 		const { c } = useClassnames('tooltip');
 		const tooltipStyle: CSSProperties = {
 			'--tooltip-color': getColorWithAlpha(props.color, 1),
+			'--tooltip-arrow': `${props.arrowSize}px`,
 		};
 		const handleMouseEnter = () => {
 			if (props.trigger !== 'hover') return;
@@ -76,6 +82,7 @@ export default defineComponent({
 				if (!show.value) return null;
 				const cls = {
 					[c()]: true,
+					[c(props.type)]: true,
 				};
 				const event = {
 					onMouseenter: () => {
@@ -89,10 +96,17 @@ export default defineComponent({
 				const arrowStyle = props.showArrow
 					? getArrowStyle(middlewareData as any, placement as any, props.arrowSize)
 					: undefined;
+				const dataPlacement = (middlewareData.value.placement ?? placement.value) as string;
 				return (
-					<div {...event} ref={floating} class={cls} style={{ ...floatingStyles.value, ...tooltipStyle }}>
+					<div
+						{...event}
+						ref={floating}
+						data-placement={dataPlacement}
+						class={cls}
+						style={{ ...floatingStyles.value, ...tooltipStyle, ...props.customStyle }}
+					>
 						{slots.content ? slots.content?.() : props.content}
-						<div ref={floatingArrow} class={c('arrow')} style={arrowStyle}></div>
+						{props.showArrow ? <div ref={floatingArrow} class={c('arrow')} style={arrowStyle}></div> : null}
 					</div>
 				);
 			};

@@ -6,7 +6,7 @@ type BasePlacement = 'top' | 'bottom' | 'left' | 'right';
 export function getArrowStyle(
 	middlewareData: { value: any },
 	placement: { value: Placement },
-	arrowSize = 8,
+	arrowSize = 6,
 ): CSSProperties {
 	const data = middlewareData.value ?? {};
 	const basePlacement = ((data.placement ?? placement.value) as string).split('-')[0] as BasePlacement;
@@ -18,12 +18,10 @@ export function getArrowStyle(
 		right: 'left',
 	}[basePlacement] as 'top' | 'bottom' | 'left' | 'right';
 
-	const half = arrowSize / 2;
-
 	return {
 		position: 'absolute',
 		left: data.arrow?.x != null ? `${data.arrow.x}px` : '',
 		top: data.arrow?.y != null ? `${data.arrow.y}px` : '',
-		[staticSide]: `-${half}px`,
+		[staticSide]: `-${arrowSize}px`,
 	};
 }
