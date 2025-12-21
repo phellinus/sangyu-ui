@@ -139,7 +139,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-layout-max-width: 1600px;
+  --vp-layout-max-width: 1500px;
   --sy-doc-main-width: 940px;
   --sy-doc-aside-width: 200px;
 }
