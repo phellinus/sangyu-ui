@@ -60,6 +60,9 @@ importers:
       less:
         specifier: ^4.4.2
         version: 4.4.2
+      postcss:
+        specifier: ^8.5.6
+        version: 8.5.6
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -69,6 +72,9 @@ importers:
       vite:
         specifier: ^7.2.2
         version: 7.2.2(@types/node@24.10.1)(less@4.4.2)(tsx@4.20.6)
+      vite-plugin-tsx-resolve-types:
+        specifier: ^0.0.7
+        version: 0.0.7(typescript@5.9.3)(vite@7.2.2(@types/node@24.10.1)(less@4.4.2)(tsx@4.20.6))
       vite-plugin-vitepress-demo:
         specifier: ^2.2.1
         version: 2.2.1(typescript@5.9.3)(vitepress@1.6.4(@algolia/client-search@5.43.0)(@types/node@24.10.1)(less@4.4.2)(postcss@8.5.6)(search-insights@2.17.3)(typescript@5.9.3))
@@ -1984,6 +1990,12 @@ packages:
 
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
+
+  vite-plugin-tsx-resolve-types@0.0.7:
+    resolution: {integrity: sha512-WLI3TFDa1edKy8T4pUgMGYsmvrrzTkJKhWcSDgyrpvvgSAsToe91IIZsz3FJv1Uzs75/6/U9+CD5MYei3YP7TA==}
+    peerDependencies:
+      typescript: '>=5'
+      vite: '>=4'
 
   vite-plugin-vitepress-demo@2.2.1:
     resolution: {integrity: sha512-/fPt8n9+V99tUhmvs/hyVasTpuN2z2fg8yFFja9kiWJxt98F+IkrddTrm/FgwGUP8PUtLT157P4XV0/j6qUWvQ==}
@@ -4053,6 +4065,18 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
+
+  vite-plugin-tsx-resolve-types@0.0.7(typescript@5.9.3)(vite@7.2.2(@types/node@24.10.1)(less@4.4.2)(tsx@4.20.6)):
+    dependencies:
+      '@babel/generator': 7.28.5
+      '@babel/parser': 7.28.5
+      '@babel/traverse': 7.28.5
+      '@babel/types': 7.28.5
+      '@vue/compiler-sfc': 3.5.24
+      typescript: 5.9.3
+      vite: 7.2.2(@types/node@24.10.1)(less@4.4.2)(tsx@4.20.6)
+    transitivePeerDependencies:
+      - supports-color
 
   vite-plugin-vitepress-demo@2.2.1(typescript@5.9.3)(vitepress@1.6.4(@algolia/client-search@5.43.0)(@types/node@24.10.1)(less@4.4.2)(postcss@8.5.6)(search-insights@2.17.3)(typescript@5.9.3)):
     dependencies:

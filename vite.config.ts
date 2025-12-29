@@ -3,6 +3,7 @@ import { vitepressDemo } from 'vite-plugin-vitepress-demo';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import tsxResolveTypes from 'vite-plugin-tsx-resolve-types';
 // import vue from '@vitejs/plugin-vue';
 
 const baseUrl = fileURLToPath(new URL('.', import.meta.url));
@@ -10,6 +11,7 @@ const baseUrl = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
 	plugins: [
 		vueJsx(),
+		tsxResolveTypes(),
 		vitepressDemo({
 			glob: ['**/demos/*.vue'],
 		}),

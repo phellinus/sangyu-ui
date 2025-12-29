@@ -36,6 +36,10 @@ export default defineConfig({
         text: 'SyTooltip 提示',
         link:'/components/tooltip/'
       },
+	  {
+        text: 'SyTable 表格',
+        link:'/components/table/'
+      },
      ],
       '/utils/':[
         {
