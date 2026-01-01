@@ -8,10 +8,36 @@ title: 基本表格
 
 <template>
 	<div>
-		<SyTable />
+		<SyTable :columns="columns" :data="data" />
 	</div>
 </template>
 
-<script setup></script>
+<script setup>
+	import { ref } from 'vue';
+
+	const columns = [
+		{
+			title: 'Name',
+			key: 'name',
+		},
+		{
+			title: 'Age',
+			key: 'age',
+		},
+		{
+			title: 'Address',
+			key: 'address',
+		},
+	];
+	const data = ref(
+		Array.from({ length: 10 }).map((_, i) => {
+			return {
+				name: `EdwardKing${i}`,
+				age: 18 + i,
+				address: `London, Park Lane no. ${i}`,
+			};
+		}),
+	);
+</script>
 
 <style lang="scss" scoped></style>

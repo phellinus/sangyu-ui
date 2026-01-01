@@ -1,15 +1,18 @@
 import { defineComponent } from 'vue';
+import { HeaderProps } from './interface';
 
-export const Header = defineComponent({
-	setup() {
+export const Header = defineComponent<HeaderProps>({
+	name: 'Header',
+	setup(props = { columns: [] }) {
 		return () => {
+			const renderColumns = () => {
+				return props.columns.map((column) => {
+					return <th>{column.title}</th>;
+				});
+			};
 			return (
 				<thead>
-					<tr>
-						<th>1</th>
-						<th>3</th>
-						<th>3</th>
-					</tr>
+					<tr>{renderColumns()}</tr>
 				</thead>
 			);
 		};

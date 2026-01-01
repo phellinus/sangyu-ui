@@ -1,24 +1,17 @@
 import { defineComponent } from 'vue';
+import { TableProps } from './interface';
+import { Header } from './header';
+import { Body } from './body';
 
 export default defineComponent(
-	() => {
+	(props: TableProps, { slots }) => {
 		return () => {
+			const { columns, data } = props;
 			return (
 				<div>
 					<table>
-						<header></header>
-						<tbody>
-							<tr>
-								<td>John</td>
-								<td>18</td>
-								<td>New York</td>
-							</tr>
-							<tr>
-								<td>Jane</td>
-								<td>19</td>
-								<td>New York</td>
-							</tr>
-						</tbody>
+						<Header columns={columns} v-slots={slots}></Header>
+						<Body columns={columns} data={data} />
 					</table>
 				</div>
 			);
