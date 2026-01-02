@@ -8,11 +8,11 @@ export interface HeaderProps {
 }
 
 export interface TableProps {
-	columns: any[];
+	columns?: any[];
 	data?: any[];
 }
 
 export interface BodyProps {
-	columns: ColumnType[];
+	columns?: ColumnType[];
 	data?: any[];
 }
