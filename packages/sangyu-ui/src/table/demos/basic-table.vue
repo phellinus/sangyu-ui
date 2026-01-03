@@ -10,9 +10,9 @@ title: 基本表格
 	<div>
 		<SyTable :columns="columns" :data="data" />
 		<SyTable :data="data">
-			<sy-table-column key="name" title="Name" />
-			<sy-table-column key="age" title="Age" :width="300" />
-			<sy-table-column key="address" title="Address" />
+			<sy-table-column key="name" title="Name" :width="200" align="left" />
+			<sy-table-column key="age" title="Age" :width="200" align="center" />
+			<sy-table-column key="address" title="Address" :width="300" align="right" />
 			<SyButton>12</SyButton>
 		</SyTable>
 	</div>

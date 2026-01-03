@@ -5,7 +5,7 @@ import { useClassnames } from '@sangyu-ui/utils';
 export const Body = defineComponent<BodyProps>({
 	name: 'Body',
 	setup(props = { columns: [], data: [] }) {
-		const { c } = useClassnames('table');
+		const { c, cm } = useClassnames('table');
 		return () => {
 			const { columns, data } = props;
 			const cellCls = {
@@ -17,9 +17,12 @@ export const Body = defineComponent<BodyProps>({
 					const style = {
 						'--width': v.width ? v.width + 'px' : 'auto',
 					};
+					const alignCls = {
+						[c(cm('body-cell-' + v.align))]: true,
+					};
 					return (
 						<td class={cellCls} style={style}>
-							{item[v.key]}
+							<div class={alignCls}>{item[v.key]}</div>
 						</td>
 					);
 				});
