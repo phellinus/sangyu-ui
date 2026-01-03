@@ -1,8 +1,11 @@
+import type { Slots } from 'vue';
+
 export interface ColumnType {
 	title: string;
 	key: string;
 	width?: number;
 	align?: 'left' | 'center' | 'right';
+	slots?: Slots;
 }
 
 export interface HeaderProps {

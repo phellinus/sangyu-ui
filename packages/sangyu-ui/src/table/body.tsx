@@ -12,7 +12,7 @@ export const Body = defineComponent<BodyProps>({
 				[c('cell')]: true,
 				[c('body-cell')]: true,
 			};
-			const renderCell = (item: any) => {
+			const renderCell = (row: any, rowIndex: number) => {
 				return columns?.map((v) => {
 					const style = {
 						'--width': v.width ? v.width + 'px' : 'auto',
@@ -20,9 +20,13 @@ export const Body = defineComponent<BodyProps>({
 					const alignCls = {
 						[c(cm('body-cell-' + v.align))]: true,
 					};
+
+					const scope = { row, column: v, $index: rowIndex };
+					const content = v.slots?.default ? v.slots.default(scope) : row[v.key];
+
 					return (
 						<td class={cellCls} style={style}>
-							<div class={alignCls}>{item[v.key]}</div>
+							<div class={alignCls}>{content}</div>
 						</td>
 					);
 				});
@@ -31,8 +35,8 @@ export const Body = defineComponent<BodyProps>({
 				[c('body-row')]: true,
 			};
 			const renderData = () => {
-				return data?.map((v) => {
-					return <tr class={rowCls}>{renderCell(v)}</tr>;
+				return data?.map((row, rowIndex) => {
+					return <tr class={rowCls}>{renderCell(row, rowIndex)}</tr>;
 				});
 			};
 			const cls = {

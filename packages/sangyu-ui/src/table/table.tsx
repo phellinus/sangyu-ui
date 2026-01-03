@@ -23,7 +23,11 @@ export default defineComponent(
 						(child as any).type.displayName &&
 						(child as any).type.displayName === 'SyTableColumn'
 					) {
-						ChildrenColumns.push(child.props);
+						const colSlots = (child as any).children;
+						ChildrenColumns.push({
+							...(child.props || {}),
+							slots: colSlots,
+						});
 					}
 				});
 			}
