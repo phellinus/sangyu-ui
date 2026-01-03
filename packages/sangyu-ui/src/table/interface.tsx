@@ -1,6 +1,8 @@
 export interface ColumnType {
 	title: string;
 	key: string;
+	width?: number;
+	align?: 'left' | 'center' | 'right';
 }
 
 export interface HeaderProps {
