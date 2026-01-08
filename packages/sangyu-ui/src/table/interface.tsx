@@ -6,15 +6,18 @@ export interface ColumnType {
 	width?: number;
 	align?: 'left' | 'center' | 'right';
 	slots?: Slots;
+	fixed?: boolean;
 }
 
 export interface HeaderProps {
 	columns: ColumnType[];
+	fixedHeader?: boolean;
 }
 
 export interface TableProps {
-	columns?: any[];
+	columns?: ColumnType[];
 	data?: any[];
+	height?: number | string;
 }
 
 export interface BodyProps {

@@ -4,16 +4,31 @@ import { useClassnames } from '@sangyu-ui/utils';
 
 export const Header = defineComponent<HeaderProps>({
 	name: 'Header',
-	setup(props = { columns: [] }) {
-		const { c } = useClassnames('table');
+	setup(props) {
+		const { c, cm } = useClassnames('table');
 		return () => {
-			const cellCls = {
-				[c('cell')]: true,
-				[c('header-cell')]: true,
-			};
+			const columns = props.columns ?? [];
+			const fixed = props.fixedHeader;
 			const renderColumns = () => {
-				return (props.columns ?? []).map((column) => {
-					return <th class={cellCls}>{column.title}</th>;
+				return columns.map((column) => {
+					const cellCls = {
+						[c('cell')]: true,
+						[c('header-cell')]: true,
+						[c(cm('header-cell-fixed'))]: !!fixed,
+						[c(cm('cell-fixed'))]: !!column.fixed,
+					};
+					const style: Record<string, string> = {};
+					if (column.width) {
+						style.width = column.width + 'px';
+					}
+					if (column.fixed) {
+						style['--fixed-left'] = `${(column as any).__fixedLeft ?? 0}px`;
+					}
+					return (
+						<th class={cellCls} style={style}>
+							{column.title}
+						</th>
+					);
 				});
 			};
 			const rowCls = {
@@ -21,6 +36,7 @@ export const Header = defineComponent<HeaderProps>({
 			};
 			const cls = {
 				[c('header')]: true,
+				[c(cm('header-fixed'))]: !!fixed,
 			};
 			return (
 				<thead class={cls}>

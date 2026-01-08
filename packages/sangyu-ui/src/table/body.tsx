@@ -8,21 +8,26 @@ export const Body = defineComponent<BodyProps>({
 		const { c, cm } = useClassnames('table');
 		return () => {
 			const { columns, data } = props;
-			const cellCls = {
-				[c('cell')]: true,
-				[c('body-cell')]: true,
-			};
 			const renderCell = (row: any, rowIndex: number) => {
-				return columns?.map((v) => {
-					const style = {
-						'--width': v.width ? v.width + 'px' : 'auto',
+				return columns?.map((column) => {
+					const style: Record<string, string> = {
+						'--width': column.width ? column.width + 'px' : 'auto',
 					};
+					if (column.fixed) {
+						style['--fixed-left'] = `${(column as any).__fixedLeft ?? 0}px`;
+					}
+					const alignType = column.align ?? 'left';
 					const alignCls = {
-						[c(cm('body-cell-' + v.align))]: true,
+						[c(cm('body-cell-' + alignType))]: true,
+					};
+					const cellCls = {
+						[c('cell')]: true,
+						[c('body-cell')]: true,
+						[c(cm('cell-fixed'))]: !!column.fixed,
 					};
 
-					const scope = { row, column: v, $index: rowIndex };
-					const content = v.slots?.default ? v.slots.default(scope) : row[v.key];
+					const scope = { row, column, $index: rowIndex };
+					const content = column.slots?.default ? column.slots.default(scope) : row[column.key];
 
 					return (
 						<td class={cellCls} style={style}>
