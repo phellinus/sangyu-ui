@@ -1,8 +1,7 @@
 @import '../../style/index.less';
 
-
 .sy-table-wrapper {
-	width: 100%;
+	max-width: 100%;
 	max-width: 100%;
 	overflow-x: auto;
 	position: relative;
@@ -14,16 +13,13 @@
 		scrollbar-width: thin;
 		scrollbar-gutter: stable both-edges;
 	}
-	&.sy-table--wrapper-fixed > .sy-table {
-		margin-top: 0;
-	}
 	&::-webkit-scrollbar {
-		width: 6px;
+		height: 6px;
 	}
 	&::-webkit-scrollbar-track {
 		background: rgba(15, 23, 42, 0.04);
 		border-radius: 999px;
-		margin: 12px 0;
+		margin: 0 12px;
 	}
 	&::-webkit-scrollbar-thumb {
 		background: rgba(99, 115, 129, 0.35);
@@ -42,28 +38,24 @@
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0;
+	table-layout: fixed;
+
 	&-cell {
 		padding: 16px;
+		box-sizing: border-box;
 		border-bottom: 1px solid #f0f0f0;
 	}
-	
+
 	&-header {
 		box-sizing: border-box;
-		
+
 		&-cell {
-			position: relative;
+			position: sticky;
+			top: 0;
 			background-color: #f5f7f8;
-			overflow: hidden;
+			z-index: 3;
 			&.sy-table--cell-fixed {
-				z-index: 3;
-			}
-			&.sy-table--header-cell-fixed {
-				position: sticky;
-				top: 0;
 				z-index: 4;
-			}
-			&.sy-table--header-cell-fixed.sy-table--cell-fixed {
-				z-index: 5;
 			}
 			&:is(:first-child) {
 				border-radius: 30px 0px 0px 0px;
@@ -94,6 +86,7 @@
 		}
 		&-cell {
 			width: var(--width);
+			background-color: #fff;
 		}
 	}
 
