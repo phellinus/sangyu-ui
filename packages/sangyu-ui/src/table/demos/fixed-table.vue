@@ -8,7 +8,7 @@ title: 固定表头
 
 <template>
 	<div class="demo-fixed-table">
-		<SyTable :columns="columns" :data="data" :height="250" />
+		<SyTable :columns="columns" :data="data" :height="350" />
 	</div>
 </template>
 
