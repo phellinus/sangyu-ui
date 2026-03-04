@@ -6,3 +6,5 @@ import './input/style/index.less';
 import './tooltip/style/index.less';
 //Table
 import './table/style/index.less';
+// Notification
+import './notification/style/index.less';

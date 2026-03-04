@@ -40,6 +40,10 @@ export default defineConfig({
         text: 'SyTable 表格',
         link:'/components/table/'
       },
+      {
+        text: 'Notification 通知',
+        link:'/components/notification/'
+      },
      ],
       '/utils/':[
         {
