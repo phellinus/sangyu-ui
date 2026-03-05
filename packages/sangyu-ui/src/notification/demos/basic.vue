@@ -7,5 +7,7 @@ title: Notification 的基本使用
 </docs>
 
 <template>
-	<div></div>
+	<div>
+		<SyNotification />
+	</div>
 </template>
