@@ -1,5 +1,5 @@
 export interface NotificationConfig {
-	id?: string | number;
+	_id?: string | number;
 	content: string;
 	title: string;
 }

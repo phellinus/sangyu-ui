@@ -9,7 +9,7 @@ export default defineComponent({
 		let index = 0;
 		const add = () => {
 			data.value.push({
-				id: Date.now() + index,
+				_id: Date.now() + index,
 				title: `通知标题${index}`,
 				content: `通知测试数据${index++}`,
 			});
@@ -34,7 +34,7 @@ export default defineComponent({
 				};
 				return data.value.map((item) => {
 					return (
-						<div class={cls} key={item.id}>
+						<div class={cls} key={item._id}>
 							<div class={titleCls}>{item.title}</div>
 							<div class={contentCls}>{item.content}</div>
 						</div>
