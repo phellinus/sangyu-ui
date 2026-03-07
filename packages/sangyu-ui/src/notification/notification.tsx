@@ -8,11 +8,25 @@ export default defineComponent({
 		const data = ref<NotificationConfig[]>([]);
 		let index = 0;
 		const add = () => {
-			data.value.push({
+			const instance: NotificationConfig = {
 				_id: Date.now() + index,
 				title: `通知标题${index}`,
 				content: `通知测试数据${index++}`,
-			});
+			};
+			//关闭当前niotification
+			const close = () => {
+				const index = data.value.findIndex((item) => item._id === instance._id);
+				if (index !== -1) {
+					data.value.splice(index, 1);
+				}
+			};
+			//如果没有设置为时间为0，直接默认3秒销毁
+			if (instance.durnation !== 0) {
+				setTimeout(() => {
+					close();
+				}, instance.durnation ?? 3000);
+			}
+			data.value.push(instance);
 		};
 		const remove = () => {
 			data.value.shift();
