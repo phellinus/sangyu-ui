@@ -8,3 +8,5 @@ import './tooltip/style/index.less';
 import './table/style/index.less';
 // Notification
 import './notification/style/index.less';
+// Card
+import './card/style/index.less';

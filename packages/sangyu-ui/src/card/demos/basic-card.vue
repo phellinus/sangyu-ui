@@ -6,7 +6,7 @@ title: SyCard的基础用法
 
 <template>
 	<div>
-		<SyCard />
+		<SyCard :custom-style="'width: 480px'">卡片内容</SyCard>
 	</div>
 </template>
 
