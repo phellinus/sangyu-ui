@@ -18,11 +18,14 @@ export default defineComponent({
 				const index = data.value.findIndex((item) => item._id === instance._id);
 				if (index !== -1) {
 					data.value.splice(index, 1);
+					if (instance._timer) {
+						clearTimeout(instance._timer);
+					}
 				}
 			};
 			//如果没有设置为时间为0，直接默认3秒销毁
 			if (instance.durnation !== 0) {
-				setTimeout(() => {
+				instance._timer = setTimeout(() => {
 					close();
 				}, instance.durnation ?? 3000);
 			}
