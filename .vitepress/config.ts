@@ -44,6 +44,10 @@ export default defineConfig({
         text: 'Notification 通知',
         link:'/components/notification/'
       },
+      {
+        text: 'SyCard 卡片',
+        link:'/components/card/'
+      },
      ],
       '/utils/':[
         {
