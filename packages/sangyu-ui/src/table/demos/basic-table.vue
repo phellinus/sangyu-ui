@@ -20,7 +20,7 @@ title: 基本表格
 
 <script setup>
 	import { ref } from 'vue';
-
+	import { SyTable } from 'sangyu-ui';
 	const columns = [
 		{
 			title: 'Name',

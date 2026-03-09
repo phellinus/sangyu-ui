@@ -15,7 +15,7 @@ title: 基本表格
 			<sy-table-column key="address" title="Address" :width="300" align="right" />
 			<sy-table-column key="action" :width="200" align="center">
 				<template v-slot="{ row }">
-					<sy-button @click="handleEdit(row)">编辑</sy-button>
+					<SyButton @click="handleEdit(row)">编辑</SyButton>
 				</template>
 			</sy-table-column>
 		</SyTable>
@@ -24,7 +24,7 @@ title: 基本表格
 
 <script setup>
 	import { ref, h } from 'vue';
-	import SyButton from '../../button/button.vue';
+	import { SyTable, SyButton } from 'sangyu-ui';
 
 	const columns = [
 		{

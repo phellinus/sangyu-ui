@@ -91,7 +91,9 @@ title: tooltip的基础使用
 		</div>
 	</div>
 </template>
-
+<script lang="ts" setup>
+	import { SyTooltip } from 'sangyu-ui';
+</script>
 <style scoped>
 	.tooltip-base-box {
 		width: 600px;

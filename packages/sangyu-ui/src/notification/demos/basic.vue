@@ -13,7 +13,7 @@ title: Notification 的基本使用
 </template>
 
 <script lang="ts" setup>
-	import SyNotification from '../index';
+	import { SyNotification } from 'sangyu-ui';
 	const openNotification = () => {
 		SyNotification.info({
 			title: '系统通知',

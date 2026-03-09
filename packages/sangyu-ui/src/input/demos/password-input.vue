@@ -85,7 +85,7 @@ title: 密码输入框
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue';
 	import { SyIcon } from '@sangyu-ui/icons';
-	import SyInput from '../input.vue';
+	import { SyInput } from 'sangyu-ui';
 	const value = ref('');
 	const value1 = ref('');
 	const value2 = ref('');

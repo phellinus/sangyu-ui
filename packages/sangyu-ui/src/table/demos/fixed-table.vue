@@ -14,7 +14,7 @@ title: 固定表头
 
 <script setup>
 	import { ref } from 'vue';
-
+	import { SyTable } from 'sangyu-ui';
 	const columns = [
 		{ title: 'Date', key: 'date', width: 240, fixed: true },
 		{ title: 'Name', key: 'name', width: 240 },

@@ -19,3 +19,7 @@ title: 无箭头
 		</template>
 	</SyTooltip>
 </template>
+
+<script lang="ts" setup>
+	import { SyTooltip } from 'sangyu-ui';
+</script>

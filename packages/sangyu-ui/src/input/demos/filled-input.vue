@@ -16,7 +16,7 @@ title: Filled 输入框
 
 <script setup lang="ts">
 	import { ref } from 'vue';
-	import SyInput from '../input.vue';
+	import { SyInput } from 'sangyu-ui';
 	const value = ref('');
 	const smRef = ref();
 </script>

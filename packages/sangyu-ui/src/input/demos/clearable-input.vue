@@ -15,7 +15,7 @@ title: 可清空输入框
 
 <script setup lang="ts">
 	import { onMounted, ref } from 'vue';
-	import SyInput from '../input.vue';
+	import { SyInput } from 'sangyu-ui';
 	const value = ref('');
 	const value1 = ref('');
 	const value2 = ref('');

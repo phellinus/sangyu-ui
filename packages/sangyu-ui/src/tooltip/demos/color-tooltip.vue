@@ -37,3 +37,7 @@ title: tooltip不同的颜色
 		</template>
 	</SyTooltip>
 </template>
+
+<script lang="ts" setup>
+	import { SyTooltip } from 'sangyu-ui';
+</script>
