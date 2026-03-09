@@ -1,5 +1,6 @@
-export { default as Button } from './button';
-export { default as Input } from './input';
-export { default as Tooltip } from './tooltip';
-export { default as Table } from './table';
-export { default as Notification } from './notification';
+export { default as SyButton } from './button';
+export { default as SyInput } from './input';
+export { default as SyTooltip } from './tooltip';
+export { default as SyTable } from './table';
+export { default as SyNotification } from './notification';
+export { default as SyCard } from './card';
