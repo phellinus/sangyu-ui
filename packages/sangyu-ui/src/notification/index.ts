@@ -1,8 +1,10 @@
-import { App } from 'vue';
-import SyNotification from './notification';
+import type { App } from 'vue';
+import { createNotification } from './instance';
 
-SyNotification.install = (app: App) => {
-	app.component(SyNotification.name, SyNotification);
+const instance = createNotification();
+
+(instance as any).install = (app: App) => {
+	app.config.globalProperties.$notification = instance.info;
 };
 
-export default SyNotification;
+export default instance;

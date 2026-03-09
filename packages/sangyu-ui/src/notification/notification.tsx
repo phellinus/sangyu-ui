@@ -1,17 +1,18 @@
-import { defineComponent, ref, TransitionGroup } from 'vue';
-import { NotificationConfig } from './interface';
+import { defineComponent, onMounted, ref, TransitionGroup } from 'vue';
+import { NotificationConfig, NotificationConfigType, NotificationInstance } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
-export default defineComponent({
+export default defineComponent<{
+	onReady: (instance: NotificationInstance) => void;
+}>({
 	name: 'SyNotification',
-	setup() {
-		const data = ref<NotificationConfig[]>([]);
+	setup(props, { expose }) {
+		const data = ref<NotificationConfigType[]>([]);
 		let index = 0;
-		const add = () => {
-			const instance: NotificationConfig = {
+		const add = (config: NotificationConfig) => {
+			const instance: NotificationConfigType = {
+				...config,
 				_id: Date.now() + index,
-				title: `通知标题${index}`,
-				content: `通知测试数据${index++}`,
 			};
 			//关闭当前niotification
 			const close = () => {
@@ -30,14 +31,20 @@ export default defineComponent({
 				}, instance.durnation ?? 3000);
 			}
 			data.value.push(instance);
-		};
-		const remove = () => {
-			data.value.shift();
+			return close;
 		};
 		const { c } = useClassnames('notification');
 		const notificationCls = {
 			[c()]: true,
 		};
+		const onReady = () => {
+			console.log('ready');
+			props.onReady({ add });
+		};
+		onMounted(() => {
+			onReady();
+		});
+		expose({ add });
 		return () => {
 			const renderNotification = () => {
 				const cls = {
@@ -61,8 +68,6 @@ export default defineComponent({
 			const TG = TransitionGroup as any;
 			return (
 				<>
-					<button onClick={remove}>减少</button>
-					<button onClick={add}>添加通知</button>
 					<TG name='sy-notification' tag='div' class={notificationCls}>
 						{renderNotification()}
 					</TG>
