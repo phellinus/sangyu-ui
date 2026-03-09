@@ -29,7 +29,7 @@
 	}
 	&-notify {
 		min-width: 320px;
-        max-width: 360px;
+		max-width: 360px;
 		background-color: red;
 		display: flex;
 		padding: 20px 24px;
@@ -60,11 +60,17 @@
 	}
 	&-wrapper {
 		flex: 1;
-        max-width: 300px;
+		max-width: 300px;
 		margin-bottom: 16px;
 		display: flex;
 		flex-direction: column;
-        text-overflow: wrap;
+		white-space: normal;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: var(--sy-notification-line-clamp, 3);
+        line-clamp: var(--sy-notification-line-clamp, 3);
+		overflow-wrap: break-word;
 		&-title {
 			font-size: 16px;
 			font-weight: 600;

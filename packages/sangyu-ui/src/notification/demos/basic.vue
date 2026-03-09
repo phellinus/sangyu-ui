@@ -10,6 +10,7 @@ title: Notification 的基本使用
 	<div>
 		<sy-button @click="openNotification">打开通知</sy-button>
 		<sy-button type="flat" @click="openNotificationSuccess">打开通知</sy-button>
+		<sy-button type="flat" @click="openNotificationOverflow">通知过长</sy-button>
 	</div>
 </template>
 
@@ -29,6 +30,14 @@ title: Notification 的基本使用
 		SyNotification.info({
 			title: '系统通知',
 			content: '系统提示超长的话，测试一百年，多长才行，我要检测换行',
+			appContext: instance.appContext,
+		});
+	};
+	const openNotificationOverflow = () => {
+		SyNotification.info({
+			title: '系统通知',
+			content:
+				'系统提示超长的话，测试一百年，多长才行，我要检测换行,系统提示超长的话，测试一百年，多长才行，我要检测换行，系统提示超长的话，测试一百年，多长才行，我要检测换行',
 			appContext: instance.appContext,
 		});
 	};

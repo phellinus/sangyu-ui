@@ -1,6 +1,7 @@
 import { defineComponent, onMounted, ref, TransitionGroup } from 'vue';
 import { NotificationConfig, NotificationConfigType, NotificationInstance } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
+import { clamp } from 'lodash-es';
 
 export default defineComponent<{
 	onReady: (instance: NotificationInstance) => void;
@@ -62,7 +63,11 @@ export default defineComponent<{
 				};
 				return data.value.map((item) => {
 					return (
-						<div class={noCls} key={item._id}>
+						<div
+							class={noCls}
+							key={item._id}
+							style={{ '--sy-notification-line-clamp': item.clamp ? String(item.clamp) : '' }}
+						>
 							{/* <div>图标</div> */}
 							<div class={cls}>
 								<div class={titleCls}>{item.title}</div>
