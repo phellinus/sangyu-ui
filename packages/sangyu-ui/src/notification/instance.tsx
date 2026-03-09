@@ -14,6 +14,9 @@ export function createNotification() {
 					instance.add(config);
 				},
 			});
+			if (config.appContext) {
+				vm.appContext = config.appContext;
+			}
 			render(vm, body);
 		} else {
 			instance.add(config);

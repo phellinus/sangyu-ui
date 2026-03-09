@@ -38,7 +38,6 @@ export default defineComponent<{
 			[c()]: true,
 		};
 		const onReady = () => {
-			console.log('ready');
 			props.onReady({ add });
 		};
 		onMounted(() => {

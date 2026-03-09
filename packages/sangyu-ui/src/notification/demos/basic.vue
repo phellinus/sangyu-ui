@@ -14,10 +14,14 @@ title: Notification 的基本使用
 
 <script lang="ts" setup>
 	import { SyNotification } from 'sangyu-ui';
+	import Test from './components/test.vue';
+	import { getCurrentInstance, h } from 'vue';
+	const instance = getCurrentInstance();
 	const openNotification = () => {
 		SyNotification.info({
 			title: '系统通知',
-			content: '欢迎使用 Sangyu UI',
+			content: h(Test),
+			appContext: instance.appContext,
 		});
 	};
 </script>
