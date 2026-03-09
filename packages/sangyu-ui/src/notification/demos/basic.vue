@@ -9,11 +9,12 @@ title: Notification 的基本使用
 <template>
 	<div>
 		<sy-button @click="openNotification">打开通知</sy-button>
+		<sy-button type="flat" @click="openNotificationSuccess">打开通知</sy-button>
 	</div>
 </template>
 
 <script lang="ts" setup>
-	import { SyNotification } from 'sangyu-ui';
+	import { SyNotification, SyButton } from 'sangyu-ui';
 	import Test from './components/test.vue';
 	import { getCurrentInstance, h } from 'vue';
 	const instance = getCurrentInstance();
@@ -21,6 +22,13 @@ title: Notification 的基本使用
 		SyNotification.info({
 			title: '系统通知',
 			content: h(Test),
+			appContext: instance.appContext,
+		});
+	};
+	const openNotificationSuccess = () => {
+		SyNotification.info({
+			title: '系统通知',
+			content: '系统提示超长的话，测试一百年，多长才行，我要检测换行',
 			appContext: instance.appContext,
 		});
 	};

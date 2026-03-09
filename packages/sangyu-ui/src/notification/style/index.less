@@ -28,13 +28,14 @@
 		transform: translateY(-20px) scale(0.95);
 	}
 	&-notify {
-		min-width: 360px;
+		min-width: 320px;
+        max-width: 360px;
 		background-color: red;
 		display: flex;
 		padding: 20px 24px;
 		box-sizing: border-box;
 
-		background-color: #fcfcfa;
+		background-color: #fff;
 		border-radius: 16px;
 		border: 1px solid rgba(235, 228, 220, 0.8);
 
@@ -59,10 +60,11 @@
 	}
 	&-wrapper {
 		flex: 1;
+        max-width: 300px;
 		margin-bottom: 16px;
 		display: flex;
 		flex-direction: column;
-
+        text-overflow: wrap;
 		&-title {
 			font-size: 16px;
 			font-weight: 600;
