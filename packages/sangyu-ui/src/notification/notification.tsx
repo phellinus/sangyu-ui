@@ -14,6 +14,9 @@ export default defineComponent<{
 			const targetIndex = data.value.findIndex((item) => item._id === _id);
 			if (targetIndex !== -1) {
 				const target = data.value[targetIndex];
+				if (target.onClose) {
+					target.onClose();
+				}
 				if (target._timer) {
 					clearTimeout(target._timer);
 				}
@@ -33,7 +36,7 @@ export default defineComponent<{
 				}, instance.durnation ?? 3000);
 			}
 			data.value.push(instance);
-			return close;
+			return () => remove(instance._id);
 		};
 		const { c } = useClassnames('notification');
 		const notificationCls = {
