@@ -7,6 +7,7 @@
 	min-width: 58px;
 	right: 24px;
 	padding-top: 20px;
+    box-sizing: border-box;
 
 	&-enter-active,
 	&-leave-active,
@@ -32,8 +33,9 @@
 		max-width: 360px;
 		background-color: red;
 		display: flex;
-		padding: 20px 24px;
+		padding: 20px 12px;
 		box-sizing: border-box;
+        margin-bottom: 10px;
 
 		background-color: #fff;
 		border-radius: 16px;
@@ -69,7 +71,7 @@
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: var(--sy-notification-line-clamp, 3);
-        line-clamp: var(--sy-notification-line-clamp, 3);
+		line-clamp: var(--sy-notification-line-clamp, 3);
 		overflow-wrap: break-word;
 		&-title {
 			font-size: 16px;
@@ -97,6 +99,27 @@
 
 		&:hover {
 			color: oklch(37.3% 0.034 259.733);
+		}
+	}
+	&-icon {
+		width: 28px;
+		height: 28px;
+        margin-right: 4px;
+		&-info {
+			fill: currentColor;
+			color: #1677ff;
+		}
+        &-success {
+			fill: currentColor;
+			color: #52c41a;
+		}
+        &-warning {
+			fill: currentColor;
+			color: #faad14;
+		}
+        &-error {
+			fill: currentColor;
+			color: #f5222d;
 		}
 	}
 }
