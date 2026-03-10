@@ -5,3 +5,5 @@
 <demo src="./demos/type-notification.vue" />
 
 <demo src="./demos/close-notification.vue" />
+
+<demo src="./demos/position-notification.vue" />

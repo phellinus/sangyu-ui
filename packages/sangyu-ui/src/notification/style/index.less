@@ -3,30 +3,103 @@
 .sy-notification {
 	position: fixed;
 	z-index: 1000;
-	top: 0;
 	min-width: 58px;
-	right: 24px;
-	padding-top: 20px;
-    box-sizing: border-box;
+	padding-top: 0;
+	padding-bottom: 0;
+	box-sizing: border-box;
 
-	&-enter-active,
-	&-leave-active,
-	&-move {
+	&-position-top-right {
+		top: 20px;
+		right: 24px;
+		bottom: auto;
+		left: auto;
+		padding-top: 20px;
+	}
+
+	&-position-top-left {
+		top: 20px;
+		left: 24px;
+		bottom: auto;
+		right: auto;
+		padding-top: 20px;
+	}
+
+	&-position-bottom-right {
+		bottom: 20px;
+		right: 24px;
+		top: auto;
+		left: auto;
+		padding-bottom: 20px;
+	}
+
+	&-position-bottom-left {
+		bottom: 20px;
+		left: 24px;
+		top: auto;
+		right: auto;
+		padding-bottom: 20px;
+	}
+
+	&-top-right-enter-active,
+	&-top-right-leave-active,
+	&-top-right-move,
+	&-top-left-enter-active,
+	&-top-left-leave-active,
+	&-top-left-move,
+	&-bottom-right-enter-active,
+	&-bottom-right-leave-active,
+	&-bottom-right-move,
+	&-bottom-left-enter-active,
+	&-bottom-left-leave-active,
+	&-bottom-left-move {
 		transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 	}
 
-	&-leave-active {
+	&-top-right-leave-active,
+	&-top-left-leave-active,
+	&-bottom-right-leave-active,
+	&-bottom-left-leave-active {
 		position: absolute;
 	}
 
-	&-enter-from {
+	&-top-right-enter-from {
 		opacity: 0;
 		transform: translateX(100%) scale(0.95);
 	}
 
-	&-leave-to {
+	&-top-right-leave-to {
 		opacity: 0;
 		transform: translateY(-20px) scale(0.95);
+	}
+
+	&-top-left-enter-from {
+		opacity: 0;
+		transform: translateX(-100%) scale(0.95);
+	}
+
+	&-top-left-leave-to {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.95);
+	}
+
+	&-bottom-right-enter-from {
+		opacity: 0;
+		transform: translateX(100%) scale(0.95);
+	}
+
+	&-bottom-right-leave-to {
+		opacity: 0;
+		transform: translateY(20px) scale(0.95);
+	}
+
+	&-bottom-left-enter-from {
+		opacity: 0;
+		transform: translateX(-100%) scale(0.95);
+	}
+
+	&-bottom-left-leave-to {
+		opacity: 0;
+		transform: translateY(20px) scale(0.95);
 	}
 	&-notify {
 		min-width: 320px;
@@ -35,7 +108,7 @@
 		display: flex;
 		padding: 20px 12px;
 		box-sizing: border-box;
-        margin-bottom: 10px;
+		margin-bottom: 10px;
 
 		background-color: #fff;
 		border-radius: 16px;
@@ -104,20 +177,20 @@
 	&-icon {
 		width: 28px;
 		height: 28px;
-        margin-right: 4px;
+		margin-right: 4px;
 		&-info {
 			fill: currentColor;
 			color: #1677ff;
 		}
-        &-success {
+		&-success {
 			fill: currentColor;
 			color: #52c41a;
 		}
-        &-warning {
+		&-warning {
 			fill: currentColor;
 			color: #faad14;
 		}
-        &-error {
+		&-error {
 			fill: currentColor;
 			color: #f5222d;
 		}

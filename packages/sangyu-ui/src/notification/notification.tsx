@@ -39,9 +39,6 @@ export default defineComponent<{
 			return () => remove(instance._id);
 		};
 		const { c } = useClassnames('notification');
-		const notificationCls = {
-			[c()]: true,
-		};
 		const onReady = () => {
 			props.onReady({ add });
 		};
@@ -50,7 +47,13 @@ export default defineComponent<{
 		});
 		expose({ add });
 		return () => {
-			const renderNotification = () => {
+			const positions: NotificationConfig['position'][] = [
+				'top-right',
+				'top-left',
+				'bottom-right',
+				'bottom-left',
+			];
+			const renderNotification = (items: NotificationConfigType[]) => {
 				const noCls = {
 					[c('notify')]: true,
 				};
@@ -107,7 +110,7 @@ export default defineComponent<{
 							return null;
 					}
 				};
-				return data.value.map((item) => {
+				return items.map((item) => {
 					return (
 						<div
 							class={noCls}
@@ -138,9 +141,21 @@ export default defineComponent<{
 			const TG = TransitionGroup as any;
 			return (
 				<>
-					<TG name='sy-notification' tag='div' class={notificationCls}>
-						{renderNotification()}
-					</TG>
+					{positions.map((position) => {
+						const items = data.value.filter((item) => (item.position ?? 'top-right') === position);
+						if (!items.length) {
+							return null;
+						}
+						const notificationCls = {
+							[c()]: true,
+							[c('position', position)]: true,
+						};
+						return (
+							<TG key={position} name={`sy-notification-${position}`} tag='div' class={notificationCls}>
+								{renderNotification(items)}
+							</TG>
+						);
+					})}
 				</>
 			);
 		};

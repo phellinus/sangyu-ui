@@ -2,6 +2,7 @@ import type { VNode } from 'vue';
 export interface NotificationConfig {
 	content: string | VNode;
 	title: string | VNode;
+	position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'; // 弹出位置
 	durnation?: number; // 销毁时间，单位：秒
 	showClose?: boolean; // 是否显示关闭按钮
 	clamp?: number; // 内容折叠行数，超出部分显示省略号
