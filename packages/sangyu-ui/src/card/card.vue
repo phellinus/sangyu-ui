@@ -1,7 +1,7 @@
 <template>
 	<div :style="props.customStyle" :class="cardCls">
 		<slot name="header"></slot>
-		<div class="sy-card-content">
+		<div class="sy-card-content" :style="props.bodyStyle">
 			<slot></slot>
 		</div>
 		<slot name="footer"></slot>
@@ -23,6 +23,9 @@
 	}>();
 	const props = withDefaults(defineProps<SyCardProps>(), {
 		customStyle: '',
+		headerStyle: '',
+		footerStyle: '',
+		bodyStyle: '',
 		shadow: 'always',
 	});
 	const { c, cm } = useClassnames('card');
