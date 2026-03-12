@@ -15,17 +15,13 @@
 
 	&--shadow-always {
 		box-shadow:
-			0 8px 24px -6px rgba(140, 144, 150, 0.08),
+			0 20px 48px -12px rgba(140, 144, 150, 0.2),
+			0 8px 20px -6px rgba(140, 144, 150, 0.12),
 			inset 0 0 0 1px rgba(255, 255, 255, 1);
 
 		&:hover {
 			cursor: pointer;
 		}
-	}
-	&--shadow-hover:hover {
-		box-shadow:
-			0 8px 24px -6px rgba(140, 144, 150, 0.08),
-			inset 0 0 0 1px rgba(255, 255, 255, 1);
 	}
 
 	&-header {
@@ -49,7 +45,7 @@
 	}
 	&-footer {
 		padding: 16px 24px;
-        box-sizing: border-box;
+		box-sizing: border-box;
 		border-top: 1px solid rgba(235, 238, 240, 0.8);
 		display: flex;
 		align-items: center;
@@ -57,7 +53,9 @@
 		gap: 12px;
 	}
 }
-.sy-card.sy-card--shadow-always:hover {
+
+.sy-card.sy-card--shadow-hover:hover {
+	cursor: pointer;
 	transform: translateY(-6px);
 	box-shadow:
 		0 20px 48px -12px rgba(140, 144, 150, 0.2),
