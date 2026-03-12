@@ -4,4 +4,5 @@ export interface SyCardProps {
 	bodyStyle?: string;
 	headerStyle?: string;
 	footerStyle?: string;
+	borderRadius?: string | number;
 }
