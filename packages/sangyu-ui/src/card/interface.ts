@@ -1,6 +1,6 @@
 export interface SyCardProps {
-	customStyle?: string;
 	shadow?: 'always' | 'never' | 'hover';
+	customStyle?: string;
 	bodyStyle?: string;
 	headerStyle?: string;
 	footerStyle?: string;
