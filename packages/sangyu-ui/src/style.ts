@@ -10,3 +10,5 @@ import './table/style/index.less';
 import './notification/style/index.less';
 // Card
 import './card/style/index.less';
+// Tag
+import './tag/style/index.less';

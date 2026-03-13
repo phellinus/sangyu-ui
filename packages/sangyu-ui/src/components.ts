@@ -4,3 +4,4 @@ export { default as SyTooltip } from './tooltip';
 export { default as SyTable } from './table';
 export { default as SyNotification } from './notification';
 export { default as SyCard } from './card';
+export { default as SyTag } from './tag';
