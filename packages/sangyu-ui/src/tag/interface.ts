@@ -7,4 +7,5 @@ export interface SyTagProps {
 	borderRadius?: number | string;
 	customStyle?: string;
 	closable?: boolean; //是否可关闭
+	clickable?: boolean;
 }

@@ -1,8 +1,8 @@
 <docs>
 ---
-title: SyTag的删除用法
+title: SyTag点击事件
 ---
-SyTag组件提供关闭标签的功能，通过设置closable属性，可以显示关闭图标，通过设置onClose属性，可以设置关闭标签的回调函数。
+SyTag组件提供点击事件，可以通过`@handleClick`来监听点击事件。
 </docs>
 
 <template>
@@ -11,9 +11,8 @@ SyTag组件提供关闭标签的功能，通过设置closable属性，可以显�
 			v-for="(item, index) in state.sizeTags"
 			:key="index"
 			:type="item.type"
-			:size="item.size"
-			closable
-			@close="handleClose(item)"
+			clickable
+			@click="handleClick(item)"
 		>
 			{{ item.size }}
 		</SyTag>
@@ -41,7 +40,7 @@ SyTag组件提供关闭标签的功能，通过设置closable属性，可以显�
 		],
 	});
 	// 关闭标签的回调函数
-	const handleClose = (item: any) => {
-		state.sizeTags = state.sizeTags.filter((i) => i.size !== item.size);
+	const handleClick = (item: any) => {
+		console.log(item);
 	};
 </script>

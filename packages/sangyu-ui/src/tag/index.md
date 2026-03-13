@@ -8,3 +8,6 @@
 
 ## 关闭用法
 <demo src="./demos/close-tag.vue"></demo>
+
+## 点击事件用法
+<demo src="./demos/click-tag.vue"></demo>

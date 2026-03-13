@@ -1,5 +1,5 @@
 <template>
-	<div :class="tagCls" :style="tagStyle">
+	<div :class="tagCls" :style="tagStyle" @click.stop="handleClick">
 		<slot name="default"></slot>
 
 		<span v-if="closable" class="sy-tag-close-icon" @click.stop="handleClose">
@@ -29,25 +29,33 @@
 		name: 'SyTag',
 		inheritAttrs: false,
 	});
+
 	const props = withDefaults(defineProps<SyTagProps>(), {
 		type: 'primary',
 		size: 'default',
 		closable: false,
 		hit: false,
 		borderRadius: 6,
+		clickable: false,
 	});
+
 	defineSlots<{
 		default: () => void;
 	}>();
+
 	const emit = defineEmits<{
-		onClose: [];
+		close: [];
+		click: [];
 	}>();
+
 	const { c, cm } = useClassnames('tag');
+
 	const tagCls = {
 		[c()]: true,
 		[c(props.size)]: true,
 		[c(cm('hit-' + props.hit))]: true,
 	};
+
 	const tagStyle = computed(() => [
 		props.customStyle,
 		{
@@ -55,11 +63,17 @@
 			backgroundColor: props.bgColor ? props.bgColor : getColorWithAlpha(getColor(props.type), 0.2),
 			borderColor: getColorWithAlpha(props.color ?? getColor(props.type), 0.2),
 			borderRadius: props.borderRadius + 'px',
+			cursor: props.clickable ? 'pointer' : 'default',
 		},
 	]);
-	//关闭标签
+
 	const handleClose = () => {
-		emit('onClose');
+		emit('close');
+	};
+
+	const handleClick = () => {
+		if (!props.clickable) return;
+		emit('click');
 	};
 </script>
 
