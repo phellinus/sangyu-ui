@@ -1,6 +1,22 @@
 <template>
 	<div :class="tagCls" :style="tagStyle">
 		<slot name="default"></slot>
+
+		<span v-if="closable" class="sy-tag-close-icon" @click.stop="handleClose">
+			<svg
+				width="14"
+				height="14"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			>
+				<line x1="18" y1="6" x2="6" y2="18"></line>
+				<line x1="6" y1="6" x2="18" y2="18"></line>
+			</svg>
+		</span>
 	</div>
 </template>
 
@@ -16,11 +32,15 @@
 	const props = withDefaults(defineProps<SyTagProps>(), {
 		type: 'primary',
 		size: 'default',
+		closable: false,
 		hit: false,
 		borderRadius: 6,
 	});
 	defineSlots<{
 		default: () => void;
+	}>();
+	const emit = defineEmits<{
+		onClose: [];
 	}>();
 	const { c, cm } = useClassnames('tag');
 	const tagCls = {
@@ -37,6 +57,10 @@
 			borderRadius: props.borderRadius + 'px',
 		},
 	]);
+	//关闭标签
+	const handleClose = () => {
+		emit('onClose');
+	};
 </script>
 
 <style scoped></style>

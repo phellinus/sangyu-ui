@@ -5,3 +5,6 @@
 
 ## 尺寸用法
 <demo src="./demos/size-tag.vue"></demo>
+
+## 关闭用法
+<demo src="./demos/close-tag.vue"></demo>

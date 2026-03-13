@@ -6,4 +6,5 @@ export interface SyTagProps {
 	size?: 'small' | 'default' | 'large';
 	borderRadius?: number | string;
 	customStyle?: string;
+	closable?: boolean; //是否可关闭
 }
