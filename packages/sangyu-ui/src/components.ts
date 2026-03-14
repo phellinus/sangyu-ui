@@ -5,3 +5,4 @@ export { default as SyTable } from './table';
 export { default as SyNotification } from './notification';
 export { default as SyCard } from './card';
 export { default as SyTag } from './tag';
+export { default as SyBreadCrumb } from './breadcrumb';
