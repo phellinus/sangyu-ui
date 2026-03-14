@@ -12,3 +12,5 @@ import './notification/style/index.less';
 import './card/style/index.less';
 // Tag
 import './tag/style/index.less';
+// Breadcrumb
+import './breadcrumb/style/index.less';

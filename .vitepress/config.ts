@@ -52,6 +52,10 @@ export default defineConfig({
 					text: 'SyTag 标签',
 					link: '/components/tag/',
 				},
+                {
+					text: 'SyBreadCrumb 面包屑',
+					link: '/components/breadcrumb/',
+				},
 			],
 			'/utils/': [
 				{
