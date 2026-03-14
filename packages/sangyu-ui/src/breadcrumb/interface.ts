@@ -1,6 +1,6 @@
 export interface BreadcrumbProps {
 	separator?: string; // default: '/'
-	separatorIcon?: string; //图标名称
+	separatorIcon?: string; //分隔图标名称
 }
 
 export interface BreadcrumbItemProps {

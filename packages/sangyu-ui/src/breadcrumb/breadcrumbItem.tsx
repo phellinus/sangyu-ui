@@ -8,6 +8,6 @@ export default defineComponent(
 		};
 	},
 	{
-		name: 'SangyuBreadcrumbItem',
+		name: 'SyBreadcrumbItem',
 	},
 );
