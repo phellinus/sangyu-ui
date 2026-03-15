@@ -8,15 +8,35 @@ SyBreadCrumb通过设置separator属性可以自定义分隔符，默认分隔�
 
 <template>
 	<div>
+		<h1 style="margin-bottom: 20px">通过设置separator属性</h1>
 		<SyBreadCrumb separator=">">
 			<SyBreadcrumbItem to="/">首页</SyBreadcrumbItem>
 			<SyBreadcrumbItem to="/component">组件库</SyBreadcrumbItem>
 			<SyBreadcrumbItem to="/component/breadcrumb">面包屑</SyBreadcrumbItem>
 		</SyBreadCrumb>
+		<h1 style="margin-block: 20px">通过设置separator-icon属性</h1>
+		<SyBreadCrumb separator-icon="arrow-right">
+			<SyBreadcrumbItem to="/">首页</SyBreadcrumbItem>
+			<SyBreadcrumbItem to="/component">组件库</SyBreadcrumbItem>
+			<SyBreadcrumbItem to="/component/breadcrumb">面包屑</SyBreadcrumbItem>
+		</SyBreadCrumb>
+		<h1 style="margin-block: 20px">自定义图标</h1>
+		<SyBreadCrumb separator-icon="arrow-right">
+			<SyBreadcrumbItem to="/">
+				<SyIcon name="home" />
+				首页
+			</SyBreadcrumbItem>
+			<SyBreadcrumbItem to="/component">
+				<SyIcon name="more-app" />
+				应用中心
+			</SyBreadcrumbItem>
+			<SyBreadcrumbItem to="/component/breadcrumb">应用详情</SyBreadcrumbItem>
+		</SyBreadCrumb>
 	</div>
 </template>
 
 <script setup>
+	import { SyIcon } from '@sangyu-ui/icons';
 	import { SyBreadCrumb } from 'sangyu-ui';
 </script>
 

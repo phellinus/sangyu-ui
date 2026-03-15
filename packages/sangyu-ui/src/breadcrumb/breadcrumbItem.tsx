@@ -1,6 +1,7 @@
 import { defineComponent, inject } from 'vue';
 import { BreadcrumbItemProps } from './interface';
 import { breadcrumbKey } from './breadcrumb';
+import { SyIcon } from '@sangyu-ui/icons';
 
 export default defineComponent(
 	(props: BreadcrumbItemProps, { slots, emit }) => {
@@ -33,7 +34,11 @@ export default defineComponent(
 
 					{!isLast() && (
 						<span class='sy-breadcrumb-item__separator'>
-							{breadcrumbContext.separatorIcon || breadcrumbContext.separator}
+							{breadcrumbContext.separatorIcon ? (
+								<SyIcon name={breadcrumbContext.separatorIcon} />
+							) : (
+								breadcrumbContext.separator || breadcrumbContext.separator
+							)}
 						</span>
 					)}
 				</span>
