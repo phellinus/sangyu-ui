@@ -27,6 +27,7 @@ export default defineComponent(
 		provide(breadcrumbKey, {
 			separator: props.separator || '/',
 			separatorIcon: props.separatorIcon || '',
+			handleClick: props.handleClick,
 		});
 		return () => {
 			const { c } = useClassnames('breadcrumb');

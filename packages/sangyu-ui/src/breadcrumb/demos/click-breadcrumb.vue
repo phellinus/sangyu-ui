@@ -8,12 +8,12 @@ SyBreadCrumb通过设置separator属性可以自定义分隔符，默认分隔�
 
 <template>
 	<div>
-		<SyBreadCrumb separator="/" custom-style="margin-bottom: 20px">
+		<SyBreadCrumb separator="/" custom-style="margin-bottom: 20px" :handleClick="handleToPath">
 			<SyBreadcrumbItem to="/">首页</SyBreadcrumbItem>
 			<SyBreadcrumbItem to="/component">组件库</SyBreadcrumbItem>
 			<SyBreadcrumbItem to="/component/breadcrumb">面包屑</SyBreadcrumbItem>
 		</SyBreadCrumb>
-		<SyBreadCrumb separator-icon="arrow-right">
+		<SyBreadCrumb separator-icon="arrow-right" :handleClick="handleToPath">
 			<SyBreadcrumbItem to="/">
 				<SyIcon name="home" />
 				首页
@@ -30,6 +30,10 @@ SyBreadCrumb通过设置separator属性可以自定义分隔符，默认分隔�
 <script setup>
 	import { SyIcon } from '@sangyu-ui/icons';
 	import { SyBreadCrumb } from 'sangyu-ui';
+
+	const handleToPath = (e) => {
+		console.log(e);
+	};
 </script>
 
 <style lang="scss" scoped></style>

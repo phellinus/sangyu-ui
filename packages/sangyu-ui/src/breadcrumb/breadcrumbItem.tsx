@@ -4,17 +4,19 @@ import { breadcrumbKey } from './breadcrumb';
 import { SyIcon } from '@sangyu-ui/icons';
 
 export default defineComponent(
-	(props: BreadcrumbItemProps, { slots, emit }) => {
+	(props: BreadcrumbItemProps, { slots }) => {
 		const breadcrumbContext = inject<{
 			separator: string;
 			separatorIcon: string;
+			handleClick?: (to?: string) => void;
 		}>(breadcrumbKey, {
 			separator: '/',
 			separatorIcon: '',
+			handleClick: undefined,
 		});
 		const isLast = () => props.index === props.total - 1;
 		const handleClick = () => {
-			emit('click', props.to);
+			breadcrumbContext?.handleClick?.(props.to);
 		};
 		return () => {
 			return (
