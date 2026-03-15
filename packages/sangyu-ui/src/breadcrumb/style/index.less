@@ -1,0 +1,50 @@
+.sy-breadcrumb {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+
+	&-item {
+		display: inline-flex;
+		align-items: center;
+
+		&__separator {
+			margin: 0 8px;
+			color: #aeb4ba; /* 浅冷灰，不抢视觉 */
+			font-size: 14px;
+			font-weight: 400;
+			display: inline-flex;
+			align-items: center;
+		}
+		&__inner {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			color: #6a7076;
+			text-decoration: none;
+			padding: 4px 8px;
+			margin: -4px 0;
+			border-radius: 6px;
+			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+		&__inner.is-link {
+			cursor: pointer;
+		}
+		&__inner.is-link:hover {
+			color: #2c3034; /* 深碳灰 */
+			background-color: rgba(224, 228, 232, 0.4);
+		}
+		&__inner.is-last {
+			color: #2c3034;
+			font-weight: 600;
+			cursor: default;
+			background-color: transparent;
+		}
+        &__inner.is-last:hover {
+            background-color: transparent;
+        }
+	}
+}
