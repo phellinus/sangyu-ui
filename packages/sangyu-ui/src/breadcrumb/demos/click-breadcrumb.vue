@@ -1,9 +1,9 @@
 <docs>
 ---
-title: SyBreadCrumb 分隔符
+title: SyBreadCrumb 点击事件
 ---
 
-SyBreadCrumb通过设置separator属性可以自定义分隔符，默认分隔符为"/"，也可以通过separatorIcon属性设置分隔符图标。
+SyBreadCrumb 通过设置 handleClick 属性可以监听点击事件，handleClick 接收一个参数 to，表示当前点击的面包屑的路径。
 </docs>
 
 <template>
