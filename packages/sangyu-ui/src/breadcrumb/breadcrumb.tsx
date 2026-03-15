@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, provide, VNode } from 'vue';
+import { cloneVNode, defineComponent, Fragment, provide, VNode } from 'vue';
 import { BreadcrumbProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
@@ -24,6 +24,10 @@ const flattenChildren = (children: any[]): VNode[] => {
 
 export default defineComponent(
 	(props: BreadcrumbProps, { slots }) => {
+		provide(breadcrumbKey, {
+			separator: props.separator || '/',
+			separatorIcon: props.separatorIcon || '',
+		});
 		return () => {
 			const { c } = useClassnames('breadcrumb');
 			const BreadcrumbCls = {
@@ -42,11 +46,16 @@ export default defineComponent(
 
 				return isValid;
 			});
-			provide(breadcrumbKey, {
-				separator: props.separator || '/',
-				separatorIcon: props.separatorIcon || '',
+			const total = validChildren.length;
+
+			const items = validChildren.map((child, index) => {
+				return cloneVNode(child, {
+					index,
+					total,
+				});
 			});
-			return <div class={BreadcrumbCls}>{validChildren}</div>;
+
+			return <div class={BreadcrumbCls}>{items}</div>;
 		};
 	},
 	{

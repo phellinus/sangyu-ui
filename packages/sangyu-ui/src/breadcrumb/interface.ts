@@ -5,4 +5,6 @@ export interface BreadcrumbProps {
 
 export interface BreadcrumbItemProps {
 	to?: string; //点击回调函数
+	index?: number; //当前项索引
+	total?: number; //总项数
 }

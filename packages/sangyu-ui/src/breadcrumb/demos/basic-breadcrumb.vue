@@ -10,6 +10,7 @@ SyBreadCrumb 面包屑基本用法
 	<div>
 		<SyBreadCrumb>
 			<SyBreadcrumbItem>首页</SyBreadcrumbItem>
+			<SyBreadcrumbItem>首页</SyBreadcrumbItem>
 		</SyBreadCrumb>
 	</div>
 </template>
