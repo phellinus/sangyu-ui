@@ -55,7 +55,11 @@ export default defineComponent(
 				});
 			});
 
-			return <div class={BreadcrumbCls}>{items}</div>;
+			return (
+				<div class={BreadcrumbCls} style={props.customStyle}>
+					{items}
+				</div>
+			);
 		};
 	},
 	{
