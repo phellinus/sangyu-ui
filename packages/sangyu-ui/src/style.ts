@@ -14,3 +14,5 @@ import './card/style/index.less';
 import './tag/style/index.less';
 // Breadcrumb
 import './breadcrumb/style/index.less';
+// Menu
+import './menu/style/index.less';
