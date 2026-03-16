@@ -20,3 +20,14 @@ export interface MenuItemProps {
 	iconPosition?: 'left' | 'right'; //图标位置
 	pure?: boolean; //纯展示作用，不作为子菜单
 }
+
+export interface SubMenuProps {
+	index?: string;
+	title: string;
+	className?: string;
+	customStyle?: string;
+	disabled?: boolean;
+	id?: string;
+	icon?: string;
+	onlyExpand?: boolean; // 仅展开子菜单，不触发父菜单的点击事件
+}

@@ -52,9 +52,13 @@ export default defineConfig({
 					text: 'SyTag 标签',
 					link: '/components/tag/',
 				},
-                {
+				{
 					text: 'SyBreadCrumb 面包屑',
 					link: '/components/breadcrumb/',
+				},
+				{
+					text: 'SyMenu 菜单',
+					link: '/components/menu/',
 				},
 			],
 			'/utils/': [
