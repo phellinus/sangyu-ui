@@ -56,7 +56,7 @@ export default defineComponent({
 		return () => {
 			return (
 				<ul class={menuCls} style={props.customStyle}>
-					{slots.default?.()}123
+					{slots.default?.()}
 				</ul>
 			);
 		};

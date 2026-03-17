@@ -11,12 +11,50 @@
 		width 0.3s;
 	box-sizing: border-box;
 
-    //水平菜单
+	//水平菜单
 	&-horizontal {
 		display: flex;
 		align-items: center;
 		border-radius: 12px;
 		padding: 0 16px;
 		box-shadow: 0 4px 16px -6px rgba(140, 144, 150, 0.05);
+	}
+	//垂直菜单
+	&-vertical {
+		width: 240px;
+		border-radius: 16px;
+		padding: 12px 0;
+		box-shadow: 0 4px 16px -6px rgba(140, 144, 150, 0.05);
+	}
+	&-vertical {
+		.sy-menu-item,
+		.sy-submenu-title {
+			height: 44px;
+			padding: 0 20px;
+			margin: 4px 12px;
+			border-radius: 8px;
+		}
+	}
+
+	&-vertical {
+		.sy-menu-item:hover,
+		.sy-submenu-title:hover {
+			background-color: #f0f2f4;
+		}
+	}
+
+	//sy-menu-item
+	&-item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		white-space: nowrap;
+	}
+
+	.sy-menu-item:hover,
+	.sy-submenu-title:hover {
+		color: #2c3034; /* 悬浮深碳灰 */
 	}
 }

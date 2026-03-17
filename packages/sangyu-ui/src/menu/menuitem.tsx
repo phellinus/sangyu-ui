@@ -9,7 +9,7 @@ export default defineComponent(
 			[c()]: true,
 		};
 		return () => {
-			return <div class={menuItemCls}>{slots.default?.()}</div>;
+			return <li class={menuItemCls}>{slots.default?.()}</li>;
 		};
 	},
 	{
