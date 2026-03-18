@@ -1,4 +1,4 @@
-import { defineComponent, PropType, provide } from 'vue';
+import { defineComponent, PropType, provide, ref, watch } from 'vue';
 import { MenuProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
@@ -9,7 +9,7 @@ export default defineComponent({
 	props: {
 		defaultIndex: {
 			type: String,
-			default: '1',
+			default: '',
 		},
 		mode: {
 			type: String as PropType<MenuProps['mode']>,
@@ -49,10 +49,22 @@ export default defineComponent({
 	},
 	setup(props, { slots }) {
 		let menuItemIndex = 0;
+		const activeIndex = ref(props.defaultIndex);
+		watch(
+			() => props.defaultIndex,
+			(newIndex) => {
+				activeIndex.value = newIndex;
+			},
+		);
 		provide(symenuKey, {
 			mode: props.mode,
 			defaultIndex: props.defaultIndex,
 			getNextIndex: () => `${menuItemIndex++}`,
+			activeIndex,
+			setActiveIndex: (index: string) => {
+				activeIndex.value = index;
+				props.onSelect?.(index);
+			},
 		});
 		const { c } = useClassnames('menu');
 		const menuCls = {
