@@ -9,7 +9,7 @@ export default defineComponent({
 	props: {
 		defaultIndex: {
 			type: String,
-			default: '',
+			default: '1',
 		},
 		mode: {
 			type: String as PropType<MenuProps['mode']>,
@@ -48,9 +48,11 @@ export default defineComponent({
 		},
 	},
 	setup(props, { slots }) {
+		let menuItemIndex = 0;
 		provide(symenuKey, {
 			mode: props.mode,
 			defaultIndex: props.defaultIndex,
+			getNextIndex: () => `${menuItemIndex++}`,
 		});
 		const { c } = useClassnames('menu');
 		const menuCls = {

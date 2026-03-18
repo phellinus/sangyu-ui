@@ -25,8 +25,7 @@
 		border-radius: 16px;
 		padding: 12px 0;
 		box-shadow: 0 4px 16px -6px rgba(140, 144, 150, 0.05);
-	}
-	&-vertical {
+
 		.sy-menu-item,
 		.sy-submenu-title {
 			height: 44px;
@@ -34,12 +33,16 @@
 			margin: 4px 12px;
 			border-radius: 8px;
 		}
-	}
-
-	&-vertical {
+		//垂直状态下 hover 效果
 		.sy-menu-item:hover,
 		.sy-submenu-title:hover {
 			background-color: var(--hover-bg-color);
+		}
+		//垂直状态下 active 效果
+		.sy-menu-item.sy-menu-item-active {
+			color: #2c3034;
+			font-weight: 600;
+			background-color: #f4f5f7;
 		}
 	}
 

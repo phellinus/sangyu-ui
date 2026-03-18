@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<sy-menu default-active="1">
+		<sy-menu defaultIndex="1">
 			<sy-menu-item index="1">Option 1</sy-menu-item>
 			<sy-menu-item index="2">Option 2</sy-menu-item>
 		</sy-menu>
