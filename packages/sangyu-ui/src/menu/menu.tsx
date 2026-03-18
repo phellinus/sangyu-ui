@@ -1,6 +1,8 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, provide } from 'vue';
 import { MenuProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
+
+export const symenuKey = Symbol('symenuKey');
 
 export default defineComponent({
 	name: 'SyMenu',
@@ -46,16 +48,23 @@ export default defineComponent({
 		},
 	},
 	setup(props, { slots }) {
+		provide(symenuKey, {
+			mode: props.mode,
+			defaultIndex: props.defaultIndex,
+		});
 		const { c } = useClassnames('menu');
 		const menuCls = {
 			[c()]: true,
 			[c(props.mode)]: true,
 			[c(props.verticalPosition)]: true,
 		};
-
+		const styleCss = {
+			'--hover-bg-color': props.hoverBgColor || '#f0f2f4',
+			'--hover-color': props.hoverColor || '#2c3034',
+		};
 		return () => {
 			return (
-				<ul class={menuCls} style={props.customStyle}>
+				<ul class={menuCls} style={[props.customStyle, styleCss]}>
 					{slots.default?.()}
 				</ul>
 			);
