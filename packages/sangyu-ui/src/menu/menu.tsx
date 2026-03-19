@@ -50,6 +50,17 @@ export default defineComponent({
 	setup(props, { slots }) {
 		let menuItemIndex = 0;
 		const activeIndex = ref(props.defaultIndex);
+		const openKeys = ref([...props.defaultOpenSubMenus]);
+		const handleOpenChange = (index: string) => {
+			if (!index) {
+				return;
+			}
+			if (openKeys.value.includes(index)) {
+				openKeys.value = openKeys.value.filter((item) => item !== index);
+				return;
+			}
+			openKeys.value = [...openKeys.value, index];
+		};
 		provide(symenuKey, {
 			mode: props.mode,
 			defaultIndex: props.defaultIndex,
@@ -59,6 +70,8 @@ export default defineComponent({
 				activeIndex.value = index;
 				props.onSelect?.(index);
 			},
+			openKeys,
+			onOpenChange: handleOpenChange,
 		});
 		const { c } = useClassnames('menu');
 		const menuCls = {
