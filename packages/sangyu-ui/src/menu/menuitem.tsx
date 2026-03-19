@@ -4,13 +4,13 @@ import { useClassnames } from '@sangyu-ui/utils';
 import { symenuKey } from './menu';
 
 export default defineComponent(
-	(props: MenuItemProps, { slots }) => {
+	(props: MenuItemProps, { slots, emit }) => {
 		const menuContext = inject<{
 			mode: string;
 			defaultIndex: string;
 			getNextIndex?: () => string;
 			activeIndex?: Ref<string>;
-			setActiveIndex?: (index: string) => void;
+			onItemSelect?: (index: string) => void;
 		}>(symenuKey, {
 			mode: 'vertical',
 			defaultIndex: '',
@@ -25,7 +25,7 @@ export default defineComponent(
 			if (!resolvedIndex) {
 				return;
 			}
-			menuContext.setActiveIndex?.(resolvedIndex);
+			menuContext.onItemSelect?.(resolvedIndex);
 		};
 		return () => {
 			return (
