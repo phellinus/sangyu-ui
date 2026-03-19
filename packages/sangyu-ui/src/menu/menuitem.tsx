@@ -2,9 +2,10 @@ import { defineComponent, inject, Ref } from 'vue';
 import { MenuItemProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 import { symenuKey } from './menu';
+import { SyIcon } from '@sangyu-ui/icons';
 
 export default defineComponent(
-	(props: MenuItemProps, { slots, emit }) => {
+	(props: MenuItemProps, { slots }) => {
 		const menuContext = inject<{
 			mode: string;
 			defaultIndex: string;
@@ -30,6 +31,7 @@ export default defineComponent(
 		return () => {
 			return (
 				<li class={getMenuItemCls()} data-index={resolvedIndex} onClick={handleClick}>
+					{props.icon && <SyIcon name={props.icon} size='16' class={c('icon')} />}
 					{slots.default?.()}
 				</li>
 			);
