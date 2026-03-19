@@ -79,9 +79,15 @@ export default defineComponent({
 			[c(props.mode)]: true,
 			[c(props.verticalPosition)]: true,
 		};
+		const itemPositionMap: Record<string, string> = {
+			left: 'flex-start',
+			center: 'center',
+			right: 'flex-end',
+		};
 		const styleCss = {
 			'--hover-bg-color': props.hoverBgColor || '#f0f2f4',
 			'--hover-color': props.hoverColor || '#2c3034',
+			'--menu-item-justify': itemPositionMap[props.itemPosition] || 'flex-start',
 		};
 		return () => {
 			return (

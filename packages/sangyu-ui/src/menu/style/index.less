@@ -15,9 +15,55 @@
 	&-horizontal {
 		display: flex;
 		align-items: center;
+		justify-content: var(--menu-item-justify, flex-start);
 		border-radius: 12px;
 		padding: 0 16px;
 		box-shadow: 0 4px 16px -6px rgba(140, 144, 150, 0.05);
+
+		> .sy-menu-item,
+		> .sy-submenu > .sy-submenu-title {
+			padding: 0 20px;
+			height: 52px;
+			border-radius: 6px;
+			margin: 4px 2px;
+		}
+
+		> .sy-menu-item:hover,
+		> .sy-submenu:hover > .sy-submenu-title {
+			background-color: var(--hover-bg-color);
+		}
+
+		> .sy-submenu:hover > .sy-submenu-title .sy-submenu-arrow {
+			transform: rotate(180deg);
+		}
+		> .sy-submenu:hover > .sy-submenu-popup {
+			visibility: visible;
+			opacity: 1;
+			transform: translateY(4px);
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item {
+			height: 40px;
+			padding: 0 16px;
+			border-radius: 6px;
+			margin-bottom: 2px;
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item:hover {
+			background-color: var(--hover-bg-color);
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item.sy-menu-item-active {
+			color: #2c3034;
+			font-weight: 600;
+			background-color: #f7f8fa;
+			box-shadow: none;
+		}
+
+		.sy-menu-item.sy-menu-item-active {
+			color: #2c3034;
+			font-weight: 600;
+			background-color: transparent;
+			box-shadow: inset 0 -2px 0 #2c3034;
+			border-radius: 0;
+		}
 	}
 	//垂直菜单
 	&-vertical {
@@ -185,40 +231,5 @@
 	.sy-menu-item:hover,
 	.sy-submenu-title:hover {
 		color: var(--hover-color); /* 悬浮深碳灰 */
-	}
-
-	&-horizontal {
-		> .sy-submenu > .sy-submenu-title {
-			padding: 0 20px;
-			height: 52px;
-			border-radius: 6px;
-			margin: 4px 2px;
-		}
-		> .sy-submenu:hover > .sy-submenu-title {
-			background-color: #f0f2f4;
-		}
-		> .sy-submenu:hover > .sy-submenu-title .sy-submenu-arrow {
-			transform: rotate(180deg);
-		}
-		> .sy-submenu:hover > .sy-submenu-popup {
-			visibility: visible;
-			opacity: 1;
-			transform: translateY(4px);
-		}
-		> .sy-submenu > .sy-submenu-popup .sy-menu-item {
-			height: 40px;
-			padding: 0 16px;
-			border-radius: 6px;
-			margin-bottom: 2px;
-		}
-		> .sy-submenu > .sy-submenu-popup .sy-menu-item:hover {
-			background-color: #f0f2f4;
-		}
-		> .sy-submenu > .sy-submenu-popup .sy-menu-item.sy-menu-item-active {
-			color: #2c3034;
-			font-weight: 600;
-			background-color: #f7f8fa;
-			box-shadow: none;
-		}
 	}
 }
