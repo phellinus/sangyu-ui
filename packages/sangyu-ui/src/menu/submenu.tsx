@@ -9,6 +9,7 @@ export default defineComponent(
 			mode: string;
 			openKeys?: Ref<string[]>;
 			onOpenChange?: (index: string) => void;
+			activeIndex?: Ref<string>;
 		}>(symenuKey, {
 			mode: 'vertical',
 		});
@@ -22,6 +23,18 @@ export default defineComponent(
 			'is-open': !isHorizontal() && isOpen(),
 		});
 		const titleContent = () => slots.title?.() ?? props.title;
+		const isChildActive = () => {
+			const activeIndex = menuContext.activeIndex?.value;
+			if (!activeIndex) {
+				return false;
+			}
+			const children = slots.default?.() ?? [];
+			return children.some((child) => child?.props?.index === activeIndex);
+		};
+		const titleCls = () => ({
+			[c('title')]: true,
+			[c('title-active')]: isChildActive(),
+		});
 		const handleTitleClick = () => {
 			if (isHorizontal() || !resolvedIndex) {
 				return;
@@ -29,7 +42,7 @@ export default defineComponent(
 			menuContext.onOpenChange?.(resolvedIndex);
 		};
 		const titleNode = () => (
-			<div class={c('title')} onClick={handleTitleClick}>
+			<div class={titleCls()} onClick={handleTitleClick}>
 				<div class={c('title-content')}>
 					{props.icon && <span class={itemC('icon')}>{props.icon}</span>}
 					<span>{titleContent()}</span>
