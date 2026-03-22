@@ -48,7 +48,7 @@ export default defineComponent({
 		},
 	},
 	setup(props, { slots }) {
-		let menuItemIndex = 0;
+		let menuItemIndex = 1;
 		const activeIndex = ref(props.defaultIndex);
 		const openKeys = ref([...props.defaultOpenSubMenus]);
 		const handleOpenChange = (index: string) => {
