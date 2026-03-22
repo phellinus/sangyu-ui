@@ -1,4 +1,4 @@
-import { defineComponent, inject, Ref } from 'vue';
+import { defineComponent, inject, provide, Ref } from 'vue';
 import { SubMenuProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 import { symenuKey } from './menu';
@@ -7,16 +7,24 @@ export default defineComponent(
 	(props: SubMenuProps, { slots }) => {
 		const menuContext = inject<{
 			mode: string;
+			defaultIndex?: string;
+			getNextIndex?: () => string;
 			openKeys?: Ref<string[]>;
 			onOpenChange?: (index: string) => void;
 			activeIndex?: Ref<string>;
+			onItemSelect?: (index: string, to?: string) => void;
 		}>(symenuKey, {
 			mode: 'vertical',
 		});
 		const { c } = useClassnames('submenu');
 		const { c: itemC } = useClassnames('menu-item');
 		const isHorizontal = () => menuContext.mode === 'horizontal';
-		const resolvedIndex = props.index ?? '';
+		const resolvedIndex = props.index ?? menuContext.getNextIndex?.() ?? '';
+		let subMenuItemIndex = 1;
+		provide(symenuKey, {
+			...menuContext,
+			getNextIndex: () => (resolvedIndex ? `${resolvedIndex}-${subMenuItemIndex++}` : `${subMenuItemIndex++}`),
+		});
 		const isOpen = () => !!resolvedIndex && !!menuContext.openKeys?.value.includes(resolvedIndex);
 		const submenuCls = () => ({
 			[c()]: true,
@@ -25,11 +33,10 @@ export default defineComponent(
 		const titleContent = () => slots.title?.() ?? props.title;
 		const isChildActive = () => {
 			const activeIndex = menuContext.activeIndex?.value;
-			if (!activeIndex) {
+			if (!activeIndex || !resolvedIndex) {
 				return false;
 			}
-			const children = slots.default?.() ?? [];
-			return children.some((child) => child?.props?.index === activeIndex);
+			return activeIndex === resolvedIndex || activeIndex.startsWith(`${resolvedIndex}-`);
 		};
 		const titleCls = () => ({
 			[c('title')]: true,

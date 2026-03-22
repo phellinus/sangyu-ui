@@ -11,7 +11,7 @@ export default defineComponent(
 			defaultIndex: string;
 			getNextIndex?: () => string;
 			activeIndex?: Ref<string>;
-			onItemSelect?: (index: string) => void;
+			onItemSelect?: (index: string, to?: string) => void;
 		}>(symenuKey, {
 			mode: 'vertical',
 			defaultIndex: '',
@@ -26,7 +26,7 @@ export default defineComponent(
 			if (!resolvedIndex) {
 				return;
 			}
-			menuContext.onItemSelect?.(resolvedIndex);
+			menuContext.onItemSelect?.(resolvedIndex, props.to);
 		};
 		return () => {
 			return (

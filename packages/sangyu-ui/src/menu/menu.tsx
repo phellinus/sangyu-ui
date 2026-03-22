@@ -44,11 +44,11 @@ export default defineComponent({
 			default: () => [],
 		},
 		onSelect: {
-			type: Function as PropType<(selectedIndex: string) => void>,
+			type: Function as PropType<(selectedIndex: string, to?: string) => void>,
 		},
 	},
 	setup(props, { slots }) {
-		let menuItemIndex = 0;
+		let menuItemIndex = 1;
 		const activeIndex = ref(props.defaultIndex);
 		const openKeys = ref([...props.defaultOpenSubMenus]);
 		const handleOpenChange = (index: string) => {
@@ -66,9 +66,9 @@ export default defineComponent({
 			defaultIndex: props.defaultIndex,
 			getNextIndex: () => `${menuItemIndex++}`,
 			activeIndex,
-			onItemSelect: (index: string) => {
+			onItemSelect: (index: string, to?: string) => {
 				activeIndex.value = index;
-				props.onSelect?.(index);
+				props.onSelect?.(index, to);
 			},
 			openKeys,
 			onOpenChange: handleOpenChange,

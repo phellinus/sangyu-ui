@@ -3,26 +3,28 @@
 title: SyMenu 点击事件
 ---
 
-SyMenu 通过 `onSelect` 属性监听菜单项点击，回调参数为当前选中的菜单项 `index`。
+SyMenu 通过 `onSelect` 属性监听菜单项点击，回调参数为当前选中的菜单项 `index` 和可选的 `to`。
 </docs>
 
 <template>
 	<div class="click-menu-demo">
 		<div class="menu-panel">
 			<sy-menu defaultIndex="dashboard" :onSelect="handleSelect">
-				<sy-menu-item index="dashboard" icon="home">Dashboard</sy-menu-item>
-				<sy-menu-item index="project" icon="more-app">Project</sy-menu-item>
+				<sy-menu-item index="dashboard" icon="home" to="/dashboard">Dashboard</sy-menu-item>
+				<sy-menu-item index="project" icon="more-app" to="/project">Project</sy-menu-item>
 				<sy-sub-menu index="system" title="System">
-					<sy-menu-item index="user-manage">User Manage</sy-menu-item>
-					<sy-menu-item index="role-manage">Role Manage</sy-menu-item>
+					<sy-menu-item index="user-manage" to="/system/user-manage">User Manage</sy-menu-item>
+					<sy-menu-item index="role-manage" to="/system/role-manage">Role Manage</sy-menu-item>
 				</sy-sub-menu>
-				<sy-menu-item index="setting" icon="settings">Setting</sy-menu-item>
+				<sy-menu-item index="setting" icon="settings" to="/setting">Setting</sy-menu-item>
 			</sy-menu>
 		</div>
 
 		<div class="result-panel">
 			<p class="result-label">当前点击菜单：</p>
 			<p class="result-value">{{ activeMenu }}</p>
+			<p class="result-label">当前路由：</p>
+			<p class="result-value">{{ activePath }}</p>
 		</div>
 	</div>
 </template>
@@ -32,9 +34,11 @@ SyMenu 通过 `onSelect` 属性监听菜单项点击，回调参数为当前选�
 	import { SyMenu } from 'sangyu-ui';
 
 	const activeMenu = ref('dashboard');
+	const activePath = ref('/dashboard');
 
-	const handleSelect = (index: string) => {
+	const handleSelect = (index: string, to?: string) => {
 		activeMenu.value = index;
+		activePath.value = to || '-';
 	};
 </script>
 
