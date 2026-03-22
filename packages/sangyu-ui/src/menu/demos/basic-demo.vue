@@ -5,13 +5,13 @@
 			<sy-menu defaultIndex="1">
 				<sy-menu-item index="1" icon="more-app">Workspace</sy-menu-item>
 				<sy-sub-menu index="sub-1" title="User">
-					<sy-menu-item index="2">Admins</sy-menu-item>
-					<sy-menu-item index="3">Members</sy-menu-item>
-					<sy-menu-item index="4">Banned</sy-menu-item>
+					<sy-menu-item index="2" icon="home">Admins</sy-menu-item>
+					<sy-menu-item index="3" icon="more-app">Members</sy-menu-item>
+					<sy-menu-item index="4" icon="close-one">Banned</sy-menu-item>
 				</sy-sub-menu>
 				<sy-sub-menu index="sub-2" title="Content">
-					<sy-menu-item index="5">Articles</sy-menu-item>
-					<sy-menu-item index="6">Comments</sy-menu-item>
+					<sy-menu-item index="5" icon="book-mark">Articles</sy-menu-item>
+					<sy-menu-item index="6" icon="tips">Comments</sy-menu-item>
 				</sy-sub-menu>
 				<sy-menu-item index="7" icon="settings">Settings</sy-menu-item>
 			</sy-menu>
