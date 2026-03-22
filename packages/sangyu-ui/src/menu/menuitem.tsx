@@ -22,17 +22,22 @@ export default defineComponent(
 			[c()]: true,
 			[c('active')]: resolvedIndex === menuContext.activeIndex?.value,
 		});
+		const iconCls = () => ({
+			[c('icon')]: true,
+			[c('icon-right')]: props.iconPosition === 'right',
+		});
 		const handleClick = () => {
-			if (!resolvedIndex) {
+			if (!resolvedIndex || props.pure) {
 				return;
 			}
 			menuContext.onItemSelect?.(resolvedIndex, props.to);
 		};
 		return () => {
+			const iconNode = props.icon ? <SyIcon name={props.icon} size='16' class={iconCls()} /> : null;
 			return (
 				<li class={getMenuItemCls()} data-index={resolvedIndex} onClick={handleClick}>
-					{props.icon && <SyIcon name={props.icon} size='16' class={c('icon')} />}
-					{slots.default?.()}
+					{props.iconPosition === 'right' ? slots.default?.() : iconNode}
+					{props.iconPosition === 'right' ? iconNode : slots.default?.()}
 				</li>
 			);
 		};

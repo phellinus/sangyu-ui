@@ -32,12 +32,37 @@ export default defineComponent(
 			'is-open': !isHorizontal() && isOpen(),
 		});
 		const titleContent = () => slots.title?.() ?? props.title;
+		const hasActiveChild = (nodes: any[], activeIndex: string): boolean => {
+			return nodes.some((node) => {
+				if (!node) {
+					return false;
+				}
+				if (node?.props?.index === activeIndex) {
+					return true;
+				}
+				const nodeChildren = node?.children;
+				if (Array.isArray(nodeChildren) && hasActiveChild(nodeChildren, activeIndex)) {
+					return true;
+				}
+				if (nodeChildren && typeof nodeChildren === 'object') {
+					const defaultSlot = nodeChildren?.default;
+					if (typeof defaultSlot === 'function') {
+						return hasActiveChild(defaultSlot(), activeIndex);
+					}
+				}
+				return false;
+			});
+		};
 		const isChildActive = () => {
 			const activeIndex = menuContext.activeIndex?.value;
-			if (!activeIndex || !resolvedIndex) {
+			if (!activeIndex) {
 				return false;
 			}
-			return activeIndex === resolvedIndex || activeIndex.startsWith(`${resolvedIndex}-`);
+			if (resolvedIndex && (activeIndex === resolvedIndex || activeIndex.startsWith(`${resolvedIndex}-`))) {
+				return true;
+			}
+			const children = slots.default?.() ?? [];
+			return hasActiveChild(children, activeIndex);
 		};
 		const titleCls = () => ({
 			[c('title')]: true,
@@ -48,6 +73,9 @@ export default defineComponent(
 				return;
 			}
 			menuContext.onOpenChange?.(resolvedIndex);
+			if (!props.onlyExpand) {
+				menuContext.onItemSelect?.(resolvedIndex);
+			}
 		};
 		const titleNode = () => (
 			<div class={titleCls()} onClick={handleTitleClick}>
