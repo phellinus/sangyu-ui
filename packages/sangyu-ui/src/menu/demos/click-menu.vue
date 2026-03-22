@@ -12,11 +12,11 @@ SyMenu 通过 `onSelect` 属性监听菜单项点击，回调参数为当前选�
 			<sy-menu defaultIndex="dashboard" :onSelect="handleSelect">
 				<sy-menu-item index="dashboard" icon="home" to="/dashboard">Dashboard</sy-menu-item>
 				<sy-menu-item index="project" icon="more-app" to="/project">Project</sy-menu-item>
-				<sy-sub-menu index="system" title="System">
+				<sy-sub-menu index="system" title="System" icon="system">
 					<sy-menu-item index="user-manage" to="/system/user-manage">User Manage</sy-menu-item>
 					<sy-menu-item index="role-manage" to="/system/role-manage">Role Manage</sy-menu-item>
 				</sy-sub-menu>
-				<sy-menu-item index="setting" icon="settings" to="/setting">Setting</sy-menu-item>
+				<sy-menu-item index="setting" icon="setting-two" to="/setting">Setting</sy-menu-item>
 			</sy-menu>
 		</div>
 

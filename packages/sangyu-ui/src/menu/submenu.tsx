@@ -2,6 +2,7 @@ import { defineComponent, inject, provide, Ref } from 'vue';
 import { SubMenuProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 import { symenuKey } from './menu';
+import { SyIcon } from '@sangyu-ui/icons';
 
 export default defineComponent(
 	(props: SubMenuProps, { slots }) => {
@@ -51,7 +52,7 @@ export default defineComponent(
 		const titleNode = () => (
 			<div class={titleCls()} onClick={handleTitleClick}>
 				<div class={c('title-content')}>
-					{props.icon && <span class={itemC('icon')}>{props.icon}</span>}
+					{props.icon && <SyIcon name={props.icon} size='16' class={itemC('icon')} />}
 					<span>{titleContent()}</span>
 				</div>
 				<svg
