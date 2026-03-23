@@ -1,4 +1,4 @@
-import { defineComponent, PropType, provide, ref } from 'vue';
+import { defineComponent, PropType, provide, ref, toRef } from 'vue';
 import { MenuProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
@@ -63,6 +63,7 @@ export default defineComponent({
 		};
 		provide(symenuKey, {
 			mode: props.mode,
+			expand: toRef(props, 'expand'),
 			defaultIndex: props.defaultIndex,
 			getNextIndex: () => `${menuItemIndex++}`,
 			activeIndex,
@@ -74,11 +75,12 @@ export default defineComponent({
 			onOpenChange: handleOpenChange,
 		});
 		const { c } = useClassnames('menu');
-		const menuCls = {
+		const getMenuCls = () => ({
 			[c()]: true,
 			[c(props.mode)]: true,
 			[c(props.verticalPosition)]: true,
-		};
+			[c('collapse')]: props.mode === 'vertical' && !props.expand,
+		});
 		const itemPositionMap: Record<string, string> = {
 			left: 'flex-start',
 			center: 'center',
@@ -91,7 +93,7 @@ export default defineComponent({
 		};
 		return () => {
 			return (
-				<ul class={menuCls} style={[props.customStyle, styleCss]}>
+				<ul class={getMenuCls()} style={[props.customStyle, styleCss]}>
 					{slots.default?.()}
 				</ul>
 			);

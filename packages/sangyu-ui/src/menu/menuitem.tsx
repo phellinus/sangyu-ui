@@ -34,10 +34,11 @@ export default defineComponent(
 		};
 		return () => {
 			const iconNode = props.icon ? <SyIcon name={props.icon} size='16' class={iconCls()} /> : null;
+			const contentNode = <span class={c('content')}>{slots.default?.()}</span>;
 			return (
 				<li class={getMenuItemCls()} data-index={resolvedIndex} onClick={handleClick}>
-					{props.iconPosition === 'right' ? slots.default?.() : iconNode}
-					{props.iconPosition === 'right' ? iconNode : slots.default?.()}
+					{props.iconPosition === 'right' ? contentNode : iconNode}
+					{props.iconPosition === 'right' ? iconNode : contentNode}
 				</li>
 			);
 		};

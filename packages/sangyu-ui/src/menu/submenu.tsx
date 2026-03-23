@@ -8,6 +8,7 @@ export default defineComponent(
 	(props: SubMenuProps, { slots }) => {
 		const menuContext = inject<{
 			mode: string;
+			expand?: Ref<boolean>;
 			defaultIndex?: string;
 			getNextIndex?: () => string;
 			openKeys?: Ref<string[]>;
@@ -20,6 +21,7 @@ export default defineComponent(
 		const { c } = useClassnames('submenu');
 		const { c: itemC } = useClassnames('menu-item');
 		const isHorizontal = () => menuContext.mode === 'horizontal';
+		const isCollapsed = () => menuContext.mode === 'vertical' && menuContext.expand?.value === false;
 		const resolvedIndex = props.index ?? menuContext.getNextIndex?.() ?? '';
 		let subMenuItemIndex = 1;
 		provide(symenuKey, {
@@ -29,7 +31,7 @@ export default defineComponent(
 		const isOpen = () => !!resolvedIndex && !!menuContext.openKeys?.value.includes(resolvedIndex);
 		const submenuCls = () => ({
 			[c()]: true,
-			'is-open': !isHorizontal() && isOpen(),
+			'is-open': !isHorizontal() && !isCollapsed() && isOpen(),
 		});
 		const titleContent = () => slots.title?.() ?? props.title;
 		const hasActiveChild = (nodes: any[], activeIndex: string): boolean => {
@@ -69,10 +71,12 @@ export default defineComponent(
 			[c('title-active')]: isChildActive(),
 		});
 		const handleTitleClick = () => {
-			if (isHorizontal() || !resolvedIndex) {
+			if (!resolvedIndex) {
 				return;
 			}
-			menuContext.onOpenChange?.(resolvedIndex);
+			if (!isHorizontal() && !isCollapsed()) {
+				menuContext.onOpenChange?.(resolvedIndex);
+			}
 			if (!props.onlyExpand) {
 				menuContext.onItemSelect?.(resolvedIndex);
 			}
@@ -99,7 +103,7 @@ export default defineComponent(
 			</div>
 		);
 		return () => {
-			if (isHorizontal()) {
+			if (isHorizontal() || isCollapsed()) {
 				return (
 					<li class={submenuCls()} style={props.customStyle}>
 						{titleNode()}

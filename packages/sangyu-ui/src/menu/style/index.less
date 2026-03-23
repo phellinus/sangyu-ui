@@ -65,6 +65,66 @@
 			border-radius: 0;
 		}
 	}
+
+	&-vertical&-collapse {
+		width: 72px;
+		padding: 12px 0;
+
+		> .sy-menu-item,
+		> .sy-submenu > .sy-submenu-title {
+			justify-content: center;
+			padding: 0;
+		}
+
+		> .sy-menu-item > .sy-menu-item-content,
+		> .sy-submenu > .sy-submenu-title .sy-submenu-title-content span {
+			display: none;
+		}
+
+		> .sy-submenu > .sy-submenu-title .sy-submenu-arrow {
+			display: none;
+		}
+
+		> .sy-submenu > .sy-submenu-inline {
+			display: none;
+		}
+
+		> .sy-submenu {
+			position: relative;
+		}
+		> .sy-submenu > .sy-submenu-popup {
+			left: calc(100% + 8px);
+			top: 0;
+			min-width: 160px;
+			transform: translateY(0);
+		}
+		> .sy-submenu:hover > .sy-submenu-title {
+			background-color: var(--hover-bg-color);
+		}
+		> .sy-submenu:hover > .sy-submenu-popup {
+			visibility: visible;
+			opacity: 1;
+			transform: translateY(0);
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item {
+			height: 40px;
+			padding: 0 16px;
+			border-radius: 6px;
+			margin-bottom: 2px;
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item:hover {
+			background-color: var(--hover-bg-color);
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item.sy-menu-item-active {
+			color: #2c3034;
+			font-weight: 600;
+			background-color: #f7f8fa;
+			box-shadow: none;
+		}
+		> .sy-submenu > .sy-submenu-popup .sy-menu-item-content {
+			display: inline-flex;
+		}
+	}
 	//垂直菜单
 	&-vertical {
 		width: 240px;
@@ -167,6 +227,11 @@
 		&-icon-right {
 			margin-right: 0;
 			margin-left: 8px;
+		}
+
+		&-content {
+			display: inline-flex;
+			align-items: center;
 		}
 	}
 
