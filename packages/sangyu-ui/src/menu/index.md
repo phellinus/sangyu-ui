@@ -6,6 +6,9 @@
 ## 点击事件
 <demo src="./demos/click-menu.vue"></demo>
 
+## expand展开
+<demo src="./demos/expand-menu.vue"></demo>
+
 ## API
 
 ### SyMenu 属性
