@@ -3,7 +3,7 @@
 title: SyMenu expand
 ---
 
-SyMenu 通过 `onSelect` 属性监听菜单项点击，回调参数为当前选中的菜单项 `index` 和可选的 `to`。
+SyMenu 通过 `expand` 属性控制菜单的展开收缩
 </docs>
 
 <template>
