@@ -6,4 +6,5 @@ export interface AvatarProps {
 	bdage: boolean;
 	badgeColor: string;
 	badgePosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+	customStyle: string;
 }
