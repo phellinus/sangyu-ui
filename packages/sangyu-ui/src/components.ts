@@ -7,3 +7,4 @@ export { default as SyCard } from './card';
 export { default as SyTag } from './tag';
 export { default as SyBreadCrumb } from './breadcrumb';
 export { default as SyMenu } from './menu';
+export { default as SyAvatar } from './avatar';

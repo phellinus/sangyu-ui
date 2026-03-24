@@ -16,3 +16,5 @@ import './tag/style/index.less';
 import './breadcrumb/style/index.less';
 // Menu
 import './menu/style/index.less';
+// Avatar
+import './avatar/style/index.less';

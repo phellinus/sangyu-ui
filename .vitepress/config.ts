@@ -60,6 +60,10 @@ export default defineConfig({
 					text: 'SyMenu 菜单',
 					link: '/components/menu/',
 				},
+                {
+                    text: 'SyAvatar 头像',
+                    link: '/components/avatar/'
+                }
 			],
 			'/utils/': [
 				{
