@@ -1,5 +1,5 @@
 <template>
-	<div :class="getAvatarCls()" :style="props.customStyle">
+	<div :class="getAvatarCls()" :style="(props.customStyle, AvatarStyle)">
 		<slot></slot>
 		<slot name="text"></slot>
 		<slot name="badge"></slot>
@@ -21,7 +21,12 @@
 	const props = withDefaults(defineProps<AvatarProps>(), {
 		shape: 'square',
 		customStyle: '',
+		size: 40,
 	});
+	const AvatarStyle = {
+		width: `${props.size}px`,
+		height: `${props.size}px`,
+	};
 	const { c } = useClassnames('avatar');
 
 	const getAvatarCls = () => ({
