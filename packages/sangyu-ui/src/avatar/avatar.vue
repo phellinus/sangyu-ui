@@ -35,6 +35,7 @@
 		height: `${props.size}px`,
 		'--sy-avatar-color': getColor(props.color),
 		'--sy-avatar-bgcolor': getColor(props.bgcolor),
+		'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
 	};
 	const { c } = useClassnames('avatar');
 	const slots = useSlots();
