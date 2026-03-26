@@ -21,4 +21,17 @@
     &-square {
         border-radius: 35%;
     }
+
+    >img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: inherit;
+        transition: all 0.25s ease;
+
+        &:hover {
+            //图像放大
+            transform: scale(1.1);
+        }
+    }
 }

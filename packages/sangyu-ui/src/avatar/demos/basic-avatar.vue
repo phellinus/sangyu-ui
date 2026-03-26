@@ -22,6 +22,9 @@ title: SyAvatar的基础用法
 			<template #text>CDEFG</template>
 		</SyAvatar>
 		<SyAvatar icon="camera" bgcolor="success" color="#f5f7f8"></SyAvatar>
+		<SyAvatar>
+			<img src="https://sangyuoj.oss-cn-hangzhou.aliyuncs.com/oj/avatar/312062759d2f4e099eaf79bc9cfdfbad.jpeg" />
+		</SyAvatar>
 	</div>
 </template>
 
