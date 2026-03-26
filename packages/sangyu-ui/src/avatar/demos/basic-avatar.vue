@@ -21,6 +21,7 @@ title: SyAvatar的基础用法
 		<SyAvatar bgcolor="primary" color="#f5f7f8">
 			<template #text>CDEFG</template>
 		</SyAvatar>
+		<SyAvatar icon="camera" bgcolor="success" color="#f5f7f8"></SyAvatar>
 	</div>
 </template>
 

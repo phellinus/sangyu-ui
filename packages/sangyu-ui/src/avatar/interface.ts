@@ -8,4 +8,6 @@ export interface AvatarProps {
 	badgeColor?: string;
 	badgePosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 	customStyle?: string;
+	icon?: string; //图标头像
+	iconsize?: number;
 }

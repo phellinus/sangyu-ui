@@ -1,11 +1,14 @@
 <template>
 	<div :class="getAvatarCls()" :style="(props.customStyle, AvatarStyle)">
-		<slot></slot>
-		<template v-if="textSlotFirstChar">
-			{{ textSlotFirstChar }}
+		<sy-icon v-if="props.icon" :name="props.icon" :size="props.iconsize" />
+		<template v-if="!props.icon">
+			<slot></slot>
+			<template v-if="textSlotFirstChar">
+				{{ textSlotFirstChar }}
+			</template>
+			<slot v-else name="text"></slot>
+			<slot name="badge"></slot>
 		</template>
-		<slot v-else name="text"></slot>
-		<slot name="badge"></slot>
 	</div>
 </template>
 
@@ -13,6 +16,7 @@
 	import { computed, useSlots } from 'vue';
 	import { getColor, useClassnames } from '@sangyu-ui/utils';
 	import { AvatarProps } from './interface';
+	import { SyIcon } from '@sangyu-ui/icons';
 
 	defineOptions({
 		name: 'SyAvatar',
