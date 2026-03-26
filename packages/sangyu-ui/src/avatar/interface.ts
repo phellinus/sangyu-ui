@@ -1,4 +1,5 @@
 export interface AvatarProps {
+	bgcolor?: string;
 	color?: string;
 	size?: number;
 	shape?: 'circle' | 'square';
