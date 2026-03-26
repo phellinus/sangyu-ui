@@ -2,7 +2,7 @@
 	<div :class="getAvatarCls()" :style="(props.customStyle, AvatarStyle)">
 		<sy-icon v-if="props.icon" :name="props.icon" :size="props.iconsize" />
 		<template v-if="!props.icon">
-			<slot></slot>
+			<img v-if="props.src" :src="props.src" />
 			<template v-if="textSlotFirstChar">
 				{{ textSlotFirstChar }}
 			</template>
@@ -22,7 +22,6 @@
 		name: 'SyAvatar',
 	});
 	defineSlots<{
-		default: () => void;
 		text: () => void;
 		badge: () => void;
 	}>();

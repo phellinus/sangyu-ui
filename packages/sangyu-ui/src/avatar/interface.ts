@@ -10,4 +10,5 @@ export interface AvatarProps {
 	customStyle?: string;
 	icon?: string; //图标头像
 	iconsize?: number;
+	src?: string;
 }
