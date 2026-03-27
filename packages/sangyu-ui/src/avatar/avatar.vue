@@ -1,14 +1,16 @@
 <template>
-	<div :class="getAvatarCls()" :style="(props.customStyle, AvatarStyle)">
-		<sy-icon v-if="props.icon" :name="props.icon" :size="props.iconsize" />
-		<template v-if="!props.icon">
-			<img v-if="props.src" :src="props.src" />
-			<template v-if="textSlotFirstChar">
-				{{ textSlotFirstChar }}
+	<div class="sy-avatar-wrapper" :style="wraperStyle">
+		<div :class="getAvatarCls()" :style="(props.customStyle, AvatarStyle)">
+			<sy-icon v-if="props.icon" :name="props.icon" :size="props.iconsize" />
+			<template v-if="!props.icon">
+				<img v-if="props.src" :src="props.src" />
+				<template v-if="textSlotFirstChar">
+					{{ textSlotFirstChar }}
+				</template>
+				<slot v-else name="text"></slot>
+				<slot name="badge"></slot>
 			</template>
-			<slot v-else name="text"></slot>
-			<slot name="badge"></slot>
-		</template>
+		</div>
 		<div v-if="props.badge" :class="badgeCls()"></div>
 	</div>
 </template>
@@ -34,13 +36,15 @@
 		badgePosition: 'bottom-right',
 		badgeColor: 'primary',
 	});
-	const AvatarStyle = {
-		width: `${props.size}px`,
-		height: `${props.size}px`,
+	const wraperStyle = {
+		'--sy-badge-color': getColor(props.badgeColor),
 		'--sy-avatar-color': getColor(props.color),
 		'--sy-avatar-bgcolor': getColor(props.bgcolor),
 		'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
-		'--sy-badge-color': getColor(props.badgeColor),
+	};
+	const AvatarStyle = {
+		width: `${props.size}px`,
+		height: `${props.size}px`,
 	};
 	const { c } = useClassnames('avatar');
 	const slots = useSlots();

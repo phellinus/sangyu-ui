@@ -9,22 +9,20 @@ title: SyAvatar的badge用法
 		<SyAvatar badge>
 			<template #text>ABCDEFG</template>
 		</SyAvatar>
-		<SyAvatar bgcolor="success" color="#f5f7f8">
+		<SyAvatar bgcolor="success" color="#f5f7f8" badge badge-position="top-right" badge-color="red">
 			<template #text>ABCDEFG</template>
 		</SyAvatar>
-		<SyAvatar bgcolor="error" color="#f5f7f8">
-			<template #text>BCDEFG</template>
-		</SyAvatar>
-		<SyAvatar bgcolor="warning" color="#f5f7f8">
-			<template #text>CDEFG</template>
-		</SyAvatar>
-		<SyAvatar bgcolor="primary" color="#f5f7f8">
-			<template #text>CDEFG</template>
-		</SyAvatar>
-		<SyAvatar icon="camera" bgcolor="success" color="#f5f7f8"></SyAvatar>
 		<SyAvatar
+			bgcolor="warning"
+			color="#f5f7f8"
+			badge
+			badge-position="top-left"
+			badge-color="red"
 			src="https://sangyuoj.oss-cn-hangzhou.aliyuncs.com/oj/avatar/312062759d2f4e099eaf79bc9cfdfbad.jpeg"
 		></SyAvatar>
+		<SyAvatar bgcolor="primary" color="#f5f7f8" badge badge-position="bottom-left" badge-color="blue">
+			<template #text>CDEFG</template>
+		</SyAvatar>
 	</div>
 </template>
 

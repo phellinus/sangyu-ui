@@ -1,3 +1,9 @@
+.sy-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+
 .sy-avatar {
     position: relative;
     display: flex;
@@ -25,13 +31,32 @@
 
     &-badge {
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 10px;
-        height: 10px;
+        width: 11px;
+        height: 11px;
         border-radius: 50%;
+        border: 1px solid #fff;
         background-color: var(--sy-badge-color, #e74c3c);
         z-index: 2;
+
+        &-bottom-right {
+            right: 0;
+            bottom: 0;
+        }
+
+        &-top-right {
+            right: 0;
+            top: 0;
+        }
+
+        &-top-left {
+            left: 0;
+            top: 0;
+        }
+
+        &-bottom-left {
+            left: 0;
+            bottom: 0;
+        }
     }
 
     >img {
