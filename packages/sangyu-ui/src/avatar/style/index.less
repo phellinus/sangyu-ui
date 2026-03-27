@@ -1,4 +1,5 @@
 .sy-avatar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,7 +13,6 @@
     
     &:hover {
         filter: brightness(1.09);
-
     }
 
     &-circle {
@@ -21,6 +21,17 @@
 
     &-square {
         border-radius: 35%;
+    }
+
+    &-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--sy-badge-color, #e74c3c);
+        z-index: 2;
     }
 
     >img {

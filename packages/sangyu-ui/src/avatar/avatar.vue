@@ -9,6 +9,7 @@
 			<slot v-else name="text"></slot>
 			<slot name="badge"></slot>
 		</template>
+		<div v-if="props.badge" :class="badgeCls()"></div>
 	</div>
 </template>
 
@@ -29,6 +30,9 @@
 		shape: 'square',
 		customStyle: '',
 		size: 40,
+		badge: false,
+		badgePosition: 'bottom-right',
+		badgeColor: 'primary',
 	});
 	const AvatarStyle = {
 		width: `${props.size}px`,
@@ -36,6 +40,7 @@
 		'--sy-avatar-color': getColor(props.color),
 		'--sy-avatar-bgcolor': getColor(props.bgcolor),
 		'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
+		'--sy-badge-color': getColor(props.badgeColor),
 	};
 	const { c } = useClassnames('avatar');
 	const slots = useSlots();
@@ -62,6 +67,10 @@
 		[c('circle')]: props.shape === 'circle',
 		[c('square')]: props.shape === 'square',
 		[c('loading')]: props.loading,
+	});
+	const badgeCls = () => ({
+		[c('badge')]: true,
+		[c(`badge-${props.badgePosition}`)]: true,
 	});
 </script>
 

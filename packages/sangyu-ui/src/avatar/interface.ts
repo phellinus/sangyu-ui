@@ -4,7 +4,7 @@ export interface AvatarProps {
 	size?: number;
 	shape?: 'circle' | 'square';
 	loading?: boolean;
-	bdage?: boolean;
+	badge?: boolean;
 	badgeColor?: string;
 	badgePosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 	customStyle?: string;
