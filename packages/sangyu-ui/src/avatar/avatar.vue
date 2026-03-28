@@ -8,10 +8,12 @@
 					{{ textSlotFirstChar }}
 				</template>
 				<slot v-else name="text"></slot>
-				<slot name="badge"></slot>
 			</template>
 		</div>
 		<div v-if="props.badge" :class="badgeCls()"></div>
+		<div v-if="$slots.badge" :class="badgeCls(true, true)">
+			<slot name="badge"></slot>
+		</div>
 	</div>
 </template>
 
@@ -72,8 +74,9 @@
 		[c('square')]: props.shape === 'square',
 		[c('loading')]: props.loading,
 	});
-	const badgeCls = () => ({
-		[c('badge')]: true,
+	const badgeCls = (forceBadge = false, isText = false) => ({
+		[c('badge')]: props.badge || forceBadge,
+		[c('badge-text')]: isText,
 		[c(`badge-${props.badgePosition}`)]: true,
 	});
 </script>
