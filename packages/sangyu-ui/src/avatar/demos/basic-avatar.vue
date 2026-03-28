@@ -1,7 +1,9 @@
 <docs>
 ---
-title: SyAvatar的基础用法
+ title: SyAvatar的基础用法
 ---
+
+支持纯文本、图标与图片三种形态，可通过 bgcolor 与 color 调整配色。
 </docs>
 
 <template>

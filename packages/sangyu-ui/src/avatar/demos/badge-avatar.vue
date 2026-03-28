@@ -1,7 +1,9 @@
 <docs>
 ---
-title: SyAvatar的badge用法
+ title: SyAvatar的badge用法
 ---
+
+badge 支持圆点提示或自定义内容，可设置位置、颜色与偏移量。
 </docs>
 
 <template>

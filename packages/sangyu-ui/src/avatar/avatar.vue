@@ -3,11 +3,19 @@
 		<div :class="getAvatarCls()" :style="(props.customStyle, AvatarStyle)">
 			<sy-icon v-if="props.icon" :name="props.icon" :size="props.iconsize" />
 			<template v-if="!props.icon">
-				<img v-if="props.src" :src="props.src" />
-				<template v-if="textSlotFirstChar">
-					{{ textSlotFirstChar }}
+				<img
+					v-if="props.src && !imageFailed"
+					:src="props.src"
+					:class="c('img')"
+					@load="handleImageLoad"
+					@error="handleImageError"
+				/>
+				<template v-if="!props.src || imageFailed">
+					<template v-if="textSlotFirstChar">
+						{{ textSlotFirstChar }}
+					</template>
+					<slot v-else name="text"></slot>
 				</template>
-				<slot v-else name="text"></slot>
 			</template>
 		</div>
 		<div v-if="props.badge" :class="badgeCls()"></div>
@@ -15,7 +23,7 @@
 			<slot name="badge"></slot>
 		</div>
 		<svg
-			v-if="props.loading"
+			v-if="isLoading"
 			:class="c('loading-icon')"
 			width="1em"
 			height="1em"
@@ -41,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, useSlots } from 'vue';
+	import { computed, ref, useSlots, watch } from 'vue';
 	import { getColor, useClassnames } from '@sangyu-ui/utils';
 	import { AvatarProps } from './interface';
 	import { SyIcon } from '@sangyu-ui/icons';
@@ -79,6 +87,26 @@
 	};
 	const { c } = useClassnames('avatar');
 	const slots = useSlots();
+	const imageLoaded = ref(false);
+	const imageFailed = ref(false);
+	const isLoading = computed(() => {
+		return props.loading || (!!props.src && !imageLoaded.value && !imageFailed.value);
+	});
+	const handleImageLoad = () => {
+		imageLoaded.value = true;
+		imageFailed.value = false;
+	};
+	const handleImageError = () => {
+		imageLoaded.value = false;
+		imageFailed.value = true;
+	};
+	watch(
+		() => props.src,
+		() => {
+			imageLoaded.value = false;
+			imageFailed.value = false;
+		},
+	);
 	const textSlotFirstChar = computed(() => {
 		const textSlot = slots.text?.();
 		if (!textSlot || !textSlot.length) return '';
@@ -101,7 +129,7 @@
 		[c()]: true,
 		[c('circle')]: props.shape === 'circle',
 		[c('square')]: props.shape === 'square',
-		[c('loading')]: props.loading,
+		[c('loading')]: isLoading.value,
 	});
 	const badgeCls = (isText = false) => ({
 		[c('badge')]: props.badge,

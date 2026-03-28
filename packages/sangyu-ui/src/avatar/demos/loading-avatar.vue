@@ -3,7 +3,7 @@
  title: SyAvatar的loading用法
 ---
 
-loading 状态会在头像上层显示转圈，并使用浅灰背景提示加载中。
+loading 状态会在头像上层显示转圈，并使用浅灰背景提示加载中，适合图片请求中的占位。
 </docs>
 
 <template>

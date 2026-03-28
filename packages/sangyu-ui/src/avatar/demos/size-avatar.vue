@@ -3,7 +3,7 @@
  title: SyAvatar的size尺寸
 ---
 
-通过 size 控制头像的尺寸，同时同步调整文本字号。
+通过 size 控制头像的尺寸，同时同步调整文本字号，可搭配 shape 与配色组合展示。
 </docs>
 
 <template>
