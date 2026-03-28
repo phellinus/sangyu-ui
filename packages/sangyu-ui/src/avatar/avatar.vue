@@ -16,6 +16,7 @@
 		</div>
 		<svg
 			v-if="props.loading"
+			:class="c('loading-icon')"
 			width="1em"
 			height="1em"
 			viewBox="0 0 48 48"
@@ -70,6 +71,7 @@
 		'--sy-avatar-color': getColor(props.color),
 		'--sy-avatar-bgcolor': getColor(props.bgcolor),
 		'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
+		'--sy-avatar-loading-size': `${Math.max(12, Math.round(props.size * 0.45))}px`,
 	};
 	const AvatarStyle = {
 		width: `${props.size}px`,

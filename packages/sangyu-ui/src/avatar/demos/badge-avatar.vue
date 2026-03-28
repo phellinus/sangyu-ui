@@ -39,8 +39,8 @@ title: SyAvatar的badge用法
 			badge-position="bottom-right"
 			badge-color="warning"
 			src="https://sangyuoj.oss-cn-hangzhou.aliyuncs.com/oj/avatar/312062759d2f4e099eaf79bc9cfdfbad.jpeg"
-			:badge-offset-x="-3"
-			:badge-offset-y="-2"
+			:badge-offset-x="-10"
+			:badge-offset-y="-5"
 		>
 			<template #badge>off</template>
 		</SyAvatar>

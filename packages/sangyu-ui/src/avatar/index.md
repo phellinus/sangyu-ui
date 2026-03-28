@@ -5,3 +5,5 @@
 <demo src="./demos/size-avatar.vue"></demo>
 
 <demo src="./demos/badge-avatar.vue"></demo>
+
+<demo src="./demos/loading-avatar.vue"></demo>
