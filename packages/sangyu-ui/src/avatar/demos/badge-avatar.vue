@@ -28,6 +28,8 @@ title: SyAvatar的badge用法
 			badge-position="bottom-right"
 			badge-color="success"
 			src="https://sangyuoj.oss-cn-hangzhou.aliyuncs.com/oj/avatar/eed4d937295b4264bd13ee8ea716630f.png"
+			:badge-offset-x="-4"
+			:badge-offset-y="-4"
 		>
 			<template #badge>12</template>
 		</SyAvatar>
@@ -37,15 +39,14 @@ title: SyAvatar的badge用法
 			badge-position="bottom-right"
 			badge-color="warning"
 			src="https://sangyuoj.oss-cn-hangzhou.aliyuncs.com/oj/avatar/312062759d2f4e099eaf79bc9cfdfbad.jpeg"
+			:badge-offset-x="-3"
+			:badge-offset-y="-2"
 		>
-			<template #badge>
-				<SyIcon name="aim" size="22"></SyIcon>
-			</template>
+			<template #badge>off</template>
 		</SyAvatar>
 	</div>
 </template>
 
 <script lang="ts" setup>
-	import { SyIcon } from '@sangyu-ui/icons';
 	import { SyAvatar } from 'sangyu-ui';
 </script>

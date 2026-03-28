@@ -11,7 +11,7 @@
 			</template>
 		</div>
 		<div v-if="props.badge" :class="badgeCls()"></div>
-		<div v-if="$slots.badge" :class="badgeCls(true, true)">
+		<div v-if="$slots.badge" :class="badgeCls(true)">
 			<slot name="badge"></slot>
 		</div>
 	</div>
@@ -37,9 +37,13 @@
 		badge: false,
 		badgePosition: 'bottom-right',
 		badgeColor: 'primary',
+		badgeOffsetX: 0,
+		badgeOffsetY: 0,
 	});
 	const wraperStyle = {
 		'--sy-badge-color': getColor(props.badgeColor),
+		'--sy-badge-offset-x': `${props.badgeOffsetX}px`,
+		'--sy-badge-offset-y': `${props.badgeOffsetY}px`,
 		'--sy-avatar-color': getColor(props.color),
 		'--sy-avatar-bgcolor': getColor(props.bgcolor),
 		'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
@@ -74,8 +78,8 @@
 		[c('square')]: props.shape === 'square',
 		[c('loading')]: props.loading,
 	});
-	const badgeCls = (forceBadge = false, isText = false) => ({
-		[c('badge')]: props.badge || forceBadge,
+	const badgeCls = (isText = false) => ({
+		[c('badge')]: props.badge,
 		[c('badge-text')]: isText,
 		[c(`badge-${props.badgePosition}`)]: true,
 	});

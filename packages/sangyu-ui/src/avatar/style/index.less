@@ -41,36 +41,43 @@
         z-index: 2;
 
         &-text {
-            min-width: 18px;
-            height: 18px;
+            position: absolute;
+            min-width: 12px;
+            height: 14px;
             padding: 0 6px;
             color: #fff;
-            border-radius: 29px;
+            border: 1px solid #fff;
+            background-color: var(--sy-badge-color, #e74c3c);
+            border-radius: 9px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 11px;
             line-height: 1;
+
+            .sy-icon {
+                font-size: inherit;
+            }
         }
 
         &-bottom-right {
-            right: 0;
-            bottom: 0;
+            right: var(--sy-badge-offset-x, 0px);
+            bottom: var(--sy-badge-offset-y, 0px);
         }
 
         &-top-right {
-            right: 0;
-            top: 0;
+            right: var(--sy-badge-offset-x, 0px);
+            top: var(--sy-badge-offset-y, 0px);
         }
 
         &-top-left {
-            left: 0;
-            top: 0;
+            left: var(--sy-badge-offset-x, 0px);
+            top: var(--sy-badge-offset-y, 0px);
         }
 
         &-bottom-left {
-            left: 0;
-            bottom: 0;
+            left: var(--sy-badge-offset-x, 0px);
+            bottom: var(--sy-badge-offset-y, 0px);
         }
     }
 
