@@ -1,18 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@sangyu-ui/utils": [
-        "packages/utils/src"
+        "./packages/utils/src"
       ],
       "@sangyu-ui/icons": [
-        "packages/icons/src"
+        "./packages/icons/src"
       ],
       "sangyu-ui":[
-        "packages/sangyu-ui/src"
+        "./packages/sangyu-ui/src"
       ],
       "sangyu-ui/*":[
-        "packages/sangyu-ui/src/*"
+        "./packages/sangyu-ui/src/*"
       ]
     }
   },
