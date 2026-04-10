@@ -2,9 +2,10 @@ import { App } from 'vue';
 import SyStep from './step';
 import SySteps from './steps';
 
-(SyStep as any).install = (app: App) => {
-	app.component(SyStep.name, SyStep);
-	app.component(SySteps.name, SySteps);
+(SySteps as any).install = (app: App) => {
+	app.component(SyStep.name || 'SyStep', SyStep);
+	app.component(SySteps.name || 'SySteps', SySteps);
 };
 
-export default SyStep;
+export { SyStep, SySteps };
+export default SySteps;

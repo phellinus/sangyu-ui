@@ -1,17 +1,16 @@
 {
-    "extends":["../../tsconfig.json"],
-    "compilerOptions": {
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "jsxImportSource": "vue",
-        "jsx": "preserve",
-    },
-    "include": [
-        "src/**/*.d.ts",
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.vue", 
-        "src/index.ts", 
-        "src/components.ts"
-    ]
+	"extends": ["../../tsconfig.json"],
+	"compilerOptions": {
+		"target": "ES2023",
+		"lib": ["ES2023", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"skipLibCheck": true,
+		"types": ["vite/client"],
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"jsxImportSource": "vue",
+		"jsx": "preserve"
+	},
+	"include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/index.ts", "src/components.ts"]
 }
