@@ -8,3 +8,5 @@ export { default as SyTag } from './tag';
 export { default as SyBreadCrumb } from './breadcrumb';
 export { default as SyMenu } from './menu';
 export { default as SyAvatar } from './avatar';
+export { default as SySteps } from './step';
+export { default as SyStep } from './step/step';
