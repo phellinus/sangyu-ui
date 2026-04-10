@@ -18,3 +18,5 @@ import './breadcrumb/style/index.less';
 import './menu/style/index.less';
 // Avatar
 import './avatar/style/index.less';
+// Steps
+import './step/style/index.less';
