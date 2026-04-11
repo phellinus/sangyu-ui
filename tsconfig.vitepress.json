@@ -9,8 +9,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "jsxImportSource": "vue",
-    "jsx": "preserve",
-    "allowImportingTsExtensions": true
+    "jsx": "preserve"
   },
   "include": [
     ".vitepress/**/*.d.ts",
