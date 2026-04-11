@@ -10,3 +10,4 @@ export { default as SyMenu } from './menu';
 export { default as SyAvatar } from './avatar';
 export { default as SySteps } from './step';
 export { default as SyStep } from './step/step';
+export { default as SyProgress } from './progress';

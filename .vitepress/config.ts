@@ -64,9 +64,13 @@ export default defineConfig({
                     text: 'SyAvatar 头像',
                     link: '/components/avatar/'
                 },
-                 {
+                {
                     text: 'SyStep 步骤',
                     link: '/components/step/'
+                },
+                {
+                    text: 'SyProgress 进度条',
+                    link: '/components/progress/'
                 }
 			],
 			'/utils/': [
