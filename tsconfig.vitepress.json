@@ -1,10 +1,27 @@
 {
-    "extends":"./tsconfig.json",
-    "include": [
-        ".vitepress/**/*.ts",
-        ".vitepress/**/*.vue",
-        ".vitepress/**/*.js",
-        ".vitepress/**/*.tsx",
-        "packages/**/demos/*.vue"
-    ]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "jsxImportSource": "vue",
+    "jsx": "preserve",
+    "allowImportingTsExtensions": true
+  },
+  "include": [
+    ".vitepress/**/*.d.ts",
+    ".vitepress/**/*.ts",
+    ".vitepress/**/*.vue",
+    ".vitepress/**/*.js",
+    ".vitepress/**/*.tsx",
+    "packages/**/src/**/*.d.ts",
+    "packages/**/src/**/*.ts",
+    "packages/**/src/**/*.tsx",
+    "packages/**/src/**/*.vue",
+    "packages/**/demos/**/*.vue"
+  ]
 }

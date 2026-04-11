@@ -5,7 +5,7 @@ import DefaultTheme from 'vitepress/theme'
 import './style.css'
 import { AntdTheme } from 'vite-plugin-vitepress-demo/theme'
 import sangyu from "sangyu-ui" 
-import 'sangyu-ui/style.ts'
+import 'sangyu-ui/style'
 export default {
   extends: DefaultTheme,
   Layout: () => {
