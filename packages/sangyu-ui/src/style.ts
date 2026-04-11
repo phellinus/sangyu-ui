@@ -20,3 +20,5 @@ import './menu/style/index.less';
 import './avatar/style/index.less';
 // Steps
 import './step/style/index.less';
+// Progress
+import './progress/style/index.less';
