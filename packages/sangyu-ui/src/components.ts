@@ -11,3 +11,4 @@ export { default as SyAvatar } from './avatar';
 export { default as SySteps } from './step';
 export { default as SyStep } from './step/step';
 export { default as SyProgress } from './progress';
+export { default as SyDivider } from './divider';

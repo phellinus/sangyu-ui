@@ -22,3 +22,5 @@ import './avatar/style/index.less';
 import './step/style/index.less';
 // Progress
 import './progress/style/index.less';
+// divider
+import './divider/style/index.less';

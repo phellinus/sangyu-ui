@@ -71,6 +71,10 @@ export default defineConfig({
                 {
                     text: 'SyProgress 进度条',
                     link: '/components/progress/'
+                },
+                {
+                    text: 'SyDivider 分割线',
+                    link: '/components/divider/'
                 }
 			],
 			'/utils/': [
