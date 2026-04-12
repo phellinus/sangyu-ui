@@ -1,0 +1,78 @@
+.sy-divider {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+	color: #6d7680;
+
+	&-horizontal {
+		min-width: 0;
+	}
+
+	&-vertical {
+		display: inline-flex;
+		align-self: stretch;
+		width: auto;
+		min-height: 1em;
+		border-left: var(--sy-divider-thickness) solid var(--sy-divider-color);
+		opacity: 0.95;
+	}
+
+	&-line {
+		display: block;
+		min-width: 0;
+		border-top-width: var(--sy-divider-thickness);
+		border-top-style: solid;
+		border-top-color: var(--sy-divider-color);
+		opacity: 0.95;
+	}
+
+	&-line-full,
+	&-line-end {
+		flex: 1 1 auto;
+	}
+
+	&-line-start {
+		flex: 1 1 auto;
+	}
+
+	&-with-content {
+		gap: 16px;
+	}
+
+	&-left &-line-start {
+		flex: 0 0 72px;
+	}
+
+	&-right &-line-end {
+		flex: 0 0 72px;
+	}
+
+	&-content {
+		position: relative;
+		flex: 0 0 auto;
+		max-width: 46%;
+		padding: 0 2px;
+		font-size: 13px;
+		line-height: 1.4;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		color: #78818a;
+		white-space: nowrap;
+	}
+
+	&-dashed &-line,
+	&-vertical.sy-divider-dashed {
+		border-style: dashed;
+	}
+
+	&-dotted &-line,
+	&-vertical.sy-divider-dotted {
+		border-style: dotted;
+	}
+
+	&-thick&-horizontal &-content {
+		color: #626b75;
+	}
+}
