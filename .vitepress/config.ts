@@ -75,6 +75,10 @@ export default defineConfig({
                 {
                     text: 'SyDivider 分割线',
                     link: '/components/divider/'
+                },
+                {
+                    text: 'SyResult 结果',
+                    link: '/components/result/'
                 }
 			],
 			'/utils/': [
