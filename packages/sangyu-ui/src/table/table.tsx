@@ -1,4 +1,4 @@
-import { defineComponent, isVNode } from 'vue';
+import { defineComponent, isVNode, PropType } from 'vue';
 import { ColumnType, TableProps } from './interface';
 import { Header } from './header';
 import { Body } from './body';
@@ -14,8 +14,22 @@ type InternalColumn = ColumnType & {
 	__fixedLeft?: number;
 };
 
-export default defineComponent(
-	(props: TableProps, { slots }) => {
+export default defineComponent({
+	name: 'SyTable',
+	props: {
+		columns: {
+			type: Array as PropType<TableProps['columns']>,
+			default: () => [],
+		},
+		data: {
+			type: Array as PropType<TableProps['data']>,
+			default: () => [],
+		},
+		height: {
+			type: [Number, String] as PropType<TableProps['height']>,
+		},
+	},
+	setup(props, { slots }) {
 		const { c, cm } = useClassnames('table');
 		return () => {
 			const { columns, data, height } = props;
@@ -79,7 +93,4 @@ export default defineComponent(
 			);
 		};
 	},
-	{
-		name: 'SyTable',
-	},
-);
+});

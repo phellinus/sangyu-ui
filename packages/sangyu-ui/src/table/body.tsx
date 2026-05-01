@@ -1,9 +1,19 @@
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { BodyProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
-export const Body = defineComponent<BodyProps>({
+export const Body = defineComponent({
 	name: 'Body',
+	props: {
+		columns: {
+			type: Array as PropType<BodyProps['columns']>,
+			default: () => [],
+		},
+		data: {
+			type: Array as PropType<BodyProps['data']>,
+			default: () => [],
+		},
+	},
 	setup(props = { columns: [], data: [] }) {
 		const { c, cm } = useClassnames('table');
 		return () => {

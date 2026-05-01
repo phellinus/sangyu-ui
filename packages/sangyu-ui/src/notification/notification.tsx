@@ -1,11 +1,15 @@
-import { defineComponent, onMounted, ref, TransitionGroup } from 'vue';
+import { defineComponent, onMounted, PropType, ref, TransitionGroup } from 'vue';
 import { NotificationConfig, NotificationConfigType, NotificationInstance } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
-export default defineComponent<{
-	onReady: (instance: NotificationInstance) => void;
-}>({
+export default defineComponent({
 	name: 'SyNotification',
+	props: {
+		onReady: {
+			type: Function as PropType<(instance: NotificationInstance) => void>,
+			required: true,
+		},
+	},
 	setup(props, { expose }) {
 		const data = ref<NotificationConfigType[]>([]);
 		let index = 0;

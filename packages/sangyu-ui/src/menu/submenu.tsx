@@ -1,11 +1,46 @@
-import { defineComponent, inject, provide, Ref } from 'vue';
+import { defineComponent, inject, PropType, provide, Ref } from 'vue';
 import { SubMenuProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 import { symenuKey } from './menu';
 import { SyIcon } from '@sangyu-ui/icons';
 
-export default defineComponent(
-	(props: SubMenuProps, { slots }) => {
+export default defineComponent({
+	name: 'SySubMenu',
+	props: {
+		index: {
+			type: String as PropType<SubMenuProps['index']>,
+			default: '',
+		},
+		title: {
+			type: String as PropType<SubMenuProps['title']>,
+			default: '',
+		},
+		className: {
+			type: String as PropType<SubMenuProps['className']>,
+			default: '',
+		},
+		customStyle: {
+			type: String as PropType<SubMenuProps['customStyle']>,
+			default: '',
+		},
+		disabled: {
+			type: Boolean as PropType<SubMenuProps['disabled']>,
+			default: false,
+		},
+		id: {
+			type: String as PropType<SubMenuProps['id']>,
+			default: '',
+		},
+		icon: {
+			type: String as PropType<SubMenuProps['icon']>,
+			default: '',
+		},
+		onlyExpand: {
+			type: Boolean as PropType<SubMenuProps['onlyExpand']>,
+			default: false,
+		},
+	},
+	setup(props, { slots }) {
 		const menuContext = inject<{
 			mode: string;
 			expand?: Ref<boolean>;
@@ -121,7 +156,4 @@ export default defineComponent(
 			);
 		};
 	},
-	{
-		name: 'SySubMenu',
-	},
-);
+});

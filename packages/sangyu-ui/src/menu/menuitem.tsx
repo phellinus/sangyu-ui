@@ -1,11 +1,45 @@
-import { defineComponent, inject, Ref } from 'vue';
+import { defineComponent, inject, PropType, Ref } from 'vue';
 import { MenuItemProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 import { symenuKey } from './menu';
 import { SyIcon } from '@sangyu-ui/icons';
 
-export default defineComponent(
-	(props: MenuItemProps, { slots }) => {
+export default defineComponent({
+	name: 'SyMenuItem',
+	props: {
+		index: {
+			type: String as PropType<MenuItemProps['index']>,
+		},
+		disabled: {
+			type: Boolean as PropType<MenuItemProps['disabled']>,
+			default: false,
+		},
+		customStyle: {
+			type: String as PropType<MenuItemProps['customStyle']>,
+			default: '',
+		},
+		id: {
+			type: String as PropType<MenuItemProps['id']>,
+			default: '',
+		},
+		icon: {
+			type: String as PropType<MenuItemProps['icon']>,
+			default: '',
+		},
+		iconPosition: {
+			type: String as PropType<MenuItemProps['iconPosition']>,
+			default: 'left',
+		},
+		pure: {
+			type: Boolean as PropType<MenuItemProps['pure']>,
+			default: false,
+		},
+		to: {
+			type: String as PropType<MenuItemProps['to']>,
+			default: '',
+		},
+	},
+	setup(props, { slots }) {
 		const menuContext = inject<{
 			mode: string;
 			defaultIndex: string;
@@ -43,7 +77,4 @@ export default defineComponent(
 			);
 		};
 	},
-	{
-		name: 'SyMenuItem',
-	},
-);
+});

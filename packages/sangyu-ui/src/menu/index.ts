@@ -5,8 +5,8 @@ import SySubMenu from './submenu';
 
 (SyMenu as any).install = (app: App) => {
 	app.component(SyMenu.name || 'SyMenu', SyMenu);
-	app.component(SyMenuItem.name, SyMenuItem);
-	app.component(SySubMenu.name, SySubMenu);
+	app.component(SyMenuItem.name || 'SyMenuItem', SyMenuItem);
+	app.component(SySubMenu.name || 'SySubMenu', SySubMenu);
 };
 
 export default SyMenu;

@@ -1,9 +1,19 @@
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { HeaderProps } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
 
-export const Header = defineComponent<HeaderProps>({
+export const Header = defineComponent({
 	name: 'Header',
+	props: {
+		columns: {
+			type: Array as PropType<HeaderProps['columns']>,
+			default: () => [],
+		},
+		fixedHeader: {
+			type: Boolean as PropType<HeaderProps['fixedHeader']>,
+			default: false,
+		},
+	},
 	setup(props) {
 		const { c, cm } = useClassnames('table');
 		return () => {

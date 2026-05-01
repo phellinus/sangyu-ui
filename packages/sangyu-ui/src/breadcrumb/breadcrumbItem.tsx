@@ -1,10 +1,25 @@
-import { defineComponent, inject } from 'vue';
+import { defineComponent, inject, PropType } from 'vue';
 import { BreadcrumbItemProps } from './interface';
 import { breadcrumbKey } from './breadcrumb';
 import { SyIcon } from '@sangyu-ui/icons';
 
-export default defineComponent(
-	(props: BreadcrumbItemProps, { slots }) => {
+export default defineComponent({
+	name: 'SyBreadcrumbItem',
+	props: {
+		to: {
+			type: String as PropType<BreadcrumbItemProps['to']>,
+			default: '',
+		},
+		index: {
+			type: Number as PropType<BreadcrumbItemProps['index']>,
+			default: 0,
+		},
+		total: {
+			type: Number as PropType<BreadcrumbItemProps['total']>,
+			default: 0,
+		},
+	},
+	setup(props, { slots }) {
 		const breadcrumbContext = inject<{
 			separator: string;
 			separatorIcon: string;
@@ -47,7 +62,4 @@ export default defineComponent(
 			);
 		};
 	},
-	{
-		name: 'SyBreadcrumbItem',
-	},
-);
+});
