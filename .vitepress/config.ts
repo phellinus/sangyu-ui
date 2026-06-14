@@ -79,6 +79,10 @@ export default defineConfig({
                 {
                     text: 'SyResult 结果',
                     link: '/components/result/'
+                },
+                {
+                    text: 'SyRadio 单选框',
+                    link: '/components/radio'
                 }
 			],
 			'/utils/': [

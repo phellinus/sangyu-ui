@@ -26,3 +26,5 @@ import './progress/style/index.less';
 import './divider/style/index.less';
 // result
 import './result/style/index.less';
+// radio
+import './radio/style/index.less';
