@@ -40,10 +40,7 @@ export default defineComponent({
 			type: Function as PropType<RadioProps['onChange']>,
 		},
 	},
-	emits: {
-		'update:modelValue': (val: string | number | boolean) => true,
-		change: (val: string | number | boolean) => true,
-	},
+	emits: ['update:modelValue', 'change'],
 	setup(props, { slots }) {
 		return () => {
 			return (
