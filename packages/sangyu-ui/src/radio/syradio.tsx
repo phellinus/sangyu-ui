@@ -1,5 +1,6 @@
-import { defineComponent, PropType } from 'vue';
-import { RadioProps, RadioShape, RadioSize } from './interface';
+import { computed, defineComponent, inject, PropType } from 'vue';
+import { radioGroupKey, RadioProps, RadioShape, RadioSize } from './interface';
+import { useClassnames } from '@sangyu-ui/utils';
 
 export default defineComponent({
 	name: 'SyRadio',
@@ -41,11 +42,56 @@ export default defineComponent({
 		},
 	},
 	emits: ['update:modelValue', 'change'],
-	setup(props, { slots }) {
+	setup(props, { slots, emit }) {
+		const groupContext = inject(radioGroupKey, null);
+		const { c } = useClassnames('radio');
+
+		const isInGroup = computed(() => !!groupContext);
+		const mergedDisabled = computed(() => props.disabled || !!groupContext?.disabled.value);
+		const mergedSize = computed(() => groupContext?.size.value || props.size);
+		const mergedName = computed(() => groupContext?.name.value || props.name);
+
+		const checked = computed(() => {
+			if (groupContext) {
+				return groupContext.value.value === props.label;
+			}
+			return props.modelValue;
+		});
+
+		const handleChange = () => {
+			if (mergedDisabled.value) {
+				return;
+			}
+
+			if (groupContext) {
+				if (checked.value || props.label === undefined) {
+					return;
+				}
+				groupContext.onChange(props.label, { label: props.label });
+				return;
+			}
+
+			const next = true;
+			if (props.modelValue === next) {
+				return;
+			}
+			emit('update:modelValue', next);
+			emit('change', next, props.label);
+			props.onChange?.(next, props.label);
+		};
+
+		const radioCls = computed(() => ({
+			[c()]: true,
+			[c(props.shape)]: true,
+			[c(mergedSize.value)]: true,
+			[c('checked')]: checked.value,
+			[c('disabled')]: mergedDisabled.value,
+			[c('grouped')]: isInGroup.value,
+		}));
 		return () => {
 			return (
 				<>
-					<label>123</label>
+					<label class={radioCls.value} style={props.customStyle}></label>
 				</>
 			);
 		};
