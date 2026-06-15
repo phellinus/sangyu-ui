@@ -1,0 +1,40 @@
+.sy-radio {
+	--sy-radio-size: 16px;
+	--sy-radio-dot-size: 8px;
+	--sy-radio-font-size: 14px;
+	--sy-radio-gap: 8px;
+	--sy-radio-border-radius: 50%;
+
+    position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sy-radio-gap);
+	font-size: var(--sy-radio-font-size);
+	color: var(--sy-color-text);
+	cursor: pointer;
+	user-select: none;
+	transition: color 0.2s ease;
+
+    &-small {
+		--sy-radio-size: 14px;
+		--sy-radio-dot-size: 6px;
+		--sy-radio-font-size: 12px;
+		--sy-radio-gap: 6px;
+	}
+
+	&-large {
+		--sy-radio-size: 18px;
+		--sy-radio-dot-size: 10px;
+		--sy-radio-font-size: 16px;
+		--sy-radio-gap: 10px;
+	}
+
+	&-square {
+		--sy-radio-border-radius: 4px;
+	}
+    
+    &__label {
+		line-height: 1.45;
+		color: inherit;
+	}
+}

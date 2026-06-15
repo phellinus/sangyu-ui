@@ -89,9 +89,26 @@ export default defineComponent({
 			[c('grouped')]: isInGroup.value,
 		}));
 		return () => {
+			const contentNode = slots.default?.() ?? props.content;
+
 			return (
 				<>
-					<label class={radioCls.value} style={props.customStyle}></label>
+					<label class={radioCls.value} style={props.customStyle}>
+						<input
+							class={c('input')}
+							type='radio'
+							checked={checked.value}
+							disabled={mergedDisabled.value}
+							name={mergedName.value}
+							onChange={handleChange}
+						/>
+						<span class={c('icon')} aria-hidden='true'>
+							<span class={c('inner')}></span>
+						</span>
+						{contentNode !== undefined && contentNode !== '' && (
+							<span class={c('label')}>{contentNode}</span>
+						)}
+					</label>
 				</>
 			);
 		};
