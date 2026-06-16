@@ -82,7 +82,7 @@ export default defineConfig({
                 },
                 {
                     text: 'SyRadio 单选框',
-                    link: '/components/radio'
+                    link: '/components/radio/'
                 }
 			],
 			'/utils/': [
