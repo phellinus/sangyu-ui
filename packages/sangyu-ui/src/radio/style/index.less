@@ -104,3 +104,88 @@
 		border-color: var(--sy-color-border);
 	}
 }
+.sy-radio-button {
+	--sy-radio-button-font-size: 14px;
+	--sy-radio-button-height: 36px;
+	--sy-radio-button-padding-x: 16px;
+	--sy-radio-button-radius: 10px;
+
+	position: relative;
+	display: inline-flex;
+	cursor: pointer;
+	user-select: none;
+
+		&-small {
+		--sy-radio-button-font-size: 12px;
+		--sy-radio-button-height: 26px;
+		--sy-radio-button-padding-x: 10px;
+		--sy-radio-button-radius: 8px;
+	}
+
+	&-large {
+		--sy-radio-button-font-size: 18px;
+		--sy-radio-button-height: 48px;
+		--sy-radio-button-padding-x: 24px;
+		--sy-radio-button-radius: 14px;
+	}
+
+	&-inner {
+		height: var(--sy-radio-button-height);
+		padding: 0 var(--sy-radio-button-padding-x);
+		font-size: var(--sy-radio-button-font-size);
+	}
+	&-input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&-inner {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: var(--sy-radio-button-height);
+		padding: 0 var(--sy-radio-button-padding-x);
+		border: 1px solid var(--sy-color-border);
+		border-radius: var(--sy-radio-button-radius);
+		background-color: #fff;
+		color: var(--sy-color-text);
+		font-size: var(--sy-radio-button-font-size);
+		line-height: 1;
+		white-space: nowrap;
+		box-sizing: border-box;
+		transition:
+			border-color 0.2s ease,
+			background-color 0.2s ease,
+			color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	&:hover &-inner {
+		border-color: var(--sy-color-primary-hover);
+		color: var(--sy-color-primary-active);
+	}
+
+	&-checked &-inner {
+		border-color: var(--sy-color-primary);
+		background-color: var(--sy-color-primary-select);
+		color: var(--sy-color-primary-active);
+		box-shadow: 0 6px 12px rgba(22, 119, 255, 0.12);
+	}
+
+	&-disabled {
+		cursor: not-allowed;
+	}
+
+	&-disabled &-inner {
+		border-color: var(--sy-color-border);
+		background-color: var(--sy-color-bg);
+		color: var(--sy-color-text-disabled);
+		box-shadow: none;
+	}
+
+	&-disabled:hover &-inner {
+		border-color: var(--sy-color-border);
+		color: var(--sy-color-text-disabled);
+	}
+}
