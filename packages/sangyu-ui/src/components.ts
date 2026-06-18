@@ -15,3 +15,4 @@ export { default as SyDivider } from './divider';
 export { default as SyResult } from './result';
 export { default as SyRadio } from './radio';
 export { SyRadioButton } from './radio';
+export { SyRadioGroup } from './radio';
