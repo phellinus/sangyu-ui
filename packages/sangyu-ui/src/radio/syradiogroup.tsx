@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType, provide, toRef } from 'vue';
-import { RadioGroupDirection, radioGroupKey, RadioGroupProps, RadioSize } from './interface';
 import { useClassnames } from '@sangyu-ui/utils';
+import { RadioGroupDirection, RadioGroupProps, radioGroupKey, RadioSize } from './interface';
 
 export default defineComponent({
 	name: 'SyRadioGroup',
@@ -41,6 +41,7 @@ export default defineComponent({
 			if (props.modelValue === value) {
 				return;
 			}
+
 			emit('update:modelValue', value);
 			emit('change', value, option);
 			props.onChange?.(value, option);
@@ -62,10 +63,10 @@ export default defineComponent({
 			[c('disabled')]: props.disabled,
 		}));
 
-		return () => {
+		return () => (
 			<div class={groupCls.value} style={props.customStyle} role='radiogroup'>
 				{slots.default?.()}
-			</div>;
-		};
+			</div>
+		);
 	},
 });
