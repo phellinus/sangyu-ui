@@ -1,38 +1,39 @@
 <docs>
 ---
-title: SyRadio 的基础用法
+title: SyRadioButton 按钮风格
 ---
 
-通过设置 `size` 可以设置不同尺寸的 `SyRadio`，通过设置 `shape` 可以设置不同形状的 `SyRadio`
+`SyRadioButton` 更适合和 `SyRadioGroup` 组合使用，常见于筛选和模式切换。
 </docs>
 
 <template>
-	<div>
-		<div class="radio-inline">
-			<sy-radio-button v-model="value" size="small" label="1">Option 1</sy-radio-button>
-			<sy-radio-button v-model="value" label="1">Option 1</sy-radio-button>
-			<sy-radio-button v-model="value" size="large" label="1">Option 1</sy-radio-button>
-		</div>
-		<div class="radio-inline">
-			<sy-radio-button v-model="value2" label="1" size="small" shape="square">Option 4</sy-radio-button>
-			<sy-radio-button v-model="value2" label="1" shape="square">Option 5</sy-radio-button>
-			<sy-radio-button v-model="value2" label="1" size="large" shape="square">Option 6</sy-radio-button>
-		</div>
+	<div class="demo-stack">
+		<sy-radio-group v-model="deliveryType">
+			<sy-radio-button label="standard">标准配送</sy-radio-button>
+			<sy-radio-button label="express">加急配送</sy-radio-button>
+			<sy-radio-button label="pickup">门店自提</sy-radio-button>
+		</sy-radio-group>
+
+		<div class="current-value">当前值: {{ deliveryType }}</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-	import { SyRadioButton } from 'sangyu-ui';
+	import { SyRadioButton, SyRadioGroup } from 'sangyu-ui';
 	import { ref } from 'vue';
 
-	const value = ref(false);
-	const value2 = ref(false);
+	const deliveryType = ref('express');
 </script>
 
 <style scoped>
-	.radio-inline {
-		margin: 10px;
+	.demo-stack {
 		display: flex;
-		gap: 16px;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.current-value {
+		color: var(--sy-color-text-secondary);
+		font-size: 14px;
 	}
 </style>
