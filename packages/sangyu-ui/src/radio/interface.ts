@@ -38,4 +38,13 @@ export interface RadioButtonProps {
 	customStyle?: string;
 	onChange?: (checked: boolean, label?: string | number | boolean) => void;
 }
+export interface RadioGroupProps {
+	modelValue?: string | number | boolean;
+	disabled?: boolean;
+	name?: string;
+	size?: RadioSize;
+	direction?: RadioGroupDirection;
+	customStyle?: string;
+	onChange?: (value: string | number | boolean, option: RadioOptionInfo) => void;
+}
 export const radioGroupKey = Symbol('radioGroupKey') as InjectionKey<RadioGroupContext>;
