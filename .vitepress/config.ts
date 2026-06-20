@@ -83,6 +83,10 @@ export default defineConfig({
                 {
                     text: 'SyRadio 单选框',
                     link: '/components/radio/'
+                },
+                {
+                    text: 'SyCheckbox 多选框',
+                    link: '/components/checkbox/'
                 }
 			],
 			'/utils/': [

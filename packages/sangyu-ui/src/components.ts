@@ -16,3 +16,4 @@ export { default as SyResult } from './result';
 export { default as SyRadio } from './radio';
 export { SyRadioButton } from './radio';
 export { SyRadioGroup } from './radio';
+export { default as SyCheckbox } from './checkbox';

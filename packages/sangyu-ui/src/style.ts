@@ -28,3 +28,5 @@ import './divider/style/index.less';
 import './result/style/index.less';
 // radio
 import './radio/style/index.less';
+// checkbox
+import './checkbox/style/index.less';
