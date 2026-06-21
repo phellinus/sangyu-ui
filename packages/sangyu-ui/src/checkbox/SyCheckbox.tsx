@@ -83,13 +83,17 @@ export default defineComponent({
 						onChange={state.handleChange}
 					/>
 					<span class={c('control')} aria-hidden='true'>
-						{props.loading ? (
-							<span class={c('spinner')} />
-						) : slots.icon ? (
-							slots.icon({ checked: state.checked.value, indeterminate: props.indeterminate })
-						) : (
-							<span class={c(props.indeterminate ? 'mixed-mark' : 'check-mark')} />
-						)}
+						<span class={c('border-wave')} />
+						<span class={c('selected-bg')} />
+						<span class={c('icon')}>
+							{props.loading ? (
+								<span class={c('spinner')} />
+							) : slots.icon ? (
+								slots.icon({ checked: state.checked.value, indeterminate: props.indeterminate })
+							) : (
+								<span class={c(props.indeterminate ? 'mixed-mark' : 'check-mark')} />
+							)}
+						</span>
 					</span>
 					{label !== undefined && label !== '' && <span class={c('label')}>{label}</span>}
 				</label>

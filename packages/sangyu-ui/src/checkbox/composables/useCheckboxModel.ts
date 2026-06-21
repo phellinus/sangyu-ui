@@ -12,7 +12,7 @@ import { isEqual } from 'lodash-es';
 export function useCheckboxModel(props: Readonly<CheckboxProps>, emit: CheckboxEmits) {
 	const group = inject(checkboxGroupKey, null);
 	const optionValue = computed<CheckboxValue>(() => props.value ?? true);
-	const trueValue = computed<CheckboxValue>(() => props.value ?? true);
+	const trueValue = computed<CheckboxValue>(() => props.trueValue ?? true);
 	const falseValue = computed<CheckboxValue>(() => props.falseValue ?? false);
 
 	//Group 和数组模式通过成员关系判断选中；单值模式与 trueValue 比较。
