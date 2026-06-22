@@ -1,6 +1,11 @@
 # SyCheckbox 多选框
 
-`SyCheckbox` 用于标记一个或多个可同时成立的选项，适合协议确认、功能配置、批量筛选和任务状态等场景。组件支持布尔值、自定义真假值和数组三种绑定方式，并内置选中缩放与边框扩散动效。
+Checkbox 用于标记一个或多个可同时成立的选项，适合协议确认、功能配置、批量筛选和任务状态等场景：
+
+- `SyCheckbox`：基础多选框，支持布尔值、自定义真假值和数组绑定
+- `SyCheckboxGroup`：统一维护选中值、排列方向、尺寸、禁用状态和数量限制
+
+组件内置选中背景缩放与边框扩散动效，并尊重系统的“减少动态效果”设置。
 
 ## 基础用法
 
@@ -17,6 +22,18 @@
 ## 自定义值与数组绑定
 
 <demo src="./demos/value-checkbox.vue"></demo>
+
+## 多选框组
+
+<demo src="./demos/group-checkbox.vue"></demo>
+
+## 分组排列与尺寸
+
+<demo src="./demos/group-layout-checkbox.vue"></demo>
+
+## 数量限制与禁用
+
+<demo src="./demos/group-limit-checkbox.vue"></demo>
 
 ## 标签与外观
 
@@ -47,25 +64,40 @@
 
 `CheckboxValue` 为 `string | number | boolean | Record<string, unknown>`。
 
+### SyCheckboxGroup Props
+
+| 属性名               | 类型                              | 说明                             | 默认值         |
+| -------------------- | --------------------------------- | -------------------------------- | -------------- |
+| modelValue / v-model | `CheckboxValue[]`                 | 当前已选值数组                   | `[]`           |
+| disabled             | `boolean`                         | 是否禁用组内全部复选框           | `false`        |
+| min                  | `number`                          | 最少必须保留的选中数量           | `undefined`    |
+| max                  | `number`                          | 最多允许选中的数量               | `undefined`    |
+| size                 | `'small' \| 'default' \| 'large'` | 统一设置子项尺寸                 | `'default'`    |
+| direction            | `'horizontal' \| 'vertical'`      | 组内选项的排列方向               | `'horizontal'` |
+| name                 | `string`                          | 传递给子项原生 `input` 的 `name` | `''`           |
+| customStyle          | `string \| CSSProperties`         | Group 根元素的自定义内联样式     | `undefined`    |
+
 ### Events
 
-| 事件名            | 回调参数                                        | 说明                                 |
-| ----------------- | ----------------------------------------------- | ------------------------------------ |
-| update:modelValue | `(value: CheckboxModelValue)`                   | 有效交互后更新绑定值                 |
-| change            | `(value: CheckboxModelValue, checked: boolean)` | 值发生变化时触发，并返回最终选中状态 |
+| 组件              | 事件名            | 回调参数                                        | 说明                                 |
+| ----------------- | ----------------- | ----------------------------------------------- | ------------------------------------ |
+| `SyCheckbox`      | update:modelValue | `(value: CheckboxModelValue)`                   | 有效交互后更新绑定值                 |
+| `SyCheckbox`      | change            | `(value: CheckboxModelValue, checked: boolean)` | 值发生变化时触发，并返回最终选中状态 |
+| `SyCheckboxGroup` | update:modelValue | `(value: CheckboxValue[])`                      | 有效交互后更新完整的已选值数组       |
+| `SyCheckboxGroup` | change            | `(value: CheckboxValue[])`                      | 已选值变化时触发                     |
 
 ### Slots
 
-| 插槽名  | 参数                         | 说明               |
-| ------- | ---------------------------- | ------------------ |
-| default | -                            | 自定义标签内容     |
-| icon    | `{ checked, indeterminate }` | 自定义选中区域图标 |
+| 组件              | 插槽名  | 参数                         | 说明                   |
+| ----------------- | ------- | ---------------------------- | ---------------------- |
+| `SyCheckbox`      | default | -                            | 自定义标签内容         |
+| `SyCheckbox`      | icon    | `{ checked, indeterminate }` | 自定义选中区域图标     |
+| `SyCheckboxGroup` | default | -                            | 放置 `SyCheckbox` 子项 |
 
 ### 使用建议
 
-- 一组可同时选择的选项可直接绑定同一个数组，并为每项设置唯一 `value`
+- 少量选项可以直接绑定同一个数组；需要统一配置时优先使用 `SyCheckboxGroup`
 - 存在“部分子项已选”的父级选项时使用 `indeterminate`，并由业务逻辑同步其绑定值
 - 异步提交期间使用 `loading`，避免用户重复切换
-- 多选项存在统一禁用、尺寸、方向或数量限制需求时，应使用后续提供的 `SyCheckboxGroup`
-
-> `SyCheckboxGroup` 当前尚未完成实现，因此本页只展示可直接使用的 `SyCheckbox` 能力。
+- 为 Group 中的每个选项设置稳定且唯一的 `value`，不要依赖显示文本作为业务值
+- 同时设置 `min` 和 `max` 时，应保证 `0 ≤ min ≤ max`
