@@ -171,6 +171,20 @@
 	}
 }
 
+.sy-checkbox-group {
+	display: inline-flex;
+	align-items: flex-start;
+	gap: 12px 20px;
+
+	&-horizontal {
+		flex-flow: row wrap;
+	}
+
+	&-vertical {
+		flex-direction: column;
+	}
+}
+
 @keyframes sy-checkbox-spin {
 	to {
 		transform: rotate(360deg);
