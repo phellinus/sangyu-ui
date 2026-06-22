@@ -5,6 +5,6 @@ import SyCheckboxGroup from './SyCheckboxGroup';
 	app.component(SyCheckbox.name || 'SyCheckbox', SyCheckbox);
 	app.component(SyCheckboxGroup.name || 'SyCheckboxGroup', SyCheckboxGroup);
 };
-export { SyCheckbox };
+export { SyCheckbox, SyCheckboxGroup };
 export * from './Checkbox.types';
 export default SyCheckbox;
