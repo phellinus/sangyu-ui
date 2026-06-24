@@ -87,7 +87,11 @@ export default defineConfig({
                 {
                     text: 'SyCheckbox 多选框',
                     link: '/components/checkbox/'
-                }
+                },
+                {
+                    text: 'SySwitch 开关',
+                    link: '/components/switch/'
+                },
 			],
 			'/utils/': [
 				{

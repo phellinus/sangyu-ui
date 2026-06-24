@@ -30,3 +30,5 @@ import './result/style/index.less';
 import './radio/style/index.less';
 // checkbox
 import './checkbox/style/index.less';
+// switch
+import './switch/style/index.less';
