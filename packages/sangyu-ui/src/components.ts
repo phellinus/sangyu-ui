@@ -18,3 +18,4 @@ export { SyRadioButton } from './radio';
 export { SyRadioGroup } from './radio';
 export { default as SyCheckbox } from './checkbox';
 export { SyCheckboxGroup } from './checkbox';
+export { default as SySwitch } from './switch';
