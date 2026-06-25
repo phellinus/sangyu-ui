@@ -30,7 +30,6 @@
 						:class="c('thumb-icon')"
 					/>
 					<span v-else-if="props.indeterminate" :class="c('minus')" />
-					<span v-else-if="checked" :class="c('dot')" />
 				</slot>
 			</span>
 		</span>
