@@ -4,6 +4,7 @@
 	--sy-switch-width: 48px;
 	--sy-switch-height: 28px;
 	--sy-switch-thumb-size: 22px;
+	--sy-switch-thumb-active-size: 25px;
 	--sy-switch-padding: 3px;
 	--sy-switch-gap: 8px;
 	--sy-switch-label-size: 14px;
@@ -24,6 +25,7 @@
 		--sy-switch-width: 40px;
 		--sy-switch-height: 24px;
 		--sy-switch-thumb-size: 18px;
+		--sy-switch-thumb-active-size: 21px;
 		--sy-switch-label-size: 12px;
 	}
 
@@ -31,6 +33,7 @@
 		--sy-switch-width: 56px;
 		--sy-switch-height: 32px;
 		--sy-switch-thumb-size: 26px;
+		--sy-switch-thumb-active-size: 29px;
 		--sy-switch-label-size: 16px;
 	}
 
@@ -51,7 +54,12 @@
 		border: 1px solid color-mix(in srgb, var(--sy-color-border) 82%, white);
 		background: linear-gradient(180deg, #ffffff 0%, var(--sy-switch-inactive-color) 100%);
 		box-sizing: border-box;
-		transition: all 0.2s ease;
+		// box-shadow:
+		// 	inset 0 1px 1px rgba(255, 255, 255, 0.82),
+		// 	inset 0 -1px 3px rgba(15, 23, 42, 0.04);
+		transition:
+			box-shadow 0.24s ease,
+			background 0.24s ease;
 		overflow: hidden;
 	}
 
@@ -62,14 +70,27 @@
 
 	&-background {
 		position: absolute;
-		inset: 0;
-		background: linear-gradient(135deg, color-mix(in srgb, var(--sy-switch-active-color) 72%, white) 0%, var(--sy-switch-active-color) 100%);
-		opacity: 0;
-		transition: opacity 0.2s ease;
+		top: 0;
+		left: -100%;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: inherit;
+		background: linear-gradient(
+			135deg,
+			color-mix(in srgb, var(--sy-switch-active-color) 82%, white) 0%,
+			var(--sy-switch-active-color) 100%
+		);
+		opacity: 0.98;
+		transition:
+			left 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+			border-radius 0.24s ease;
 	}
 
 	&-thumb {
-		position: relative;
+		position: absolute;
+		top: 50%;
+		left: var(--sy-switch-padding);
 		z-index: 1;
 		display: inline-flex;
 		align-items: center;
@@ -78,11 +99,11 @@
 		height: var(--sy-switch-thumb-size);
 		border-radius: 50%;
 		background: radial-gradient(circle at 30% 28%, #ffffff 0%, #f4f7fb 100%);
-		box-shadow:
-			0 6px 14px rgba(15, 23, 42, 0.16),
-			inset 0 1px 0 rgba(255, 255, 255, 0.95);
+		// box-shadow:
+		// 	0 6px 14px rgba(15, 23, 42, 0.16),
+		// 	inset 0 1px 0 rgba(255, 255, 255, 0.95);
 		color: #9ba3af;
-		transform: translateX(0);
+		transform: translateY(-50%) translateX(0);
 		transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
@@ -91,12 +112,16 @@
 	}
 
 	&-checked &-background {
-		opacity: 1;
+		left: 0;
 	}
 
 	&-checked &-thumb {
-		transform: translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-size) - var(--sy-switch-padding) * 2));
-		color: var(--sy-switch-active-color);
+		transform: translateY(-50%)
+			translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-size) - var(--sy-switch-padding) * 2));
+		// box-shadow:
+		// 	-6px 0 18px var(--sy-switch-active-color-soft),
+		// 	0 6px 14px rgba(15, 23, 42, 0.16),
+		// 	inset 0 1px 0 rgba(255, 255, 255, 0.95);
 	}
 
 	&-disabled {
@@ -115,26 +140,22 @@
 	}
 
 	&:hover &-track {
-		border-color: color-mix(in srgb, var(--sy-switch-active-color) 34%, white);
+		background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--sy-switch-inactive-color) 88%, white) 100%);
 	}
 
 	&:focus-within &-track {
-		box-shadow: 0 0 0 3px var(--sy-switch-active-color-soft);
+		// box-shadow: 0 0 0 3px var(--sy-switch-active-color-soft);
 	}
 
 	&:active &-thumb {
-		transform: scale(0.96);
+		width: var(--sy-switch-thumb-active-size);
+		transform: translateY(-50%) translateX(0);
 	}
 
 	&-checked:active &-thumb {
-		transform: translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-size) - var(--sy-switch-padding) * 2)) scale(0.96);
-	}
-
-	&-dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background-color: currentColor;
+		width: var(--sy-switch-thumb-active-size);
+		transform: translateY(-50%)
+			translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-active-size) - var(--sy-switch-padding) * 2));
 	}
 
 	&-minus {
@@ -163,6 +184,16 @@
 		font-size: var(--sy-switch-label-size);
 		line-height: 1.45;
 		color: inherit;
+	}
+
+	&-loading &-background {
+		left: -16%;
+	}
+
+	&-loading &-thumb {
+		box-shadow:
+			0 4px 10px rgba(15, 23, 42, 0.12),
+			inset 0 1px 0 rgba(255, 255, 255, 0.95);
 	}
 }
 
