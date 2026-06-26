@@ -1,0 +1,193 @@
+@import '../../style/index.less';
+
+.sy-switch {
+	--sy-switch-width: 48px;
+	--sy-switch-height: 28px;
+	--sy-switch-thumb-size: 22px;
+	--sy-switch-thumb-active-size: 25px;
+	--sy-switch-padding: 3px;
+	--sy-switch-gap: 8px;
+	--sy-switch-label-size: 14px;
+	--sy-switch-active-color: var(--sy-color-primary);
+	--sy-switch-active-color-soft: rgba(22, 119, 255, 0.18);
+	--sy-switch-active-color-strong: rgba(22, 119, 255, 0.3);
+	--sy-switch-inactive-color: #eef1f4;
+
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sy-switch-gap);
+	cursor: pointer;
+	user-select: none;
+	color: var(--sy-color-text);
+
+	&-small {
+		--sy-switch-width: 40px;
+		--sy-switch-height: 24px;
+		--sy-switch-thumb-size: 18px;
+		--sy-switch-thumb-active-size: 21px;
+		--sy-switch-label-size: 12px;
+	}
+
+	&-large {
+		--sy-switch-width: 56px;
+		--sy-switch-height: 32px;
+		--sy-switch-thumb-size: 26px;
+		--sy-switch-thumb-active-size: 29px;
+		--sy-switch-label-size: 16px;
+	}
+
+	&-input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&-track {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		width: var(--sy-switch-width);
+		height: var(--sy-switch-height);
+		padding: var(--sy-switch-padding);
+		border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--sy-color-border) 82%, white);
+		background: linear-gradient(180deg, #ffffff 0%, var(--sy-switch-inactive-color) 100%);
+		box-sizing: border-box;
+		transition:
+			box-shadow 0.24s ease,
+			background 0.24s ease;
+		overflow: hidden;
+	}
+
+	&-square &-track,
+	&-square &-background {
+		border-radius: 8px;
+	}
+
+	&-background {
+		position: absolute;
+		top: 0;
+		left: -100%;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: inherit;
+		background: linear-gradient(
+			135deg,
+			color-mix(in srgb, var(--sy-switch-active-color) 82%, white) 0%,
+			var(--sy-switch-active-color) 100%
+		);
+		opacity: 0.98;
+		transition:
+			left 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+			border-radius 0.24s ease;
+	}
+
+	&-thumb {
+		position: absolute;
+		top: 50%;
+		left: var(--sy-switch-padding);
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--sy-switch-thumb-size);
+		height: var(--sy-switch-thumb-size);
+		border-radius: 50%;
+		background: radial-gradient(circle at 30% 28%, #ffffff 0%, #f4f7fb 100%);
+		color: #9ba3af;
+		transform: translateY(-50%) translateX(0);
+		transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	&-square &-thumb {
+		border-radius: 6px;
+	}
+
+	&-checked &-background {
+		left: 0;
+	}
+
+	&-checked &-thumb {
+		transform: translateY(-50%)
+			translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-size) - var(--sy-switch-padding) * 2));
+	}
+
+	&-disabled {
+		cursor: not-allowed;
+		color: var(--sy-color-text-disabled);
+	}
+
+	&-disabled &-track {
+		box-shadow: none;
+	}
+
+	&-disabled &-thumb {
+		box-shadow:
+			0 2px 6px rgba(15, 23, 42, 0.08),
+			inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	}
+
+	&:hover &-track {
+		background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--sy-switch-inactive-color) 88%, white) 100%);
+	}
+
+	&:active &-thumb {
+		width: var(--sy-switch-thumb-active-size);
+		transform: translateY(-50%) translateX(0);
+	}
+
+	&-checked:active &-thumb {
+		width: var(--sy-switch-thumb-active-size);
+		transform: translateY(-50%)
+			translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-active-size) - var(--sy-switch-padding) * 2));
+	}
+
+	&-minus {
+		width: 10px;
+		height: 2px;
+		border-radius: 999px;
+		background-color: currentColor;
+	}
+
+	&-thumb-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&-spinner {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 2px solid currentColor;
+		border-right-color: transparent;
+		animation: sy-switch-spin 0.8s linear infinite;
+	}
+
+	&-label {
+		font-size: var(--sy-switch-label-size);
+		line-height: 1.45;
+		color: inherit;
+	}
+
+	&-loading &-background {
+		left: -16%;
+	}
+
+	&-loading &-thumb {
+		box-shadow:
+			0 4px 10px rgba(15, 23, 42, 0.12),
+			inset 0 1px 0 rgba(255, 255, 255, 0.95);
+	}
+}
+
+@keyframes sy-switch-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
