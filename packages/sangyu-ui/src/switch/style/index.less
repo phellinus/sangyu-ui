@@ -54,9 +54,6 @@
 		border: 1px solid color-mix(in srgb, var(--sy-color-border) 82%, white);
 		background: linear-gradient(180deg, #ffffff 0%, var(--sy-switch-inactive-color) 100%);
 		box-sizing: border-box;
-		// box-shadow:
-		// 	inset 0 1px 1px rgba(255, 255, 255, 0.82),
-		// 	inset 0 -1px 3px rgba(15, 23, 42, 0.04);
 		transition:
 			box-shadow 0.24s ease,
 			background 0.24s ease;
@@ -99,9 +96,6 @@
 		height: var(--sy-switch-thumb-size);
 		border-radius: 50%;
 		background: radial-gradient(circle at 30% 28%, #ffffff 0%, #f4f7fb 100%);
-		// box-shadow:
-		// 	0 6px 14px rgba(15, 23, 42, 0.16),
-		// 	inset 0 1px 0 rgba(255, 255, 255, 0.95);
 		color: #9ba3af;
 		transform: translateY(-50%) translateX(0);
 		transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
@@ -118,10 +112,6 @@
 	&-checked &-thumb {
 		transform: translateY(-50%)
 			translateX(calc(var(--sy-switch-width) - var(--sy-switch-thumb-size) - var(--sy-switch-padding) * 2));
-		// box-shadow:
-		// 	-6px 0 18px var(--sy-switch-active-color-soft),
-		// 	0 6px 14px rgba(15, 23, 42, 0.16),
-		// 	inset 0 1px 0 rgba(255, 255, 255, 0.95);
 	}
 
 	&-disabled {
@@ -141,10 +131,6 @@
 
 	&:hover &-track {
 		background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--sy-switch-inactive-color) 88%, white) 100%);
-	}
-
-	&:focus-within &-track {
-		// box-shadow: 0 0 0 3px var(--sy-switch-active-color-soft);
 	}
 
 	&:active &-thumb {
