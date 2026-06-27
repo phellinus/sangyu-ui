@@ -32,3 +32,5 @@ import './radio/style/index.less';
 import './checkbox/style/index.less';
 // switch
 import './switch/style/index.less';
+// pagination
+import './pagination/style/index.less';
