@@ -19,3 +19,4 @@ export { SyRadioGroup } from './radio';
 export { default as SyCheckbox } from './checkbox';
 export { SyCheckboxGroup } from './checkbox';
 export { default as SySwitch } from './switch';
+export { default as SyPagination } from './pagination';
