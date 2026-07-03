@@ -101,8 +101,45 @@
 		.sy-pagination-next {
 			width: 16px;
 			min-width: 16px;
+			height: 18px;
 			padding: 0;
 			background: transparent;
+			line-height: 18px;
+		}
+
+		.sy-pager {
+			gap: 10px;
+		}
+
+		.sy-pager-button {
+			width: 12px;
+			min-width: 12px;
+			height: 12px;
+			padding: 0;
+			border-radius: 50%;
+			background: var(--sy-color-border);
+			color: transparent;
+			font-size: 0;
+		}
+
+		.sy-pager-button:hover:not(.sy-pager-disabled) {
+			background: var(--sy-color-text-secondary);
+		}
+
+		.sy-pager-active {
+			background: transparent;
+		}
+
+		.sy-pager-aria-active {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			box-shadow: 0 8px 24px rgba(22, 93, 255, 0.28);
+			transform: scale(1);
+		}
+
+		.sy-pager-change {
+			transform: scale(1.22);
 		}
 	}
 }
