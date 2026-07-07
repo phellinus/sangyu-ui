@@ -34,3 +34,5 @@ import './checkbox/style/index.less';
 import './switch/style/index.less';
 // pagination
 import './pagination/style/index.less';
+// select
+import './select/style/index.less';

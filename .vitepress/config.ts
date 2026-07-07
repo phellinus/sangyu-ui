@@ -89,12 +89,16 @@ export default defineConfig({
                     link: '/components/checkbox/'
                 },
                 {
-                    text: 'Sypagination 开关',
+                    text: 'SySwitch 开关',
                     link: '/components/switch/'
                 },
-                 {
+                {
                     text: 'SyPagination 分页器',
                     link: '/components/pagination/'
+                },
+                {
+                    text: 'SySelect 选择器',
+                    link: '/components/select/'
                 },
 			],
 			'/utils/': [
