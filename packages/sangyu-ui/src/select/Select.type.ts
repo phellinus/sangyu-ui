@@ -1,4 +1,4 @@
-import type { VNodeChild } from 'vue';
+import type { CSSProperties, VNodeChild } from 'vue';
 
 export type SelectValue = string | number | boolean;
 export type placementValue = 'top' | 'bottom';
@@ -13,7 +13,7 @@ export interface SelectOption {
 
 export interface SySelectProps {
 	/**当前选中值 */
-	modelValue: SelectValue;
+	modelValue: SelectModelValue;
 	/**选项数据 */
 	options: SelectOption[];
 	/** 占位提示 */
@@ -21,7 +21,7 @@ export interface SySelectProps {
 	/**是否禁用 */
 	disabled?: boolean;
 	/**是否加载中 */
-	loading?: string;
+	loading?: boolean;
 	/** 是否可清空 */
 	clearable?: boolean;
 	/**是否多选 */
@@ -41,19 +41,19 @@ export interface SySelectProps {
 	/**是否采用虚拟滚动 */
 	virtual?: boolean;
 	/** 每个选项的高度 */
-	itemHeight?: string;
+	itemHeight?: string | number;
 	/**下拉列表高度 */
-	listHeight?: string;
+	listHeight?: string | number;
 	/**虚拟滚动额外渲染数量 */
 	overscan?: number;
 	/**空状态文本 */
-	emptyText: string;
+	emptyText?: string;
 	/**多选最大数量 */
-	max: number;
+	max?: number;
 	/**最多展示tag数量 */
-	maxTagCount: number;
+	maxTagCount?: number;
 	/**自定义样式 */
-	customStyle?: string;
+	customStyle?: string | CSSProperties;
 }
 
 /** SySelect 对外暴露的事件类型 */
