@@ -4,6 +4,10 @@ import { SelectOption, SySelectEmits, SySelectProps } from '../Select.type';
 export function useSelectSearch(props: SySelectProps, emit: SySelectEmits) {
 	/**当前搜索关键字 */
 	const query = ref('');
+	/** 远程搜索是否加载中 */
+	const searching = ref(false);
+	/** 当前请求序号，用于避免旧请求覆盖新请求状态 */
+	let searchRequestId = 0;
 	/**
 	 * 设置搜索关键词，并向外派发 search 事件。
 	 * @param value 用户输入的搜索内容
@@ -23,14 +27,38 @@ export function useSelectSearch(props: SySelectProps, emit: SySelectEmits) {
 		return props.options.filter((option) => option.label.toLowerCase().includes(query.value.toLowerCase()));
 	});
 
-	/** 搜索词变化时，如果传入 remoteMethod，则触发远程搜索 */
+	/**
+	 * 执行远程搜索。
+	 * 支持 Promise，并通过 requestId 避免过期请求错误地关闭 loading。
+	 * @param value 当前搜索关键词
+	 */
+	const runRemoteSearch = async (value: string) => {
+		if (!props.remoteMethod) return;
+
+		const requestId = ++searchRequestId;
+		searching.value = true;
+
+		try {
+			await props.remoteMethod(value);
+		} finally {
+			if (requestId === searchRequestId) {
+				searching.value = false;
+			}
+		}
+	};
+
+	/** 搜索词变化时触发远程异步搜索 */
 	watch(query, (value) => {
-		if (props.remoteMethod) props.remoteMethod(value);
+		if (props.remoteMethod) {
+			runRemoteSearch(value);
+		}
 	});
 
 	return {
 		query,
+		searching,
 		setQuery,
 		filteredOptions,
+		runRemoteSearch,
 	};
 }
