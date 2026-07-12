@@ -1,6 +1,153 @@
-import { defineComponent } from 'vue';
+import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
+import { useClassnames } from '@sangyu-ui/utils';
+import type { SelectModelValue, SelectOption, SelectValue } from './Select.type';
+import { useSelectKeyboard, useSelectModel, useSelectSearch } from './composables';
+import { SelectDropdown, SelectTags } from './components';
 
 export default defineComponent({
 	name: 'SySelect',
 	inheritAttrs: false,
+	props: {
+		modelValue: [String, Number, Boolean, Array] as PropType<SelectModelValue>,
+		options: { type: Array as PropType<SelectOption[]>, default: () => [] },
+		placeholder: { type: String, default: '请选择' },
+		disabled: Boolean,
+		loading: Boolean,
+		clearable: Boolean,
+		multiple: Boolean,
+		filterable: Boolean,
+		remoteMethod: Function as PropType<(query: string) => void | Promise<void>>,
+		filterMethod: Function as PropType<(query: string, option: SelectOption) => boolean>,
+		size: { type: String as PropType<'small' | 'default' | 'large'>, default: 'default' },
+		width: String,
+		placement: { type: String as PropType<'top' | 'bottom'>, default: 'bottom' },
+		virtual: { type: Boolean, default: true },
+		itemHeight: { type: [String, Number], default: 32 },
+		listHeight: { type: [String, Number], default: 256 },
+		overscan: { type: Number, default: 6 },
+		emptyText: { type: String, default: '暂无数据' },
+		max: Number,
+		maxTagCount: Number,
+		customStyle: [String, Object] as PropType<string | CSSProperties>,
+	},
+	emits: ['update:modelValue', 'change', 'clear', 'search', 'visibleChange', 'focus', 'blur'],
+	setup(props, { emit, slots }) {
+		const { c } = useClassnames('select');
+		const open = ref(false);
+		const inputRef = ref<HTMLInputElement>();
+
+		const model = useSelectModel(props as any, emit as any);
+		const search = useSelectSearch(props as any, emit as any);
+
+		const close = () => {
+			open.value = false;
+			emit('visibleChange', false);
+		};
+
+		const openDropdown = () => {
+			if (props.disabled) return;
+			open.value = !open.value;
+			emit('visibleChange', true);
+		};
+
+		const selectOption = (option: SelectOption) => {
+			model.selectOption(option);
+			if (!props.multiple) close();
+			search.setQuery('');
+		};
+
+		const keyboard = useSelectKeyboard(search.filteredOptions, selectOption, close);
+
+		const showClear = computed(() => props.clearable && !props.disabled && model.values.value.length > 0);
+		const styles = computed(() => [props.customStyle, props.width ? { width: props.width } : undefined]);
+
+		return () => (
+			<div
+				class={{
+					[c()]: true,
+					[c(props.size)]: true,
+					[c('open')]: open.value,
+					[c('disabled')]: props.disabled,
+				}}
+				style={styles.value}
+				onKeydown={keyboard.handleKeydown}
+			>
+				<div
+					class={c('trigger')}
+					tabindex={props.disabled ? -1 : 0}
+					onClick={openDropdown}
+					onFocus={(event) => emit('focus', event)}
+					onBlur={(event) => emit('blur', event)}
+				>
+					{slots.prefix ? <span class={c('prefix')}>{slots.prefix()}</span> : null}
+
+					<div class={c('content')}>
+						{props.multiple ? (
+							<SelectTags
+								options={model.selectedOptions.value}
+								maxTagCount={props.maxTagCount}
+								disabled={props.disabled}
+								onRemove={(value: SelectValue) => model.removeOption(value)}
+							>
+								{{ tag: slots.tag }}
+							</SelectTags>
+						) : slots.label ? (
+							slots.label({ option: model.selectedOptions.value[0], value: props.modelValue })
+						) : model.selectedLabel.value ? (
+							<span class={c('value')}>{model.selectedLabel.value}</span>
+						) : null}
+
+						{props.filterable ? (
+							<input
+								ref={inputRef}
+								class={c('search')}
+								value={search.query.value}
+								disabled={props.disabled}
+								placeholder={model.values.value.length ? '' : props.placeholder}
+								onInput={(event) => search.setQuery((event.target as HTMLInputElement).value)}
+								onFocus={openDropdown}
+							/>
+						) : !model.values.value.length ? (
+							<span class={c('placeholder')}>{props.placeholder}</span>
+						) : null}
+					</div>
+
+					{showClear.value ? (
+						<button
+							class={c('clear')}
+							type='button'
+							onClick={(event) => {
+								event.stopPropagation();
+								model.clearValue();
+							}}
+						>
+							<span>x</span>
+						</button>
+					) : (
+						<span class={c('suffix')}>
+							{slots.suffix?.({ open: open.value, disabled: props.disabled, loading: props.loading }) ?? (
+								<span>⌄</span>
+							)}
+						</span>
+					)}
+				</div>
+
+				<SelectDropdown
+					visible={open.value}
+					options={search.filteredOptions.value}
+					loading={props.loading}
+					emptyText={props.emptyText}
+					virtual={props.virtual}
+					itemHeight={props.itemHeight}
+					listHeight={props.listHeight}
+					overscan={props.overscan}
+					activeIndex={keyboard.activeIndex.value}
+					isSelected={model.isSelected}
+					onSelect={selectOption}
+				>
+					{{ option: slots.option, empty: slots.empty, loading: slots.loading }}
+				</SelectDropdown>
+			</div>
+		);
+	},
 });

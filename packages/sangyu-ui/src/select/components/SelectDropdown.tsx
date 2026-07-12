@@ -61,18 +61,29 @@ export default defineComponent({
 								props.virtual ? { transform: `translateY(${virtual.offsetTop.value}px)` } : undefined
 							}
 						>
-							{items.map(({ item, index }) => (
-								<SelectOption
-									key={String(item.value)}
-									option={item}
-									index={index}
-									selected={props.isSelected(item)}
-									active={props.activeIndex === index}
-									onClick={(option: OptionType) => emit('select', option)}
-								>
-									{slots.option}
-								</SelectOption>
-							))}
+							{items.map(({ item, index }) =>
+								slots.option ? (
+									<SelectOption
+										key={String(item.value)}
+										option={item}
+										index={index}
+										selected={props.isSelected(item)}
+										active={props.activeIndex === index}
+										onClick={(option: OptionType) => emit('select', option)}
+									>
+										{slots.option}
+									</SelectOption>
+								) : (
+									<SelectOption
+										key={String(item.value)}
+										option={item}
+										index={index}
+										selected={props.isSelected(item)}
+										active={props.activeIndex === index}
+										onClick={(option: OptionType) => emit('select', option)}
+									/>
+								),
+							)}
 						</div>
 					</div>
 				</div>
