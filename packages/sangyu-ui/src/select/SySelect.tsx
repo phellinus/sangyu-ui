@@ -40,9 +40,20 @@ export default defineComponent({
 		const model = useSelectModel(props as any, emit as any);
 		const search = useSelectSearch(props as any, emit as any);
 
+		/**
+		 * 设置下拉面板展开状态。
+		 * 只有状态真正变化时才触发 visibleChange。
+		 * @param visible 是否展开
+		 */
+		const setDropdownVisible = (visible: boolean) => {
+			if (props.disabled) return;
+			if (open.value === visible) return;
+
+			open.value = visible;
+			emit('visibleChange', visible);
+		};
 		const close = () => {
-			open.value = false;
-			emit('visibleChange', false);
+			setDropdownVisible(false);
 		};
 		/**
 		 * 判断当前事件是否发生在 Select 组件外部。
@@ -55,12 +66,16 @@ export default defineComponent({
 			if (selectRef.value?.contains(target)) return;
 			close();
 		};
+		/**打开下拉框 */
 		const openDropdown = () => {
-			if (props.disabled) return;
-			open.value = !open.value;
-			emit('visibleChange', open.value);
+			setDropdownVisible(true);
 		};
-
+		/**
+		 * 点击选择器触发区域时切换下拉面板。
+		 */
+		const toggleDropdown = () => {
+			setDropdownVisible(!open.value);
+		};
 		const selectOption = (option: SelectOption) => {
 			model.selectOption(option);
 			if (!props.multiple) close();
@@ -138,7 +153,7 @@ export default defineComponent({
 				<div
 					class={c('trigger')}
 					tabindex={props.disabled ? -1 : 0}
-					onClick={openDropdown}
+					onClick={toggleDropdown}
 					onFocus={(event) => emit('focus', event)}
 					onBlur={(event) => emit('blur', event)}
 				>
@@ -169,6 +184,7 @@ export default defineComponent({
 								placeholder={model.values.value.length ? '' : props.placeholder}
 								onInput={(event) => search.setQuery((event.target as HTMLInputElement).value)}
 								onFocus={openDropdown}
+								onClick={(event) => event.stopPropagation()}
 							/>
 						) : !model.values.value.length ? (
 							<span class={c('placeholder')}>{props.placeholder}</span>
@@ -180,6 +196,7 @@ export default defineComponent({
 							class={c('clear')}
 							type='button'
 							onClick={(event) => {
+								event.preventDefault();
 								event.stopPropagation();
 								model.clearValue();
 							}}

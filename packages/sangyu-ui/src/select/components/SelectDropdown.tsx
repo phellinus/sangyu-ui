@@ -58,7 +58,7 @@ export default defineComponent({
 									active={props.activeIndex === index}
 									onClick={(option: OptionType) => emit('select', option)}
 								>
-									{slots.option}
+									{{ default: slots.option }}
 								</SelectOption>
 							) : (
 								<SelectOption
