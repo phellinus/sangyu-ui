@@ -1,4 +1,4 @@
-import { computed, CSSProperties, defineComponent, PropType, ref } from 'vue';
+import { computed, CSSProperties, defineComponent, onBeforeUnmount, onMounted, PropType, ref } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import type { SelectModelValue, SelectOption, SelectValue } from './Select.type';
 import { useSelectKeyboard, useSelectModel, useSelectSearch } from './composables';
@@ -35,6 +35,7 @@ export default defineComponent({
 		const { c } = useClassnames('select');
 		const open = ref(false);
 		const inputRef = ref<HTMLInputElement>();
+		const selectRef = ref<HTMLElement>();
 
 		const model = useSelectModel(props as any, emit as any);
 		const search = useSelectSearch(props as any, emit as any);
@@ -43,7 +44,17 @@ export default defineComponent({
 			open.value = false;
 			emit('visibleChange', false);
 		};
-
+		/**
+		 * 判断当前事件是否发生在 Select 组件外部。
+		 * 如果点击目标不属于组件根节点，则关闭下拉面板。
+		 * @param event 鼠标或触摸事件
+		 */
+		const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+			const target = event.target as Node | null;
+			if (!target) return;
+			if (selectRef.value?.contains(target)) return;
+			close();
+		};
 		const openDropdown = () => {
 			if (props.disabled) return;
 			open.value = !open.value;
@@ -60,6 +71,22 @@ export default defineComponent({
 
 		const showClear = computed(() => props.clearable && !props.disabled && model.values.value.length > 0);
 		const styles = computed(() => [props.customStyle, props.width ? { width: props.width } : undefined]);
+
+		/**
+		 * 组件挂载后监听全局点击，用于点击外部关闭下拉面板。
+		 */
+		onMounted(() => {
+			document.addEventListener('mousedown', handleClickOutside);
+			document.addEventListener('touchstart', handleClickOutside);
+		});
+
+		/**
+		 * 组件卸载前移除全局监听，避免内存泄漏。
+		 */
+		onBeforeUnmount(() => {
+			document.removeEventListener('mousedown', handleClickOutside);
+			document.removeEventListener('touchstart', handleClickOutside);
+		});
 		/**
 		 * 渲染默认下拉箭头图标。
 		 */
@@ -98,6 +125,7 @@ export default defineComponent({
 
 		return () => (
 			<div
+				ref={selectRef}
 				class={{
 					[c()]: true,
 					[c(props.size)]: true,
