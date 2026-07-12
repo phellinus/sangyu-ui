@@ -1,13 +1,9 @@
-import { computed, defineComponent, PropType, toRef } from 'vue';
+import { computed, defineComponent, PropType, toRef, Transition } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import type { SelectOption as OptionType } from '../Select.type';
 import { useVirtualList } from '../composables';
+import { toNumber } from '../helpers';
 import SelectOption from './SelectOption';
-
-const toNumber = (value: string | number | undefined, fallback: number) => {
-	const num = Number.parseFloat(String(value ?? ''));
-	return Number.isFinite(num) ? num : fallback;
-};
 
 export default defineComponent({
 	name: 'SelectDropdown',
@@ -32,62 +28,67 @@ export default defineComponent({
 		const overscan = computed(() => props.overscan);
 		const virtual = useVirtualList(listRef, itemHeight, listHeight, overscan);
 
-		return () => {
-			if (!props.visible) return null;
+		/**渲染加载中状态 */
+		const renderLoading = () => slots.loading?.() ?? <div class={c('loading')}>加载中...</div>;
 
-			if (props.loading) {
-				return <div class={c()}>{slots.loading?.() ?? <div class={c('loading')}>加载中...</div>}</div>;
-			}
-
-			if (!props.options.length) {
-				return <div class={c()}>{slots.empty?.() ?? <div class={c('empty')}>{props.emptyText}</div>}</div>;
-			}
-
+		/**渲染空状态 */
+		const renderEmpty = () => slots.empty?.() ?? <div class={c('empty')}>{props.emptyText}</div>;
+		/**
+		 * 渲染普通选项列表。
+		 */
+		const renderOptions = () => {
 			const items = props.virtual
 				? virtual.visibleItems.value
 				: props.options.map((item, index) => ({ item, index }));
 
 			return (
-				<div class={c()} style={{ maxHeight: `${listHeight.value}px` }} onScroll={virtual.handleScroll}>
-					<div
-						style={
-							props.virtual
-								? { height: `${virtual.totalHeight.value}px`, position: 'relative' }
-								: undefined
-						}
-					>
-						<div
-							style={
-								props.virtual ? { transform: `translateY(${virtual.offsetTop.value}px)` } : undefined
-							}
-						>
-							{items.map(({ item, index }) =>
-								slots.option ? (
-									<SelectOption
-										key={String(item.value)}
-										option={item}
-										index={index}
-										selected={props.isSelected(item)}
-										active={props.activeIndex === index}
-										onClick={(option: OptionType) => emit('select', option)}
-									>
-										{slots.option}
-									</SelectOption>
-								) : (
-									<SelectOption
-										key={String(item.value)}
-										option={item}
-										index={index}
-										selected={props.isSelected(item)}
-										active={props.activeIndex === index}
-										onClick={(option: OptionType) => emit('select', option)}
-									/>
-								),
-							)}
-						</div>
+				<div
+					style={
+						props.virtual ? { height: `${virtual.totalHeight.value}px`, position: 'relative' } : undefined
+					}
+				>
+					<div style={props.virtual ? { transform: `translateY(${virtual.offsetTop.value}px)` } : undefined}>
+						{items.map(({ item, index }) =>
+							slots.option ? (
+								<SelectOption
+									key={String(item.value)}
+									option={item}
+									index={index}
+									selected={props.isSelected(item)}
+									active={props.activeIndex === index}
+									onClick={(option: OptionType) => emit('select', option)}
+								>
+									{slots.option}
+								</SelectOption>
+							) : (
+								<SelectOption
+									key={String(item.value)}
+									option={item}
+									index={index}
+									selected={props.isSelected(item)}
+									active={props.activeIndex === index}
+									onClick={(option: OptionType) => emit('select', option)}
+								/>
+							),
+						)}
 					</div>
 				</div>
 			);
 		};
+
+		/**
+		 * 渲染下拉面板内容。
+		 */
+		const renderPanel = () => {
+			if (!props.visible) return null;
+
+			return (
+				<div class={c()} style={{ maxHeight: `${listHeight.value}px` }} onScroll={virtual.handleScroll}>
+					{props.loading ? renderLoading() : props.options.length ? renderOptions() : renderEmpty()}
+				</div>
+			);
+		};
+
+		return () => <Transition name='sy-select-dropdown-motion'>{renderPanel()}</Transition>;
 	},
 });

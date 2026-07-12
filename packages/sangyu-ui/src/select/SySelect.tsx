@@ -47,7 +47,7 @@ export default defineComponent({
 		const openDropdown = () => {
 			if (props.disabled) return;
 			open.value = !open.value;
-			emit('visibleChange', true);
+			emit('visibleChange', open.value);
 		};
 
 		const selectOption = (option: SelectOption) => {
@@ -60,6 +60,41 @@ export default defineComponent({
 
 		const showClear = computed(() => props.clearable && !props.disabled && model.values.value.length > 0);
 		const styles = computed(() => [props.customStyle, props.width ? { width: props.width } : undefined]);
+		/**
+		 * 渲染默认下拉箭头图标。
+		 */
+		const renderArrowIcon = () => (
+			<svg class={c('icon')} width='24' height='24' viewBox='0 0 48 48' fill='none' aria-hidden='true'>
+				<path
+					d='M36 18L24 30L12 18'
+					stroke='currentColor'
+					stroke-width='4'
+					stroke-linecap='round'
+					stroke-linejoin='round'
+				/>
+			</svg>
+		);
+		/**
+		 * 渲染清空按钮图标。
+		 */
+		const renderClearIcon = () => (
+			<svg class={c('icon')} width='24' height='24' viewBox='0 0 48 48' fill='none' aria-hidden='true'>
+				<path
+					d='M14 14L34 34'
+					stroke='currentColor'
+					stroke-width='4'
+					stroke-linecap='round'
+					stroke-linejoin='round'
+				/>
+				<path
+					d='M14 34L34 14'
+					stroke='currentColor'
+					stroke-width='4'
+					stroke-linecap='round'
+					stroke-linejoin='round'
+				/>
+			</svg>
+		);
 
 		return () => (
 			<div
@@ -121,12 +156,12 @@ export default defineComponent({
 								model.clearValue();
 							}}
 						>
-							<span>x</span>
+							{renderClearIcon()}
 						</button>
 					) : (
 						<span class={c('suffix')}>
 							{slots.suffix?.({ open: open.value, disabled: props.disabled, loading: props.loading }) ?? (
-								<span>⌄</span>
+								<span class={c('arrow')}>{renderArrowIcon()}</span>
 							)}
 						</span>
 					)}

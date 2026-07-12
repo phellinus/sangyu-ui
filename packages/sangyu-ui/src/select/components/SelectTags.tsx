@@ -16,7 +16,17 @@ export default defineComponent({
 		return () => {
 			const list = props.maxTagCount ? props.options.slice(0, props.maxTagCount) : props.options;
 			const rest = props.maxTagCount ? props.options.length - list.length : 0;
-
+			/**
+			 * 点击删除 tag 标签。
+			 * 阻止事件继续冒泡，避免触发外层 Select 的展开 / 收起行为。
+			 * @param option 当前需要删除的选项
+			 * @param event 当前按钮的点击事件
+			 */
+			const removeTag = (option: SelectOption, event: MouseEvent) => {
+				event.preventDefault();
+				event.stopPropagation();
+				emit('remove', option.value);
+			};
 			return (
 				<div class={c()}>
 					{list.map(
@@ -33,7 +43,7 @@ export default defineComponent({
 										<button
 											class={c('close')}
 											type='button'
-											onClick={() => emit('remove', option.value)}
+											onClick={(event) => removeTag(option, event)}
 										>
 											×
 										</button>
