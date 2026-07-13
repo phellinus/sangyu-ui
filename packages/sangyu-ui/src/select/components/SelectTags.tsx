@@ -12,6 +12,27 @@ export default defineComponent({
 	emits: ['remove'],
 	setup(props, { emit, slots }) {
 		const { c } = useClassnames('select-tags');
+		/**
+		 * 渲染 Tag 的删除图标。
+		 */
+		const renderCloseIcon = () => (
+			<svg class={c('close-icon')} width='24' height='24' viewBox='0 0 48 48' fill='none' aria-hidden='true'>
+				<path
+					d='M14 14L34 34'
+					stroke='currentColor'
+					stroke-width='4'
+					stroke-linecap='round'
+					stroke-linejoin='round'
+				/>
+				<path
+					d='M14 34L34 14'
+					stroke='currentColor'
+					stroke-width='4'
+					stroke-linecap='round'
+					stroke-linejoin='round'
+				/>
+			</svg>
+		);
 
 		return () => {
 			const list = props.maxTagCount ? props.options.slice(0, props.maxTagCount) : props.options;
@@ -43,9 +64,10 @@ export default defineComponent({
 										<button
 											class={c('close')}
 											type='button'
+											aria-label={`删除 ${option.label}`}
 											onClick={(event) => removeTag(option, event)}
 										>
-											×
+											{renderCloseIcon()}
 										</button>
 									) : null}
 								</span>
