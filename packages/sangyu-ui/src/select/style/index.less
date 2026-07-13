@@ -217,9 +217,24 @@
 	}
 
 	&-close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 auto;
+		width: 16px;
+		height: 16px;
+		padding: 0;
 		border: 0;
 		background: transparent;
+		color: #333;
 		cursor: pointer;
 		line-height: 1;
+	}
+
+	&-close-icon {
+		display: block;
+		width: 14px;
+		height: 14px;
+		pointer-events: none;
 	}
 }
