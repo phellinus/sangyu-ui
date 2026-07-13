@@ -16,7 +16,11 @@ export default defineComponent({
 		clearable: Boolean,
 		multiple: Boolean,
 		filterable: Boolean,
-		remoteMethod: Function as PropType<(query: string) => void | Promise<void>>,
+		remoteMethod: Function as PropType<(query: string, signal: AbortSignal) => void | Promise<void>>,
+		remoteDebounce: {
+			type: Number,
+			default: 300,
+		},
 		filterMethod: Function as PropType<(query: string, option: SelectOption) => boolean>,
 		size: { type: String as PropType<'small' | 'default' | 'large'>, default: 'default' },
 		width: String,
@@ -71,18 +75,56 @@ export default defineComponent({
 			setDropdownVisible(true);
 		};
 		/**
+		 * 使用键盘删除当前选中项。
+		 *
+		 * 单选模式删除当前值；
+		 * 多选模式删除最后一个标签；
+		 * 搜索框存在输入内容时不删除选中项。
+		 *
+		 * @returns 是否成功处理了删除操作
+		 */
+		const removeSelectedByKeyboard = (): boolean => {
+			if (props.disabled) return false;
+
+			// 搜索框有内容时，让 Backspace/Delete 正常删除输入文字
+			if (search.query.value.length > 0) {
+				return false;
+			}
+
+			const selectedValues = model.values.value;
+
+			if (!selectedValues.length) {
+				return false;
+			}
+
+			if (props.multiple) {
+				const lastValue = selectedValues[selectedValues.length - 1];
+				model.removeOption(lastValue);
+			} else {
+				model.clearValue();
+			}
+
+			return true;
+		};
+		/**
 		 * 点击选择器触发区域时切换下拉面板。
 		 */
 		const toggleDropdown = () => {
 			setDropdownVisible(!open.value);
 		};
+		/**
+		 * 合并组件外部 loading 和远程搜索 loading。
+		 */
+		const mergedLoading = computed(() => {
+			return props.loading || search.searching.value;
+		});
 		const selectOption = (option: SelectOption) => {
 			model.selectOption(option);
 			if (!props.multiple) close();
 			search.setQuery('');
 		};
 
-		const keyboard = useSelectKeyboard(search.filteredOptions, selectOption, close);
+		const keyboard = useSelectKeyboard(search.filteredOptions, selectOption, close, removeSelectedByKeyboard);
 
 		const showClear = computed(() => props.clearable && !props.disabled && model.values.value.length > 0);
 		const styles = computed(() => [props.customStyle, props.width ? { width: props.width } : undefined]);
@@ -205,9 +247,11 @@ export default defineComponent({
 						</button>
 					) : (
 						<span class={c('suffix')}>
-							{slots.suffix?.({ open: open.value, disabled: props.disabled, loading: props.loading }) ?? (
-								<span class={c('arrow')}>{renderArrowIcon()}</span>
-							)}
+							{slots.suffix?.({
+								open: open.value,
+								disabled: props.disabled,
+								loading: mergedLoading.value,
+							}) ?? <span class={c('arrow')}>{renderArrowIcon()}</span>}
 						</span>
 					)}
 				</div>
@@ -215,7 +259,7 @@ export default defineComponent({
 				<SelectDropdown
 					visible={open.value}
 					options={search.filteredOptions.value}
-					loading={props.loading}
+					loading={mergedLoading.value}
 					emptyText={props.emptyText}
 					virtual={props.virtual}
 					itemHeight={props.itemHeight}

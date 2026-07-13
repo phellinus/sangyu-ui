@@ -9,6 +9,7 @@ export function useSelectKeyboard(
 	options: Ref<SelectOption[]>,
 	onSelect: (option: SelectOption) => void,
 	close: () => void,
+	onDelete?: () => boolean,
 ) {
 	/** 当前键盘高亮的选项索引 */
 	const activeIndex = ref(-1);
@@ -56,7 +57,10 @@ export function useSelectKeyboard(
 			event.preventDefault();
 			close();
 		}
-
+		if ((event.key === 'Backspace' || event.key === 'Delete') && onDelete?.()) {
+			// 已经删除选中项时，阻止输入框继续执行默认删除行为
+			event.preventDefault();
+		}
 		await nextTick();
 	};
 
