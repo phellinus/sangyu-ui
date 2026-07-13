@@ -29,7 +29,12 @@ export interface SySelectProps {
 	/**是否可搜索 */
 	filterable?: boolean;
 	/** 远程搜索方法 */
-	remoteMethod?: (query: string) => void | Promise<void>;
+	remoteMethod?: (query: string, signal: AbortSignal) => void | Promise<void>;
+	/**
+	 * 远程搜索防抖时间，单位为毫秒。
+	 * @default 300
+	 */
+	remoteDebounce?: number;
 	/** 过滤方法 */
 	filterMethod?: (query: string, option: SelectOption) => boolean;
 	/** 选项尺寸 */
