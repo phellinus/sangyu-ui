@@ -118,7 +118,14 @@ export default defineComponent({
 		const mergedLoading = computed(() => {
 			return props.loading || search.searching.value;
 		});
+		/**
+		 * 选择下拉选项，并在单选模式下关闭面板。
+		 * 禁用状态或禁用选项不会触发任何后续行为。
+		 * @param option 当前被选择的选项
+		 */
 		const selectOption = (option: SelectOption) => {
+			if (props.disabled || option.disabled) return;
+
 			model.selectOption(option);
 			if (!props.multiple) close();
 			search.setQuery('');
