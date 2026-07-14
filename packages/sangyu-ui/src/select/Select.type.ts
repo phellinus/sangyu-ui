@@ -3,6 +3,8 @@ import type { CSSProperties, VNodeChild } from 'vue';
 export type SelectValue = string | number | boolean;
 export type placementValue = 'top' | 'bottom';
 export type SelectModelValue = SelectValue | SelectValue[] | undefined;
+/** Select 工作模式 */
+export type SelectMode = 'default' | 'label';
 /** 选项数据 */
 export interface SelectOption {
 	label: string;
@@ -59,6 +61,12 @@ export interface SySelectProps {
 	maxTagCount?: number;
 	/**自定义样式 */
 	customStyle?: string | CSSProperties;
+	/**
+	 * Select 工作模式。
+	 * label 模式下可以输入内容并按 Enter 创建标签。
+	 * @default 'default'
+	 */
+	mode?: SelectMode;
 }
 
 /** SySelect 对外暴露的事件类型 */

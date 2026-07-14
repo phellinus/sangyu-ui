@@ -27,7 +27,9 @@ export function useSelectSearch(props: SySelectProps, emit: SySelectEmits) {
 	 * 远程搜索模式下不做本地过滤，只展示外部传入的新 options。
 	 */
 	const filteredOptions = computed<SelectOption[]>(() => {
-		if (!props.filterable || !query.value) {
+		const searchable = props.filterable || props.mode === 'label';
+
+		if (!searchable || !query.value) {
 			return props.options;
 		}
 
