@@ -33,6 +33,10 @@ export default defineComponent({
 		max: Number,
 		maxTagCount: Number,
 		customStyle: [String, Object] as PropType<string | CSSProperties>,
+		mode: {
+			type: String as PropType<'default' | 'label'>,
+			default: 'default',
+		},
 	},
 	emits: ['update:modelValue', 'change', 'clear', 'search', 'visibleChange', 'focus', 'blur'],
 	setup(props, { emit, slots }) {
@@ -44,6 +48,60 @@ export default defineComponent({
 		const model = useSelectModel(props as any, emit as any);
 		const search = useSelectSearch(props as any, emit as any);
 
+		/** label 模式和 filterable 模式都需要显示输入框 */
+		const searchable = computed(() => {
+			return props.filterable || props.mode === 'label';
+		});
+		/**
+		 * 将当前输入内容创建为标签。
+		 * @returns 是否处理了本次创建操作
+		 */
+		const createInputLabel = (): boolean => {
+			if (props.mode !== 'label' || props.disabled) {
+				return false;
+			}
+			const label = search.query.value.trim();
+			if (!label) return false;
+
+			// 已存在相同标签时不重复添加
+			if (model.values.value.includes(label)) {
+				search.setQuery('');
+				return true;
+			}
+
+			// 达到最大数量后阻止继续添加
+			if (props.max !== undefined && model.values.value.length >= props.max) {
+				return true;
+			}
+
+			model.selectOption({
+				label,
+				value: label,
+			});
+
+			search.setQuery('');
+			return true;
+		};
+		/**
+		 * 处理 Select 键盘事件。
+		 * label 模式下按 Enter 优先创建标签。
+		 * @param event 键盘事件
+		 */
+		const handleSelectKeydown = async (event: KeyboardEvent) => {
+			const shouldCreateLabel =
+				event.key === 'Enter' &&
+				props.mode === 'label' &&
+				!event.isComposing &&
+				search.query.value.trim().length > 0;
+
+			if (shouldCreateLabel) {
+				event.preventDefault();
+				createInputLabel();
+				return;
+			}
+
+			await keyboard.handleKeydown(event);
+		};
 		/**
 		 * 设置下拉面板展开状态。
 		 * 只有状态真正变化时才触发 visibleChange。
@@ -97,8 +155,9 @@ export default defineComponent({
 				return false;
 			}
 
-			if (props.multiple) {
+			if (model.isMultiple.value) {
 				const lastValue = selectedValues[selectedValues.length - 1];
+
 				model.removeOption(lastValue);
 			} else {
 				model.clearValue();
@@ -118,9 +177,20 @@ export default defineComponent({
 		const mergedLoading = computed(() => {
 			return props.loading || search.searching.value;
 		});
+		/**
+		 * 选择下拉选项，并在单选模式下关闭面板。
+		 * 禁用状态或禁用选项不会触发任何后续行为。
+		 * @param option 当前被选择的选项
+		 */
 		const selectOption = (option: SelectOption) => {
+			if (props.disabled || option.disabled) return;
+
 			model.selectOption(option);
-			if (!props.multiple) close();
+
+			if (!model.isMultiple.value) {
+				close();
+			}
+
 			search.setQuery('');
 		};
 
@@ -190,7 +260,7 @@ export default defineComponent({
 					[c('disabled')]: props.disabled,
 				}}
 				style={styles.value}
-				onKeydown={keyboard.handleKeydown}
+				onKeydown={handleSelectKeydown}
 			>
 				<div
 					class={c('trigger')}
@@ -202,7 +272,7 @@ export default defineComponent({
 					{slots.prefix ? <span class={c('prefix')}>{slots.prefix()}</span> : null}
 
 					<div class={c('content')}>
-						{props.multiple ? (
+						{model.isMultiple.value ? (
 							<SelectTags
 								options={model.selectedOptions.value}
 								maxTagCount={props.maxTagCount}
@@ -212,12 +282,15 @@ export default defineComponent({
 								{{ tag: slots.tag }}
 							</SelectTags>
 						) : slots.label ? (
-							slots.label({ option: model.selectedOptions.value[0], value: props.modelValue })
+							slots.label({
+								option: model.selectedOptions.value[0],
+								value: props.modelValue,
+							})
 						) : model.selectedLabel.value ? (
 							<span class={c('value')}>{model.selectedLabel.value}</span>
 						) : null}
 
-						{props.filterable ? (
+						{searchable.value ? (
 							<input
 								ref={inputRef}
 								class={c('search')}

@@ -137,6 +137,26 @@
 	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
 	transform-origin: top center;
 	will-change: transform, opacity;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: 4px;
+		background: rgba(148, 163, 184, 0.3);
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: rgba(148, 163, 184, 0.48);
+	}
 
 	&-empty,
 	&-loading {
