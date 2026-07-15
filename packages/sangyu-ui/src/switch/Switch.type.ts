@@ -45,3 +45,9 @@ export interface SwitchSlots {
 	unchecked?: (props: SwitchSlotProps) => VNodeChild;
 	thumb?: (props: SwitchSlotProps) => VNodeChild;
 }
+export interface SySwitchInstance {
+	/** 聚焦到底层原生 input */
+	focus: () => void;
+	/** 让底层原生 input 失焦 */
+	blur: () => void;
+}

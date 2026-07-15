@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
 import SySwitch from '../SySwitch.vue';
+import type { SySwitchInstance } from '../Switch.type';
 
 describe('SySwitch', () => {
 	it('renders modifier classes, native attributes and computed styles', () => {
@@ -118,11 +119,17 @@ describe('SySwitch', () => {
 		expect(input.attributes('aria-checked')).toBe('mixed');
 		expect(wrapper.find('.sy-switch-minus').exists()).toBe(true);
 
-		(wrapper.vm as { focus: () => void; blur: () => void }).focus();
+		/**
+		 * 获取 SySwitch 对外暴露的组件实例。
+		 * Vue Test Utils 不会自动把 defineExpose 合并到 wrapper.vm 类型中。
+		 */
+		const switchInstance = wrapper.vm as unknown as SySwitchInstance;
+
+		switchInstance.focus();
 		await nextTick();
 		expect(document.activeElement).toBe(input.element);
 
-		(wrapper.vm as { focus: () => void; blur: () => void }).blur();
+		switchInstance.blur();
 		await nextTick();
 		expect(document.activeElement).not.toBe(input.element);
 
