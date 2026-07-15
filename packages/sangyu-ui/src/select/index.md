@@ -22,6 +22,10 @@
 
 <demo src="./demos/multiple-select.vue"></demo>
 
+## 标签模式
+
+<demo src="./demos/label-select.vue"></demo>
+
 ## 搜索
 
 <demo src="./demos/search-select.vue"></demo>
@@ -51,6 +55,7 @@
 | loading | `boolean` | 是否展示加载状态 | `false` |
 | clearable | `boolean` | 是否允许清空当前值 | `false` |
 | multiple | `boolean` | 是否启用多选 | `false` |
+| mode | `'default' \| 'label'` | 工作模式；标签模式下输入内容并按 Enter 可创建标签 | `'default'` |
 | filterable | `boolean` | 是否启用搜索输入 | `false` |
 | remoteMethod | `(query: string, signal: AbortSignal) => void \| Promise<void>` | 远程搜索方法；`signal` 用于取消上一次未完成的请求 | `undefined` |
 | remoteDebounce | `number` | 远程搜索防抖时间，单位为毫秒 | `300` |
