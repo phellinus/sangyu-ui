@@ -62,7 +62,7 @@
 	import { computed } from 'vue';
 	import { useClassnames } from '@sangyu-ui/utils';
 	import { SyIcon } from '@sangyu-ui/icons';
-	import type { SwitchEmits, SwitchProps } from './Switch.type';
+	import type { SwitchEmits, SwitchProps, SySwitchInstance } from './Switch.type';
 	import { useSwitch } from './composables';
 
 	defineOptions({
@@ -128,7 +128,7 @@
 		return 12;
 	});
 
-	defineExpose({
+	defineExpose<SySwitchInstance>({
 		focus,
 		blur,
 	});
