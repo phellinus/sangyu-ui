@@ -2,7 +2,7 @@ import { mount, type ComponentMountingOptions } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import SySelect from '../SySelect';
-import type { SelectOption } from '../Select.type';
+import type { SelectModelValue, SelectOption } from '../Select.type';
 
 const options: SelectOption[] = [
 	{ label: '设计系统', value: 'design' },
@@ -217,6 +217,111 @@ describe('SySelect', () => {
 		expect(wrapper.findAll('.sy-select-option')).toHaveLength(1);
 		expect(wrapper.get('.sy-select-option').text()).toContain('文档站');
 		expect(filterMethod).toHaveBeenCalledTimes(options.length);
+	});
+
+	it('shows the typed label candidate and appends the created label to the dropdown bottom', async () => {
+		const labelOptions: SelectOption[] = [
+			{ label: 'Vue', value: 'Vue' },
+			{ label: 'React', value: 'React' },
+		];
+		const wrapper = mountSelect({
+			props: {
+				modelValue: ['Vue', '已有标签'],
+				options: labelOptions,
+				mode: 'label',
+				virtual: false,
+			},
+		});
+		const input = wrapper.get('.sy-select-search');
+
+		await input.trigger('focus');
+		await input.setValue('新标签');
+
+		expect(wrapper.find('.sy-select-dropdown-empty').exists()).toBe(false);
+		expect(wrapper.findAll('.sy-select-option')).toHaveLength(1);
+		expect(wrapper.get('.sy-select-option').text()).toBe('新标签');
+		expect(wrapper.get('.sy-select-option').classes()).not.toContain('sy-select-option-selected');
+
+		await input.trigger('keydown', { key: 'Enter' });
+
+		const nextValue = wrapper.emitted('update:modelValue')?.[0][0] as SelectModelValue;
+		expect(nextValue).toEqual(['Vue', '已有标签', '新标签']);
+
+		// 模拟父组件响应 v-model 更新，让新标签重新进入下拉选项列表
+		await wrapper.setProps({ modelValue: nextValue });
+
+		const dropdownOptions = wrapper.findAll('.sy-select-option');
+		expect(dropdownOptions.map((option) => option.text())).toEqual(['Vue✓', 'React', '已有标签✓', '新标签✓']);
+		expect(dropdownOptions.at(-1)?.classes()).toContain('sy-select-option-selected');
+	});
+
+	it('reuses an existing label option and does not create duplicate labels', async () => {
+		const labelOptions: SelectOption[] = [
+			{ label: 'Vue', value: 'vue' },
+			{ label: 'React', value: 'react' },
+		];
+		const wrapper = mountSelect({
+			props: {
+				modelValue: ['vue'],
+				options: labelOptions,
+				mode: 'label',
+				virtual: false,
+			},
+		});
+		const input = wrapper.get('.sy-select-search');
+
+		await input.trigger('focus');
+		await input.setValue('VUE');
+		await input.trigger('keydown', { key: 'Enter' });
+
+		expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+		expect((input.element as HTMLInputElement).value).toBe('');
+
+		await input.setValue('React');
+		await input.trigger('keydown', { key: 'Enter' });
+
+		expect(wrapper.emitted('update:modelValue')).toEqual([[['vue', 'react']]]);
+	});
+
+	it('creates a label by clicking the typed candidate option', async () => {
+		const wrapper = mountSelect({
+			props: {
+				modelValue: [],
+				options: [],
+				mode: 'label',
+				virtual: false,
+			},
+		});
+		const input = wrapper.get('.sy-select-search');
+
+		await input.trigger('focus');
+		await input.setValue('可点击标签');
+		await wrapper.get('.sy-select-option').trigger('click');
+
+		expect(wrapper.emitted('update:modelValue')).toEqual([[['可点击标签']]]);
+		expect(wrapper.emitted('change')?.[0][1]).toEqual([
+			{ label: '可点击标签', value: '可点击标签' },
+		]);
+	});
+
+	it('respects max when creating labels with Enter', async () => {
+		const wrapper = mountSelect({
+			props: {
+				modelValue: ['已有标签'],
+				options: [],
+				mode: 'label',
+				max: 1,
+				virtual: false,
+			},
+		});
+		const input = wrapper.get('.sy-select-search');
+
+		await input.trigger('focus');
+		await input.setValue('超出限制');
+		await input.trigger('keydown', { key: 'Enter' });
+
+		expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+		expect((input.element as HTMLInputElement).value).toBe('超出限制');
 	});
 
 	it('debounces remote search, displays loading and aborts the stale request', async () => {
