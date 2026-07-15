@@ -62,18 +62,27 @@ export default defineComponent({
 			}
 			const label = search.query.value.trim();
 			if (!label) return false;
+			const normalizedLabel = label.toLowerCase();
 
-			// 已存在相同标签时不重复添加
-			if (model.values.value.includes(label)) {
+			/**
+			 * 查找名称或值完全相同的已有选项，
+			 * 避免重复创建相同标签。
+			 */
+			const existingOption = search.labelOptions.value.find((option) => {
+				return option.value === label || option.label.trim().toLowerCase() === normalizedLabel;
+			});
+
+			if (existingOption) {
+				if (!model.isSelected(existingOption)) {
+					model.selectOption(existingOption);
+				}
 				search.setQuery('');
 				return true;
 			}
-
-			// 达到最大数量后阻止继续添加
+			// 达到最大数量后阻止继续创建
 			if (props.max !== undefined && model.values.value.length >= props.max) {
 				return true;
 			}
-
 			model.selectOption({
 				label,
 				value: label,
