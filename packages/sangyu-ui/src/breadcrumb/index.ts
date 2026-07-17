@@ -1,10 +1,19 @@
-import { App } from 'vue';
-import SyBreadCrumb from './breadcrumb';
-import SyBreadcrumbItem from './breadcrumbItem';
+import type { App } from 'vue';
+import SyBreadCrumb from './SyBreadcrumb';
+import { SyBreadcrumbItem } from './components';
 
-(SyBreadCrumb as any).install = (app: App) => {
-	app.component(SyBreadCrumb.name, SyBreadCrumb);
-	app.component(SyBreadcrumbItem.name || 'SyBreadcrumbItem', SyBreadcrumbItem);
+type InstallableBreadcrumb = typeof SyBreadCrumb & {
+	install: (app: App) => void;
 };
 
-export default SyBreadCrumb;
+const Breadcrumb = SyBreadCrumb as InstallableBreadcrumb;
+
+Breadcrumb.install = (app: App) => {
+	app.component('SyBreadCrumb', Breadcrumb);
+	app.component('SyBreadcrumbItem', SyBreadcrumbItem);
+};
+
+export { Breadcrumb as SyBreadCrumb, SyBreadcrumbItem };
+export * from './Breadcrumb.type';
+
+export default Breadcrumb;
