@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
-import SyButton from '../button.vue';
+import SyButton from '../SyButton.vue';
 
 describe('SyButton', () => {
 	it('renders slot content with modifier classes and custom style', () => {

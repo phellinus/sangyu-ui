@@ -32,6 +32,10 @@
 
 <demo src="./demos/disable.vue"></demo>
 
+## 加载状态
+
+<demo src="./demos/loading.vue"></demo>
+
 ## 按钮圆角
 
 <demo src="./demos/radius.vue"></demo>
@@ -53,6 +57,7 @@
 | type                   | ` 'filled' \| 'border' \| 'flat' \| 'line' \| 'gradient' \| 'relief'` | 按钮视觉样式类型                                             | `'filled'`  |
 | size                   | `'small' \| 'default' \| 'large'`                            | 按钮尺寸                                                     | `'default'` |
 | disabled               | `boolean`写·                                                 | 是否禁用                                                     | `false`     |
+| loading                | `boolean`                                                    | 是否显示加载状态；加载时按钮不可交互                         | `false`     |
 | href                   | `string`                                                     | 配置后点击会跳转到该链接                                     | `''`        |
 | color                  | `string`                                                     | 支持主题色关键词 (`primary`/`success`/`warning`/`error`) 或任意自定义 CSS 颜色 | `'primary'` |
 | textColor              | `string`                                                     | 文本颜色，同样支持主题色或自定义颜色；为空时跟随类型的默认颜色 | `''`        |
@@ -70,3 +75,10 @@
 | mouseover | 鼠标进入按钮区域时触发             | `(event: MouseEvent) => void` |
 | mouseout  | 鼠标离开按钮区域时触发             | `(event: MouseEvent) => void` |
 | blur      | 按钮失去焦点时触发（如点击后转移焦点） | `(event: MouseEvent) => void` |
+
+### 插槽
+
+| 插槽名  | 说明                                     |
+| ------- | ---------------------------------------- |
+| default | 按钮内容                                 |
+| loading | 自定义加载状态内容，未传时显示默认旋转图标 |
