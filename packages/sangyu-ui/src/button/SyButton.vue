@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 	import { useAttrs } from 'vue';
+	import { ButtonLoadingIcon } from './components';
 	import type { ButtonEmits, ButtonProps, ButtonSlots, SyButtonInstance } from './Button.type';
 	import { useButton } from './composables';
 
