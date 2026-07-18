@@ -231,15 +231,33 @@
 		}
 	}
 
-	&-spinner {
+	&-loading-icon {
 		position: relative;
 		z-index: 1;
-		width: 13px;
-		height: 13px;
-		border: 2px solid currentColor;
-		border-right-color: transparent;
-		border-radius: 50%;
-		animation: sy-button-spin 0.75s linear infinite;
+		display: block;
+		flex: none;
+		width: 16px;
+		height: 16px;
+		color: currentColor;
+		animation: sy-button-loading-rotate 0.9s linear infinite;
+	}
+
+	&-size--small &-loading-icon {
+		width: 14px;
+		height: 14px;
+	}
+
+	&-size--large &-loading-icon {
+		width: 18px;
+		height: 18px;
+	}
+
+	&-loading {
+		cursor: wait;
+	}
+
+	&-loading &-content {
+		pointer-events: none;
 	}
 
 	&-disabled,
@@ -280,5 +298,20 @@
 @keyframes sy-button-spin {
 	to {
 		transform: rotate(360deg);
+	}
+}
+@keyframes sy-button-loading-rotate {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sy-button-loading-icon {
+		animation-duration: 1.8s;
 	}
 }

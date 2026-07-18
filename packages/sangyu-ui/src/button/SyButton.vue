@@ -11,7 +11,7 @@
 		@blur="handleBlur"
 	>
 		<slot v-if="props.loading" name="loading">
-			<span :class="c('spinner')" aria-hidden="true" />
+			<ButtonLoadingIcon />
 		</slot>
 
 		<span :class="c('content')">
