@@ -1,12 +1,19 @@
-import { App } from 'vue';
-import SyMenu from './menu';
-import SyMenuItem from './menuitem';
-import SySubMenu from './submenu';
+import type { App } from 'vue';
+import SyMenu from './SyMenu';
+import { SyMenuItem, SySubMenu } from './components';
 
-(SyMenu as any).install = (app: App) => {
-	app.component(SyMenu.name || 'SyMenu', SyMenu);
-	app.component(SyMenuItem.name || 'SyMenuItem', SyMenuItem);
-	app.component(SySubMenu.name || 'SySubMenu', SySubMenu);
+(
+	SyMenu as typeof SyMenu & {
+		install(app: App): void;
+	}
+).install = (app: App) => {
+	app.component('SyMenu', SyMenu);
+	app.component('SyMenuItem', SyMenuItem);
+	app.component('SySubMenu', SySubMenu);
 };
+
+export { SyMenu, SyMenuItem, SySubMenu };
+
+export * from './Menu.type';
 
 export default SyMenu;
