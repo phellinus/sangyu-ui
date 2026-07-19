@@ -1,5 +1,15 @@
 export { default as SyButton } from './button';
 export { default as SyInput } from './input';
+// 导出 Input 对外公开的类型，支持从 sangyu-ui 根入口按类型导入。
+export type {
+	InputEmits,
+	InputNativeType,
+	InputProps,
+	InputSize,
+	InputSlots,
+	InputVariant,
+	SyInputInstance,
+} from './input';
 export { default as SyTooltip } from './tooltip';
 export { default as SyTable } from './table';
 export { default as SyNotification } from './notification';
