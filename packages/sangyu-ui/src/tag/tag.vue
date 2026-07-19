@@ -1,80 +1,89 @@
 <template>
-	<div :class="tagCls" :style="tagStyle" @click.stop="handleClick">
-		<slot name="default"></slot>
+	<!--
+		使用 span 保持标签的行内元素特性。
 
-		<span v-if="closable" class="sy-tag-close-icon" @click.stop="handleClose">
-			<svg
-				width="14"
-				height="14"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			>
-				<line x1="18" y1="6" x2="6" y2="18"></line>
-				<line x1="6" y1="6" x2="18" y2="18"></line>
-			</svg>
-		</span>
-	</div>
+		clickable 开启后添加 button 语义和 tabindex，
+		让标签可以通过键盘聚焦和触发。
+	-->
+	<span
+		v-bind="$attrs"
+		:class="tagClasses"
+		:style="[tagStyle, props.customStyle]"
+		:role="props.clickable ? 'button' : undefined"
+		:tabindex="props.clickable ? 0 : undefined"
+		@click="handleClick"
+		@keydown="handleKeydown"
+	>
+		<slot />
+		<TagClose v-if="props.closable" :aria-label="props.closeAriaLabel" @close="handleClose">
+			<template v-if="$slots['close-icon']" #default>
+				<slot name="close-icon" />
+			</template>
+		</TagClose>
+	</span>
 </template>
 
 <script setup lang="ts">
-	import { getColor, getColorWithAlpha, useClassnames } from '@sangyu-ui/utils';
-	import { computed } from 'vue';
-	import { SyTagProps } from './interface';
+	import { useClassnames } from '@sangyu-ui/utils';
+	import type { TagEmits, TagProps, TagSlots } from './Tag.type';
+	import { TagClose } from './components';
+	import { useTag } from './composables';
 
+	/**
+	 * 声明组件名称，并关闭默认属性继承。
+	 *
+	 * $attrs 会在模板中明确传递给根节点。
+	 */
 	defineOptions({
 		name: 'SyTag',
 		inheritAttrs: false,
 	});
 
-	const props = withDefaults(defineProps<SyTagProps>(), {
+	/**
+	 * 声明组件属性及其默认值。
+	 */
+	const props = withDefaults(defineProps<TagProps>(), {
 		type: 'primary',
 		size: 'default',
 		closable: false,
 		hit: false,
 		borderRadius: 6,
 		clickable: false,
+		closeAriaLabel: '关闭标签',
 	});
 
-	defineSlots<{
-		default: () => void;
-	}>();
+	/** 声明组件事件 */
+	const emit = defineEmits<TagEmits>();
 
-	const emit = defineEmits<{
-		close: [];
-		click: [];
-	}>();
+	/** 声明组件插槽 */
+	defineSlots<TagSlots>();
 
-	const { c, cm } = useClassnames('tag');
+	/** 获取 Tag 组件的 BEM 类名工具 */
+	const { c, cm, cx } = useClassnames('tag');
 
-	const tagCls = {
+	/** 获取标签动态样式和交互方法 */
+	const { tagStyle, handleClick, handleKeydown, handleClose } = useTag(props, emit);
+
+	/**
+	 * 响应式生成标签类名
+	 * 原实现使用普通对象，运行时修改 size 或 hit 后，
+	 * 类名不会跟随 Props 更新
+	 */
+	const tagClasses = cx(() => ({
 		[c()]: true,
+
+		/**
+		 * 保留仓库现有尺寸类名格式：
+		 * sy-tag-small、sy-tag-default、sy-tag-large
+		 */
 		[c(props.size)]: true,
-		[c(cm('hit-' + props.hit))]: true,
-	};
 
-	const tagStyle = computed(() => [
-		props.customStyle,
-		{
-			color: props.color ? props.color : getColor(props.type),
-			backgroundColor: props.bgColor ? props.bgColor : getColorWithAlpha(getColor(props.type), 0.2),
-			borderColor: getColorWithAlpha(props.color ?? getColor(props.type), 0.2),
-			borderRadius: props.borderRadius + 'px',
-			cursor: props.clickable ? 'pointer' : 'default',
-		},
-	]);
-
-	const handleClose = () => {
-		emit('close');
-	};
-
-	const handleClick = () => {
-		if (!props.clickable) return;
-		emit('click');
-	};
+		/**
+		 * 状态类名使用 BEM modifier：
+		 * sy-tag--hit、sy-tag--clickable
+		 */
+		[c(cm('hit'))]: props.hit,
+		[c(cm('clickable'))]: props.clickable,
+		[c(cm('closable'))]: props.closable,
+	}));
 </script>
-
-<style scoped></style>
