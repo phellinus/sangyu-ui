@@ -1,5 +1,5 @@
 <template>
-	<div v-bind="$attrs" :class="classes" :style="[styles, props.customStyle]">
+	<div v-bind="rootAttrs" :class="classes" :style="[styles, props.customStyle]">
 		<span v-if="$slots.prefix" :class="c(ce('prefix'))">
 			<slot name="prefix" />
 		</span>
@@ -10,7 +10,7 @@
 
 		<div :class="c('center')">
 			<input
-				v-bind="props.inputAttrs"
+				v-bind="mergedInputAttrs"
 				:id="inputId"
 				ref="inputRef"
 				:class="c('input')"
@@ -26,6 +26,8 @@
 				:aria-label="ariaLabel"
 				@input="handleInput"
 				@change="handleChange"
+				@compositionstart="handleCompositionStart"
+				@compositionend="handleCompositionEnd"
 				@focus="handleFocus"
 				@blur="handleBlur"
 			/>
@@ -63,9 +65,11 @@
 
 <script setup lang="ts">
 	import { useClassnames } from '@sangyu-ui/utils';
+	import { computed, mergeProps, useAttrs } from 'vue';
 	import type { InputEmits, InputProps, InputSlots, SyInputInstance } from './Input.type';
 	import { InputClear } from './components';
 	import { useInput } from './composables';
+	import { splitInputAttrs } from './helpers';
 
 	defineOptions({
 		name: 'SyInput',
@@ -96,6 +100,23 @@
 	defineSlots<InputSlots>();
 
 	const { c, cx, ce, cm } = useClassnames('input');
+	const attrs = useAttrs();
+
+	/**
+	 * 将外部属性拆分到组件根节点和真实 input。
+	 */
+	const forwardedAttrs = computed(() => splitInputAttrs(attrs));
+
+	/**
+	 * inputAttrs 的优先级高于自动转发属性，
+	 * 允许调用方显式覆盖自动分流结果。
+	 */
+	const mergedInputAttrs = computed(() => mergeProps(forwardedAttrs.value.inputAttrs, props.inputAttrs ?? {}));
+
+	/**
+	 * class、style、data-* 等属性继续绑定到组件根节点。
+	 */
+	const rootAttrs = computed(() => forwardedAttrs.value.rootAttrs);
 
 	const {
 		inputRef,
@@ -109,6 +130,8 @@
 		styles,
 		handleInput,
 		handleChange,
+		handleCompositionStart,
+		handleCompositionEnd,
 		handleFocus,
 		handleBlur,
 		handleClear,
