@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import { describe, expect, it } from 'vitest';
-import SyInput from '../input.vue';
+import SyInput from '../SyInput.vue';
 
 describe('SyInput', () => {
 	it('renders variant, size, slots and password visibility state', async () => {

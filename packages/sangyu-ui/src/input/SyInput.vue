@@ -33,7 +33,7 @@
 			<label
 				v-if="props.label"
 				:for="inputId"
-				:class="[c('center-ph'), c('center-ph-label'), { 'is-float': isFloat }]"
+				:class="[c('center-ph'), c('center-ph', cm('label')), { 'is-float': isFloat }]"
 			>
 				{{ props.label }}
 			</label>
@@ -54,7 +54,9 @@
 		</span>
 
 		<InputClear v-if="showClear" :aria-label="props.clearAriaLabel" @clear="handleClear">
-			<slot v-if="$slots['clear-icon']" name="clear-icon" />
+			<template v-if="$slots['clear-icon']" #default>
+				<slot name="clear-icon" />
+			</template>
 		</InputClear>
 	</div>
 </template>
