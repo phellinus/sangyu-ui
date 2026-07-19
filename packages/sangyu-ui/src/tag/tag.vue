@@ -14,9 +14,7 @@
 		@click="handleClick"
 		@keydown="handleKeydown"
 	>
-		<!-- 标签主体内容 -->
 		<slot />
-
 		<TagClose v-if="props.closable" :aria-label="props.closeAriaLabel" @close="handleClose">
 			<template v-if="$slots['close-icon']" #default>
 				<slot name="close-icon" />
