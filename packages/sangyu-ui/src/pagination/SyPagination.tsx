@@ -110,6 +110,7 @@ export default defineComponent({
 						pageSize={state.pageSize.value}
 						pageSizes={props.pageSizes}
 						disabled={props.disabled}
+						size={props.size}
 						onChange={state.setPageSize}
 					/>
 				),
