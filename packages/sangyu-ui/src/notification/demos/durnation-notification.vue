@@ -22,16 +22,16 @@ title: Notification 设置延长时间
 		SyNotification.info({
 			title: '系统通知',
 			content: h(Four),
-			durnation: 4000,
+			duration: 4000,
 			type: 'info',
-			appContext: instance.appContext,
+			appContext: instance?.appContext,
 		});
 	};
 	const openNotificationDurnation = () => {
 		SyNotification.info({
 			title: '系统通知',
 			content: '系统提示通知info',
-			durnation: 0,
+			duration: 0,
 			type: 'info',
 		});
 	};
