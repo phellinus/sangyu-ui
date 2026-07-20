@@ -21,7 +21,7 @@ title: Notification 的基本使用
 		SyNotification.info({
 			title: '系统通知',
 			content: h(Test),
-			appContext: instance.appContext,
+			appContext: instance?.appContext,
 		});
 	};
 </script>
