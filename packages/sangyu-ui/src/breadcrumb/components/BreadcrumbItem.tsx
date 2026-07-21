@@ -21,15 +21,19 @@ export default defineComponent({
 		const separator = computed(() => breadcrumbContext?.separator.value ?? '/');
 		/** 间隔的图标 */
 		const separatorIcon = computed(() => breadcrumbContext?.separatorIcon.value ?? '');
+		/** 只有存在点击处理器且不是当前页时才允许交互 */
+		const clickable = computed(
+			() => Boolean(props.to) && !props.isLast && Boolean(breadcrumbContext?.clickable.value),
+		);
 
 		const handleClick = () => {
-			if (!props.to) return;
+			if (!clickable.value) return;
 
 			breadcrumbContext?.handleItemClick(props.to);
 		};
 
 		const handleKeydown = (event: KeyboardEvent) => {
-			if (!props.to || (event.key !== 'Enter' && event.key !== ' ')) {
+			if (!clickable.value || (event.key !== 'Enter' && event.key !== ' ')) {
 				return;
 			}
 
@@ -43,12 +47,12 @@ export default defineComponent({
 					class={[
 						'sy-breadcrumb-item__inner',
 						{
-							'is-link': Boolean(props.to),
+							'is-link': clickable.value,
 							'is-last': props.isLast,
 						},
 					]}
-					role={props.to ? 'link' : undefined}
-					tabindex={props.to ? 0 : undefined}
+					role={clickable.value ? 'link' : undefined}
+					tabindex={clickable.value ? 0 : undefined}
 					aria-current={props.isLast ? 'page' : undefined}
 					onClick={handleClick}
 					onKeydown={handleKeydown}
