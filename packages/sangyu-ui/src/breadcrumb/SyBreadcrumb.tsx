@@ -40,6 +40,7 @@ export default defineComponent({
 		provide(breadcrumbContextKey, {
 			separator: computed(() => props.separator),
 			separatorIcon: computed(() => props.separatorIcon),
+			clickable: computed(() => typeof props.handleClick === 'function'),
 			handleItemClick: (to?: string) => {
 				props.handleClick?.(to);
 			},

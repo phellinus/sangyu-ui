@@ -16,5 +16,6 @@ export interface BreadcrumbItemProps {
 export interface BreadcrumbContext {
 	separator: ComputedRef<string>;
 	separatorIcon: ComputedRef<string>;
+	clickable: ComputedRef<boolean>;
 	handleItemClick: (to?: string) => void;
 }
