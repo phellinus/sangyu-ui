@@ -1,72 +1,64 @@
-import { computed, defineComponent, PropType, provide, toRef } from 'vue';
+import { computed, defineComponent, mergeProps, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
-import { RadioGroupDirection, RadioGroupProps, radioGroupKey, RadioSize } from './interface';
+import type { RadioGroupDirection, RadioGroupProps, RadioSize } from './Radio.type';
+import { useRadioGroup } from './composables';
 
 export default defineComponent({
 	name: 'SyRadioGroup',
+	inheritAttrs: false,
 	props: {
+		/** 当前选中的 label */
 		modelValue: {
 			type: [String, Number, Boolean] as PropType<RadioGroupProps['modelValue']>,
 			default: undefined,
 		},
+		/** 是否禁用整个分组 */
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
+		/** 分组原生名称 */
 		name: {
 			type: String,
 			default: '',
 		},
+		/** 分组统一尺寸 */
 		size: {
 			type: String as PropType<RadioSize>,
 			default: 'default',
 		},
+		/** 分组排列方向 */
 		direction: {
 			type: String as PropType<RadioGroupDirection>,
 			default: 'horizontal',
 		},
+		/** 分组根节点自定义样式 */
 		customStyle: {
-			type: String,
-			default: '',
-		},
-		onChange: {
-			type: Function as PropType<RadioGroupProps['onChange']>,
+			type: [String, Object] as PropType<string | CSSProperties>,
 		},
 	},
 	emits: ['update:modelValue', 'change'],
-	setup(props, { emit, slots }) {
+	setup(props, { attrs, emit, slots }) {
 		const { c } = useClassnames('radio-group');
-
-		const handleChange = (value: string | number | boolean, option: { label: string | number | boolean }) => {
-			if (props.modelValue === value) {
-				return;
-			}
-
-			emit('update:modelValue', value);
-			emit('change', value, option);
-			props.onChange?.(value, option);
-		};
-
-		provide(radioGroupKey, {
-			value: toRef(props, 'modelValue'),
-			disabled: toRef(props, 'disabled'),
-			name: toRef(props, 'name'),
-			size: toRef(props, 'size'),
-			direction: toRef(props, 'direction'),
-			onChange: handleChange,
-		});
-
-		const groupCls = computed(() => ({
+		/** 创建并提供 RadioGroup 上下文 */
+		useRadioGroup(props, emit);
+		/** 根据方向、尺寸和禁用状态生成类名 */
+		const classes = computed(() => ({
 			[c()]: true,
 			[c(props.direction)]: true,
 			[c(props.size)]: true,
 			[c('disabled')]: props.disabled,
 		}));
 
-		return () => (
-			<div class={groupCls.value} style={props.customStyle} role='radiogroup'>
-				{slots.default?.()}
-			</div>
-		);
+		return () => {
+			/** 合并分组根节点属性 */
+			const rootProps = mergeProps(attrs, {
+				class: classes.value,
+				style: props.customStyle,
+				role: 'radiogroup',
+				'aria-disabled': props.disabled ? 'true' : undefined,
+			});
+			return <div {...rootProps}>{slots.default?.()}</div>;
+		};
 	},
 });

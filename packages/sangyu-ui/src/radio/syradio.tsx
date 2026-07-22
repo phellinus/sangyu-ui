@@ -1,115 +1,129 @@
-import { computed, defineComponent, inject, PropType } from 'vue';
-import { radioGroupKey, RadioProps, RadioShape, RadioSize } from './interface';
+import { computed, defineComponent, mergeProps, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
+import type { RadioProps, RadioShape, RadioSize, SyRadioInstance } from './Radio.type';
+import { useRadio } from './composables';
 
 export default defineComponent({
 	name: 'SyRadio',
+	/**
+	 * 关闭默认属性继承
+	 * 在渲染函数中明确绑定到 label 根节点
+	 */
+	inheritAttrs: false,
 	props: {
+		/** 独立使用时的选中状态 */
 		modelValue: {
 			type: Boolean,
 			default: false,
 		},
+		/** 分组模式下的选项值 */
 		label: {
 			type: [String, Number, Boolean] as PropType<RadioProps['label']>,
 			default: undefined,
 		},
+		/** 是否禁用 */
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
+		/** Radio 图标形状 */
 		shape: {
 			type: String as PropType<RadioShape>,
 			default: 'circle',
 		},
+		/** Radio 尺寸 */
 		size: {
 			type: String as PropType<RadioSize>,
 			default: 'default',
 		},
+		/** 原生 Radio 名称 */
 		name: {
 			type: String,
 			default: '',
 		},
+		/** 原生 Radio id */
+		id: {
+			type: String,
+			default: '',
+		},
+		/** 默认插槽不存在时显示的内容 */
 		content: {
 			type: String,
 			default: '',
 		},
+		/** 根节点自定义样式 */
 		customStyle: {
-			type: String,
-			default: '',
+			type: [String, Object] as PropType<string | CSSProperties>,
 		},
-		onChange: {
-			type: Function as PropType<RadioProps['onChange']>,
+		/** 传递给真实 input 的额外属性 */
+		inputAttrs: {
+			type: Object as PropType<RadioProps['inputAttrs']>,
 		},
 	},
 	emits: ['update:modelValue', 'change'],
-	setup(props, { slots, emit }) {
-		const groupContext = inject(radioGroupKey, null);
+	setup(props, { attrs, emit, expose, slots }) {
 		const { c } = useClassnames('radio');
-
-		const isInGroup = computed(() => !!groupContext);
-		const mergedDisabled = computed(() => props.disabled || !!groupContext?.disabled.value);
-		const mergedSize = computed(() => groupContext?.size.value || props.size);
-		const mergedName = computed(() => groupContext?.name.value || props.name);
-
-		const checked = computed(() => {
-			if (groupContext) {
-				return groupContext.value.value === props.label;
-			}
-			return props.modelValue;
-		});
-
-		const handleChange = () => {
-			if (mergedDisabled.value) {
-				return;
-			}
-
-			if (groupContext) {
-				if (checked.value || props.label === undefined) {
-					return;
-				}
-				groupContext.onChange(props.label, { label: props.label });
-				return;
-			}
-
-			const next = true;
-			if (props.modelValue === next) {
-				return;
-			}
-			emit('update:modelValue', next);
-			emit('change', next, props.label);
-			props.onChange?.(next, props.label);
-		};
-
-		const radioCls = computed(() => ({
+		const { inputRef, inputId, isInGroup, checked, disabled, size, name, handleChange, focus, blur } = useRadio(
+			props,
+			emit,
+		);
+		/** 根据当前状态生成类名 */
+		const classes = computed(() => ({
 			[c()]: true,
 			[c(props.shape)]: true,
-			[c(mergedSize.value)]: true,
+			[c(size.value)]: true,
 			[c('checked')]: checked.value,
-			[c('disabled')]: mergedDisabled.value,
+			[c('disabled')]: disabled.value,
 			[c('grouped')]: isInGroup.value,
 		}));
+
+		/** 向外暴露聚焦和失焦方法 */
+		expose<SyRadioInstance>({
+			focus,
+			blur,
+		});
+
 		return () => {
-			const contentNode = slots.default?.() ?? props.content;
+			/** 默认插槽优先级高于 content */
+			const contentNode = slots.default ? slots.default() : props.content;
+
+			/**
+			 * 合并原生 input 属性
+			 * 受控属性放在后面，防止 inputAttrs 覆盖组件状态
+			 */
+			const nativeInputProps = mergeProps(props.inputAttrs ?? {}, {
+				id: inputId.value,
+				ref: inputRef,
+				class: c('input'),
+				type: 'radio',
+				value: props.label === undefined ? undefined : String(props.label),
+				checked: checked.value,
+				disabled: disabled.value,
+				name: name.value,
+				'aria-label':
+					props.inputAttrs?.['aria-label'] ??
+					(!contentNode && props.label !== undefined ? String(props.label) : undefined),
+				onChange: handleChange,
+			});
+
+			/**
+			 * 外部 class 和 style 与组件自身属性合并
+			 */
+			const rootProps = mergeProps(attrs, {
+				class: classes.value,
+				style: props.customStyle,
+			});
 
 			return (
-				<>
-					<label class={radioCls.value} style={props.customStyle}>
-						<input
-							class={c('input')}
-							type='radio'
-							checked={checked.value}
-							disabled={mergedDisabled.value}
-							name={mergedName.value}
-							onChange={handleChange}
-						/>
-						<span class={c('icon')} aria-hidden='true'>
-							<span class={c('inner')}></span>
-						</span>
-						{contentNode !== undefined && contentNode !== '' && (
-							<span class={c('label')}>{contentNode}</span>
-						)}
-					</label>
-				</>
+				<label {...rootProps}>
+					<input {...nativeInputProps} />
+
+					<span class={c('icon')} aria-hidden='true'>
+						<span class={c('inner')} />
+					</span>
+
+					{contentNode !== undefined && contentNode !== '' && <span class={c('label')}>{contentNode}</span>}
+				</label>
 			);
 		};
 	},
