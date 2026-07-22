@@ -1,99 +1,120 @@
-import { computed, defineComponent, inject, PropType } from 'vue';
-import { RadioButtonProps, radioGroupKey, RadioSize } from './interface';
+import { computed, defineComponent, mergeProps, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
+import type { RadioButtonProps, RadioSize, SyRadioInstance } from './Radio.type';
+import { useRadio } from './composables';
 
 export default defineComponent({
 	name: 'SyRadioButton',
+	inheritAttrs: false,
 	props: {
+		/** 独立使用时的选中状态 */
 		modelValue: {
 			type: Boolean,
 			default: false,
 		},
+		/** 分组模式下绑定的选项值 */
 		label: {
 			type: [String, Number, Boolean] as PropType<RadioButtonProps['label']>,
 			default: undefined,
 		},
+		/** 是否禁用 */
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
+		/** 按钮尺寸 */
 		size: {
 			type: String as PropType<RadioSize>,
 			default: 'default',
 		},
+		/** 原生 Radio 名称 */
 		name: {
 			type: String,
 			default: '',
 		},
+
+		/** 原生 Radio id */
+		id: {
+			type: String,
+			default: '',
+		},
+
+		/** 没有默认插槽时显示的内容 */
 		content: {
 			type: String,
 			default: '',
 		},
+
+		/** 根节点自定义样式 */
 		customStyle: {
-			type: String,
-			default: '',
+			type: [String, Object] as PropType<string | CSSProperties>,
 		},
-		onChange: {
-			type: Function as PropType<RadioButtonProps['onChange']>,
+
+		/** 传递给真实 input 的额外属性 */
+		inputAttrs: {
+			type: Object as PropType<RadioButtonProps['inputAttrs']>,
 		},
 	},
+
 	emits: ['update:modelValue', 'change'],
-	setup(props, { emit, slots }) {
-		const groupContext = inject(radioGroupKey, null);
+
+	setup(props, { attrs, emit, expose, slots }) {
 		const { c } = useClassnames('radio-button');
 
-		const mergedDisabled = computed(() => props.disabled || !!groupContext?.disabled.value);
-		const mergedSize = computed(() => groupContext?.size.value || props.size);
-		const mergedName = computed(() => groupContext?.name.value || props.name);
-		const checked = computed(() => {
-			if (groupContext) {
-				return groupContext.value.value === props.label;
-			}
-			return props.modelValue;
-		});
+		const { inputRef, inputId, checked, disabled, size, name, handleChange, focus, blur } = useRadio(props, emit);
 
-		const handleChange = () => {
-			if (mergedDisabled.value || checked.value) {
-				return;
-			}
-
-			if (groupContext) {
-				if (props.label === undefined) {
-					return;
-				}
-				groupContext.onChange(props.label, { label: props.label });
-				emit('change', props.label);
-				return;
-			}
-
-			emit('update:modelValue', true);
-			emit('change', true, props.label);
-			props.onChange?.(true, props.label);
-		};
-
-		const buttonCls = computed(() => ({
+		/** 根据选中、禁用和尺寸状态生成类名 */
+		const classes = computed(() => ({
 			[c()]: true,
-			[c(mergedSize.value)]: true,
+			[c(size.value)]: true,
 			[c('checked')]: checked.value,
-			[c('disabled')]: mergedDisabled.value,
+			[c('disabled')]: disabled.value,
 		}));
 
+		/** 暴露原生 Radio 控制方法 */
+		expose<SyRadioInstance>({
+			focus,
+			blur,
+		});
+
 		return () => {
-			const contentNode = slots.default?.() ?? props.content;
+			/**
+			 * 内容优先级：
+			 * 1. 默认插槽
+			 * 2. content
+			 * 3. label
+			 */
+			const contentNode = slots.default
+				? slots.default()
+				: props.content || (props.label !== undefined ? String(props.label) : '');
+
+			/**
+			 * 合并原生 Radio 属性
+			 */
+			const nativeInputProps = mergeProps(props.inputAttrs ?? {}, {
+				id: inputId.value,
+				ref: inputRef,
+				class: c('input'),
+				type: 'radio',
+				value: props.label === undefined ? undefined : String(props.label),
+				checked: checked.value,
+				disabled: disabled.value,
+				name: name.value,
+				onChange: handleChange,
+			});
+
+			/**
+			 * 合并根节点属性。
+			 */
+			const rootProps = mergeProps(attrs, {
+				class: classes.value,
+				style: props.customStyle,
+			});
 
 			return (
-				<label class={buttonCls.value} style={props.customStyle}>
-					<input
-						class={c('input')}
-						type='radio'
-						checked={checked.value}
-						disabled={mergedDisabled.value}
-						name={mergedName.value}
-						onChange={handleChange}
-					/>
-					<span class={c('inner')}>
-						{contentNode !== undefined && contentNode !== '' ? contentNode : props.label}
-					</span>
+				<label {...rootProps}>
+					<input {...nativeInputProps} />
+					<span class={c('inner')}>{contentNode}</span>
 				</label>
 			);
 		};
