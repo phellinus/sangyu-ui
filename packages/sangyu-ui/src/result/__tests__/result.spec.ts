@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 import { describe, expect, it } from 'vitest';
-import SyResult from '../result';
+import SyResult from '../SyResult';
 
 describe('SyResult', () => {
 	it('renders default info result with fallback title', () => {
