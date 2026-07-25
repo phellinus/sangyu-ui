@@ -7,43 +7,100 @@ title: 基本表格
 </docs>
 
 <template>
-	<div>
-		<SyTable :columns="columns" :data="data" />
-		<SyTable :data="data">
-			<sy-table-column key="name" title="Name" :width="200" align="left" />
-			<sy-table-column key="age" title="Age" :width="200" align="center" />
-			<sy-table-column key="address" title="Address" :width="300" align="right" />
-			<SyButton>12</SyButton>
-		</SyTable>
-	</div>
+	<SyTable
+		:columns="columns"
+		:data-source="dataSource"
+		:scroll="{ x: 1400, y: 350 }"
+		row-key="id"
+		bordered
+		@row-click="handleRowClick"
+	>
+		<template #bodyCell="{ column, text, record }">
+			<!-- 只接管操作列，其他列继续显示原始值 -->
+			<template v-if="column.key === 'action'">
+				<SyButton @click.stop="handleEdit(record)">编辑</SyButton>
+			</template>
+
+			<template v-else>
+				{{ text }}
+			</template>
+		</template>
+
+		<template #empty>暂无符合条件的数据</template>
+	</SyTable>
 </template>
 
-<script setup>
-	import { ref } from 'vue';
-	import { SyTable, SyButton } from 'sangyu-ui';
-	const columns = [
+<script setup lang="ts">
+	import type { TableColumn } from 'sangyu-ui';
+	import { SyButton, SyTable } from 'sangyu-ui';
+
+	interface UserRow {
+		id: number;
+		date: string;
+		name: string;
+		state: string;
+		city: string;
+		address: string;
+	}
+
+	const columns: TableColumn<UserRow>[] = [
+		{
+			title: 'Date',
+			key: 'date',
+			dataIndex: 'date',
+			width: 240,
+			fixed: 'left',
+		},
 		{
 			title: 'Name',
 			key: 'name',
+			dataIndex: 'name',
+			width: 240,
 		},
 		{
-			title: 'Age',
-			key: 'age',
+			title: 'State',
+			key: 'state',
+			dataIndex: 'state',
+			width: 220,
+		},
+		{
+			title: 'City',
+			key: 'city',
+			dataIndex: 'city',
+			width: 220,
 		},
 		{
 			title: 'Address',
 			key: 'address',
+			dataIndex: 'address',
+			width: 360,
+			ellipsis: true,
+		},
+		{
+			title: '操作',
+			key: 'action',
+			width: 120,
+			align: 'center',
+			fixed: 'right',
 		},
 	];
-	const data = ref(
-		Array.from({ length: 10 }).map((_, i) => {
-			return {
-				name: `EdwardKing${i}`,
-				age: 18 + i,
-				address: `London, Park Lane no. ${i}`,
-			};
-		}),
-	);
-</script>
 
-<style lang="scss" scoped></style>
+	const dataSource: UserRow[] = Array.from({ length: 30 }).map((_, index) => ({
+		id: index + 1,
+		date: `2016-05-${index + 1}`,
+		name: `Tom ${index + 1}`,
+		state: 'California',
+		city: 'Los Angeles',
+		address: `No. ${index + 1} Lake Park`,
+	}));
+
+	// 处理表格行点击
+	const handleRowClick = (record: UserRow) => {
+		console.log(record);
+	};
+
+	// 处理编辑操作
+	const handleEdit = (record: UserRow) => {
+		console.log(record);
+	};
+</script>
