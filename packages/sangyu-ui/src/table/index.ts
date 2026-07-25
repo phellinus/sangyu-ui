@@ -1,10 +1,18 @@
 import type { App } from 'vue';
-import SyTable from './table';
-import { TableColumn } from './table-column';
+import SyTableComponent from './SyTable';
+import SyTableColumn from './components/TableColumn';
 
-(SyTable as any).install = (app: App) => {
-	app.component(SyTable.name || 'SyTable', SyTable);
-	app.component(TableColumn.displayName, TableColumn);
+type SyTableInstallable = typeof SyTableComponent & {
+	install: (app: App) => void;
 };
 
+const SyTable = SyTableComponent as SyTableInstallable;
+
+SyTable.install = (app: App) => {
+	app.component(SyTable.name ?? 'SyTable', SyTable);
+	app.component(SyTableColumn.name ?? 'SyTableColumn', SyTableColumn);
+};
+
+export { SyTable, SyTableColumn };
+export * from './Table.type';
 export default SyTable;
