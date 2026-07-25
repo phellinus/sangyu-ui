@@ -11,7 +11,7 @@ export type {
 	SyInputInstance,
 } from './input';
 export { default as SyTooltip } from './tooltip';
-export { default as SyTable } from './table';
+export { default as SyTable, SyTableColumn } from './table';
 export { default as SyNotification } from './notification';
 export { default as SyCard } from './card';
 export { default as SyTag } from './tag';
@@ -31,3 +31,16 @@ export { SyCheckboxGroup } from './checkbox';
 export { default as SySwitch } from './switch';
 export { default as SyPagination } from './pagination';
 export { default as SySelect } from './select';
+// 导出 Table 对外公开类型
+export type {
+	TableAlign,
+	TableCellRender,
+	TableColumn,
+	TableDataIndex,
+	TableFixed,
+	TableProps,
+	TableRecord,
+	TableRowKey,
+	TableScroll,
+	TableSize,
+} from './table';
