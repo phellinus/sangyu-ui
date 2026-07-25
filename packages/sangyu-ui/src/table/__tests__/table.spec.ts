@@ -1,42 +1,43 @@
 import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 import { describe, expect, it } from 'vitest';
-import SyTable from '../table';
-import { TableColumn } from '../table-column';
+import SyTable from '../SyTable';
+import { TableColumn } from '../components';
 
 describe('SyTable', () => {
 	it('renders from columns and data with fixed header sizing', () => {
 		const wrapper = mount(SyTable, {
 			props: {
-				height: 240,
+				scroll: { y: 240 },
 				columns: [
-					{ title: '姓名', key: 'name', width: 120 },
-					{ title: '状态', key: 'status', width: 80, align: 'center' },
+					{ title: '姓名', key: 'name', dataIndex: 'name', width: 120 },
+					{ title: '状态', key: 'status', dataIndex: 'status', width: 80, align: 'center' },
 				],
-				data: [{ name: '张三', status: '进行中' }],
+				dataSource: [{ name: '张三', status: '进行中' }],
 			},
 		});
 
 		expect(wrapper.classes()).toContain('sy-table-wrapper');
-		expect(wrapper.classes()).toContain('sy-table--wrapper-fixed');
-		expect(wrapper.attributes('style')).toContain('height: 240px;');
-		expect(wrapper.get('table').attributes('style')).toContain('min-width: 200px;');
+		expect(wrapper.classes()).toContain('sy-table--scroll-y');
+		expect(wrapper.find('.sy-table-header-viewport').exists()).toBe(true);
+		expect(wrapper.find('.sy-table-body-viewport').attributes('style')).toContain('max-height: 240px;');
 		expect(wrapper.findAll('.sy-table-header-cell')).toHaveLength(2);
 		expect(wrapper.findAll('.sy-table-body-row')).toHaveLength(1);
 		expect(wrapper.text()).toContain('张三');
 		expect(wrapper.text()).toContain('进行中');
-		expect(wrapper.find('.sy-table--body-cell-center').text()).toBe('进行中');
+		expect(wrapper.findAll('.sy-table-body-cell').map((cell) => cell.text())).toContain('进行中');
 	});
 
 	it('collects table-column children, scoped slots and fixed column styles', () => {
 		const wrapper = mount(SyTable, {
 			props: {
-				data: [{ name: '李四', action: '查看' }],
+				dataSource: [{ name: '李四', action: '查看' }],
 			},
 			slots: {
 				default: () => [
 					h(TableColumn as any, {
 						title: '姓名',
+						dataIndex: 'name',
 						key: 'name',
 						width: 120,
 						fixed: true,
@@ -45,6 +46,7 @@ describe('SyTable', () => {
 						TableColumn as any,
 						{
 							title: '操作',
+							dataIndex: 'action',
 							key: 'action',
 							width: 100,
 						},
@@ -57,10 +59,10 @@ describe('SyTable', () => {
 		});
 
 		expect(wrapper.find('.action-btn').text()).toBe('李四');
-		expect(wrapper.find('.sy-table--header-cell-fixed').exists()).toBe(false);
-		const fixedCells = wrapper.findAll('.sy-table--cell-fixed');
+		expect(wrapper.find('.sy-table-cell--fixed-left').exists()).toBe(true);
+		const fixedCells = wrapper.findAll('.sy-table-cell--fixed-left');
 		expect(fixedCells.length).toBeGreaterThan(0);
-		expect(fixedCells[0].attributes('style')).toContain('--fixed-left: 0px;');
-		expect(wrapper.get('table').attributes('style')).toContain('min-width: 220px;');
+		expect(fixedCells[0].attributes('style')).toContain('--sy-table-fixed-left: 0px;');
+		expect(wrapper.find('.sy-table-body-table').attributes('style')).toContain('min-width: 220px;');
 	});
 });
