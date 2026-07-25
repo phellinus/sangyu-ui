@@ -1,6 +1,6 @@
 import { filterEmpty, isBaseType } from '@v-c/utils';
 import { isVNode, type Slots } from 'vue';
-import type { InternalTableColumn, TableColumn, TableColumnSlots, TableRecord } from '../Table.type';
+import type { InternalTableColumn, TableColumn, TableColumnSlots } from '../Table.type';
 
 function getPixelWidth(width?: number | string): number {
 	if (typeof width === 'number') return width;
@@ -34,7 +34,7 @@ function collectSlotColumns<RecordType extends object>(slots: Slots): TableColum
 	}, []);
 }
 
-export function normalizeTableColumns<RecordType extends object = TableRecord>(
+export function normalizeTableColumns<RecordType extends object = any>(
 	propColumns: TableColumn<RecordType>[] | undefined,
 	slots: Slots,
 ): InternalTableColumn<RecordType>[] {
@@ -93,6 +93,6 @@ export function normalizeTableColumns<RecordType extends object = TableRecord>(
 	return columns;
 }
 
-export function getColumnsPixelWidth(columns: InternalTableColumn[]): number {
+export function getColumnsPixelWidth(columns: InternalTableColumn<any>[]): number {
 	return columns.reduce((total, column) => total + getPixelWidth(column.width), 0);
 }
