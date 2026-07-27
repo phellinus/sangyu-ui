@@ -1,6 +1,5 @@
 import { cloneVNode, defineComponent, mergeProps, type PropType } from 'vue';
 import type { Placement } from '@floating-ui/vue';
-import { useClassnames } from '@sangyu-ui/utils';
 import { TooltipContent } from './components';
 import { useTooltipFloating, useTooltipVisible } from './composables';
 import {
@@ -45,7 +44,6 @@ export default defineComponent({
 		customStyle: Object,
 	},
 	setup(props, { slots }) {
-		const { c } = useClassnames('tooltip');
 		const visibility = useTooltipVisible();
 		const floating = useTooltipFloating(props, visibility.visible);
 
@@ -90,24 +88,27 @@ export default defineComponent({
 						}
 					: {};
 
-			return (
-				<TooltipContent
-					content={props.content}
-					color={props.color}
-					type={props.type}
-					showArrow={props.showArrow}
-					arrowSize={props.arrowSize}
-					placement={floating.resolvedPlacement.value}
-					floatingRef={floating.floating}
-					arrowRef={floating.floatingArrow}
-					floatingStyle={floating.floatingStyles.value}
-					arrowStyle={arrowStyle}
-					customStyle={props.customStyle}
-					{...hoverEvents}
-				>
-					{slots.content?.()}
-				</TooltipContent>
-			);
+			const tooltipProps = {
+				content: props.content,
+				color: props.color,
+				type: props.type,
+				showArrow: props.showArrow,
+				arrowSize: props.arrowSize,
+				placement: floating.resolvedPlacement.value,
+				floatingRef: floating.floating,
+				arrowRef: floating.floatingArrow,
+				floatingStyle: floating.floatingStyles.value,
+				arrowStyle,
+				customStyle: props.customStyle,
+				...hoverEvents,
+			};
+
+			// 仅存在内容插槽时才传入默认插槽
+			if (slots.content) {
+				return <TooltipContent {...tooltipProps}>{slots.content()}</TooltipContent>;
+			}
+
+			return <TooltipContent {...tooltipProps} />;
 		};
 
 		return () => (

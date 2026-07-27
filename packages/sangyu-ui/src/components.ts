@@ -44,3 +44,5 @@ export type {
 	TableScroll,
 	TableSize,
 } from './table';
+// 导出 Tooltip 对外公开类型
+export type { TooltipProps, TooltipTrigger, TooltipType } from './tooltip';
