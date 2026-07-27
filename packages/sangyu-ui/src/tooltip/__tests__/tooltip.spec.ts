@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import SyTooltip from '../tooltip';
+import { SyTooltip } from 'sangyu-ui';
 
 describe('SyTooltip', () => {
 	afterEach(() => {
