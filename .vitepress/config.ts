@@ -100,6 +100,10 @@ export default defineConfig({
                     text: 'SySelect 选择器',
                     link: '/components/select/'
                 },
+                {
+                    text: 'SyForm 表单',
+                    link: '/components/form/'
+                }
 			],
 			'/utils/': [
 				{
