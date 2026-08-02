@@ -8,7 +8,12 @@ let hero: HTMLElement | null = null;
 let reveal: HTMLDivElement | null = null;
 let animationFrame = 0;
 
-const updateRevealPoint = (event: PointerEvent) => {
+/**
+ * 根据指针位置更新首页 Hero 区域的光效坐标。
+ *
+ * @param event 指针事件
+ */
+const updateRevealPoint = (event: PointerEvent): void => {
 	if (!hero || !reveal) return;
 	reveal.classList.add('is-active');
 
@@ -25,17 +30,33 @@ const updateRevealPoint = (event: PointerEvent) => {
 	});
 };
 
-const activateReveal = (event: PointerEvent) => {
+/**
+ * 激活首页 Hero 区域的跟随光效。
+ *
+ * @param event 指针事件
+ */
+const activateReveal = (event: PointerEvent): void => {
 	reveal?.classList.add('is-active');
 	updateRevealPoint(event);
 };
 
-const deactivateReveal = (event: PointerEvent) => {
+/**
+ * 在指针离开时关闭首页 Hero 区域的跟随光效。
+ *
+ * @param event 指针事件
+ */
+const deactivateReveal = (event: PointerEvent): void => {
 	if (event.pointerType !== 'touch') reveal?.classList.remove('is-active');
 };
 
-const detachReveal = () => {
-	window.cancelAnimationFrame(animationFrame);
+/**
+ * 移除首页 Hero 区域的跟随光效和事件监听。
+ */
+const detachReveal = (): void => {
+	// VitePress 服务端渲染环境不存在 window。
+	if (typeof window !== 'undefined') {
+		window.cancelAnimationFrame(animationFrame);
+	}
 
 	if (hero) {
 		hero.removeEventListener('pointerenter', activateReveal);
@@ -47,11 +68,17 @@ const detachReveal = () => {
 	reveal?.remove();
 	hero = null;
 	reveal = null;
+	animationFrame = 0;
 };
 
-const attachReveal = async () => {
+/**
+ * 在首页 Hero 区域挂载跟随光效和事件监听。
+ */
+const attachReveal = async (): Promise<void> => {
+	// VitePress 构建期间会进行服务端渲染，此时无法访问浏览器 DOM。
+	if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
 	detachReveal();
-	if (typeof document === 'undefined') return;
 	await nextTick();
 
 	hero = document.querySelector<HTMLElement>('.VPHomeHero');

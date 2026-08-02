@@ -28,7 +28,13 @@ export type FormRuleType =
 	| 'integer'
 	| 'float'
 	| 'method'
+	| 'enum'
+	| 'hex'
+	| 'pattern'
 	| 'any';
+
+/** 表单枚举规则支持的值类型 */
+export type FormRuleEnumValue = string | number | boolean | null | undefined;
 
 /**
  * 自定义校验函数的同步返回结果。
@@ -40,7 +46,7 @@ export type FormRuleType =
 export type FormValidatorResult = undefined | boolean | string | Error;
 
 // 自定义校验函数的返回类型
-export type FormValidatorReturn = FormValidatorResult | Promise<FormValidatorResult>;
+export type FormValidatorReturn = FormValidatorResult | Promise<FormValidatorResult> | Promise<void>;
 
 // 表单字段校验规则
 export interface FormRule {
@@ -54,8 +60,8 @@ export interface FormRule {
 	max?: number;
 	// 字段要求的固定长度或固定数值
 	len?: number;
-	// 字段允许的值集合。
-	enum?: unknown[];
+	// 字段允许的值集合
+	enum?: FormRuleEnumValue[];
 	//  字段值需要匹配的正则表达式。
 	pattern?: RegExp;
 	// 是否将只包含空白字符的字符串判定为空值。

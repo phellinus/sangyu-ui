@@ -1,5 +1,6 @@
-import { CSSProperties, defineComponent, PropType } from 'vue';
+import { CSSProperties, defineComponent, PropType, ref } from 'vue';
 import { FormRule, NamePath, ValidateStatus, ValidateTrigger } from './Form.type';
+import { useClassnames } from '@sangyu-ui/utils';
 
 export default defineComponent({
 	name: 'SyFormItem',
@@ -21,8 +22,16 @@ export default defineComponent({
 		customStyle: [String, Object] as PropType<string | CSSProperties>,
 	},
 	setup(props, { slots }) {
+		const { c } = useClassnames('form-item');
+		const rootRef = ref<HTMLElement>();
 		return () => {
-			return slots.default?.();
+			<div
+				ref={rootRef}
+				class={{
+					[c()]: true,
+				}}
+				style={props.customStyle}
+			></div>;
 		};
 	},
 });
