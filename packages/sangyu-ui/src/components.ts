@@ -31,6 +31,7 @@ export { SyCheckboxGroup } from './checkbox';
 export { default as SySwitch } from './switch';
 export { default as SyPagination } from './pagination';
 export { default as SySelect } from './select';
+export { default as SyForm, SyFormItem } from './form';
 // 导出 Table 对外公开类型
 export type {
 	TableAlign,

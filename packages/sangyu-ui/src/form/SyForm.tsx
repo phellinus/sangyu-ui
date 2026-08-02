@@ -1,6 +1,7 @@
 import { CSSProperties, defineComponent, PropType } from 'vue';
 import { FormLabelAlign, FormLayout, FormRules, FormScrollOptions, FormSize, ValidateTrigger } from './Form.type';
 import { DEFAULT_FORM_LAYOUT, DEFAULT_FORM_SIZE, DEFAULT_LABEL_ALIGN } from './constants';
+import { useClassnames } from '@sangyu-ui/utils';
 
 export default defineComponent({
 	name: 'SyForm',
@@ -46,11 +47,22 @@ export default defineComponent({
 		},
 		customStyle: [String, Object] as PropType<string | CSSProperties>,
 	},
-	setup(props, { slots, emit }) {
+	emits: ['submit', 'finish', 'finishFailed', 'validate'],
+	setup(props, { slots, emit, expose }) {
+		const { c } = useClassnames('form');
+
 		return () => (
-			<div class='sy-form' style={props.customStyle}>
+			<form
+				class={{
+					[c()]: true,
+					[c(props.layout)]: true,
+					[c(props.size)]: true,
+					[c('disabled')]: props.disabled,
+				}}
+				style={props.customStyle}
+			>
 				{slots.default?.()}
-			</div>
+			</form>
 		);
 	},
 });
