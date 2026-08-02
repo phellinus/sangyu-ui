@@ -16,5 +16,5 @@ title: SySteps 基础步骤条
 </template>
 
 <script setup>
-	import { SyStep, SySteps } from 'sangyu-ui';
+import { SyStep, SySteps } from 'sangyu-ui';
 </script>

@@ -20,13 +20,7 @@ title: 尺寸与形状
 
 		<div class="demo-item">
 			<span class="label">square + notMargin</span>
-			<sy-pagination
-				v-model:current-page="squarePage"
-				shape="square"
-				not-margin
-				color="#f97316"
-				:total="120"
-			/>
+			<sy-pagination v-model:current-page="squarePage" shape="square" not-margin color="#f97316" :total="120" />
 		</div>
 
 		<div class="demo-item">
@@ -37,32 +31,32 @@ title: 尺寸与形状
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyPagination } from '../index';
+import { ref } from 'vue';
+import { SyPagination } from '../index';
 
-	const smallPage = ref(2);
-	const circlePage = ref(4);
-	const squarePage = ref(5);
-	const largePage = ref(6);
+const smallPage = ref(2);
+const circlePage = ref(4);
+const squarePage = ref(5);
+const largePage = ref(6);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 18px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
 
-	.demo-item {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 12px 18px;
-	}
+.demo-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px 18px;
+}
 
-	.label {
-		width: 128px;
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.label {
+	width: 128px;
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

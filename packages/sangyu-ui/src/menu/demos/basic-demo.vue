@@ -33,26 +33,26 @@
 </template>
 
 <script setup lang="ts">
-	import { SyMenu } from 'sangyu-ui';
+import { SyMenu } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.menu-demo {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
-	}
+.menu-demo {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
 
-	.menu-section {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
+.menu-section {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
 
-	.menu-title {
-		margin: 0;
-		font-size: 14px;
-		font-weight: 600;
-		color: #2c3034;
-	}
+.menu-title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: #2c3034;
+}
 </style>

@@ -15,39 +15,39 @@
 </template>
 
 <script setup lang="ts">
-	import { useClassnames } from '@sangyu-ui/utils';
-	import { SyCardProps } from './interface';
-	import { computed } from 'vue';
+import { useClassnames } from '@sangyu-ui/utils';
+import { SyCardProps } from './interface';
+import { computed } from 'vue';
 
-	defineOptions({
-		name: 'SyCard',
-		inheritAttrs: false,
-	});
-	defineSlots<{
-		default: () => void;
-		header: () => void;
-		footer: () => void;
-	}>();
-	const props = withDefaults(defineProps<SyCardProps>(), {
-		customStyle: '',
-		headerStyle: '',
-		footerStyle: '',
-		bodyStyle: '',
-		shadow: 'always',
-		borderRadius: '20',
-	});
-	const { c, cm } = useClassnames('card');
-	const cardCls = {
-		[c()]: true,
-		[c(cm('shadow-' + props.shadow))]: true,
-	};
-	//表格样式
-	const tableStyle = computed(() => [
-		props.customStyle,
-		{
-			borderRadius: `${props.borderRadius}px`,
-		},
-	]);
+defineOptions({
+	name: 'SyCard',
+	inheritAttrs: false,
+});
+defineSlots<{
+	default: () => void;
+	header: () => void;
+	footer: () => void;
+}>();
+const props = withDefaults(defineProps<SyCardProps>(), {
+	customStyle: '',
+	headerStyle: '',
+	footerStyle: '',
+	bodyStyle: '',
+	shadow: 'always',
+	borderRadius: '20',
+});
+const { c, cm } = useClassnames('card');
+const cardCls = {
+	[c()]: true,
+	[c(cm('shadow-' + props.shadow))]: true,
+};
+//表格样式
+const tableStyle = computed(() => [
+	props.customStyle,
+	{
+		borderRadius: `${props.borderRadius}px`,
+	},
+]);
 </script>
 
 <style scoped></style>

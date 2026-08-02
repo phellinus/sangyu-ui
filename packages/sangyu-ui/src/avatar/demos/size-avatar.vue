@@ -40,31 +40,31 @@
 </template>
 
 <script setup lang="ts">
-	import { SyAvatar } from 'sangyu-ui';
+import { SyAvatar } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.avatar-size-demo {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.avatar-size-demo {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.avatar-row {
-		display: flex;
-		gap: 16px;
-		flex-wrap: wrap;
-	}
+.avatar-row {
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
 
-	.avatar-item {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 6px;
-	}
+.avatar-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+}
 
-	.avatar-label {
-		font-size: 12px;
-		color: #6a7076;
-	}
+.avatar-label {
+	font-size: 12px;
+	color: #6a7076;
+}
 </style>

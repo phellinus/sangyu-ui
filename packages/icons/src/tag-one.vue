@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyTagOne',
-	});
+defineOptions({
+	name: 'SyTagOne',
+});
 </script>

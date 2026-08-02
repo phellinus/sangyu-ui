@@ -17,13 +17,13 @@ title: SyDivider 基础分割线
 </template>
 
 <script setup>
-	import { SyDivider } from 'sangyu-ui';
+import { SyDivider } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.divider-demo-stack {
-		display: grid;
-		gap: 10px;
-		color: #4f5862;
-	}
+.divider-demo-stack {
+	display: grid;
+	gap: 10px;
+	color: #4f5862;
+}
 </style>

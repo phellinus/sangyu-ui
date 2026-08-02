@@ -19,5 +19,5 @@ title: SyCard的自定义样式
 </template>
 
 <script lang="ts" setup>
-	import { SyCard } from 'sangyu-ui';
+import { SyCard } from 'sangyu-ui';
 </script>

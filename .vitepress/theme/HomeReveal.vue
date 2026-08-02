@@ -1,75 +1,102 @@
 <script setup lang="ts">
-	import { nextTick, onBeforeUnmount, watch } from 'vue';
-	import { useRoute } from 'vitepress';
+import { nextTick, onBeforeUnmount, watch } from 'vue';
+import { useRoute } from 'vitepress';
 
-	const route = useRoute();
+const route = useRoute();
 
-	let hero: HTMLElement | null = null;
-	let reveal: HTMLDivElement | null = null;
-	let animationFrame = 0;
+let hero: HTMLElement | null = null;
+let reveal: HTMLDivElement | null = null;
+let animationFrame = 0;
 
-	const updateRevealPoint = (event: PointerEvent) => {
+/**
+ * 根据指针位置更新首页 Hero 区域的光效坐标。
+ *
+ * @param event 指针事件
+ */
+const updateRevealPoint = (event: PointerEvent): void => {
+	if (!hero || !reveal) return;
+	reveal.classList.add('is-active');
+
+	window.cancelAnimationFrame(animationFrame);
+	animationFrame = window.requestAnimationFrame(() => {
 		if (!hero || !reveal) return;
-		reveal.classList.add('is-active');
 
+		const bounds = hero.getBoundingClientRect();
+		const x = Math.max(0, Math.min(bounds.width, event.clientX - bounds.left));
+		const y = Math.max(0, Math.min(bounds.height, event.clientY - bounds.top));
+
+		reveal.style.setProperty('--sy-reveal-x', `${x}px`);
+		reveal.style.setProperty('--sy-reveal-y', `${y}px`);
+	});
+};
+
+/**
+ * 激活首页 Hero 区域的跟随光效。
+ *
+ * @param event 指针事件
+ */
+const activateReveal = (event: PointerEvent): void => {
+	reveal?.classList.add('is-active');
+	updateRevealPoint(event);
+};
+
+/**
+ * 在指针离开时关闭首页 Hero 区域的跟随光效。
+ *
+ * @param event 指针事件
+ */
+const deactivateReveal = (event: PointerEvent): void => {
+	if (event.pointerType !== 'touch') reveal?.classList.remove('is-active');
+};
+
+/**
+ * 移除首页 Hero 区域的跟随光效和事件监听。
+ */
+const detachReveal = (): void => {
+	// VitePress 服务端渲染环境不存在 window。
+	if (typeof window !== 'undefined') {
 		window.cancelAnimationFrame(animationFrame);
-		animationFrame = window.requestAnimationFrame(() => {
-			if (!hero || !reveal) return;
+	}
 
-			const bounds = hero.getBoundingClientRect();
-			const x = Math.max(0, Math.min(bounds.width, event.clientX - bounds.left));
-			const y = Math.max(0, Math.min(bounds.height, event.clientY - bounds.top));
+	if (hero) {
+		hero.removeEventListener('pointerenter', activateReveal);
+		hero.removeEventListener('pointermove', updateRevealPoint);
+		hero.removeEventListener('pointerleave', deactivateReveal);
+		hero.removeEventListener('pointerdown', activateReveal);
+	}
 
-			reveal.style.setProperty('--sy-reveal-x', `${x}px`);
-			reveal.style.setProperty('--sy-reveal-y', `${y}px`);
-		});
-	};
+	reveal?.remove();
+	hero = null;
+	reveal = null;
+	animationFrame = 0;
+};
 
-	const activateReveal = (event: PointerEvent) => {
-		reveal?.classList.add('is-active');
-		updateRevealPoint(event);
-	};
+/**
+ * 在首页 Hero 区域挂载跟随光效和事件监听。
+ */
+const attachReveal = async (): Promise<void> => {
+	// VitePress 构建期间会进行服务端渲染，此时无法访问浏览器 DOM。
+	if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-	const deactivateReveal = (event: PointerEvent) => {
-		if (event.pointerType !== 'touch') reveal?.classList.remove('is-active');
-	};
+	detachReveal();
+	await nextTick();
 
-	const detachReveal = () => {
-		window.cancelAnimationFrame(animationFrame);
+	hero = document.querySelector<HTMLElement>('.VPHomeHero');
+	if (!hero) return;
 
-		if (hero) {
-			hero.removeEventListener('pointerenter', activateReveal);
-			hero.removeEventListener('pointermove', updateRevealPoint);
-			hero.removeEventListener('pointerleave', deactivateReveal);
-			hero.removeEventListener('pointerdown', activateReveal);
-		}
+	reveal = document.createElement('div');
+	reveal.className = 'sy-home-reveal';
+	reveal.setAttribute('aria-hidden', 'true');
+	hero.prepend(reveal);
 
-		reveal?.remove();
-		hero = null;
-		reveal = null;
-	};
+	hero.addEventListener('pointerenter', activateReveal, { passive: true });
+	hero.addEventListener('pointermove', updateRevealPoint, { passive: true });
+	hero.addEventListener('pointerleave', deactivateReveal, { passive: true });
+	hero.addEventListener('pointerdown', activateReveal, { passive: true });
+};
 
-	const attachReveal = async () => {
-		detachReveal();
-		if (typeof document === 'undefined') return;
-		await nextTick();
-
-		hero = document.querySelector<HTMLElement>('.VPHomeHero');
-		if (!hero) return;
-
-		reveal = document.createElement('div');
-		reveal.className = 'sy-home-reveal';
-		reveal.setAttribute('aria-hidden', 'true');
-		hero.prepend(reveal);
-
-		hero.addEventListener('pointerenter', activateReveal, { passive: true });
-		hero.addEventListener('pointermove', updateRevealPoint, { passive: true });
-		hero.addEventListener('pointerleave', deactivateReveal, { passive: true });
-		hero.addEventListener('pointerdown', activateReveal, { passive: true });
-	};
-
-	watch(() => route.path, attachReveal, { immediate: true, flush: 'post' });
-	onBeforeUnmount(detachReveal);
+watch(() => route.path, attachReveal, { immediate: true, flush: 'post' });
+onBeforeUnmount(detachReveal);
 </script>
 
 <template>

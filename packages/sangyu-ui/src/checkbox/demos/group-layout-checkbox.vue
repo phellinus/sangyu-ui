@@ -29,29 +29,29 @@ Group 可通过 `direction` 控制横向或纵向排列，并使用 `size` 统�
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyCheckbox, SyCheckboxGroup } from 'sangyu-ui';
+import { ref } from 'vue';
+import { SyCheckbox, SyCheckboxGroup } from 'sangyu-ui';
 
-	const compactFilters = ref(['online', 'verified']);
-	const deliveryMethods = ref(['standard']);
+const compactFilters = ref(['online', 'verified']);
+const deliveryMethods = ref(['standard']);
 </script>
 
 <style scoped>
-	.demo-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 28px;
-	}
+.demo-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 28px;
+}
 
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 14px;
-	}
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 14px;
+}
 
-	.demo-title {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

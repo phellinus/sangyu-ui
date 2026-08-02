@@ -21,57 +21,57 @@
 </template>
 
 <script lang="ts" setup>
-	import { useAttrs } from 'vue';
-	import { ButtonLoadingIcon } from './components';
-	import type { ButtonEmits, ButtonProps, ButtonSlots, SyButtonInstance } from './Button.type';
-	import { useButton } from './composables';
+import { useAttrs } from 'vue';
+import { ButtonLoadingIcon } from './components';
+import type { ButtonEmits, ButtonProps, ButtonSlots, SyButtonInstance } from './Button.type';
+import { useButton } from './composables';
 
-	defineOptions({
-		name: 'SyButton',
-		inheritAttrs: false,
-	});
+defineOptions({
+	name: 'SyButton',
+	inheritAttrs: false,
+});
 
-	const props = withDefaults(defineProps<ButtonProps>(), {
-		type: 'filled',
-		nativeType: 'button',
-		disabled: false,
-		loading: false,
-		href: '',
-		target: '_self',
-		rel: '',
-		color: 'primary',
-		textColor: '',
-		size: 'default',
-		radius: 'default',
-		lineOrigin: 'center',
-		linePosition: 'bottom',
-		gradientDirection: '30deg',
-		gradientColorSecondary: '',
-		customStyle: '',
-	});
+const props = withDefaults(defineProps<ButtonProps>(), {
+	type: 'filled',
+	nativeType: 'button',
+	disabled: false,
+	loading: false,
+	href: '',
+	target: '_self',
+	rel: '',
+	color: 'primary',
+	textColor: '',
+	size: 'default',
+	radius: 'default',
+	lineOrigin: 'center',
+	linePosition: 'bottom',
+	gradientDirection: '30deg',
+	gradientColorSecondary: '',
+	customStyle: '',
+});
 
-	defineSlots<ButtonSlots>();
+defineSlots<ButtonSlots>();
 
-	const emit = defineEmits<ButtonEmits>();
-	const attrs = useAttrs();
+const emit = defineEmits<ButtonEmits>();
+const attrs = useAttrs();
 
-	const {
-		c,
-		rootRef,
-		tag,
-		classes,
-		styles,
-		rootAttrs,
-		handleClick,
-		handleMouseover,
-		handleMouseout,
-		handleBlur,
-		focus,
-		blur,
-	} = useButton(props, emit, attrs);
+const {
+	c,
+	rootRef,
+	tag,
+	classes,
+	styles,
+	rootAttrs,
+	handleClick,
+	handleMouseover,
+	handleMouseout,
+	handleBlur,
+	focus,
+	blur,
+} = useButton(props, emit, attrs);
 
-	defineExpose<SyButtonInstance>({
-		focus,
-		blur,
-	});
+defineExpose<SyButtonInstance>({
+	focus,
+	blur,
+});
 </script>

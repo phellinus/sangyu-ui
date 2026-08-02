@@ -21,28 +21,28 @@ title: 标签与外观
 </template>
 
 <script lang="ts" setup>
-	import { reactive, ref } from 'vue';
-	import { SyCheckbox } from 'sangyu-ui';
+import { reactive, ref } from 'vue';
+import { SyCheckbox } from 'sangyu-ui';
 
-	const before = ref(false);
-	const taskDone = ref(true);
-	const colors = reactive({
-		cyan: true,
-		green: true,
-		rose: true,
-	});
+const before = ref(false);
+const taskDone = ref(true);
+const colors = reactive({
+	cyan: true,
+	green: true,
+	rose: true,
+});
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 22px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+}
 
-	.demo-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 20px 28px;
-	}
+.demo-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px 28px;
+}
 </style>

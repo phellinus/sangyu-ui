@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyConfig',
-	});
+defineOptions({
+	name: 'SyConfig',
+});
 </script>

@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyRefresh',
-	});
+defineOptions({
+	name: 'SyRefresh',
+});
 </script>

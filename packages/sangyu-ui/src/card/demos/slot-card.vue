@@ -19,5 +19,5 @@ SyCard的插槽包括3个，分别是：`header`、`body`、`footer`。
 </template>
 
 <script lang="ts" setup>
-	import { SyCard, SyButton } from 'sangyu-ui';
+import { SyCard, SyButton } from 'sangyu-ui';
 </script>

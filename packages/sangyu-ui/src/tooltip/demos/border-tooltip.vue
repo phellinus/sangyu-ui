@@ -39,5 +39,5 @@ title: tooltip设置type为border
 </template>
 
 <script lang="ts" setup>
-	import { SyTooltip } from 'sangyu-ui';
+import { SyTooltip } from 'sangyu-ui';
 </script>

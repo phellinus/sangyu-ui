@@ -36,54 +36,54 @@
 </template>
 
 <script setup lang="ts">
-	import { onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref } from 'vue';
 
-	const submitting = ref(false);
-	let timer: ReturnType<typeof setTimeout> | undefined;
+const submitting = ref(false);
+let timer: ReturnType<typeof setTimeout> | undefined;
 
-	const handleSubmit = () => {
-		submitting.value = true;
+const handleSubmit = () => {
+	submitting.value = true;
 
-		timer = setTimeout(() => {
-			submitting.value = false;
-		}, 1500);
-	};
+	timer = setTimeout(() => {
+		submitting.value = false;
+	}, 1500);
+};
 
-	onBeforeUnmount(() => {
-		if (timer) clearTimeout(timer);
-	});
+onBeforeUnmount(() => {
+	if (timer) clearTimeout(timer);
+});
 </script>
 
 <style scoped>
-	.button-loading-demo {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
+.button-loading-demo {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.button-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.custom-loading {
+	display: inline-block;
+	min-width: 20px;
+	letter-spacing: 2px;
+	animation: custom-loading-pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes custom-loading-pulse {
+	from {
+		opacity: 0.35;
+		transform: translateY(1px);
 	}
 
-	.button-row {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 10px;
+	to {
+		opacity: 1;
+		transform: translateY(-1px);
 	}
-
-	.custom-loading {
-		display: inline-block;
-		min-width: 20px;
-		letter-spacing: 2px;
-		animation: custom-loading-pulse 0.8s ease-in-out infinite alternate;
-	}
-
-	@keyframes custom-loading-pulse {
-		from {
-			opacity: 0.35;
-			transform: translateY(1px);
-		}
-
-		to {
-			opacity: 1;
-			transform: translateY(-1px);
-		}
-	}
+}
 </style>

@@ -12,7 +12,7 @@ title: SyTag的基础用法
 </template>
 
 <script lang="ts" setup>
-	import { SyTag } from 'sangyu-ui';
+import { SyTag } from 'sangyu-ui';
 
-	const typeArray = ['primary', 'success', 'warning', 'error'];
+const typeArray = ['primary', 'success', 'warning', 'error'];
 </script>

@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyClose',
-	});
+defineOptions({
+	name: 'SyClose',
+});
 </script>

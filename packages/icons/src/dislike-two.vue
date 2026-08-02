@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyDislikeTwo',
-	});
+defineOptions({
+	name: 'SyDislikeTwo',
+});
 </script>

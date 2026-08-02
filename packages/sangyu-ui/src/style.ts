@@ -36,3 +36,5 @@ import './switch/style/index.less';
 import './pagination/style/index.less';
 // select
 import './select/style/index.less';
+// form
+import './form/style/index.less';

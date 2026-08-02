@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyLightning',
-	});
+defineOptions({
+	name: 'SyLightning',
+});
 </script>

@@ -13,14 +13,14 @@ title: Notification 取消关闭功能
 </template>
 
 <script lang="ts" setup>
-	import { SyButton, SyNotification } from 'sangyu-ui';
+import { SyButton, SyNotification } from 'sangyu-ui';
 
-	const openNotificationInfo = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知info',
-			showClose: false,
-			type: 'info',
-		});
-	};
+const openNotificationInfo = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知info',
+		showClose: false,
+		type: 'info',
+	});
+};
 </script>

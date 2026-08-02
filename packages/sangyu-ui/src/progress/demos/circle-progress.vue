@@ -15,14 +15,14 @@ title: SyProgress 圆形进度
 </template>
 
 <script setup>
-	import { SyProgress } from 'sangyu-ui';
+import { SyProgress } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.progress-circle-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 24px;
-		align-items: center;
-	}
+.progress-circle-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px;
+	align-items: center;
+}
 </style>

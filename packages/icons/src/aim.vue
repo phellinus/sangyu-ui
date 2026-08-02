@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyAimIcon',
-	});
+defineOptions({
+	name: 'SyAimIcon',
+});
 </script>

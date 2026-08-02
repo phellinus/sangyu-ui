@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyEqualizer',
-	});
+defineOptions({
+	name: 'SyEqualizer',
+});
 </script>

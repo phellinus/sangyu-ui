@@ -24,57 +24,57 @@ title: 插槽与自定义渲染
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue';
-	import type { TableColumn } from 'sangyu-ui';
-	import { SyTable, SyButton } from 'sangyu-ui';
+import { ref } from 'vue';
+import type { TableColumn } from 'sangyu-ui';
+import { SyTable, SyButton } from 'sangyu-ui';
 
-	interface UserRow {
-		id: number;
-		name: string;
-		age: number;
-		address: string;
-	}
+interface UserRow {
+	id: number;
+	name: string;
+	age: number;
+	address: string;
+}
 
-	const columns: TableColumn<UserRow>[] = [
-		{
-			title: '姓名',
-			key: 'name',
-			dataIndex: 'name',
-			width: 180,
-		},
-		{
-			title: '年龄',
-			key: 'age',
-			dataIndex: 'age',
-			width: 120,
-			align: 'center',
-		},
-		{
-			title: '地址',
-			key: 'address',
-			dataIndex: 'address',
-			width: 300,
-			ellipsis: true,
-		},
-		{
-			title: '操作',
-			key: 'action',
-			width: 120,
-			align: 'center',
-		},
-	];
-	const data = ref<UserRow[]>(
-		Array.from({ length: 10 }).map((_, i) => {
-			return {
-				id: i + 1,
-				name: `EdwardKing${i}`,
-				age: 18 + i,
-				address: `London, Park Lane no. ${i}`,
-			};
-		}),
-	);
-	// 处理编辑按钮
-	const handleEdit = (row: UserRow) => {
-		console.log(row);
-	};
+const columns: TableColumn<UserRow>[] = [
+	{
+		title: '姓名',
+		key: 'name',
+		dataIndex: 'name',
+		width: 180,
+	},
+	{
+		title: '年龄',
+		key: 'age',
+		dataIndex: 'age',
+		width: 120,
+		align: 'center',
+	},
+	{
+		title: '地址',
+		key: 'address',
+		dataIndex: 'address',
+		width: 300,
+		ellipsis: true,
+	},
+	{
+		title: '操作',
+		key: 'action',
+		width: 120,
+		align: 'center',
+	},
+];
+const data = ref<UserRow[]>(
+	Array.from({ length: 10 }).map((_, i) => {
+		return {
+			id: i + 1,
+			name: `EdwardKing${i}`,
+			age: 18 + i,
+			address: `London, Park Lane no. ${i}`,
+		};
+	}),
+);
+// 处理编辑按钮
+const handleEdit = (row: UserRow) => {
+	console.log(row);
+};
 </script>

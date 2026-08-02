@@ -17,30 +17,30 @@ title: 基础用法
 </template>
 
 <script lang="ts" setup>
-	import { reactive } from 'vue';
-	import { SySwitch } from 'sangyu-ui';
+import { reactive } from 'vue';
+import { SySwitch } from 'sangyu-ui';
 
-	const settings = reactive({
-		notify: true,
-		autoSave: false,
-	});
+const settings = reactive({
+	notify: true,
+	autoSave: false,
+});
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.demo-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 20px 24px;
-	}
+.demo-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px 24px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

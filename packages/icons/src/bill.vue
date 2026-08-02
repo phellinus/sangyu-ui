@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({ name: 'sy-bill' });
+defineOptions({ name: 'sy-bill' });
 </script>
 
 <style scoped></style>

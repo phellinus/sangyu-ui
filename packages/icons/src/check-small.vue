@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyCheckSmall',
-	});
+defineOptions({
+	name: 'SyCheckSmall',
+});
 </script>

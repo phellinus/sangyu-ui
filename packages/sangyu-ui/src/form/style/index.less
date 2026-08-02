@@ -1,0 +1,31 @@
+.sy-form {
+    width: 100%;
+
+    &--disabled {
+        cursor: not-allowed;
+    }
+
+    &--inline {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 16px;
+	}
+
+    &--small {
+		--sy-form-item-gap: 12px;
+	}
+
+	&--default {
+		--sy-form-item-gap: 18px;
+	}
+
+	&--large {
+		--sy-form-item-gap: 24px;
+	}
+}
+
+.sy-form-item {
+    display: flex;
+	margin-bottom: var(--sy-form-item-gap, 18px);
+}

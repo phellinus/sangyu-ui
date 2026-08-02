@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SySave',
-	});
+defineOptions({
+	name: 'SySave',
+});
 </script>

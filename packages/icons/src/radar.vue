@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyRadar',
-	});
+defineOptions({
+	name: 'SyRadar',
+});
 </script>

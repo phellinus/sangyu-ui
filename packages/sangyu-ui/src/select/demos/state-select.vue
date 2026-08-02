@@ -18,37 +18,37 @@ title: 可清空与状态
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySelect } from '../index';
-	import type { SelectOption, SelectValue } from '../Select.type';
+import { ref } from 'vue';
+import { SySelect } from '../index';
+import type { SelectOption, SelectValue } from '../Select.type';
 
-	const clearValue = ref<SelectValue>();
-	const disabledValue = ref<SelectValue>('draft');
-	const loadingValue = ref<SelectValue>('review');
+const clearValue = ref<SelectValue>();
+const disabledValue = ref<SelectValue>('draft');
+const loadingValue = ref<SelectValue>('review');
 
-	const options: SelectOption[] = [
-		{ label: '草稿', value: 'draft' },
-		{ label: '审核中', value: 'review' },
-		{ label: '已发布', value: 'published' },
-		{ label: '已归档（不可选）', value: 'archived', disabled: true },
-	];
+const options: SelectOption[] = [
+	{ label: '草稿', value: 'draft' },
+	{ label: '审核中', value: 'review' },
+	{ label: '已发布', value: 'published' },
+	{ label: '已归档（不可选）', value: 'archived', disabled: true },
+];
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.demo-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 16px;
-	}
+.demo-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

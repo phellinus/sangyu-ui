@@ -13,6 +13,7 @@
   "dependencies": {
     "@floating-ui/vue": "^1.1.9",
     "@v-c/utils": "^0.0.26",
+    "async-validator": "^4.2.5",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {

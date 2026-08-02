@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyHourglassFull',
-	});
+defineOptions({
+	name: 'SyHourglassFull',
+});
 </script>

@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyMoreApp',
-	});
+defineOptions({
+	name: 'SyMoreApp',
+});
 </script>

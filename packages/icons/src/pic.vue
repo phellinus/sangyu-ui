@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyPic',
-	});
+defineOptions({
+	name: 'SyPic',
+});
 </script>

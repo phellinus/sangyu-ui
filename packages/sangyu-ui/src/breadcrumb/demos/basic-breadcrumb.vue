@@ -17,7 +17,7 @@ SyBreadCrumb 面包屑基本用法
 </template>
 
 <script setup>
-	import { SyBreadCrumb } from 'sangyu-ui';
+import { SyBreadCrumb } from 'sangyu-ui';
 </script>
 
 <style lang="scss" scoped></style>

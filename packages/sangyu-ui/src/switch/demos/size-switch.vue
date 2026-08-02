@@ -25,38 +25,38 @@ title: 尺寸与形状
 </template>
 
 <script lang="ts" setup>
-	import { reactive } from 'vue';
-	import { SySwitch } from 'sangyu-ui';
+import { reactive } from 'vue';
+import { SySwitch } from 'sangyu-ui';
 
-	const sizes = reactive({
-		small: true,
-		default: true,
-		large: true,
-	});
+const sizes = reactive({
+	small: true,
+	default: true,
+	large: true,
+});
 
-	const square = reactive({
-		small: false,
-		default: true,
-		large: false,
-	});
+const square = reactive({
+	small: false,
+	default: true,
+	large: false,
+});
 </script>
 
 <style scoped>
-	.demo-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 28px;
-	}
+.demo-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 28px;
+}
 
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 14px;
-	}
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 14px;
+}
 
-	.demo-title {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

@@ -28,12 +28,12 @@ SyBreadCrumb 通过设置 handleClick 属性可以监听点击事件，handleCli
 </template>
 
 <script setup>
-	import { SyIcon } from '@sangyu-ui/icons';
-	import { SyBreadCrumb } from 'sangyu-ui';
+import { SyIcon } from '@sangyu-ui/icons';
+import { SyBreadCrumb } from 'sangyu-ui';
 
-	const handleToPath = (e) => {
-		console.log(e);
-	};
+const handleToPath = (e) => {
+	console.log(e);
+};
 </script>
 
 <style lang="scss" scoped></style>

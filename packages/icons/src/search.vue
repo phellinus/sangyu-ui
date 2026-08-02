@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SySearch',
-	});
+defineOptions({
+	name: 'SySearch',
+});
 </script>

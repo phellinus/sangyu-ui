@@ -29,28 +29,28 @@ title: 禁用与纵向排列
 </template>
 
 <script lang="ts" setup>
-	import { SyRadio, SyRadioButton, SyRadioGroup } from 'sangyu-ui';
-	import { ref } from 'vue';
+import { SyRadio, SyRadioButton, SyRadioGroup } from 'sangyu-ui';
+import { ref } from 'vue';
 
-	const securityMethod = ref('email');
-	const disabledButtonValue = ref('doing');
+const securityMethod = ref('email');
+const disabledButtonValue = ref('doing');
 </script>
 
 <style scoped>
-	.demo-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
+.demo-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
 
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
 
-	.demo-title {
-		font-size: 14px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title {
+	font-size: 14px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

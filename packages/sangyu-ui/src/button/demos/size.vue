@@ -15,13 +15,13 @@
 </template>
 
 <script setup lang="ts">
-	const handleCLick = () => {
-		console.log('click');
-	};
+const handleCLick = () => {
+	console.log('click');
+};
 </script>
 <style scoped>
-	.content {
-		display: flex;
-		gap: 10px;
-	}
+.content {
+	display: flex;
+	gap: 10px;
+}
 </style>

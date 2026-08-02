@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyWaterfallsH',
-	});
+defineOptions({
+	name: 'SyWaterfallsH',
+});
 </script>

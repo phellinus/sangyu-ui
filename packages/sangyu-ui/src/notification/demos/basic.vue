@@ -13,15 +13,15 @@ title: Notification 的基本使用
 </template>
 
 <script lang="ts" setup>
-	import { SyNotification, SyButton } from 'sangyu-ui';
-	import Test from './components/test.vue';
-	import { getCurrentInstance, h } from 'vue';
-	const instance = getCurrentInstance();
-	const openNotification = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: h(Test),
-			appContext: instance?.appContext,
-		});
-	};
+import { SyNotification, SyButton } from 'sangyu-ui';
+import Test from './components/test.vue';
+import { getCurrentInstance, h } from 'vue';
+const instance = getCurrentInstance();
+const openNotification = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: h(Test),
+		appContext: instance?.appContext,
+	});
+};
 </script>

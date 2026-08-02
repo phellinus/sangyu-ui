@@ -12,20 +12,20 @@ SyTag组件提供了三种尺寸，可以通过`size`属性来设置。default�
 </template>
 
 <script lang="ts" setup>
-	import { SyTag } from 'sangyu-ui';
+import { SyTag } from 'sangyu-ui';
 
-	const sizeTag = [
-		{
-			size: 'small' as any,
-			type: 'primary',
-		},
-		{
-			size: 'default' as any,
-			type: 'success',
-		},
-		{
-			size: 'large' as any,
-			type: 'warning',
-		},
-	];
+const sizeTag = [
+	{
+		size: 'small' as any,
+		type: 'primary',
+	},
+	{
+		size: 'default' as any,
+		type: 'success',
+	},
+	{
+		size: 'large' as any,
+		type: 'warning',
+	},
+];
 </script>
