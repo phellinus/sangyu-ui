@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyShareThree',
-	});
+defineOptions({
+	name: 'SyShareThree',
+});
 </script>

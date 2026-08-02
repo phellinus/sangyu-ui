@@ -13,5 +13,5 @@ title: SyCard的基础用法
 </template>
 
 <script lang="ts" setup>
-	import { SyCard } from 'sangyu-ui';
+import { SyCard } from 'sangyu-ui';
 </script>

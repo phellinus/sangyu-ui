@@ -28,34 +28,34 @@ title: 禁用与加载
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyPagination } from '../index';
+import { ref } from 'vue';
+import { SyPagination } from '../index';
 
-	const page = ref(2);
+const page = ref(2);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 18px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
 
-	.demo-item {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 12px 18px;
-	}
+.demo-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px 18px;
+}
 
-	.label {
-		width: 150px;
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.label {
+	width: 150px;
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

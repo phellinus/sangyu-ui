@@ -16,34 +16,34 @@ title: Notification 的不同类型
 </template>
 
 <script lang="ts" setup>
-	import { SyButton, SyNotification } from 'sangyu-ui';
+import { SyButton, SyNotification } from 'sangyu-ui';
 
-	const openNotificationInfo = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知info',
-			type: 'info',
-		});
-	};
-	const openNotificationSuccess = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知success',
-			type: 'success',
-		});
-	};
-	const openNotificationWarning = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知warning',
-			type: 'warning',
-		});
-	};
-	const openNotificationError = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知error',
-			type: 'error',
-		});
-	};
+const openNotificationInfo = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知info',
+		type: 'info',
+	});
+};
+const openNotificationSuccess = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知success',
+		type: 'success',
+	});
+};
+const openNotificationWarning = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知warning',
+		type: 'warning',
+	});
+};
+const openNotificationError = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知error',
+		type: 'error',
+	});
+};
 </script>

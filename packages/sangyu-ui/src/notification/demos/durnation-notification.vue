@@ -14,25 +14,25 @@ title: Notification 设置延长时间
 </template>
 
 <script lang="ts" setup>
-	import { SyButton, SyNotification } from 'sangyu-ui';
-	import { getCurrentInstance, h } from 'vue';
-	import Four from './components/four.vue';
-	const instance = getCurrentInstance();
-	const openNotificationInfo = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: h(Four),
-			duration: 4000,
-			type: 'info',
-			appContext: instance?.appContext,
-		});
-	};
-	const openNotificationDurnation = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知info',
-			duration: 0,
-			type: 'info',
-		});
-	};
+import { SyButton, SyNotification } from 'sangyu-ui';
+import { getCurrentInstance, h } from 'vue';
+import Four from './components/four.vue';
+const instance = getCurrentInstance();
+const openNotificationInfo = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: h(Four),
+		duration: 4000,
+		type: 'info',
+		appContext: instance?.appContext,
+	});
+};
+const openNotificationDurnation = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知info',
+		duration: 0,
+		type: 'info',
+	});
+};
 </script>

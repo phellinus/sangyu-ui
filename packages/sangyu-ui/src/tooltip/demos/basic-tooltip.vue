@@ -92,19 +92,19 @@ title: tooltip的基础使用
 	</div>
 </template>
 <script lang="ts" setup>
-	import { SyTooltip } from 'sangyu-ui';
+import { SyTooltip } from 'sangyu-ui';
 </script>
 <style scoped>
-	.tooltip-base-box {
-		width: 600px;
-		margin: 0 auto;
-	}
-	.tooltip-base-box .row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.tooltip-base-box .center {
-		justify-content: center;
-	}
+.tooltip-base-box {
+	width: 600px;
+	margin: 0 auto;
+}
+.tooltip-base-box .row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.tooltip-base-box .center {
+	justify-content: center;
+}
 </style>

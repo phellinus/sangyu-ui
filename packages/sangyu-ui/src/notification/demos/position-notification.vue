@@ -16,33 +16,33 @@ title: Notification 的不同位置
 </template>
 
 <script lang="ts" setup>
-	import { SyButton, SyNotification } from 'sangyu-ui';
+import { SyButton, SyNotification } from 'sangyu-ui';
 
-	const openNotificationTopRight = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知info',
-		});
-	};
-	const openNotificationBottomRight = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知success',
-			position: 'bottom-right',
-		});
-	};
-	const openNotificationTopLeft = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知warning',
-			position: 'top-left',
-		});
-	};
-	const openNotificationBottomLeft = () => {
-		SyNotification.info({
-			title: '系统通知',
-			content: '系统提示通知error',
-			position: 'bottom-left',
-		});
-	};
+const openNotificationTopRight = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知info',
+	});
+};
+const openNotificationBottomRight = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知success',
+		position: 'bottom-right',
+	});
+};
+const openNotificationTopLeft = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知warning',
+		position: 'top-left',
+	});
+};
+const openNotificationBottomLeft = () => {
+	SyNotification.info({
+		title: '系统通知',
+		content: '系统提示通知error',
+		position: 'bottom-left',
+	});
+};
 </script>

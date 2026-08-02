@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyUnlike',
-	});
+defineOptions({
+	name: 'SyUnlike',
+});
 </script>

@@ -29,28 +29,28 @@ SyMenu 通过 `expand` 属性控制菜单的展开收缩
 </template>
 
 <script setup lang="ts">
-	import { SyMenu, SyButton } from 'sangyu-ui';
-	import { ref } from 'vue';
-	const expand = ref(false);
+import { SyMenu, SyButton } from 'sangyu-ui';
+import { ref } from 'vue';
+const expand = ref(false);
 </script>
 
 <style scoped>
-	.menu-expand-demo {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
+.menu-expand-demo {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
 
-	.menu-expand-desc {
-		margin: 0;
-		font-size: 14px;
-		color: #6a7076;
-	}
+.menu-expand-desc {
+	margin: 0;
+	font-size: 14px;
+	color: #6a7076;
+}
 
-	.menu-expand-desc code {
-		padding: 0 4px;
-		background: rgba(44, 48, 52, 0.08);
-		border-radius: 4px;
-		color: #2c3034;
-	}
+.menu-expand-desc code {
+	padding: 0 4px;
+	background: rgba(44, 48, 52, 0.08);
+	border-radius: 4px;
+	color: #2c3034;
+}
 </style>

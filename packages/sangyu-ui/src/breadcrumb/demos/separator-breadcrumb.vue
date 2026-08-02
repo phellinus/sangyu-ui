@@ -36,8 +36,8 @@ SyBreadCrumb通过设置separator属性可以自定义分隔符，默认分隔�
 </template>
 
 <script setup>
-	import { SyIcon } from '@sangyu-ui/icons';
-	import { SyBreadCrumb } from 'sangyu-ui';
+import { SyIcon } from '@sangyu-ui/icons';
+import { SyBreadCrumb } from 'sangyu-ui';
 </script>
 
 <style lang="scss" scoped></style>

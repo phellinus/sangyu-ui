@@ -21,27 +21,27 @@ SyTag组件提供关闭标签的功能，通过设置closable属性，可以显�
 </template>
 
 <script lang="ts" setup>
-	import { SyTag } from 'sangyu-ui';
-	import { reactive } from 'vue';
+import { SyTag } from 'sangyu-ui';
+import { reactive } from 'vue';
 
-	const state = reactive({
-		sizeTags: [
-			{
-				size: 'small' as any,
-				type: 'primary',
-			},
-			{
-				size: 'default' as any,
-				type: 'success',
-			},
-			{
-				size: 'large' as any,
-				type: 'warning',
-			},
-		],
-	});
-	// 关闭标签的回调函数
-	const handleClose = (item: any) => {
-		state.sizeTags = state.sizeTags.filter((i) => i.size !== item.size);
-	};
+const state = reactive({
+	sizeTags: [
+		{
+			size: 'small' as any,
+			type: 'primary',
+		},
+		{
+			size: 'default' as any,
+			type: 'success',
+		},
+		{
+			size: 'large' as any,
+			type: 'warning',
+		},
+	],
+});
+// 关闭标签的回调函数
+const handleClose = (item: any) => {
+	state.sizeTags = state.sizeTags.filter((i) => i.size !== item.size);
+};
 </script>

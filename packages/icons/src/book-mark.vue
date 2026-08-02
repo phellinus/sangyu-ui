@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({ name: 'sy-book-mark' });
+defineOptions({ name: 'sy-book-mark' });
 </script>
 
 <style scoped></style>

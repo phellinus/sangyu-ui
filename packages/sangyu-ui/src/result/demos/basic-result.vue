@@ -14,12 +14,12 @@ title: SyResult 基础状态
 </template>
 
 <script setup>
-	import { SyResult } from 'sangyu-ui';
+import { SyResult } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.result-demo-stack {
-		display: grid;
-		gap: 24px;
-	}
+.result-demo-stack {
+	display: grid;
+	gap: 24px;
+}
 </style>

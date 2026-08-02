@@ -15,12 +15,12 @@ title: SyProgress 基础线形进度
 </template>
 
 <script setup>
-	import { SyProgress } from 'sangyu-ui';
+import { SyProgress } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.progress-demo-stack {
-		display: grid;
-		gap: 18px;
-	}
+.progress-demo-stack {
+	display: grid;
+	gap: 18px;
+}
 </style>

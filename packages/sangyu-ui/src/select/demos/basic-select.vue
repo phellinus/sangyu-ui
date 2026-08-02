@@ -14,29 +14,29 @@ title: 基础用法
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySelect } from '../index';
-	import type { SelectOption, SelectValue } from '../Select.type';
+import { ref } from 'vue';
+import { SySelect } from '../index';
+import type { SelectOption, SelectValue } from '../Select.type';
 
-	const value = ref<SelectValue>('shanghai');
+const value = ref<SelectValue>('shanghai');
 
-	const options: SelectOption[] = [
-		{ label: '上海', value: 'shanghai' },
-		{ label: '北京', value: 'beijing' },
-		{ label: '杭州', value: 'hangzhou' },
-		{ label: '深圳', value: 'shenzhen' },
-	];
+const options: SelectOption[] = [
+	{ label: '上海', value: 'shanghai' },
+	{ label: '北京', value: 'beijing' },
+	{ label: '杭州', value: 'hangzhou' },
+	{ label: '深圳', value: 'shenzhen' },
+];
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

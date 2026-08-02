@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'sy-bookmark-one',
-	});
+defineOptions({
+	name: 'sy-bookmark-one',
+});
 </script>
 
 <style scoped></style>

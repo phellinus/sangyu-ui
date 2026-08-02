@@ -19,16 +19,16 @@ title: SyDivider 垂直分割与样式变体
 </template>
 
 <script setup>
-	import { SyDivider } from 'sangyu-ui';
+import { SyDivider } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.divider-inline-row {
-		display: inline-flex;
-		align-items: center;
-		padding: 12px 16px;
-		border-radius: 12px;
-		background: linear-gradient(180deg, #fbfcfd 0%, #f5f7f9 100%);
-		color: #4f5862;
-	}
+.divider-inline-row {
+	display: inline-flex;
+	align-items: center;
+	padding: 12px 16px;
+	border-radius: 12px;
+	background: linear-gradient(180deg, #fbfcfd 0%, #f5f7f9 100%);
+	color: #4f5862;
+}
 </style>

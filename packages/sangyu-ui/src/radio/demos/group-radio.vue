@@ -19,21 +19,21 @@ title: SyRadioGroup 分组用法
 </template>
 
 <script lang="ts" setup>
-	import { SyRadio, SyRadioGroup } from 'sangyu-ui';
-	import { ref } from 'vue';
+import { SyRadio, SyRadioGroup } from 'sangyu-ui';
+import { ref } from 'vue';
 
-	const paymentMethod = ref('wechat');
+const paymentMethod = ref('wechat');
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
 
-	.current-value {
-		color: var(--sy-color-text-secondary);
-		font-size: 14px;
-	}
+.current-value {
+	color: var(--sy-color-text-secondary);
+	font-size: 14px;
+}
 </style>

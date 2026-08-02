@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyPreviewCloseOne',
-	});
+defineOptions({
+	name: 'SyPreviewCloseOne',
+});
 </script>

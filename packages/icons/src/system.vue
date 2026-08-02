@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SySystem',
-	});
+defineOptions({
+	name: 'SySystem',
+});
 </script>

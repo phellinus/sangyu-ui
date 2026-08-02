@@ -19,21 +19,21 @@ title: SyRadioButton 按钮风格
 </template>
 
 <script lang="ts" setup>
-	import { SyRadioButton, SyRadioGroup } from 'sangyu-ui';
-	import { ref } from 'vue';
+import { SyRadioButton, SyRadioGroup } from 'sangyu-ui';
+import { ref } from 'vue';
 
-	const deliveryType = ref('express');
+const deliveryType = ref('express');
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
 
-	.current-value {
-		color: var(--sy-color-text-secondary);
-		font-size: 14px;
-	}
+.current-value {
+	color: var(--sy-color-text-secondary);
+	font-size: 14px;
+}
 </style>

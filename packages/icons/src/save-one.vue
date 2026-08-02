@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SySaveOne',
-	});
+defineOptions({
+	name: 'SySaveOne',
+});
 </script>

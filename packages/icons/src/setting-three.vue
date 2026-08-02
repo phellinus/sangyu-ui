@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SySettingThree',
-	});
+defineOptions({
+	name: 'SySettingThree',
+});
 </script>

@@ -25,23 +25,23 @@ title: 布局组合
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyPagination } from '../index';
+import { ref } from 'vue';
+import { SyPagination } from '../index';
 
-	const page = ref(3);
-	const pageSize = ref(20);
+const page = ref(3);
+const pageSize = ref(20);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.slot-text,
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.slot-text,
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

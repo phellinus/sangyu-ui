@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyAllApplication',
-	});
+defineOptions({
+	name: 'SyAllApplication',
+});
 </script>
 
 <style scoped></style>

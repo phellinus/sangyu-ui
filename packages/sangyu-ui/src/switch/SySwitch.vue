@@ -59,77 +59,77 @@
 </template>
 
 <script lang="ts" setup>
-	import { computed } from 'vue';
-	import { useClassnames } from '@sangyu-ui/utils';
-	import { SyIcon } from '@sangyu-ui/icons';
-	import type { SwitchEmits, SwitchProps, SySwitchInstance } from './Switch.type';
-	import { useSwitch } from './composables';
+import { computed } from 'vue';
+import { useClassnames } from '@sangyu-ui/utils';
+import { SyIcon } from '@sangyu-ui/icons';
+import type { SwitchEmits, SwitchProps, SySwitchInstance } from './Switch.type';
+import { useSwitch } from './composables';
 
-	defineOptions({
-		name: 'SySwitch',
-		inheritAttrs: false,
-	});
+defineOptions({
+	name: 'SySwitch',
+	inheritAttrs: false,
+});
 
-	const props = withDefaults(defineProps<SwitchProps>(), {
-		modelValue: false,
-		activeValue: true,
-		inactiveValue: false,
-		disabled: false,
-		loading: false,
-		indeterminate: false,
-		size: 'default',
-		shape: 'round',
-		name: '',
-		color: 'primary',
-		inactiveColor: '#eef1f4',
-		checkedText: '',
-		uncheckedText: '',
-		icon: false,
-		iconName: '',
-		activeIconName: '',
-		inactiveIconName: '',
-		customStyle: '',
-	});
+const props = withDefaults(defineProps<SwitchProps>(), {
+	modelValue: false,
+	activeValue: true,
+	inactiveValue: false,
+	disabled: false,
+	loading: false,
+	indeterminate: false,
+	size: 'default',
+	shape: 'round',
+	name: '',
+	color: 'primary',
+	inactiveColor: '#eef1f4',
+	checkedText: '',
+	uncheckedText: '',
+	icon: false,
+	iconName: '',
+	activeIconName: '',
+	inactiveIconName: '',
+	customStyle: '',
+});
 
-	const emit = defineEmits<SwitchEmits>();
-	const { c, cx } = useClassnames('switch');
+const emit = defineEmits<SwitchEmits>();
+const { c, cx } = useClassnames('switch');
 
-	const {
-		inputRef,
-		id,
-		checked,
-		disabled,
-		size,
-		shape,
-		currentText,
-		currentIconName,
-		hasCustomStateText,
-		styles,
-		handleChange,
-		focus,
-		blur,
-	} = useSwitch(props, emit);
+const {
+	inputRef,
+	id,
+	checked,
+	disabled,
+	size,
+	shape,
+	currentText,
+	currentIconName,
+	hasCustomStateText,
+	styles,
+	handleChange,
+	focus,
+	blur,
+} = useSwitch(props, emit);
 
-	const classes = cx(() => ({
-		[c()]: true,
-		[c(size.value)]: true,
-		[c(shape.value)]: true,
-		[c('checked')]: checked.value,
-		[c('disabled')]: disabled.value,
-		[c('loading')]: !!props.loading,
-		[c('indeterminate')]: !!props.indeterminate,
-		[c('with-text')]: !!currentText.value || !!hasCustomStateText.value,
-		[c('with-icon')]: !!props.icon,
-	}));
+const classes = cx(() => ({
+	[c()]: true,
+	[c(size.value)]: true,
+	[c(shape.value)]: true,
+	[c('checked')]: checked.value,
+	[c('disabled')]: disabled.value,
+	[c('loading')]: !!props.loading,
+	[c('indeterminate')]: !!props.indeterminate,
+	[c('with-text')]: !!currentText.value || !!hasCustomStateText.value,
+	[c('with-icon')]: !!props.icon,
+}));
 
-	const iconSize = computed(() => {
-		if (size.value === 'small') return 10;
-		if (size.value === 'large') return 14;
-		return 12;
-	});
+const iconSize = computed(() => {
+	if (size.value === 'small') return 10;
+	if (size.value === 'large') return 14;
+	return 12;
+});
 
-	defineExpose<SySwitchInstance>({
-		focus,
-		blur,
-	});
+defineExpose<SySwitchInstance>({
+	focus,
+	blur,
+});
 </script>

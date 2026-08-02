@@ -20,21 +20,21 @@ title: 圆点模式
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyPagination } from '../index';
+import { ref } from 'vue';
+import { SyPagination } from '../index';
 
-	const page = ref(5);
+const page = ref(5);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

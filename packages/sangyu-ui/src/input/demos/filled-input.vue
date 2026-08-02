@@ -15,15 +15,15 @@ title: Filled 输入框
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue';
-	import { SyInput } from 'sangyu-ui';
-	const value = ref('');
-	const smRef = ref();
+import { ref } from 'vue';
+import { SyInput } from 'sangyu-ui';
+const value = ref('');
+const smRef = ref();
 </script>
 <style scoped>
-	.content {
-		display: flex;
-		align-items: flex-start;
-		gap: 10px;
-	}
+.content {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+}
 </style>

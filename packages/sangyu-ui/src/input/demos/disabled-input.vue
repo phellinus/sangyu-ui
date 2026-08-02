@@ -48,22 +48,22 @@ title: 禁用输入框
 </template>
 
 <script setup lang="ts">
-	import { onMounted, ref } from 'vue';
-	import { SyIcon } from '@sangyu-ui/icons';
-	import { SyInput } from 'sangyu-ui';
-	const value = ref('');
-	const value1 = ref('');
-	const value2 = ref('');
-	const smRef = ref();
-	onMounted(() => {
-		//smRef.value.focus();
-	});
+import { onMounted, ref } from 'vue';
+import { SyIcon } from '@sangyu-ui/icons';
+import { SyInput } from 'sangyu-ui';
+const value = ref('');
+const value1 = ref('');
+const value2 = ref('');
+const smRef = ref();
+onMounted(() => {
+	//smRef.value.focus();
+});
 </script>
 <style scoped>
-	.content {
-		display: flex;
-		margin-top: 10px;
-		align-items: flex-start;
-		gap: 10px;
-	}
+.content {
+	display: flex;
+	margin-top: 10px;
+	align-items: flex-start;
+	gap: 10px;
+}
 </style>

@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyPreviewClose',
-	});
+defineOptions({
+	name: 'SyPreviewClose',
+});
 </script>

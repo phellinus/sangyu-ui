@@ -20,22 +20,22 @@ title: 进度条
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyPagination } from '../index';
+import { ref } from 'vue';
+import { SyPagination } from '../index';
 
-	const page = ref(7);
+const page = ref(7);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 18px;
-		padding-bottom: 8px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding-bottom: 8px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

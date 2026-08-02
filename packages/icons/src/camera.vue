@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyCamera',
-	});
+defineOptions({
+	name: 'SyCamera',
+});
 </script>
 
 <style scoped></style>

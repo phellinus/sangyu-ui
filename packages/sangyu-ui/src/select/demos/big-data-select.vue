@@ -24,32 +24,32 @@ title: 大数据
 </template>
 
 <script lang="ts" setup>
-	import { computed, ref } from 'vue';
-	import { SySelect } from '../index';
-	import type { SelectValue } from '../Select.type';
+import { computed, ref } from 'vue';
+import { SySelect } from '../index';
+import type { SelectValue } from '../Select.type';
 
-	const value = ref<SelectValue>();
+const value = ref<SelectValue>();
 
-	const options = computed(() =>
-		Array.from({ length: 10000 }, (_, index) => {
-			const value = index + 1;
-			return {
-				label: `选项 ${value}`,
-				value,
-			};
-		}),
-	);
+const options = computed(() =>
+	Array.from({ length: 10000 }, (_, index) => {
+		const value = index + 1;
+		return {
+			label: `选项 ${value}`,
+			value,
+		};
+	}),
+);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

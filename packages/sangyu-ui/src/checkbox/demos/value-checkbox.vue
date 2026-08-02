@@ -27,38 +27,38 @@ title: 自定义值与数组绑定
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyCheckbox } from 'sangyu-ui';
+import { ref } from 'vue';
+import { SyCheckbox } from 'sangyu-ui';
 
-	const status = ref('enabled');
-	const channels = ref(['email', 'push']);
+const status = ref('enabled');
+const channels = ref(['email', 'push']);
 </script>
 
 <style scoped>
-	.demo-stack,
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
+.demo-stack,
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
 
-	.demo-stack {
-		gap: 24px;
-	}
+.demo-stack {
+	gap: 24px;
+}
 
-	.demo-block {
-		gap: 12px;
-	}
+.demo-block {
+	gap: 12px;
+}
 
-	.demo-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 20px;
-	}
+.demo-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
 
-	.demo-title,
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title,
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

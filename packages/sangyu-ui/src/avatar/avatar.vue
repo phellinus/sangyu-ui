@@ -49,93 +49,93 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, ref, useSlots, watch } from 'vue';
-	import { getColor, useClassnames } from '@sangyu-ui/utils';
-	import { AvatarProps } from './interface';
-	import { SyIcon } from '@sangyu-ui/icons';
+import { computed, ref, useSlots, watch } from 'vue';
+import { getColor, useClassnames } from '@sangyu-ui/utils';
+import { AvatarProps } from './interface';
+import { SyIcon } from '@sangyu-ui/icons';
 
-	defineOptions({
-		name: 'SyAvatar',
-	});
-	defineSlots<{
-		text: () => void;
-		badge: () => void;
-	}>();
-	const props = withDefaults(defineProps<AvatarProps>(), {
-		shape: 'square',
-		customStyle: '',
-		size: 40,
-		badge: false,
-		badgePosition: 'bottom-right',
-		badgeColor: 'primary',
-		badgeOffsetX: 0,
-		badgeOffsetY: 0,
-		loading: false,
-	});
-	const wraperStyle = {
-		'--sy-badge-color': getColor(props.badgeColor),
-		'--sy-badge-offset-x': `${props.badgeOffsetX}px`,
-		'--sy-badge-offset-y': `${props.badgeOffsetY}px`,
-		'--sy-avatar-color': getColor(props.color),
-		'--sy-avatar-bgcolor': getColor(props.bgcolor),
-		'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
-		'--sy-avatar-loading-size': `${Math.max(12, Math.round(props.size * 0.45))}px`,
-	};
-	const AvatarStyle = {
-		width: `${props.size}px`,
-		height: `${props.size}px`,
-	};
-	const { c } = useClassnames('avatar');
-	const slots = useSlots();
-	const imageLoaded = ref(false);
-	const imageFailed = ref(false);
-	const isLoading = computed(() => {
-		return props.loading || (!!props.src && !imageLoaded.value && !imageFailed.value);
-	});
-	const handleImageLoad = () => {
-		imageLoaded.value = true;
-		imageFailed.value = false;
-	};
-	const handleImageError = () => {
+defineOptions({
+	name: 'SyAvatar',
+});
+defineSlots<{
+	text: () => void;
+	badge: () => void;
+}>();
+const props = withDefaults(defineProps<AvatarProps>(), {
+	shape: 'square',
+	customStyle: '',
+	size: 40,
+	badge: false,
+	badgePosition: 'bottom-right',
+	badgeColor: 'primary',
+	badgeOffsetX: 0,
+	badgeOffsetY: 0,
+	loading: false,
+});
+const wraperStyle = {
+	'--sy-badge-color': getColor(props.badgeColor),
+	'--sy-badge-offset-x': `${props.badgeOffsetX}px`,
+	'--sy-badge-offset-y': `${props.badgeOffsetY}px`,
+	'--sy-avatar-color': getColor(props.color),
+	'--sy-avatar-bgcolor': getColor(props.bgcolor),
+	'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
+	'--sy-avatar-loading-size': `${Math.max(12, Math.round(props.size * 0.45))}px`,
+};
+const AvatarStyle = {
+	width: `${props.size}px`,
+	height: `${props.size}px`,
+};
+const { c } = useClassnames('avatar');
+const slots = useSlots();
+const imageLoaded = ref(false);
+const imageFailed = ref(false);
+const isLoading = computed(() => {
+	return props.loading || (!!props.src && !imageLoaded.value && !imageFailed.value);
+});
+const handleImageLoad = () => {
+	imageLoaded.value = true;
+	imageFailed.value = false;
+};
+const handleImageError = () => {
+	imageLoaded.value = false;
+	imageFailed.value = true;
+};
+watch(
+	() => props.src,
+	() => {
 		imageLoaded.value = false;
-		imageFailed.value = true;
-	};
-	watch(
-		() => props.src,
-		() => {
-			imageLoaded.value = false;
-			imageFailed.value = false;
-		},
-	);
-	const textSlotFirstChar = computed(() => {
-		const textSlot = slots.text?.();
-		if (!textSlot || !textSlot.length) return '';
-		const textContent = textSlot
-			.map((node) => {
-				if (typeof node.children === 'string') {
-					return node.children;
-				}
-				if (Array.isArray(node.children)) {
-					return node.children.map((child) => (typeof child === 'string' ? child : '')).join('');
-				}
-				return '';
-			})
-			.join('')
-			.trim();
-		return textContent ? textContent[0] : '';
-	});
+		imageFailed.value = false;
+	},
+);
+const textSlotFirstChar = computed(() => {
+	const textSlot = slots.text?.();
+	if (!textSlot || !textSlot.length) return '';
+	const textContent = textSlot
+		.map((node) => {
+			if (typeof node.children === 'string') {
+				return node.children;
+			}
+			if (Array.isArray(node.children)) {
+				return node.children.map((child) => (typeof child === 'string' ? child : '')).join('');
+			}
+			return '';
+		})
+		.join('')
+		.trim();
+	return textContent ? textContent[0] : '';
+});
 
-	const getAvatarCls = () => ({
-		[c()]: true,
-		[c('circle')]: props.shape === 'circle',
-		[c('square')]: props.shape === 'square',
-		[c('loading')]: isLoading.value,
-	});
-	const badgeCls = (isText = false) => ({
-		[c('badge')]: props.badge,
-		[c('badge-text')]: isText,
-		[c(`badge-${props.badgePosition}`)]: true,
-	});
+const getAvatarCls = () => ({
+	[c()]: true,
+	[c('circle')]: props.shape === 'circle',
+	[c('square')]: props.shape === 'square',
+	[c('loading')]: isLoading.value,
+});
+const badgeCls = (isText = false) => ({
+	[c('badge')]: props.badge,
+	[c('badge-text')]: isText,
+	[c(`badge-${props.badgePosition}`)]: true,
+});
 </script>
 
 <style scoped></style>

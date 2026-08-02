@@ -23,31 +23,31 @@ title: 多选
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySelect } from '../index';
-	import type { SelectOption, SelectValue } from '../Select.type';
+import { ref } from 'vue';
+import { SySelect } from '../index';
+import type { SelectOption, SelectValue } from '../Select.type';
 
-	const value = ref<SelectValue[]>(['design', 'frontend']);
+const value = ref<SelectValue[]>(['design', 'frontend']);
 
-	const options: SelectOption[] = [
-		{ label: '设计', value: 'design' },
-		{ label: '前端', value: 'frontend' },
-		{ label: '后端', value: 'backend' },
-		{ label: '测试', value: 'qa' },
-		{ label: '产品', value: 'product' },
-		{ label: '运维', value: 'ops' },
-	];
+const options: SelectOption[] = [
+	{ label: '设计', value: 'design' },
+	{ label: '前端', value: 'frontend' },
+	{ label: '后端', value: 'backend' },
+	{ label: '测试', value: 'qa' },
+	{ label: '产品', value: 'product' },
+	{ label: '运维', value: 'ops' },
+];
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

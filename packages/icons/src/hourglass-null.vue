@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyHourglassNull',
-	});
+defineOptions({
+	name: 'SyHourglassNull',
+});
 </script>

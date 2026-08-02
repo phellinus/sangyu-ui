@@ -29,14 +29,14 @@ title: SySteps 自定义图标与内容
 </template>
 
 <script setup>
-	import { SyIcon } from '@sangyu-ui/icons';
-	import { SyStep, SySteps } from 'sangyu-ui';
+import { SyIcon } from '@sangyu-ui/icons';
+import { SyStep, SySteps } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.step-title {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-	}
+.step-title {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
 </style>

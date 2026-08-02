@@ -23,12 +23,12 @@ title: SyResult 紧凑型与异常状态
 </template>
 
 <script setup>
-	import { SyButton, SyResult } from 'sangyu-ui';
+import { SyButton, SyResult } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.result-demo-stack {
-		display: grid;
-		gap: 20px;
-	}
+.result-demo-stack {
+	display: grid;
+	gap: 20px;
+}
 </style>

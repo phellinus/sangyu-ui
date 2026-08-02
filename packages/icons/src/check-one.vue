@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyCheckOne',
-	});
+defineOptions({
+	name: 'SyCheckOne',
+});
 </script>

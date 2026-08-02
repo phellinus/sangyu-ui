@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyZoomIn',
-	});
+defineOptions({
+	name: 'SyZoomIn',
+});
 </script>

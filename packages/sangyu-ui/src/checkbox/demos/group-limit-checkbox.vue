@@ -31,32 +31,32 @@ title: 数量限制与禁用
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyCheckbox, SyCheckboxGroup } from 'sangyu-ui';
+import { ref } from 'vue';
+import { SyCheckbox, SyCheckboxGroup } from 'sangyu-ui';
 
-	const skills = ref(['vue', 'typescript']);
-	const lockedOptions = ref(['audit', 'alert']);
+const skills = ref(['vue', 'typescript']);
+const lockedOptions = ref(['audit', 'alert']);
 </script>
 
 <style scoped>
-	.demo-stack,
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
+.demo-stack,
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
 
-	.demo-stack {
-		gap: 26px;
-	}
+.demo-stack {
+	gap: 26px;
+}
 
-	.demo-block {
-		gap: 14px;
-	}
+.demo-block {
+	gap: 14px;
+}
 
-	.demo-title,
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title,
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

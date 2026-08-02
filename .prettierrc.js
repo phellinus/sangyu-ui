@@ -9,7 +9,7 @@ export default {
     tabWidth: 4,
     useTabs: true,
     semi: true,
-    vueIndentScriptAndStyle: true,
+    vueIndentScriptAndStyle: false,
     quoteProps: 'as-needed',
     jsxSingleQuote: true,
     proseWrap: 'preserve',

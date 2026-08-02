@@ -38,29 +38,29 @@ title: 按钮尺寸
 </template>
 
 <script lang="ts" setup>
-	import { SyRadioButton, SyRadioGroup } from 'sangyu-ui';
-	import { ref } from 'vue';
+import { SyRadioButton, SyRadioGroup } from 'sangyu-ui';
+import { ref } from 'vue';
 
-	const smallValue = ref('week');
-	const defaultValue = ref('board');
-	const largeValue = ref('pro');
+const smallValue = ref('week');
+const defaultValue = ref('board');
+const largeValue = ref('pro');
 </script>
 
 <style scoped>
-	.demo-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
+.demo-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
 
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
 
-	.demo-title {
-		font-size: 14px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title {
+	font-size: 14px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

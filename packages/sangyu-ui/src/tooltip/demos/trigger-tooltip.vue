@@ -21,5 +21,5 @@ title: 触发方式
 </template>
 
 <script lang="ts" setup>
-	import { SyTooltip } from 'sangyu-ui';
+import { SyTooltip } from 'sangyu-ui';
 </script>

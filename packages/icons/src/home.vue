@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyHome',
-	});
+defineOptions({
+	name: 'SyHome',
+});
 </script>

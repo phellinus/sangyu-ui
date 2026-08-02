@@ -29,38 +29,38 @@ title: 尺寸与形状
 </template>
 
 <script lang="ts" setup>
-	import { SyRadio } from 'sangyu-ui';
-	import { ref } from 'vue';
+import { SyRadio } from 'sangyu-ui';
+import { ref } from 'vue';
 
-	const circleSmall = ref(false);
-	const circleDefault = ref(true);
-	const circleLarge = ref(false);
-	const squareSmall = ref(false);
-	const squareDefault = ref(true);
-	const squareLarge = ref(false);
+const circleSmall = ref(false);
+const circleDefault = ref(true);
+const circleLarge = ref(false);
+const squareSmall = ref(false);
+const squareDefault = ref(true);
+const squareLarge = ref(false);
 </script>
 
 <style scoped>
-	.demo-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 18px;
-	}
+.demo-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
 
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
 
-	.demo-title {
-		font-size: 14px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title {
+	font-size: 14px;
+	color: var(--sy-color-text-secondary);
+}
 
-	.demo-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 18px;
-	}
+.demo-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+}
 </style>

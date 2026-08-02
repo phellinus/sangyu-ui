@@ -22,30 +22,30 @@ title: 标签模式
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySelect } from '../index';
-	import type { SelectOption, SelectValue } from '../Select.type';
+import { ref } from 'vue';
+import { SySelect } from '../index';
+import type { SelectOption, SelectValue } from '../Select.type';
 
-	const labels = ref<SelectValue[]>(['Vue', 'TypeScript']);
+const labels = ref<SelectValue[]>(['Vue', 'TypeScript']);
 
-	const options: SelectOption[] = [
-		{ label: 'Vue', value: 'Vue' },
-		{ label: 'React', value: 'React' },
-		{ label: 'TypeScript', value: 'TypeScript' },
-		{ label: 'Vite', value: 'Vite' },
-		{ label: 'Vitest', value: 'Vitest' },
-	];
+const options: SelectOption[] = [
+	{ label: 'Vue', value: 'Vue' },
+	{ label: 'React', value: 'React' },
+	{ label: 'TypeScript', value: 'TypeScript' },
+	{ label: 'Vite', value: 'Vite' },
+	{ label: 'Vitest', value: 'Vitest' },
+];
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

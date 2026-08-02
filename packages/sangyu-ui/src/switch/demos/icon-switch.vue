@@ -35,7 +35,13 @@ title: 图标与配色
 
 		<div class="demo-block">
 			<div class="demo-title">自定义 thumb</div>
-			<sy-switch v-model="power" color="#ea580c" inactive-color="#fff1e8" checked-text="电源控制" unchecked-text="电源控制">
+			<sy-switch
+				v-model="power"
+				color="#ea580c"
+				inactive-color="#fff1e8"
+				checked-text="电源控制"
+				unchecked-text="电源控制"
+			>
 				<template #thumb="{ checked }">
 					<SyIcon :name="checked ? 'power' : 'sleep'" :size="12" />
 				</template>
@@ -45,31 +51,31 @@ title: 图标与配色
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySwitch } from 'sangyu-ui';
-	import { SyIcon } from '@sangyu-ui/icons';
+import { ref } from 'vue';
+import { SySwitch } from 'sangyu-ui';
+import { SyIcon } from '@sangyu-ui/icons';
 
-	const wifi = ref(true);
-	const nightMode = ref(false);
-	const power = ref(true);
+const wifi = ref(true);
+const nightMode = ref(false);
+const power = ref(true);
 </script>
 
 <style scoped>
-	.demo-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 28px;
-	}
+.demo-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 28px;
+}
 
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 14px;
-	}
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 14px;
+}
 
-	.demo-title {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

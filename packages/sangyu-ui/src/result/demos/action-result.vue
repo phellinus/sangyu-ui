@@ -19,11 +19,11 @@ title: SyResult 带操作引导
 </template>
 
 <script setup>
-	import { SyButton, SyResult } from 'sangyu-ui';
+import { SyButton, SyResult } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.result-note {
-		max-width: 420px;
-	}
+.result-note {
+	max-width: 420px;
+}
 </style>

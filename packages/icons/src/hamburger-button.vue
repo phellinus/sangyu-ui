@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyHamburgerButton',
-	});
+defineOptions({
+	name: 'SyHamburgerButton',
+});
 </script>

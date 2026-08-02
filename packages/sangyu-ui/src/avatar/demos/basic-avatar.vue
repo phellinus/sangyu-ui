@@ -31,5 +31,5 @@
 </template>
 
 <script lang="ts" setup>
-	import { SyAvatar } from 'sangyu-ui';
+import { SyAvatar } from 'sangyu-ui';
 </script>

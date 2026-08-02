@@ -20,27 +20,27 @@ SyTag组件提供点击事件，可以通过`@handleClick`来监听点击事件�
 </template>
 
 <script lang="ts" setup>
-	import { SyTag } from 'sangyu-ui';
-	import { reactive } from 'vue';
+import { SyTag } from 'sangyu-ui';
+import { reactive } from 'vue';
 
-	const state = reactive({
-		sizeTags: [
-			{
-				size: 'small' as any,
-				type: 'primary',
-			},
-			{
-				size: 'default' as any,
-				type: 'success',
-			},
-			{
-				size: 'large' as any,
-				type: 'warning',
-			},
-		],
-	});
-	// 关闭标签的回调函数
-	const handleClick = (item: any) => {
-		console.log(item);
-	};
+const state = reactive({
+	sizeTags: [
+		{
+			size: 'small' as any,
+			type: 'primary',
+		},
+		{
+			size: 'default' as any,
+			type: 'success',
+		},
+		{
+			size: 'large' as any,
+			type: 'warning',
+		},
+	],
+});
+// 关闭标签的回调函数
+const handleClick = (item: any) => {
+	console.log(item);
+};
 </script>

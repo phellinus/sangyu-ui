@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-	import { SyButton } from 'sangyu-ui';
+import { SyButton } from 'sangyu-ui';
 </script>
 
 <style scoped></style>

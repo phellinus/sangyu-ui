@@ -15,12 +15,12 @@ title: SyDivider 带文案的分割线
 </template>
 
 <script setup>
-	import { SyDivider } from 'sangyu-ui';
+import { SyDivider } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.divider-demo-stack {
-		display: grid;
-		gap: 18px;
-	}
+.divider-demo-stack {
+	display: grid;
+	gap: 18px;
+}
 </style>

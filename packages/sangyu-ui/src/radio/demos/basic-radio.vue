@@ -14,17 +14,17 @@ title: SyRadio 基础用法
 </template>
 
 <script lang="ts" setup>
-	import { SyRadio } from 'sangyu-ui';
-	import { ref } from 'vue';
+import { SyRadio } from 'sangyu-ui';
+import { ref } from 'vue';
 
-	const emailChecked = ref(true);
-	const smsChecked = ref(false);
+const emailChecked = ref(true);
+const smsChecked = ref(false);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		gap: 18px;
-		flex-wrap: wrap;
-	}
+.demo-stack {
+	display: flex;
+	gap: 18px;
+	flex-wrap: wrap;
+}
 </style>

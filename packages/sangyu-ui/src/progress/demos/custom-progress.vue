@@ -15,12 +15,12 @@ title: SyProgress 自定义颜色、尺寸与圆角
 </template>
 
 <script setup>
-	import { SyProgress } from 'sangyu-ui';
+import { SyProgress } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.progress-demo-stack {
-		display: grid;
-		gap: 18px;
-	}
+.progress-demo-stack {
+	display: grid;
+	gap: 18px;
+}
 </style>

@@ -35,54 +35,54 @@ title: 状态文案插槽
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySwitch } from 'sangyu-ui';
+import { ref } from 'vue';
+import { SySwitch } from 'sangyu-ui';
 
-	const audioEnabled = ref(true);
-	const memberOnly = ref(false);
+const audioEnabled = ref(true);
+const memberOnly = ref(false);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 20px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 20px;
+}
 
-	.state-chip {
-		display: inline-flex;
-		align-items: center;
-		padding: 2px 10px;
-		border-radius: 999px;
-		font-size: 12px;
-		font-weight: 500;
-	}
+.state-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 500;
+}
 
-	.state-chip--success {
-		background-color: var(--sy-color-success-1);
-		color: var(--sy-color-success-7);
-	}
+.state-chip--success {
+	background-color: var(--sy-color-success-1);
+	color: var(--sy-color-success-7);
+}
 
-	.state-chip--muted {
-		background-color: #f1f3f5;
-		color: var(--sy-color-text-secondary);
-	}
+.state-chip--muted {
+	background-color: #f1f3f5;
+	color: var(--sy-color-text-secondary);
+}
 
-	.state-meta {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-	}
+.state-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
 
-	.state-meta strong {
-		font-size: 13px;
-		font-weight: 600;
-		color: var(--sy-color-text);
-	}
+.state-meta strong {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--sy-color-text);
+}
 
-	.state-meta span {
-		font-size: 12px;
-		color: var(--sy-color-text-secondary);
-	}
+.state-meta span {
+	font-size: 12px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyCloseOne',
-	});
+defineOptions({
+	name: 'SyCloseOne',
+});
 </script>

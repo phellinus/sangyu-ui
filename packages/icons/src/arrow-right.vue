@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyArrowRight',
-	});
+defineOptions({
+	name: 'SyArrowRight',
+});
 </script>

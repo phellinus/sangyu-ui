@@ -34,19 +34,19 @@ loading 状态会在头像上层显示转圈，并使用浅灰背景提示加载
 </template>
 
 <script lang="ts" setup>
-	import { SyAvatar } from 'sangyu-ui';
+import { SyAvatar } from 'sangyu-ui';
 </script>
 
 <style scoped>
-	.avatar-loading-demo {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
+.avatar-loading-demo {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
 
-	.avatar-row {
-		display: flex;
-		gap: 12px;
-		flex-wrap: wrap;
-	}
+.avatar-row {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
 </style>

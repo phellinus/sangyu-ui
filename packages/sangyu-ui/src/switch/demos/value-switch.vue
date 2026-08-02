@@ -35,32 +35,32 @@ title: 自定义值
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySwitch } from 'sangyu-ui';
+import { ref } from 'vue';
+import { SySwitch } from 'sangyu-ui';
 
-	const publishStatus = ref<'published' | 'draft'>('draft');
-	const powerMode = ref<0 | 1>(1);
+const publishStatus = ref<'published' | 'draft'>('draft');
+const powerMode = ref<0 | 1>(1);
 </script>
 
 <style scoped>
-	.demo-stack,
-	.demo-block {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
+.demo-stack,
+.demo-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
 
-	.demo-stack {
-		gap: 24px;
-	}
+.demo-stack {
+	gap: 24px;
+}
 
-	.demo-block {
-		gap: 12px;
-	}
+.demo-block {
+	gap: 12px;
+}
 
-	.demo-title,
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.demo-title,
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

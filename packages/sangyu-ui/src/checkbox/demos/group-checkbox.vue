@@ -19,22 +19,22 @@ title: 多选框组
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SyCheckbox, SyCheckboxGroup } from 'sangyu-ui';
+import { ref } from 'vue';
+import { SyCheckbox, SyCheckboxGroup } from 'sangyu-ui';
 
-	const permissions = ref(['read', 'edit']);
+const permissions = ref(['read', 'edit']);
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

@@ -22,40 +22,40 @@ title: 搜索
 </template>
 
 <script lang="ts" setup>
-	import { ref } from 'vue';
-	import { SySelect } from '../index';
-	import type { SelectOption, SelectValue } from '../Select.type';
+import { ref } from 'vue';
+import { SySelect } from '../index';
+import type { SelectOption, SelectValue } from '../Select.type';
 
-	const value = ref<SelectValue>();
+const value = ref<SelectValue>();
 
-	const options: SelectOption[] = [
-		{ label: '设计系统', value: 'design-system', code: 'DS' },
-		{ label: '组件库', value: 'components', code: 'UI' },
-		{ label: '文档站', value: 'docs', code: 'DOC' },
-		{ label: '工程工具', value: 'tooling', code: 'CLI' },
-		{ label: '自动化测试', value: 'testing', code: 'TEST' },
-	];
+const options: SelectOption[] = [
+	{ label: '设计系统', value: 'design-system', code: 'DS' },
+	{ label: '组件库', value: 'components', code: 'UI' },
+	{ label: '文档站', value: 'docs', code: 'DOC' },
+	{ label: '工程工具', value: 'tooling', code: 'CLI' },
+	{ label: '自动化测试', value: 'testing', code: 'TEST' },
+];
 
-	/**
-	 * 根据选项 label 或自定义 code 字段进行搜索。
-	 * @param query 用户输入的关键词
-	 * @param option 当前被判断的选项
-	 */
-	const filterByCodeOrLabel = (query: string, option: SelectOption) => {
-		const keyword = query.toLowerCase();
-		return option.label.toLowerCase().includes(keyword) || String(option.code).toLowerCase().includes(keyword);
-	};
+/**
+ * 根据选项 label 或自定义 code 字段进行搜索。
+ * @param query 用户输入的关键词
+ * @param option 当前被判断的选项
+ */
+const filterByCodeOrLabel = (query: string, option: SelectOption) => {
+	const keyword = query.toLowerCase();
+	return option.label.toLowerCase().includes(keyword) || String(option.code).toLowerCase().includes(keyword);
+};
 </script>
 
 <style scoped>
-	.demo-stack {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
+.demo-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	.current-value {
-		font-size: 13px;
-		color: var(--sy-color-text-secondary);
-	}
+.current-value {
+	font-size: 13px;
+	color: var(--sy-color-text-secondary);
+}
 </style>

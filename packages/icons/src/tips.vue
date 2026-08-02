@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyTips',
-	});
+defineOptions({
+	name: 'SyTips',
+});
 </script>

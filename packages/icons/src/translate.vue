@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-	defineOptions({
-		name: 'SyTranslate',
-	});
+defineOptions({
+	name: 'SyTranslate',
+});
 </script>
