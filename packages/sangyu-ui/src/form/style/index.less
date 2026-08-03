@@ -28,4 +28,73 @@
 .sy-form-item {
     display: flex;
 	margin-bottom: var(--sy-form-item-gap, 18px);
+
+    &__label {
+		flex: 0 0 auto;
+		box-sizing: border-box;
+		padding-right: 12px;
+		line-height: 32px;
+		color: rgba(0, 0, 0, 0.88);
+  
+	}
+    
+    &__required-mark {
+		margin-right: 4px;
+		color: #ff4d4f;
+	}
+
+	&__control {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__control-input {
+		min-height: 32px;
+	}
+
+    &__message {
+		margin-top: 4px;
+		color: #ff4d4f;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	&__extra {
+		margin-top: 4px;
+		color: rgba(0, 0, 0, 0.45);
+		font-size: 12px;
+		line-height: 1.5;
+	}
+    &--error {
+		.sy-input {
+			border-color: #ff4d4f;
+		}
+	}
+
+	&--success {
+		.sy-input {
+			border-color: #52c41a;
+		}
+	}
+}
+
+.sy-form--vertical {
+	.sy-form-item {
+		display: block;
+
+		&__label {
+			display: block;
+			width: auto !important;
+			padding: 0 0 6px;
+			line-height: 1.5;
+			text-align: left !important;
+		}
+	}
+}
+
+.sy-form--inline {
+	.sy-form-item {
+		display: inline-flex;
+		margin-bottom: 0;
+	}
 }
