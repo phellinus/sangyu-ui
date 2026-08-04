@@ -1,11 +1,14 @@
-import { computed } from 'vue';
+import { computed, type Ref } from 'vue';
 import type { SelectModelValue, SelectOption, SelectValue, SySelectEmits, SySelectProps } from '../Select.type';
 
 /**
  * 管理 Select 的选中值、选中项和选择行为。
  * 负责把单选 / 多选的 modelValue 统一转换成数组来处理。
+ * @param props Select 组件属性
+ * @param emit Select 组件事件派发器
+ * @param disabled 合并组件自身和 Form 后的最终禁用状态
  */
-export function useSelectModel(props: SySelectProps, emit: SySelectEmits) {
+export function useSelectModel(props: SySelectProps, emit: SySelectEmits, disabled: Readonly<Ref<boolean>>) {
 	/** label 模式默认按照多选处理 */
 	const isMultiple = computed(() => {
 		return props.multiple || props.mode === 'label';
@@ -74,7 +77,7 @@ export function useSelectModel(props: SySelectProps, emit: SySelectEmits) {
 	 * @param option 被点击或键盘确认的选项
 	 */
 	const selectOption = (option: SelectOption) => {
-		if (props.disabled || option.disabled) return;
+		if (disabled.value || option.disabled) return;
 
 		if (isMultiple.value) {
 			const current = values.value;
@@ -97,7 +100,7 @@ export function useSelectModel(props: SySelectProps, emit: SySelectEmits) {
 	 * @param value 需要移除的选项值
 	 */
 	const removeOption = (value: SelectValue) => {
-		if (props.disabled) return;
+		if (disabled.value) return;
 
 		const next = values.value.filter((item) => item !== value);
 
@@ -109,7 +112,7 @@ export function useSelectModel(props: SySelectProps, emit: SySelectEmits) {
 	 * 单选清空为 undefined，多选清空为空数组。
 	 */
 	const clearValue = () => {
-		if (props.disabled) return;
+		if (disabled.value) return;
 		const emptyValue = isMultiple.value ? ([] as SelectValue[]) : undefined;
 		updateValue(emptyValue, isMultiple.value ? [] : undefined);
 		emit('clear');

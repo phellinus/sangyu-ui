@@ -1,5 +1,6 @@
-import { computed, CSSProperties, defineComponent, onBeforeUnmount, onMounted, PropType, ref } from 'vue';
+import { computed, CSSProperties, defineComponent, onBeforeUnmount, onMounted, PropType, ref, watch } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 import type { SelectModelValue, SelectOption, SelectValue } from './Select.type';
 import { useSelectKeyboard, useSelectModel, useSelectSearch } from './composables';
 import { SelectDropdown, SelectTags } from './components';
@@ -44,8 +45,14 @@ export default defineComponent({
 		const open = ref(false);
 		const inputRef = ref<HTMLInputElement>();
 		const selectRef = ref<HTMLElement>();
+		// 获取当前 Select 所在的 FormItem 上下文
+		const formItemContext = useFormItemContext();
+		// 合并 Select 自身和 Form 的禁用状态
+		const mergedDisabled = computed(() => {
+			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
 
-		const model = useSelectModel(props as any, emit as any);
+		const model = useSelectModel(props as any, emit as any, mergedDisabled);
 		const search = useSelectSearch(props as any, emit as any);
 
 		/** label 模式和 filterable 模式都需要显示输入框 */
@@ -57,7 +64,7 @@ export default defineComponent({
 		 * @returns 是否处理了本次创建操作
 		 */
 		const createInputLabel = (): boolean => {
-			if (props.mode !== 'label' || props.disabled) {
+			if (props.mode !== 'label' || mergedDisabled.value) {
 				return false;
 			}
 			const label = search.query.value.trim();
@@ -96,7 +103,9 @@ export default defineComponent({
 		 * label 模式下按 Enter 优先创建标签。
 		 * @param event 键盘事件
 		 */
-		const handleSelectKeydown = async (event: KeyboardEvent) => {
+		const handleSelectKeydown = async (event: KeyboardEvent): Promise<void> => {
+			if (mergedDisabled.value) return;
+
 			const shouldCreateLabel =
 				event.key === 'Enter' &&
 				props.mode === 'label' &&
@@ -116,29 +125,38 @@ export default defineComponent({
 		 * 只有状态真正变化时才触发 visibleChange。
 		 * @param visible 是否展开
 		 */
-		const setDropdownVisible = (visible: boolean) => {
-			if (props.disabled) return;
+		const setDropdownVisible = (visible: boolean): void => {
+			// 禁用时阻止展开，但仍允许收起已经打开的面板。
+			if (visible && mergedDisabled.value) return;
 			if (open.value === visible) return;
 
 			open.value = visible;
 			emit('visibleChange', visible);
 		};
-		const close = () => {
+		const close = (): void => {
 			setDropdownVisible(false);
 		};
+		/**
+		 * Select 在展开期间变为禁用时立即收起下拉面板。
+		 */
+		watch(mergedDisabled, (disabled) => {
+			if (disabled) {
+				close();
+			}
+		});
 		/**
 		 * 判断当前事件是否发生在 Select 组件外部。
 		 * 如果点击目标不属于组件根节点，则关闭下拉面板。
 		 * @param event 鼠标或触摸事件
 		 */
-		const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+		const handleClickOutside = (event: MouseEvent | TouchEvent): void => {
 			const target = event.target as Node | null;
 			if (!target) return;
 			if (selectRef.value?.contains(target)) return;
 			close();
 		};
 		/**打开下拉框 */
-		const openDropdown = () => {
+		const openDropdown = (): void => {
 			setDropdownVisible(true);
 		};
 		/**
@@ -151,7 +169,7 @@ export default defineComponent({
 		 * @returns 是否成功处理了删除操作
 		 */
 		const removeSelectedByKeyboard = (): boolean => {
-			if (props.disabled) return false;
+			if (mergedDisabled.value) return false;
 
 			// 搜索框有内容时，让 Backspace/Delete 正常删除输入文字
 			if (search.query.value.length > 0) {
@@ -177,7 +195,7 @@ export default defineComponent({
 		/**
 		 * 点击选择器触发区域时切换下拉面板。
 		 */
-		const toggleDropdown = () => {
+		const toggleDropdown = (): void => {
 			setDropdownVisible(!open.value);
 		};
 		/**
@@ -191,8 +209,8 @@ export default defineComponent({
 		 * 禁用状态或禁用选项不会触发任何后续行为。
 		 * @param option 当前被选择的选项
 		 */
-		const selectOption = (option: SelectOption) => {
-			if (props.disabled || option.disabled) return;
+		const selectOption = (option: SelectOption): void => {
+			if (mergedDisabled.value || option.disabled) return;
 
 			model.selectOption(option);
 
@@ -205,8 +223,18 @@ export default defineComponent({
 
 		const keyboard = useSelectKeyboard(search.filteredOptions, selectOption, close, removeSelectedByKeyboard);
 
-		const showClear = computed(() => props.clearable && !props.disabled && model.values.value.length > 0);
+		const showClear = computed(() => props.clearable && !mergedDisabled.value && model.values.value.length > 0);
 		const styles = computed(() => [props.customStyle, props.width ? { width: props.width } : undefined]);
+
+		/**
+		 * 处理搜索框输入，并在最终禁用时阻止搜索状态变化。
+		 * @param event 输入事件
+		 */
+		const handleSearchInput = (event: Event): void => {
+			if (mergedDisabled.value) return;
+
+			search.setQuery((event.target as HTMLInputElement).value);
+		};
 
 		/**
 		 * 组件挂载后监听全局点击，用于点击外部关闭下拉面板。
@@ -266,14 +294,15 @@ export default defineComponent({
 					[c()]: true,
 					[c(props.size)]: true,
 					[c('open')]: open.value,
-					[c('disabled')]: props.disabled,
+					[c('disabled')]: mergedDisabled.value,
 				}}
 				style={styles.value}
+				aria-disabled={mergedDisabled.value}
 				onKeydown={handleSelectKeydown}
 			>
 				<div
 					class={c('trigger')}
-					tabindex={props.disabled ? -1 : 0}
+					tabindex={mergedDisabled.value ? -1 : 0}
 					onClick={toggleDropdown}
 					onFocus={(event) => emit('focus', event)}
 					onBlur={(event) => emit('blur', event)}
@@ -285,7 +314,7 @@ export default defineComponent({
 							<SelectTags
 								options={model.selectedOptions.value}
 								maxTagCount={props.maxTagCount}
-								disabled={props.disabled}
+								disabled={mergedDisabled.value}
 								onRemove={(value: SelectValue) => model.removeOption(value)}
 							>
 								{{ tag: slots.tag }}
@@ -304,9 +333,9 @@ export default defineComponent({
 								ref={inputRef}
 								class={c('search')}
 								value={search.query.value}
-								disabled={props.disabled}
+								disabled={mergedDisabled.value}
 								placeholder={model.values.value.length ? '' : props.placeholder}
-								onInput={(event) => search.setQuery((event.target as HTMLInputElement).value)}
+								onInput={handleSearchInput}
 								onFocus={openDropdown}
 								onClick={(event) => event.stopPropagation()}
 							/>
@@ -331,7 +360,7 @@ export default defineComponent({
 						<span class={c('suffix')}>
 							{slots.suffix?.({
 								open: open.value,
-								disabled: props.disabled,
+								disabled: mergedDisabled.value,
 								loading: mergedLoading.value,
 							}) ?? <span class={c('arrow')}>{renderArrowIcon()}</span>}
 						</span>
