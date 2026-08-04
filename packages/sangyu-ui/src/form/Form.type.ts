@@ -1,4 +1,4 @@
-import { CSSProperties, Ref } from 'vue';
+import { ComputedRef, CSSProperties, Ref } from 'vue';
 
 export type NamePath = string | number | Array<string | number>;
 //表单的布局
@@ -253,6 +253,8 @@ export interface FormContext extends FormInstance {
 export interface FormItemContext {
 	// 当前表单字段的标准化路径
 	name?: Array<string | number>;
+	// 当前表单字段是否继承 Form 的禁用状态
+	disabled: ComputedRef<boolean>;
 	// 当前表单字段的校验状态
 	validateStatus: Ref<ValidateStatus>;
 	// 当前表单字段的错误信息列表

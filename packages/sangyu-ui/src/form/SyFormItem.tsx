@@ -49,12 +49,17 @@ export default defineComponent({
 		const messageId = computed(() =>
 			props.name == null ? undefined : `sy-form-item-${String(props.name).replace(/\W/g, '-')}`,
 		);
+		// 当前 FormItem 从 SyForm 继承的禁用状态
+		const disabled = computed(() => {
+			return Boolean(field.form?.props.disabled);
+		});
 		provide(FORM_ITEM_CONTEXT_KEY, {
 			name: props.name == null ? undefined : Array.isArray(props.name) ? props.name : [props.name],
 			validateStatus: field.validateStatus,
 			errors: field.errors,
 			onChange: field.onChange,
 			onBlur: field.onBlur,
+			disabled,
 		});
 		// 处理表单字段的输入、变更和失焦事件
 		const handleInput = () => field.onChange();
