@@ -62,9 +62,28 @@ export default defineComponent({
 			disabled,
 		});
 		// 处理表单字段的输入、变更和失焦事件
-		const handleInput = () => field.onChange();
-		const handleChange = () => field.onChange();
-		const handleFocusout = () => field.onBlur();
+		const handleInput = (): void => {
+			if (disabled.value) {
+				return;
+			}
+			field.onChange();
+		};
+
+		//处理表单字段 change 事件
+		const handleChange = (): void => {
+			if (disabled.value) {
+				return;
+			}
+			field.onChange();
+		};
+
+		// 处理表单字段失焦事件
+		const handleFocusout = (): void => {
+			if (disabled.value) {
+				return;
+			}
+			field.onBlur();
+		};
 		return () => (
 			<div
 				ref={rootRef}

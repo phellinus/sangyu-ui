@@ -17,7 +17,7 @@
 				:type="inputType"
 				:name="props.name"
 				:value="value"
-				:disabled="props.disabled"
+				:disabled="disabled"
 				:readonly="props.readonly"
 				:autocomplete="props.autocomplete"
 				:maxlength="props.maxlength"
@@ -65,6 +65,7 @@
 
 <script setup lang="ts">
 import { useClassnames } from '@sangyu-ui/utils';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { computed, mergeProps, useAttrs } from 'vue';
 import type { InputEmits, InputProps, InputSlots, SyInputInstance } from './Input.type';
 import { InputClear } from './components';
@@ -101,7 +102,13 @@ defineSlots<InputSlots>();
 
 const { c, cx, ce, cm } = useClassnames('input');
 const attrs = useAttrs();
+// 获取当前输入框所在的 FormItem 上下文
+const formItemContext = useFormItemContext();
 
+// 输入框最终使用的禁用状态
+const mergedDisabled = computed(() => {
+	return Boolean(props.disabled || formItemContext?.disabled.value);
+});
 /**
  * 将外部属性拆分到组件根节点和真实 input。
  */
@@ -128,6 +135,7 @@ const {
 	inputType,
 	ariaLabel,
 	styles,
+	disabled,
 	handleInput,
 	handleChange,
 	handleCompositionStart,
@@ -138,14 +146,14 @@ const {
 	focus,
 	blur,
 	select,
-} = useInput(props, emit);
+} = useInput(props, emit, mergedDisabled);
 
 const classes = cx(() => ({
 	[c()]: true,
 	[c(cm(props.type))]: true,
 	[c(cm(props.size))]: true,
 	[c(cm('label'))]: Boolean(props.label),
-	[c(cm('disabled'))]: props.disabled,
+	[c(cm('disabled'))]: disabled.value,
 	[c(cm('readonly'))]: props.readonly,
 	hasfocu: isFloat.value,
 }));
