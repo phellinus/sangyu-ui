@@ -24,7 +24,7 @@ export default defineComponent({
 		customStyle: [String, Object] as PropType<string | CSSProperties>,
 	},
 	setup(props, { slots }) {
-		const { c, ce } = useClassnames('form-item');
+		const { c, ce, cm } = useClassnames('form-item');
 		const rootRef = ref<HTMLElement>();
 		// 当前字段的校验状态和错误信息
 		const field = useFormItem(props as FormItemProps, rootRef);
@@ -35,7 +35,9 @@ export default defineComponent({
 		// 当前字段是否为必填字段
 		const required = computed(() => {
 			if (props.required) return true;
-			return field.form?.getFieldRules(props.name!, props.rules).some((rule) => rule.required);
+			if (props.name == null) return false;
+
+			return Boolean(field.form?.getFieldRules(props.name, props.rules).some((rule) => rule.required));
 		});
 		//字段标签宽度
 		const labelWidth = computed(() => {
@@ -63,8 +65,8 @@ export default defineComponent({
 				ref={rootRef}
 				class={{
 					[c()]: true,
-					[c(status.value)]: Boolean(status.value),
-					[c('required')]: required.value,
+					[c(cm(status.value))]: Boolean(status.value),
+					[c(cm('required'))]: required.value,
 				}}
 				style={props.customStyle}
 				onInput={handleInput}
@@ -80,7 +82,7 @@ export default defineComponent({
 						}}
 					>
 						{required.value && !field.form?.props.hideRequiredMark && (
-							<span class={c('required-mark')} aria-hidden='true'>
+							<span class={c(ce('required-mark'))} aria-hidden='true'>
 								*
 							</span>
 						)}

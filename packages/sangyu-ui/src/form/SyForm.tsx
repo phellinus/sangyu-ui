@@ -59,7 +59,7 @@ export default defineComponent({
 	},
 	emits: ['submit', 'finish', 'finishFailed', 'validate'],
 	setup(props, { slots, emit, expose }) {
-		const { c } = useClassnames('form');
+		const { c, cm } = useClassnames('form');
 		const controller = useFormController(props);
 		const context: FormContext = {
 			props,
@@ -99,9 +99,9 @@ export default defineComponent({
 			<form
 				class={{
 					[c()]: true,
-					[c(props.layout)]: true,
-					[c(props.size)]: true,
-					[c('disabled')]: props.disabled,
+					[c(cm(props.layout))]: true,
+					[c(cm(props.size))]: true,
+					[c(cm('disabled'))]: props.disabled,
 				}}
 				style={props.customStyle}
 				onSubmit={handleSubmit}
