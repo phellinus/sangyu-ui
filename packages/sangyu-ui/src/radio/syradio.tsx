@@ -1,5 +1,6 @@
 import { computed, defineComponent, mergeProps, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 import type { RadioProps, RadioShape, RadioSize, SyRadioInstance } from './Radio.type';
 import { useRadio } from './composables';
 
@@ -63,9 +64,16 @@ export default defineComponent({
 	emits: ['update:modelValue', 'change'],
 	setup(props, { attrs, emit, expose, slots }) {
 		const { c } = useClassnames('radio');
+		/** 获取当前 Radio 所在的 FormItem 上下文 */
+		const formItemContext = useFormItemContext();
+		/** 合并 Radio 自身和 Form 的禁用状态 */
+		const mergedDisabled = computed(() => {
+			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
 		const { inputRef, inputId, isInGroup, checked, disabled, size, name, handleChange, focus, blur } = useRadio(
 			props,
 			emit,
+			mergedDisabled,
 		);
 		/** 根据当前状态生成类名 */
 		const classes = computed(() => ({
