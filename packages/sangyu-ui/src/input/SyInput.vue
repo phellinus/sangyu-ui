@@ -19,15 +19,10 @@
 				:value="value"
 				:disabled="disabled"
 				:readonly="props.readonly"
-				:autocomplete="props.autocomplete"
-				:maxlength="props.maxlength"
-				:minlength="props.minlength"
-				:placeholder="props.placeholder ? ' ' : undefined"
-				:aria-label="ariaLabel"
+				:aria-invalid="inputAriaInvalid"
+				:aria-describedby="inputAriaDescribedby"
 				@input="handleInput"
 				@change="handleChange"
-				@compositionstart="handleCompositionStart"
-				@compositionend="handleCompositionEnd"
 				@focus="handleFocus"
 				@blur="handleBlur"
 			/>
@@ -67,6 +62,7 @@
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { computed, mergeProps, useAttrs } from 'vue';
+import type { AriaAttributes } from 'vue';
 import type { InputEmits, InputProps, InputSlots, SyInputInstance } from './Input.type';
 import { InputClear } from './components';
 import { useInput } from './composables';
@@ -124,7 +120,54 @@ const mergedInputAttrs = computed(() => mergeProps(forwardedAttrs.value.inputAtt
  * class、style、data-* 等属性继续绑定到组件根节点。
  */
 const rootAttrs = computed(() => forwardedAttrs.value.rootAttrs);
+// aria-invalid 支持的有效值
+type AriaInvalidValue = Exclude<AriaAttributes['aria-invalid'], undefined>;
+/**
+ * 判断属性值是否为有效的 aria-invalid
+ * @param value 待判断的属性值
+ * @returns 是否为有效值
+ */
+function isAriaInvalidValue(value: unknown): value is AriaInvalidValue {
+	return (
+		typeof value === 'boolean' ||
+		value === 'true' ||
+		value === 'false' ||
+		value === 'grammar' ||
+		value === 'spelling'
+	);
+}
+/**
+ * 合并多个 aria-describedby id
+ * @param values 待合并的 id
+ * @returns 合并后的 id 字符串
+ */
+function mergeAriaIds(...values: unknown[]): string | undefined {
+	const ids = values.flatMap((value) => {
+		if (typeof value !== 'string') return [];
 
+		return value.trim().split(/\s+/).filter(Boolean);
+	});
+
+	const result = [...new Set(ids)].join(' ');
+
+	return result || undefined;
+}
+
+// 输入框最终使用的 aria-invalid
+const inputAriaInvalid = computed<AriaAttributes['aria-invalid']>(() => {
+	const externalValue = mergedInputAttrs.value['aria-invalid'];
+
+	if (isAriaInvalidValue(externalValue)) {
+		return externalValue;
+	}
+
+	return formItemContext?.ariaInvalid.value;
+});
+
+/** 输入框最终使用的 aria-describedby */
+const inputAriaDescribedby = computed(() => {
+	return mergeAriaIds(mergedInputAttrs.value['aria-describedby'], formItemContext?.ariaDescribedby.value);
+});
 const {
 	inputRef,
 	inputId,
