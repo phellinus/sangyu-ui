@@ -167,6 +167,70 @@ describe('SyInput', () => {
 		expect(wrapper.attributes('inputmode')).toBeUndefined();
 	});
 
+	it('binds FormItem accessibility state to the native input and clears it after recovery', async () => {
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('用户名不能为空');
+		const model = reactive({
+			username: '',
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SyInput,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						help,
+						model,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="username"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SyInput
+								v-model="model.username"
+								aria-describedby="external-help"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		const input = wrapper.get('input');
+		const control = wrapper.get('.sy-form-item__control-input');
+		const message = wrapper.get('.sy-form-item__message');
+		const messageId = message.attributes('id');
+
+		// ARIA 校验属性必须绑定到真实 input 而不是 FormItem 容器
+		expect(input.attributes('aria-invalid')).toBe('true');
+		expect(input.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(control.attributes('aria-invalid')).toBeUndefined();
+		expect(control.attributes('aria-describedby')).toBeUndefined();
+
+		// 校验恢复后移除错误状态和 FormItem 消息引用并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(input.attributes('aria-invalid')).toBeUndefined();
+		expect(input.attributes('aria-describedby')).toBe('external-help');
+		expect(wrapper.find('.sy-form-item__message').exists()).toBe(false);
+	});
+
 	it('emits only the final value after composition input ends', async () => {
 		const wrapper = mount(SyInput, {
 			props: {
