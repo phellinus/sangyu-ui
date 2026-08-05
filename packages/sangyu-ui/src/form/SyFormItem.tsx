@@ -1,4 +1,4 @@
-import { computed, CSSProperties, defineComponent, PropType, provide, ref } from 'vue';
+import { computed, CSSProperties, defineComponent, PropType, provide, ref, useId } from 'vue';
 import { FormItemProps, FormRule, NamePath, ValidateStatus, ValidateTrigger } from './Form.type';
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItem } from './composable';
@@ -45,21 +45,31 @@ export default defineComponent({
 			if (typeof value === 'number') return `${value}px`;
 			return value;
 		});
-		//消息id
-		const messageId = computed(() =>
-			props.name == null ? undefined : `sy-form-item-${String(props.name).replace(/\W/g, '-')}`,
-		);
 		// 当前 FormItem 从 SyForm 继承的禁用状态
 		const disabled = computed(() => {
 			return Boolean(field.form?.props.disabled);
 		});
+		// 生成当前 FormItem 唯一标识
+		const generatedId = useId();
+		// 校验消息元素 id
+		const messageId = `sy-form-item-${generatedId}-message`;
+		// 当前字段是否处于错误状态
+		const ariaInvalid = computed<boolean | undefined>(() => {
+			return status.value === 'error' ? true : undefined;
+		});
+		// 当前字段描述信息对应的元素 id
+		const ariaDescribedby = computed<string | undefined>(() => {
+			return messages.value.length > 0 ? messageId : undefined;
+		});
 		provide(FORM_ITEM_CONTEXT_KEY, {
 			name: props.name == null ? undefined : Array.isArray(props.name) ? props.name : [props.name],
+			disabled,
+			ariaInvalid,
+			ariaDescribedby,
 			validateStatus: field.validateStatus,
 			errors: field.errors,
 			onChange: field.onChange,
 			onBlur: field.onBlur,
-			disabled,
 		});
 		// 处理表单字段的输入、变更和失焦事件
 		const handleInput = (): void => {
@@ -118,16 +128,10 @@ export default defineComponent({
 				)}
 
 				<div class={c(ce('control'))}>
-					<div
-						class={c(ce('control-input'))}
-						aria-invalid={status.value === 'error'}
-						aria-describedby={messageId.value}
-					>
-						{slots.default?.()}
-					</div>
+					<div class={c(ce('control-input'))}>{slots.default?.()}</div>
 
 					{messages.value.length > 0 && (
-						<div id={messageId.value} class={c(ce('message'))} aria-live='polite'>
+						<div id={messageId} class={c(ce('message'))} aria-live='polite'>
 							{slots.help?.() || messages.value[0]}
 						</div>
 					)}

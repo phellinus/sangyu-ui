@@ -255,6 +255,10 @@ export interface FormItemContext {
 	name?: Array<string | number>;
 	// 当前表单字段是否继承 Form 的禁用状态
 	disabled: ComputedRef<boolean>;
+	// 当前字段是否校验失败
+	ariaInvalid: ComputedRef<boolean | undefined>;
+	// 当前字段描述信息对应的元素 id
+	ariaDescribedby: ComputedRef<string | undefined>;
 	// 当前表单字段的校验状态
 	validateStatus: Ref<ValidateStatus>;
 	// 当前表单字段的错误信息列表
