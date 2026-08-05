@@ -8,6 +8,7 @@ import {
 	CheckboxValue,
 } from './Checkbox.types';
 import { useClassnames } from '@sangyu-ui/utils';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { useCheckbox } from './composables';
 
 export default defineComponent({
@@ -46,7 +47,13 @@ export default defineComponent({
 	emits: ['update:modelValue', 'change'],
 	setup(props, { attrs, emit, slots }) {
 		const { c } = useClassnames('checkbox');
-		const state = useCheckbox(props, emit as CheckboxEmits);
+		// 获取当前 Checkbox 所在的 FormItem 上下文
+		const formItemContext = useFormItemContext();
+		// 合并 Checkbox 自身和 Form 的禁用状态
+		const mergedDisabled = computed(() => {
+			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
+		const state = useCheckbox(props, emit as CheckboxEmits, mergedDisabled);
 
 		const classes = computed(() => ({
 			[c()]: true,
