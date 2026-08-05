@@ -1,9 +1,16 @@
-import { computed, CSSProperties, ref, useId } from 'vue';
+import { computed, CSSProperties, ref, useId, type Ref } from 'vue';
 import { SwitchEmits, SwitchProps } from '../Switch.type';
 import { useSwitchModel } from './useSwitchModel';
 import { getColor, getColorWithAlpha } from '@sangyu-ui/utils';
 
-export function useSwitch(props: Readonly<SwitchProps>, emit: SwitchEmits) {
+/**
+ * 管理 Switch 的原生属性、展示状态和交互行为
+ * @param props Switch 组件属性
+ * @param emit Switch 组件事件派发器
+ * @param mergedDisabled 合并 Switch 自身和 Form 后的禁用状态
+ * @returns Switch 的原生属性、展示状态和交互方法
+ */
+export function useSwitch(props: Readonly<SwitchProps>, emit: SwitchEmits, mergedDisabled: Readonly<Ref<boolean>>) {
 	/** 原生 input 引用，用于 focus / blur 暴露方法。 */
 	const inputRef = ref<HTMLInputElement>();
 
@@ -16,8 +23,8 @@ export function useSwitch(props: Readonly<SwitchProps>, emit: SwitchEmits) {
 	/** 组件内部使用的唯一 id。 */
 	const id = computed(() => `sy-switch-${generatedId}`);
 
-	/** loading 与 disabled 任一成立时，组件都不可交互。 */
-	const disabled = computed(() => Boolean(props.disabled || props.loading));
+	/** 组件、Form 和 loading 任一禁用时都不可交互 */
+	const disabled = computed(() => Boolean(mergedDisabled.value || props.loading));
 
 	/** 统一尺寸默认值，避免模板层反复兜底。 */
 	const size = computed(() => props.size || 'default');
@@ -73,16 +80,22 @@ export function useSwitch(props: Readonly<SwitchProps>, emit: SwitchEmits) {
 	});
 
 	/** 原生 change 事件的统一入口；禁用态下直接阻断切换。 */
-	const handleChange = () => {
+	const handleChange = (): void => {
 		if (disabled.value) return;
 		toggle();
 	};
 
 	/** 聚焦到底层原生 input。 */
-	const focus = () => inputRef.value?.focus();
+	const focus = (): void => {
+		if (disabled.value) return;
+
+		inputRef.value?.focus();
+	};
 
 	/** 让底层原生 input 失焦。 */
-	const blur = () => inputRef.value?.blur();
+	const blur = (): void => {
+		inputRef.value?.blur();
+	};
 
 	return {
 		inputRef,

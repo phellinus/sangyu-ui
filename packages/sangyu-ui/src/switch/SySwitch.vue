@@ -62,6 +62,7 @@
 import { computed } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { SyIcon } from '@sangyu-ui/icons';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 import type { SwitchEmits, SwitchProps, SySwitchInstance } from './Switch.type';
 import { useSwitch } from './composables';
 
@@ -93,6 +94,12 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 
 const emit = defineEmits<SwitchEmits>();
 const { c, cx } = useClassnames('switch');
+/** 获取当前 Switch 所在的 FormItem 上下文 */
+const formItemContext = useFormItemContext();
+/** 合并 Switch 自身和 Form 的禁用状态 */
+const mergedDisabled = computed(() => {
+	return Boolean(props.disabled || formItemContext?.disabled.value);
+});
 
 const {
 	inputRef,
@@ -108,7 +115,7 @@ const {
 	handleChange,
 	focus,
 	blur,
-} = useSwitch(props, emit);
+} = useSwitch(props, emit, mergedDisabled);
 
 const classes = cx(() => ({
 	[c()]: true,
