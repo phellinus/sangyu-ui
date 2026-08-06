@@ -191,6 +191,68 @@ describe('SySwitch', () => {
 		wrapper.unmount();
 	});
 
+	it('binds FormItem accessibility state to the native Switch input', async () => {
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('请开启通知');
+		const model = reactive({
+			enabled: false,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SySwitch,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						help,
+						model,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="enabled"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SySwitch
+								v-model="model.enabled"
+								aria-describedby="external-help"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		const switchComponent = wrapper.getComponent(SySwitch);
+		const input = switchComponent.get('input');
+		const messageId = wrapper.get('.sy-form-item__message').attributes('id');
+
+		// 校验属性只绑定到真实 input
+		expect(input.attributes('aria-invalid')).toBe('true');
+		expect(input.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(switchComponent.attributes('aria-invalid')).toBeUndefined();
+		expect(switchComponent.attributes('aria-describedby')).toBeUndefined();
+
+		// 校验恢复后清理 FormItem 状态并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(input.attributes('aria-invalid')).toBeUndefined();
+		expect(input.attributes('aria-describedby')).toBe('external-help');
+	});
+
 	it('syncs indeterminate state and expose methods to the native input', async () => {
 		const wrapper = mount(SySwitch, {
 			props: {

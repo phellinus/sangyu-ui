@@ -219,4 +219,73 @@ describe('SyCheckbox', () => {
 		expect(model.agreed).toBe(true);
 		expect(checkbox.emitted('update:modelValue')).toHaveLength(1);
 	});
+
+	it('binds FormItem accessibility state to the native input and clears it after recovery', async () => {
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('请同意服务协议');
+		const model = reactive({
+			agreed: false,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyCheckbox,
+					SyForm,
+					SyFormItem,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						help,
+						model,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="agreed"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SyCheckbox
+								v-model="model.agreed"
+								aria-describedby="external-help"
+							>
+								同意协议
+							</SyCheckbox>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		const checkbox = wrapper.getComponent(SyCheckbox);
+		const input = checkbox.get('input');
+		const control = wrapper.get('.sy-form-item__control-input');
+		const message = wrapper.get('.sy-form-item__message');
+		const messageId = message.attributes('id');
+
+		// ARIA 校验属性必须绑定到真实 input 而不是外层容器
+		expect(input.attributes('aria-invalid')).toBe('true');
+		expect(input.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(checkbox.attributes('aria-invalid')).toBeUndefined();
+		expect(checkbox.attributes('aria-describedby')).toBeUndefined();
+		expect(control.attributes('aria-invalid')).toBeUndefined();
+		expect(control.attributes('aria-describedby')).toBeUndefined();
+
+		// 校验恢复后移除错误状态和 FormItem 消息引用并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(input.attributes('aria-invalid')).toBeUndefined();
+		expect(input.attributes('aria-describedby')).toBe('external-help');
+		expect(wrapper.find('.sy-form-item__message').exists()).toBe(false);
+	});
 });

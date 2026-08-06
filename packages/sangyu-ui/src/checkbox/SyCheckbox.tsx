@@ -1,4 +1,4 @@
-import { computed, CSSProperties, defineComponent, PropType } from 'vue';
+import { computed, CSSProperties, defineComponent, PropType, type AriaAttributes } from 'vue';
 import {
 	CheckboxEmits,
 	CheckboxLabelPosition,
@@ -10,6 +10,40 @@ import {
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { useCheckbox } from './composables';
+
+/** aria-invalid 支持的有效值 */
+type AriaInvalidValue = Exclude<AriaAttributes['aria-invalid'], undefined>;
+
+/**
+ * 判断属性值是否为有效的 aria-invalid
+ * @param value 待判断的属性值
+ * @returns 是否为有效值
+ */
+function isAriaInvalidValue(value: unknown): value is AriaInvalidValue {
+	return (
+		typeof value === 'boolean' ||
+		value === 'true' ||
+		value === 'false' ||
+		value === 'grammar' ||
+		value === 'spelling'
+	);
+}
+
+/**
+ * 合并多个 aria-describedby id
+ * @param values 待合并的 id
+ * @returns 合并后的 id 字符串
+ */
+function mergeAriaIds(...values: unknown[]): string | undefined {
+	const ids = values.flatMap((value) => {
+		if (typeof value !== 'string') return [];
+
+		return value.trim().split(/\s+/).filter(Boolean);
+	});
+	const result = [...new Set(ids)].join(' ');
+
+	return result || undefined;
+}
 
 export default defineComponent({
 	name: 'SyCheckbox',
@@ -53,6 +87,20 @@ export default defineComponent({
 		const mergedDisabled = computed(() => {
 			return Boolean(props.disabled || formItemContext?.disabled.value);
 		});
+		/** 真实 input 最终使用的 aria-invalid */
+		const ariaInvalid = computed<AriaAttributes['aria-invalid']>(() => {
+			const externalValue = attrs['aria-invalid'];
+
+			if (isAriaInvalidValue(externalValue)) {
+				return externalValue;
+			}
+
+			return formItemContext?.ariaInvalid.value;
+		});
+		/** 真实 input 最终使用的 aria-describedby */
+		const ariaDescribedby = computed(() => {
+			return mergeAriaIds(attrs['aria-describedby'], formItemContext?.ariaDescribedby.value);
+		});
 		const state = useCheckbox(props, emit as CheckboxEmits, mergedDisabled);
 
 		const classes = computed(() => ({
@@ -87,6 +135,8 @@ export default defineComponent({
 						checked={state.checked.value}
 						disabled={state.disabled.value}
 						aria-checked={props.indeterminate ? 'mixed' : state.checked.value}
+						aria-invalid={ariaInvalid.value}
+						aria-describedby={ariaDescribedby.value}
 						onChange={state.handleChange}
 					/>
 					<span class={c('control')} aria-hidden='true'>

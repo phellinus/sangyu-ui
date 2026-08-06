@@ -200,6 +200,89 @@ describe('SySelect', () => {
 		expect(model.category).toBe('design');
 	});
 
+	it('moves FormItem accessibility state to the active Select control', async () => {
+		const filterable = ref(false);
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('请选择分类');
+		const model = reactive<{ category: SelectModelValue }>({
+			category: undefined,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SySelect,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						filterable,
+						help,
+						model,
+						options,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="category"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SySelect
+								v-model="model.category"
+								:options="options"
+								:filterable="filterable"
+								aria-describedby="external-help"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		mountedWrappers.push(wrapper);
+
+		const select = wrapper.getComponent(SySelect);
+		const trigger = select.get('.sy-select-trigger');
+		const control = wrapper.get('.sy-form-item__control-input');
+		const messageId = wrapper.get('.sy-form-item__message').attributes('id');
+
+		// 普通模式将校验属性放在可聚焦的 combobox trigger 上
+		expect(trigger.attributes('role')).toBe('combobox');
+		expect(trigger.attributes('aria-invalid')).toBe('true');
+		expect(trigger.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(select.attributes('aria-invalid')).toBeUndefined();
+		expect(control.attributes('aria-invalid')).toBeUndefined();
+
+		// 可搜索模式将校验属性移动到真实 input
+		filterable.value = true;
+		await nextTick();
+
+		const searchInput = select.get('.sy-select-search');
+		expect(trigger.attributes('aria-invalid')).toBeUndefined();
+		expect(trigger.attributes('aria-describedby')).toBeUndefined();
+		expect(searchInput.attributes('aria-invalid')).toBe('true');
+		expect(searchInput.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+
+		// 校验恢复后清理 FormItem 状态并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(searchInput.attributes('aria-invalid')).toBeUndefined();
+		expect(searchInput.attributes('aria-describedby')).toBe('external-help');
+	});
+
 	it('clears the selected value without toggling the dropdown', async () => {
 		const wrapper = mountSelect({
 			props: {

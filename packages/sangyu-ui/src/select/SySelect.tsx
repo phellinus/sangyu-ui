@@ -1,6 +1,7 @@
 import { computed, CSSProperties, defineComponent, onBeforeUnmount, onMounted, PropType, ref, watch } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
+import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
 import type { SelectModelValue, SelectOption, SelectValue } from './Select.type';
 import { useSelectKeyboard, useSelectModel, useSelectSearch } from './composables';
 import { SelectDropdown, SelectTags } from './components';
@@ -40,7 +41,7 @@ export default defineComponent({
 		},
 	},
 	emits: ['update:modelValue', 'change', 'clear', 'search', 'visibleChange', 'focus', 'blur'],
-	setup(props, { emit, slots }) {
+	setup(props, { attrs, emit, slots }) {
 		const { c } = useClassnames('select');
 		const open = ref(false);
 		const inputRef = ref<HTMLInputElement>();
@@ -50,6 +51,14 @@ export default defineComponent({
 		// 合并 Select 自身和 Form 的禁用状态
 		const mergedDisabled = computed(() => {
 			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
+		/** 可交互元素最终使用的 aria-invalid */
+		const ariaInvalid = computed(() => {
+			return resolveAriaInvalid(attrs['aria-invalid'], formItemContext?.ariaInvalid.value);
+		});
+		/** 可交互元素最终使用的 aria-describedby */
+		const ariaDescribedby = computed(() => {
+			return mergeAriaIds(attrs['aria-describedby'], formItemContext?.ariaDescribedby.value);
 		});
 
 		const model = useSelectModel(props as any, emit as any, mergedDisabled);
@@ -303,6 +312,11 @@ export default defineComponent({
 				<div
 					class={c('trigger')}
 					tabindex={mergedDisabled.value ? -1 : 0}
+					role='combobox'
+					aria-haspopup='listbox'
+					aria-expanded={open.value}
+					aria-invalid={searchable.value ? undefined : ariaInvalid.value}
+					aria-describedby={searchable.value ? undefined : ariaDescribedby.value}
 					onClick={toggleDropdown}
 					onFocus={(event) => emit('focus', event)}
 					onBlur={(event) => emit('blur', event)}
@@ -334,6 +348,8 @@ export default defineComponent({
 								class={c('search')}
 								value={search.query.value}
 								disabled={mergedDisabled.value}
+								aria-invalid={ariaInvalid.value}
+								aria-describedby={ariaDescribedby.value}
 								placeholder={model.values.value.length ? '' : props.placeholder}
 								onInput={handleSearchInput}
 								onFocus={openDropdown}

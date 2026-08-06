@@ -1,6 +1,7 @@
 import { computed, defineComponent, mergeProps, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
+import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
 import type { RadioButtonProps, RadioSize, SyRadioInstance } from './Radio.type';
 import { useRadio } from './composables';
 
@@ -67,6 +68,26 @@ export default defineComponent({
 		const mergedDisabled = computed(() => {
 			return Boolean(props.disabled || formItemContext?.disabled.value);
 		});
+		/** 根节点需要保留的透传属性 */
+		const rootAttrs = computed(() => {
+			return Object.fromEntries(
+				Object.entries(attrs).filter(([key]) => key !== 'aria-invalid' && key !== 'aria-describedby'),
+			);
+		});
+		/** 真实 input 最终使用的 aria-invalid */
+		const ariaInvalid = computed(() => {
+			const attrValue = resolveAriaInvalid(attrs['aria-invalid'], formItemContext?.ariaInvalid.value);
+
+			return resolveAriaInvalid(props.inputAttrs?.['aria-invalid'], attrValue);
+		});
+		/** 真实 input 最终使用的 aria-describedby */
+		const ariaDescribedby = computed(() => {
+			return mergeAriaIds(
+				attrs['aria-describedby'],
+				props.inputAttrs?.['aria-describedby'],
+				formItemContext?.ariaDescribedby.value,
+			);
+		});
 
 		const { inputRef, inputId, checked, disabled, size, name, handleChange, focus, blur } = useRadio(
 			props,
@@ -111,13 +132,15 @@ export default defineComponent({
 				checked: checked.value,
 				disabled: disabled.value,
 				name: name.value,
+				'aria-invalid': ariaInvalid.value,
+				'aria-describedby': ariaDescribedby.value,
 				onChange: handleChange,
 			});
 
 			/**
 			 * 合并根节点属性。
 			 */
-			const rootProps = mergeProps(attrs, {
+			const rootProps = mergeProps(rootAttrs.value, {
 				class: classes.value,
 				style: props.customStyle,
 			});

@@ -9,6 +9,8 @@
 			:checked="checked"
 			:disabled="disabled"
 			:aria-checked="props.indeterminate ? 'mixed' : checked"
+			:aria-invalid="ariaInvalid"
+			:aria-describedby="ariaDescribedby"
 			@change="handleChange"
 		/>
 
@@ -59,10 +61,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { SyIcon } from '@sangyu-ui/icons';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
+import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
 import type { SwitchEmits, SwitchProps, SySwitchInstance } from './Switch.type';
 import { useSwitch } from './composables';
 
@@ -94,11 +97,20 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 
 const emit = defineEmits<SwitchEmits>();
 const { c, cx } = useClassnames('switch');
+const attrs = useAttrs();
 /** 获取当前 Switch 所在的 FormItem 上下文 */
 const formItemContext = useFormItemContext();
 /** 合并 Switch 自身和 Form 的禁用状态 */
 const mergedDisabled = computed(() => {
 	return Boolean(props.disabled || formItemContext?.disabled.value);
+});
+/** 真实 input 最终使用的 aria-invalid */
+const ariaInvalid = computed(() => {
+	return resolveAriaInvalid(attrs['aria-invalid'], formItemContext?.ariaInvalid.value);
+});
+/** 真实 input 最终使用的 aria-describedby */
+const ariaDescribedby = computed(() => {
+	return mergeAriaIds(attrs['aria-describedby'], formItemContext?.ariaDescribedby.value);
 });
 
 const {

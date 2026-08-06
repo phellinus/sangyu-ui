@@ -148,4 +148,68 @@ describe('SyRadio', () => {
 		expect(model.selected).toBe(true);
 		expect(radio.emitted('update:modelValue')).toHaveLength(1);
 	});
+
+	it('binds FormItem accessibility state to the native Radio input', async () => {
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('请选择一个选项');
+		const model = reactive({
+			selected: false,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SyRadio,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						help,
+						model,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="selected"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SyRadio
+								v-model="model.selected"
+								aria-describedby="external-help"
+							>
+								设计系统
+							</SyRadio>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		const radio = wrapper.getComponent(SyRadio);
+		const input = radio.get('input');
+		const messageId = wrapper.get('.sy-form-item__message').attributes('id');
+
+		// 校验属性只绑定到真实 input
+		expect(input.attributes('aria-invalid')).toBe('true');
+		expect(input.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(radio.attributes('aria-invalid')).toBeUndefined();
+		expect(radio.attributes('aria-describedby')).toBeUndefined();
+
+		// 校验恢复后清理 FormItem 状态并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(input.attributes('aria-invalid')).toBeUndefined();
+		expect(input.attributes('aria-describedby')).toBe('external-help');
+	});
 });
