@@ -195,7 +195,7 @@ export interface FieldContext {
 	validateStatus: Ref<ValidateStatus>;
 	// 当前字段是否已经被用户操作
 	touched: Ref<boolean>;
-	// 当前字段的值是否已经发生变化
+	// 当前字段的值是否与注册时的初始值不同
 	dirty: Ref<boolean>;
 	// 当前字段是否正在执行异步校验
 	validating: Ref<boolean>;

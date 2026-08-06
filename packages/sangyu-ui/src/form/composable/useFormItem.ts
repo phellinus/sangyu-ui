@@ -1,4 +1,5 @@
-import { computed, onBeforeUnmount, onMounted, ref, Ref } from 'vue';
+import { isEqual } from 'lodash-es';
+import { computed, onBeforeUnmount, onMounted, ref, Ref, toRaw, watch } from 'vue';
 import { FieldContext, FormItemProps, ValidateTrigger } from '../Form.type';
 import { getValue, namePathToString, normalizeNamePath, setValue } from '../utils';
 import { useFormContext } from './useFormContext';
@@ -33,7 +34,7 @@ export function useFormItem(props: FormItemProps, elementRef: Ref<HTMLElement | 
 	// 当前表单字段对应的唯一字符串标识
 	const nameKey = namePathToString(name);
 	// 当前表单字段注册时保存的初始值
-	const initialValue = structuredClone(getValue(form.props.model, name));
+	const initialValue = structuredClone(toRaw(getValue(form.props.model, name)));
 	// 当前表单字段的值
 	const value = computed(() => getValue(form.props.model, name));
 	// 当前表单字段的校验状态和错误信息
@@ -46,6 +47,17 @@ export function useFormItem(props: FormItemProps, elementRef: Ref<HTMLElement | 
 		onValidated(status, errors) {
 			form.emitValidate(name, status, errors);
 		},
+	});
+	/**
+	 * 根据当前值与初始值的比较结果同步字段修改状态
+	 */
+	const updateDirty = () => {
+		validation.dirty.value = !isEqual(value.value, initialValue);
+	};
+
+	watch(value, updateDirty, {
+		deep: true,
+		flush: 'sync',
 	});
 	//字段的规则校验
 	const validate = async (trigger?: ValidateTrigger) => {
@@ -93,7 +105,6 @@ export function useFormItem(props: FormItemProps, elementRef: Ref<HTMLElement | 
 	//当前字段的值发生变化时，触发change事件，进行校验
 	const onChange = () => {
 		validation.touched.value = true;
-		validation.dirty.value = true;
 		validate('change').catch(() => undefined);
 	};
 	// 当前字段失焦时，触发blur事件，进行校验

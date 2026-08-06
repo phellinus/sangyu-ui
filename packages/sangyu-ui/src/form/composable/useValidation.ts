@@ -21,7 +21,7 @@ export function useValidation(options: UseValidationOptions) {
 	const validating = ref(false);
 	// 当前字段是否已经触发过校验
 	const touched = ref(false);
-	// 当前字段的值是不是被修改过了
+	// 当前字段的值是否与注册时的初始值不同
 	const dirty = ref(false);
 	// 当前字段的校验状态
 	const validateStatus = ref<ValidateStatus>('');
