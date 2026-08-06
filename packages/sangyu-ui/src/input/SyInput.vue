@@ -84,7 +84,6 @@ const props = withDefaults(defineProps<InputProps>(), {
 	modelValue: '',
 	type: 'filled',
 	nativeType: 'text',
-	size: 'default',
 	disabled: false,
 	readonly: false,
 	clearable: false,
@@ -111,6 +110,10 @@ const formItemContext = useFormItemContext();
 // 输入框最终使用的禁用状态
 const mergedDisabled = computed(() => {
 	return Boolean(props.disabled || formItemContext?.disabled.value);
+});
+// 输入框最终使用的尺寸
+const mergedSize = computed(() => {
+	return props.size || formItemContext?.size.value || 'default';
 });
 /**
  * 将外部属性拆分到组件根节点和真实 input。
@@ -201,7 +204,7 @@ const {
 const classes = cx(() => ({
 	[c()]: true,
 	[c(cm(props.type))]: true,
-	[c(cm(props.size))]: true,
+	[c(cm(mergedSize.value))]: true,
 	[c(cm('label'))]: Boolean(props.label),
 	[c(cm('disabled'))]: disabled.value,
 	[c(cm('readonly'))]: props.readonly,

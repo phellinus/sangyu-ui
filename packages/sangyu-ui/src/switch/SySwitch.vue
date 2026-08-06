@@ -81,7 +81,6 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 	disabled: false,
 	loading: false,
 	indeterminate: false,
-	size: 'default',
 	shape: 'round',
 	name: '',
 	color: 'primary',
@@ -103,6 +102,10 @@ const formItemContext = useFormItemContext();
 /** 合并 Switch 自身和 Form 的禁用状态 */
 const mergedDisabled = computed(() => {
 	return Boolean(props.disabled || formItemContext?.disabled.value);
+});
+/** Switch 最终使用的尺寸 */
+const mergedSize = computed(() => {
+	return props.size || formItemContext?.size.value || 'default';
 });
 /** 真实 input 最终使用的 aria-invalid */
 const ariaInvalid = computed(() => {
@@ -127,7 +130,7 @@ const {
 	handleChange,
 	focus,
 	blur,
-} = useSwitch(props, emit, mergedDisabled);
+} = useSwitch(props, emit, mergedDisabled, mergedSize);
 
 const classes = cx(() => ({
 	[c()]: true,

@@ -7,12 +7,14 @@ import { useCheckboxModel } from './useCheckboxModel';
  * @param props Checkbox 组件属性
  * @param emit Checkbox 组件事件派发器
  * @param mergedDisabled 合并 Checkbox 自身和 Form 后的禁用状态
+ * @param mergedSize 合并 Checkbox 自身和 Form 后的尺寸
  * @returns Checkbox 的值、原生属性和交互状态
  */
 export function useCheckbox(
 	props: Readonly<CheckboxProps>,
 	emit: CheckboxEmits,
 	mergedDisabled: Readonly<Ref<boolean>>,
+	mergedSize: Readonly<Ref<CheckboxProps['size']>>,
 ) {
 	const inputRef = ref<HTMLInputElement>();
 	const generatedId = useId();
@@ -23,7 +25,7 @@ export function useCheckbox(
 	const disabled = computed(() =>
 		Boolean(mergedDisabled.value || props.loading || group?.disabled.value || limitDisabled.value),
 	);
-	const size = computed(() => group?.size.value || props.size || 'default');
+	const size = computed(() => group?.size.value || mergedSize.value || 'default');
 	const name = computed(() => group?.name.value || props.name || undefined);
 
 	// indeterminate 是 DOM 属性而不是普通 HTML attribute，必须同步到 input 实例。

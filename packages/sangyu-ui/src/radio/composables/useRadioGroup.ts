@@ -1,11 +1,16 @@
-import { computed, provide, useId } from 'vue';
+import { computed, provide, useId, type Ref } from 'vue';
 import type { RadioGroupEmits, RadioGroupProps, RadioOptionInfo, RadioSize } from '../Radio.type';
 import { radioGroupKey } from '../context';
 
 /**
  * 管理 RadioGroup 状态并向子选项提供上下文
  */
-export function useRadioGroup(props: Readonly<RadioGroupProps>, emit: RadioGroupEmits) {
+export function useRadioGroup(
+	props: Readonly<RadioGroupProps>,
+	emit: RadioGroupEmits,
+	mergedDisabled: Readonly<Ref<boolean>>,
+	mergedSize: Readonly<Ref<RadioSize>>,
+) {
 	/**
 	 * 生成分组唯一名称。
 	 * 同一个 Group 内的原生 Radio 必须拥有相同 name
@@ -17,11 +22,11 @@ export function useRadioGroup(props: Readonly<RadioGroupProps>, emit: RadioGroup
 	const modelValue = computed(() => props.modelValue);
 
 	/** 分组最终禁用状态 */
-	const disabled = computed(() => Boolean(props.disabled));
+	const disabled = computed(() => mergedDisabled.value);
 
 	/** 分组最终尺寸 */
 	const size = computed<RadioSize>(() => {
-		return props.size || 'default';
+		return mergedSize.value;
 	});
 
 	/** 未传 name 时生成一个仅属于当前 Group 的名称 */

@@ -8,6 +8,7 @@ import type {
 	CheckboxValue,
 } from './Checkbox.types';
 import { useCheckboxGroup } from './composables';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 
 export default defineComponent({
 	name: 'SyCheckboxGroup',
@@ -20,7 +21,7 @@ export default defineComponent({
 		min: Number,
 		max: Number,
 		// 子 Checkbox 继承的 Group 展示配置。
-		size: { type: String as PropType<CheckboxSize>, default: 'default' },
+		size: String as PropType<CheckboxSize>,
 		direction: { type: String as PropType<CheckboxDirection>, default: 'horizontal' },
 		// 子 input 继承的原生 name。
 		name: { type: String, default: '' },
@@ -31,16 +32,30 @@ export default defineComponent({
 	emits: ['update:modelValue', 'change'],
 	setup(props, { emit, slots }) {
 		const { c } = useClassnames('checkbox-group');
-		useCheckboxGroup(props, emit as CheckboxGroupEmits);
+		const formItemContext = useFormItemContext();
+		// CheckboxGroup 最终使用的禁用状态
+		const mergedDisabled = computed(() => {
+			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
+		// CheckboxGroup 最终使用的尺寸
+		const mergedSize = computed<CheckboxSize>(() => {
+			return props.size || formItemContext?.size.value || 'default';
+		});
+		useCheckboxGroup(props, emit as CheckboxGroupEmits, mergedDisabled, mergedSize);
 		const classes = computed(() => ({
 			[c()]: true,
 			[c(props.direction)]: true,
-			[c(props.size)]: true,
-			[c('disabled')]: props.disabled,
+			[c(mergedSize.value)]: true,
+			[c('disabled')]: mergedDisabled.value,
 		}));
 
 		return () => (
-			<div class={classes.value} style={props.customStyle} role='group'>
+			<div
+				class={classes.value}
+				style={props.customStyle}
+				role='group'
+				aria-disabled={mergedDisabled.value ? 'true' : undefined}
+			>
 				{slots.default?.()}
 			</div>
 		);

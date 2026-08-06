@@ -1,5 +1,5 @@
 import { computed, CSSProperties, ref, useId, type Ref } from 'vue';
-import { SwitchEmits, SwitchProps } from '../Switch.type';
+import { SwitchEmits, SwitchProps, SwitchSize } from '../Switch.type';
 import { useSwitchModel } from './useSwitchModel';
 import { getColor, getColorWithAlpha } from '@sangyu-ui/utils';
 
@@ -8,9 +8,15 @@ import { getColor, getColorWithAlpha } from '@sangyu-ui/utils';
  * @param props Switch 组件属性
  * @param emit Switch 组件事件派发器
  * @param mergedDisabled 合并 Switch 自身和 Form 后的禁用状态
+ * @param mergedSize 合并 Switch 自身和 Form 后的尺寸
  * @returns Switch 的原生属性、展示状态和交互方法
  */
-export function useSwitch(props: Readonly<SwitchProps>, emit: SwitchEmits, mergedDisabled: Readonly<Ref<boolean>>) {
+export function useSwitch(
+	props: Readonly<SwitchProps>,
+	emit: SwitchEmits,
+	mergedDisabled: Readonly<Ref<boolean>>,
+	mergedSize: Readonly<Ref<SwitchSize>>,
+) {
 	/** 原生 input 引用，用于 focus / blur 暴露方法。 */
 	const inputRef = ref<HTMLInputElement>();
 
@@ -27,7 +33,7 @@ export function useSwitch(props: Readonly<SwitchProps>, emit: SwitchEmits, merge
 	const disabled = computed(() => Boolean(mergedDisabled.value || props.loading));
 
 	/** 统一尺寸默认值，避免模板层反复兜底。 */
-	const size = computed(() => props.size || 'default');
+	const size = computed(() => mergedSize.value);
 
 	/** 统一形状默认值，默认采用 round 胶囊样式。 */
 	const shape = computed(() => props.shape || 'round');

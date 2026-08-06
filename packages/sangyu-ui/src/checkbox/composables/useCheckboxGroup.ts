@@ -1,10 +1,15 @@
-import { computed, provide } from 'vue';
+import { computed, provide, type Ref } from 'vue';
 import { isEqual } from 'lodash-es';
 import { type CheckboxGroupEmits, type CheckboxGroupProps, type CheckboxValue } from '../Checkbox.types';
 import { checkboxGroupKey } from '../context';
 
 /** 管理 Group 的选中集合、min/max 限制以及提供给子组件的 Context。 */
-export function useCheckboxGroup(props: Readonly<CheckboxGroupProps>, emit: CheckboxGroupEmits) {
+export function useCheckboxGroup(
+	props: Readonly<CheckboxGroupProps>,
+	emit: CheckboxGroupEmits,
+	mergedDisabled: Readonly<Ref<boolean>>,
+	mergedSize: Readonly<Ref<CheckboxGroupProps['size']>>,
+) {
 	const modelValue = computed(() => props.modelValue ?? []);
 
 	/** 对象值按结构深比较，避免仅比较对象引用导致选中状态错误。 */
@@ -20,7 +25,7 @@ export function useCheckboxGroup(props: Readonly<CheckboxGroupProps>, emit: Chec
 
 	/** 每次生成新数组，不直接修改受控的 modelValue，确保单向数据流。 */
 	const toggleValue = (value: CheckboxValue) => {
-		if (props.disabled || isLimitDisabled(value)) return;
+		if (mergedDisabled.value || isLimitDisabled(value)) return;
 
 		const next = contains(value)
 			? modelValue.value.filter((item) => !isEqual(item, value))
@@ -33,8 +38,8 @@ export function useCheckboxGroup(props: Readonly<CheckboxGroupProps>, emit: Chec
 
 	provide(checkboxGroupKey, {
 		modelValue,
-		disabled: computed(() => props.disabled ?? false),
-		size: computed(() => props.size ?? 'default'),
+		disabled: computed(() => mergedDisabled.value),
+		size: computed(() => mergedSize.value ?? 'default'),
 		name: computed(() => props.name ?? ''),
 		contains,
 		isLimitDisabled,

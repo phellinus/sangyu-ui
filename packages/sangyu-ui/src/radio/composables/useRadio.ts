@@ -1,5 +1,5 @@
 import { computed, inject, ref, useId, type Ref } from 'vue';
-import type { RadioButtonProps, RadioEmits, RadioProps } from '../Radio.type';
+import type { RadioButtonProps, RadioEmits, RadioProps, RadioSize } from '../Radio.type';
 import { radioGroupKey } from '../context';
 
 /**
@@ -7,12 +7,14 @@ import { radioGroupKey } from '../context';
  * @param props Radio 或 RadioButton 组件属性
  * @param emit Radio 组件事件派发器
  * @param mergedDisabled 合并组件自身和 Form 后的禁用状态
+ * @param mergedSize 合并组件自身和 Form 后的尺寸
  * @returns Radio 的模型、原生属性和交互状态
  */
 export function useRadio(
 	props: Readonly<RadioProps | RadioButtonProps>,
 	emit: RadioEmits,
 	mergedDisabled: Readonly<Ref<boolean>>,
+	mergedSize: Readonly<Ref<RadioSize>>,
 ) {
 	/** 获取可能存在的 RadioGroup */
 	const groupContext = inject(radioGroupKey, null);
@@ -53,7 +55,7 @@ export function useRadio(
 
 	/** 分组尺寸优先级高于子项尺寸 */
 	const size = computed(() => {
-		return groupContext?.size.value || props.size || 'default';
+		return groupContext?.size.value || mergedSize.value;
 	});
 
 	/** 分组名称优先级高于子项名称 */

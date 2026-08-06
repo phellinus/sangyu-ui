@@ -24,7 +24,7 @@ export default defineComponent({
 			default: 300,
 		},
 		filterMethod: Function as PropType<(query: string, option: SelectOption) => boolean>,
-		size: { type: String as PropType<'small' | 'default' | 'large'>, default: 'default' },
+		size: String as PropType<'small' | 'default' | 'large'>,
 		width: String,
 		placement: { type: String as PropType<'top' | 'bottom'>, default: 'bottom' },
 		virtual: { type: Boolean, default: true },
@@ -51,6 +51,10 @@ export default defineComponent({
 		// 合并 Select 自身和 Form 的禁用状态
 		const mergedDisabled = computed(() => {
 			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
+		// Select 最终使用的尺寸
+		const mergedSize = computed(() => {
+			return props.size || formItemContext?.size.value || 'default';
 		});
 		/** 可交互元素最终使用的 aria-invalid */
 		const ariaInvalid = computed(() => {
@@ -301,7 +305,7 @@ export default defineComponent({
 				ref={selectRef}
 				class={{
 					[c()]: true,
-					[c(props.size)]: true,
+					[c(mergedSize.value)]: true,
 					[c('open')]: open.value,
 					[c('disabled')]: mergedDisabled.value,
 				}}

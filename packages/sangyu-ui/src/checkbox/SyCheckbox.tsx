@@ -62,7 +62,7 @@ export default defineComponent({
 		disabled: Boolean,
 		loading: Boolean,
 		// 嵌套在 Group 中时，Group 尺寸覆盖本地尺寸。
-		size: { type: String as PropType<CheckboxSize>, default: 'default' },
+		size: String as PropType<CheckboxSize>,
 		// 标签内容优先级：默认插槽、content、label。
 		label: String,
 		content: String,
@@ -87,6 +87,10 @@ export default defineComponent({
 		const mergedDisabled = computed(() => {
 			return Boolean(props.disabled || formItemContext?.disabled.value);
 		});
+		// Checkbox 最终使用的尺寸
+		const mergedSize = computed<CheckboxSize>(() => {
+			return props.size || formItemContext?.size.value || 'default';
+		});
 		/** 真实 input 最终使用的 aria-invalid */
 		const ariaInvalid = computed<AriaAttributes['aria-invalid']>(() => {
 			const externalValue = attrs['aria-invalid'];
@@ -101,7 +105,7 @@ export default defineComponent({
 		const ariaDescribedby = computed(() => {
 			return mergeAriaIds(attrs['aria-describedby'], formItemContext?.ariaDescribedby.value);
 		});
-		const state = useCheckbox(props, emit as CheckboxEmits, mergedDisabled);
+		const state = useCheckbox(props, emit as CheckboxEmits, mergedDisabled, mergedSize);
 
 		const classes = computed(() => ({
 			[c()]: true,

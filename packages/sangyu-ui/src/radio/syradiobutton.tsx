@@ -27,7 +27,6 @@ export default defineComponent({
 		/** 按钮尺寸 */
 		size: {
 			type: String as PropType<RadioSize>,
-			default: 'default',
 		},
 		/** 原生 Radio 名称 */
 		name: {
@@ -68,6 +67,10 @@ export default defineComponent({
 		const mergedDisabled = computed(() => {
 			return Boolean(props.disabled || formItemContext?.disabled.value);
 		});
+		/** RadioButton 最终使用的尺寸 */
+		const mergedSize = computed<RadioSize>(() => {
+			return props.size || formItemContext?.size.value || 'default';
+		});
 		/** 根节点需要保留的透传属性 */
 		const rootAttrs = computed(() => {
 			return Object.fromEntries(
@@ -93,6 +96,7 @@ export default defineComponent({
 			props,
 			emit,
 			mergedDisabled,
+			mergedSize,
 		);
 
 		/** 根据选中、禁用和尺寸状态生成类名 */
