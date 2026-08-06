@@ -1,18 +1,18 @@
 .sy-form {
-    width: 100%;
+	width: 100%;
 
-    &--disabled {
-        cursor: not-allowed;
-    }
+	&--disabled {
+		cursor: not-allowed;
+	}
 
-    &--inline {
+	&--inline {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
 		gap: 16px;
 	}
 
-    &--small {
+	&--small {
 		--sy-form-item-gap: 12px;
 	}
 
@@ -26,19 +26,18 @@
 }
 
 .sy-form-item {
-    display: flex;
+	display: flex;
 	margin-bottom: var(--sy-form-item-gap, 18px);
 
-    &__label {
+	&__label {
 		flex: 0 0 auto;
 		box-sizing: border-box;
 		padding-right: 12px;
 		line-height: 32px;
 		color: rgba(0, 0, 0, 0.88);
-  
 	}
-    
-    &__required-mark {
+
+	&__required-mark {
 		margin-right: 4px;
 		color: #ff4d4f;
 	}
@@ -49,10 +48,44 @@
 	}
 
 	&__control-input {
+		position: relative;
 		min-height: 32px;
 	}
 
-    &__message {
+	&__feedback {
+		position: absolute;
+		top: 50%;
+		right: 10px;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 16px;
+		height: 16px;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1;
+		transform: translateY(-50%);
+		pointer-events: none;
+
+		&--success {
+			color: #52c41a;
+		}
+
+		&--warning {
+			color: #faad14;
+		}
+
+		&--error {
+			color: #ff4d4f;
+		}
+
+		&--validating {
+			color: #1677ff;
+		}
+	}
+
+	&__message {
 		margin-top: 4px;
 		color: #ff4d4f;
 		font-size: 12px;
@@ -65,7 +98,7 @@
 		font-size: 12px;
 		line-height: 1.5;
 	}
-    &--error {
+	&--error {
 		.sy-input {
 			border-color: #ff4d4f;
 		}
@@ -74,6 +107,16 @@
 	&--success {
 		.sy-input {
 			border-color: #52c41a;
+		}
+	}
+
+	&--warning {
+		.sy-input {
+			border-color: #faad14;
+		}
+
+		.sy-form-item__message {
+			color: #d48806;
 		}
 	}
 }

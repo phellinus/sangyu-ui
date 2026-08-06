@@ -44,10 +44,17 @@ export function mergeRules(
  * @param trigger
  * @returns
  */
-export function matchesTrigger(rule: FormRule, trigger?: ValidateTrigger): boolean {
-	if (!trigger || !rule.trigger) return true;
+export function matchesTrigger(
+	rule: FormRule,
+	trigger?: ValidateTrigger,
+	defaultTrigger?: ValidateTrigger | ValidateTrigger[],
+): boolean {
+	if (!trigger) return true;
 
-	const triggers = Array.isArray(rule.trigger) ? rule.trigger : [rule.trigger];
+	const ruleTrigger = rule.trigger ?? defaultTrigger;
+	if (!ruleTrigger) return true;
+
+	const triggers = Array.isArray(ruleTrigger) ? ruleTrigger : [ruleTrigger];
 
 	return triggers.includes(trigger);
 }

@@ -104,6 +104,7 @@ export default defineComponent({
 					[c(cm('disabled'))]: props.disabled,
 				}}
 				style={props.customStyle}
+				aria-disabled={props.disabled ? 'true' : undefined}
 				onSubmit={handleSubmit}
 				novalidate
 			>

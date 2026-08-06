@@ -36,6 +36,7 @@ export function useFormController(props: FormProps): FormInstance & {
 		return selectFields(names).map((field) => ({
 			name: field.name,
 			errors: [...field.errors.value],
+			warnings: [...field.warnings.value],
 		}));
 	};
 	//获取指定字段的校验状态
@@ -53,6 +54,7 @@ export function useFormController(props: FormProps): FormInstance & {
 			.map(({ field }) => ({
 				name: field.name,
 				errors: [...field.errors.value],
+				warnings: [...field.warnings.value],
 			}));
 
 		if (errorFields.length) {
