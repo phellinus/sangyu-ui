@@ -1,4 +1,4 @@
-import { CSSProperties, Ref } from 'vue';
+import { ComputedRef, CSSProperties, Ref } from 'vue';
 
 export type NamePath = string | number | Array<string | number>;
 //表单的布局
@@ -70,6 +70,8 @@ export interface FormRule {
 	message?: string;
 	// 触发当前规则校验的事件
 	trigger?: ValidateTrigger | ValidateTrigger[];
+	// 是否只产生警告而不阻断表单提交
+	warningOnly?: boolean;
 	// 校验前的数据转换函数
 	transform?: (value: unknown) => unknown;
 	// 自定义校验函数
@@ -191,11 +193,13 @@ export interface FieldContext {
 	initialValue: unknown;
 	// 当前字段的错误信息列表
 	errors: Ref<string[]>;
+	// 当前字段的警告信息列表
+	warnings: Ref<string[]>;
 	// 当前字段的校验状态
 	validateStatus: Ref<ValidateStatus>;
 	// 当前字段是否已经被用户操作
 	touched: Ref<boolean>;
-	// 当前字段的值是否已经发生变化
+	// 当前字段的值是否与注册时的初始值不同
 	dirty: Ref<boolean>;
 	// 当前字段是否正在执行异步校验
 	validating: Ref<boolean>;
@@ -253,10 +257,20 @@ export interface FormContext extends FormInstance {
 export interface FormItemContext {
 	// 当前表单字段的标准化路径
 	name?: Array<string | number>;
+	// 当前表单字段是否继承 Form 的禁用状态
+	disabled: ComputedRef<boolean>;
+	// 当前表单字段从 Form 继承的尺寸
+	size: ComputedRef<FormSize>;
+	// 当前字段是否校验失败
+	ariaInvalid: ComputedRef<boolean | undefined>;
+	// 当前字段描述信息对应的元素 id
+	ariaDescribedby: ComputedRef<string | undefined>;
 	// 当前表单字段的校验状态
 	validateStatus: Ref<ValidateStatus>;
 	// 当前表单字段的错误信息列表
 	errors: Ref<string[]>;
+	// 当前表单字段的警告信息列表
+	warnings: Ref<string[]>;
 	// 通知 FormItem 当前字段值已经发生变化
 	onChange: () => void;
 	// 通知 FormItem 当前字段已经失去焦点

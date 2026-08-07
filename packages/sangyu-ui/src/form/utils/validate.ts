@@ -36,7 +36,7 @@ export async function validateValue(options: ValidateOptions): Promise<string[]>
 	if (!rules.length) return [];
 
 	const descriptors: RuleItem[] = rules.map((rule): RuleItem => {
-		const { validator, trigger: _trigger, ...descriptor } = rule;
+		const { validator, trigger: _trigger, warningOnly: _warningOnly, ...descriptor } = rule;
 		const normalizedRule: RuleItem = { ...descriptor };
 
 		if (validator) {

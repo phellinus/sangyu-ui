@@ -17,13 +17,15 @@
 				:type="inputType"
 				:name="props.name"
 				:value="value"
-				:disabled="props.disabled"
+				:disabled="disabled"
 				:readonly="props.readonly"
 				:autocomplete="props.autocomplete"
 				:maxlength="props.maxlength"
 				:minlength="props.minlength"
 				:placeholder="props.placeholder ? ' ' : undefined"
 				:aria-label="ariaLabel"
+				:aria-invalid="inputAriaInvalid"
+				:aria-describedby="inputAriaDescribedby"
 				@input="handleInput"
 				@change="handleChange"
 				@compositionstart="handleCompositionStart"
@@ -65,7 +67,9 @@
 
 <script setup lang="ts">
 import { useClassnames } from '@sangyu-ui/utils';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { computed, mergeProps, useAttrs } from 'vue';
+import type { AriaAttributes } from 'vue';
 import type { InputEmits, InputProps, InputSlots, SyInputInstance } from './Input.type';
 import { InputClear } from './components';
 import { useInput } from './composables';
@@ -80,7 +84,6 @@ const props = withDefaults(defineProps<InputProps>(), {
 	modelValue: '',
 	type: 'filled',
 	nativeType: 'text',
-	size: 'default',
 	disabled: false,
 	readonly: false,
 	clearable: false,
@@ -101,7 +104,17 @@ defineSlots<InputSlots>();
 
 const { c, cx, ce, cm } = useClassnames('input');
 const attrs = useAttrs();
+// 获取当前输入框所在的 FormItem 上下文
+const formItemContext = useFormItemContext();
 
+// 输入框最终使用的禁用状态
+const mergedDisabled = computed(() => {
+	return Boolean(props.disabled || formItemContext?.disabled.value);
+});
+// 输入框最终使用的尺寸
+const mergedSize = computed(() => {
+	return props.size || formItemContext?.size.value || 'default';
+});
 /**
  * 将外部属性拆分到组件根节点和真实 input。
  */
@@ -117,7 +130,54 @@ const mergedInputAttrs = computed(() => mergeProps(forwardedAttrs.value.inputAtt
  * class、style、data-* 等属性继续绑定到组件根节点。
  */
 const rootAttrs = computed(() => forwardedAttrs.value.rootAttrs);
+// aria-invalid 支持的有效值
+type AriaInvalidValue = Exclude<AriaAttributes['aria-invalid'], undefined>;
+/**
+ * 判断属性值是否为有效的 aria-invalid
+ * @param value 待判断的属性值
+ * @returns 是否为有效值
+ */
+function isAriaInvalidValue(value: unknown): value is AriaInvalidValue {
+	return (
+		typeof value === 'boolean' ||
+		value === 'true' ||
+		value === 'false' ||
+		value === 'grammar' ||
+		value === 'spelling'
+	);
+}
+/**
+ * 合并多个 aria-describedby id
+ * @param values 待合并的 id
+ * @returns 合并后的 id 字符串
+ */
+function mergeAriaIds(...values: unknown[]): string | undefined {
+	const ids = values.flatMap((value) => {
+		if (typeof value !== 'string') return [];
 
+		return value.trim().split(/\s+/).filter(Boolean);
+	});
+
+	const result = [...new Set(ids)].join(' ');
+
+	return result || undefined;
+}
+
+// 输入框最终使用的 aria-invalid
+const inputAriaInvalid = computed<AriaAttributes['aria-invalid']>(() => {
+	const externalValue = mergedInputAttrs.value['aria-invalid'];
+
+	if (isAriaInvalidValue(externalValue)) {
+		return externalValue;
+	}
+
+	return formItemContext?.ariaInvalid.value;
+});
+
+/** 输入框最终使用的 aria-describedby */
+const inputAriaDescribedby = computed(() => {
+	return mergeAriaIds(mergedInputAttrs.value['aria-describedby'], formItemContext?.ariaDescribedby.value);
+});
 const {
 	inputRef,
 	inputId,
@@ -128,6 +188,7 @@ const {
 	inputType,
 	ariaLabel,
 	styles,
+	disabled,
 	handleInput,
 	handleChange,
 	handleCompositionStart,
@@ -138,14 +199,14 @@ const {
 	focus,
 	blur,
 	select,
-} = useInput(props, emit);
+} = useInput(props, emit, mergedDisabled);
 
 const classes = cx(() => ({
 	[c()]: true,
 	[c(cm(props.type))]: true,
-	[c(cm(props.size))]: true,
+	[c(cm(mergedSize.value))]: true,
 	[c(cm('label'))]: Boolean(props.label),
-	[c(cm('disabled'))]: props.disabled,
+	[c(cm('disabled'))]: disabled.value,
 	[c(cm('readonly'))]: props.readonly,
 	hasfocu: isFloat.value,
 }));

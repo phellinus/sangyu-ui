@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
+import { defineComponent, nextTick, reactive, ref } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
+import { SyForm, SyFormItem } from '../../form';
 import SySwitch from '../SySwitch.vue';
 import type { SySwitchInstance } from '../Switch.type';
 
@@ -103,6 +104,153 @@ describe('SySwitch', () => {
 
 		expect(wrapper.emitted('update:modelValue')).toBeUndefined();
 		expect(wrapper.emitted('change')).toBeUndefined();
+	});
+
+	it('merges Form and Switch disabled states and reacts to dynamic updates', async () => {
+		const formDisabled = ref(true);
+		const switchDisabled = ref(false);
+		const model = reactive({
+			enabled: false,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SySwitch,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态禁用状态
+				 */
+				setup() {
+					return {
+						formDisabled,
+						model,
+						switchDisabled,
+					};
+				},
+
+				template: `
+					<SyForm :model="model" :disabled="formDisabled">
+						<SyFormItem name="enabled">
+							<SySwitch
+								v-model="model.enabled"
+								:disabled="switchDisabled"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+			{
+				attachTo: document.body,
+			},
+		);
+		const switchComponent = wrapper.getComponent(SySwitch);
+		const switchInstance = switchComponent.vm as unknown as SySwitchInstance;
+		const input = switchComponent.get('input');
+
+		// Form 禁用时同步原生属性和状态类并阻止模型更新
+		expect(input.attributes('disabled')).toBeDefined();
+		expect(switchComponent.classes()).toContain('sy-switch-disabled');
+
+		await input.trigger('change');
+		switchInstance.focus();
+		await nextTick();
+
+		expect(model.enabled).toBe(false);
+		expect(switchComponent.emitted('update:modelValue')).toBeUndefined();
+		expect(switchComponent.emitted('change')).toBeUndefined();
+		expect(document.activeElement).not.toBe(input.element);
+
+		// Form 恢复可用后 Switch 应立即恢复正常交互
+		formDisabled.value = false;
+		await nextTick();
+
+		expect(input.attributes('disabled')).toBeUndefined();
+		expect(switchComponent.classes()).not.toContain('sy-switch-disabled');
+
+		switchInstance.focus();
+		await nextTick();
+		expect(document.activeElement).toBe(input.element);
+
+		await input.trigger('change');
+		expect(model.enabled).toBe(true);
+
+		// Switch 自身禁用后即使 Form 可用也必须保持禁用
+		switchDisabled.value = true;
+		await nextTick();
+
+		expect(input.attributes('disabled')).toBeDefined();
+		expect(switchComponent.classes()).toContain('sy-switch-disabled');
+
+		await input.trigger('change');
+		expect(model.enabled).toBe(true);
+		expect(switchComponent.emitted('update:modelValue')).toHaveLength(1);
+
+		wrapper.unmount();
+	});
+
+	it('binds FormItem accessibility state to the native Switch input', async () => {
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('请开启通知');
+		const model = reactive({
+			enabled: false,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SySwitch,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						help,
+						model,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="enabled"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SySwitch
+								v-model="model.enabled"
+								aria-describedby="external-help"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		const switchComponent = wrapper.getComponent(SySwitch);
+		const input = switchComponent.get('input');
+		const messageId = wrapper.get('.sy-form-item__message').attributes('id');
+
+		// 校验属性只绑定到真实 input
+		expect(input.attributes('aria-invalid')).toBe('true');
+		expect(input.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(switchComponent.attributes('aria-invalid')).toBeUndefined();
+		expect(switchComponent.attributes('aria-describedby')).toBeUndefined();
+
+		// 校验恢复后清理 FormItem 状态并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(input.attributes('aria-invalid')).toBeUndefined();
+		expect(input.attributes('aria-describedby')).toBe('external-help');
 	});
 
 	it('syncs indeterminate state and expose methods to the native input', async () => {

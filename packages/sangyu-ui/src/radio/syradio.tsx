@@ -1,5 +1,7 @@
 import { computed, defineComponent, mergeProps, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
+import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
 import type { RadioProps, RadioShape, RadioSize, SyRadioInstance } from './Radio.type';
 import { useRadio } from './composables';
 
@@ -34,7 +36,6 @@ export default defineComponent({
 		/** Radio 尺寸 */
 		size: {
 			type: String as PropType<RadioSize>,
-			default: 'default',
 		},
 		/** 原生 Radio 名称 */
 		name: {
@@ -63,9 +64,41 @@ export default defineComponent({
 	emits: ['update:modelValue', 'change'],
 	setup(props, { attrs, emit, expose, slots }) {
 		const { c } = useClassnames('radio');
+		/** 获取当前 Radio 所在的 FormItem 上下文 */
+		const formItemContext = useFormItemContext();
+		/** 合并 Radio 自身和 Form 的禁用状态 */
+		const mergedDisabled = computed(() => {
+			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
+		/** Radio 最终使用的尺寸 */
+		const mergedSize = computed<RadioSize>(() => {
+			return props.size || formItemContext?.size.value || 'default';
+		});
+		/** 根节点需要保留的透传属性 */
+		const rootAttrs = computed(() => {
+			return Object.fromEntries(
+				Object.entries(attrs).filter(([key]) => key !== 'aria-invalid' && key !== 'aria-describedby'),
+			);
+		});
+		/** 真实 input 最终使用的 aria-invalid */
+		const ariaInvalid = computed(() => {
+			const attrValue = resolveAriaInvalid(attrs['aria-invalid'], formItemContext?.ariaInvalid.value);
+
+			return resolveAriaInvalid(props.inputAttrs?.['aria-invalid'], attrValue);
+		});
+		/** 真实 input 最终使用的 aria-describedby */
+		const ariaDescribedby = computed(() => {
+			return mergeAriaIds(
+				attrs['aria-describedby'],
+				props.inputAttrs?.['aria-describedby'],
+				formItemContext?.ariaDescribedby.value,
+			);
+		});
 		const { inputRef, inputId, isInGroup, checked, disabled, size, name, handleChange, focus, blur } = useRadio(
 			props,
 			emit,
+			mergedDisabled,
+			mergedSize,
 		);
 		/** 根据当前状态生成类名 */
 		const classes = computed(() => ({
@@ -103,13 +136,15 @@ export default defineComponent({
 				'aria-label':
 					props.inputAttrs?.['aria-label'] ??
 					(!contentNode && props.label !== undefined ? String(props.label) : undefined),
+				'aria-invalid': ariaInvalid.value,
+				'aria-describedby': ariaDescribedby.value,
 				onChange: handleChange,
 			});
 
 			/**
 			 * 外部 class 和 style 与组件自身属性合并
 			 */
-			const rootProps = mergeProps(attrs, {
+			const rootProps = mergeProps(rootAttrs.value, {
 				class: classes.value,
 				style: props.customStyle,
 			});

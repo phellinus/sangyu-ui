@@ -2,6 +2,7 @@ import { computed, defineComponent, mergeProps, type CSSProperties, type PropTyp
 import { useClassnames } from '@sangyu-ui/utils';
 import type { RadioGroupDirection, RadioGroupProps, RadioSize } from './Radio.type';
 import { useRadioGroup } from './composables';
+import { useFormItemContext } from '../form/composable/useFormItemContext';
 
 export default defineComponent({
 	name: 'SyRadioGroup',
@@ -25,7 +26,6 @@ export default defineComponent({
 		/** 分组统一尺寸 */
 		size: {
 			type: String as PropType<RadioSize>,
-			default: 'default',
 		},
 		/** 分组排列方向 */
 		direction: {
@@ -40,14 +40,23 @@ export default defineComponent({
 	emits: ['update:modelValue', 'change'],
 	setup(props, { attrs, emit, slots }) {
 		const { c } = useClassnames('radio-group');
+		const formItemContext = useFormItemContext();
+		/** RadioGroup 最终使用的禁用状态 */
+		const mergedDisabled = computed(() => {
+			return Boolean(props.disabled || formItemContext?.disabled.value);
+		});
+		/** RadioGroup 最终使用的尺寸 */
+		const mergedSize = computed<RadioSize>(() => {
+			return props.size || formItemContext?.size.value || 'default';
+		});
 		/** 创建并提供 RadioGroup 上下文 */
-		useRadioGroup(props, emit);
+		useRadioGroup(props, emit, mergedDisabled, mergedSize);
 		/** 根据方向、尺寸和禁用状态生成类名 */
 		const classes = computed(() => ({
 			[c()]: true,
 			[c(props.direction)]: true,
-			[c(props.size)]: true,
-			[c('disabled')]: props.disabled,
+			[c(mergedSize.value)]: true,
+			[c('disabled')]: mergedDisabled.value,
 		}));
 
 		return () => {
@@ -56,7 +65,7 @@ export default defineComponent({
 				class: classes.value,
 				style: props.customStyle,
 				role: 'radiogroup',
-				'aria-disabled': props.disabled ? 'true' : undefined,
+				'aria-disabled': mergedDisabled.value ? 'true' : undefined,
 			});
 			return <div {...rootProps}>{slots.default?.()}</div>;
 		};

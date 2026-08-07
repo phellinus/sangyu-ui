@@ -8,7 +8,8 @@ interface UseValidationOptions {
 	value: Ref<unknown>;
 	model: Record<string, unknown>;
 	getRules: () => FormRule[];
-	onValidated?: (status: ValidateStatus, errors: string[]) => void;
+	getValidateTrigger: () => ValidateTrigger | ValidateTrigger[];
+	onValidated?: (status: ValidateStatus, messages: string[]) => void;
 }
 /**
  * 表单字段验证组合函数
@@ -17,11 +18,13 @@ interface UseValidationOptions {
 export function useValidation(options: UseValidationOptions) {
 	// 当前字段的错误信息列表
 	const errors = ref<string[]>([]);
+	// 当前字段的警告信息列表
+	const warnings = ref<string[]>([]);
 	// 当前字段是否正在执行异步校验
 	const validating = ref(false);
 	// 当前字段是否已经触发过校验
 	const touched = ref(false);
-	// 当前字段的值是不是被修改过了
+	// 当前字段的值是否与注册时的初始值不同
 	const dirty = ref(false);
 	// 当前字段的校验状态
 	const validateStatus = ref<ValidateStatus>('');
@@ -33,32 +36,47 @@ export function useValidation(options: UseValidationOptions) {
 	const validate = async (trigger?: ValidateTrigger) => {
 		const version = ++validateVersion;
 
-		const rules = options.getRules().filter((rule) => matchesTrigger(rule, trigger));
+		const rules = options.getRules().filter((rule) => matchesTrigger(rule, trigger, options.getValidateTrigger()));
 
 		if (!rules.length) {
-			errors.value = [];
-			validateStatus.value = '';
+			if (!trigger) {
+				errors.value = [];
+				warnings.value = [];
+				validateStatus.value = '';
+			}
 			return;
 		}
 
 		validating.value = true;
 		validateStatus.value = 'validating';
 
-		const nextErrors = await validateValue({
-			name: options.name,
-			label: options.label,
-			value: options.value.value,
-			rules,
-			model: options.model,
-		});
+		const errorRules = rules.filter((rule) => !rule.warningOnly);
+		const warningRules = rules.filter((rule) => rule.warningOnly);
+		const [nextErrors, nextWarnings] = await Promise.all([
+			validateValue({
+				name: options.name,
+				label: options.label,
+				value: options.value.value,
+				rules: errorRules,
+				model: options.model,
+			}),
+			validateValue({
+				name: options.name,
+				label: options.label,
+				value: options.value.value,
+				rules: warningRules,
+				model: options.model,
+			}),
+		]);
 
 		if (version !== validateVersion) return;
 
 		errors.value = nextErrors;
+		warnings.value = nextWarnings;
 		validating.value = false;
-		validateStatus.value = nextErrors.length ? 'error' : 'success';
+		validateStatus.value = nextErrors.length ? 'error' : nextWarnings.length ? 'warning' : 'success';
 
-		options.onValidated?.(validateStatus.value, errors.value);
+		options.onValidated?.(validateStatus.value, [...errors.value, ...warnings.value]);
 
 		if (nextErrors.length) {
 			throw nextErrors;
@@ -70,11 +88,13 @@ export function useValidation(options: UseValidationOptions) {
 	const clearValidate = () => {
 		validateVersion += 1;
 		errors.value = [];
+		warnings.value = [];
 		validating.value = false;
 		validateStatus.value = '';
 	};
 	return {
 		errors,
+		warnings,
 		hasError,
 		validating,
 		touched,

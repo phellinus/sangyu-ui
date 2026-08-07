@@ -1,11 +1,21 @@
-import { computed, inject, ref, useId } from 'vue';
-import type { RadioButtonProps, RadioEmits, RadioProps } from '../Radio.type';
+import { computed, inject, ref, useId, type Ref } from 'vue';
+import type { RadioButtonProps, RadioEmits, RadioProps, RadioSize } from '../Radio.type';
 import { radioGroupKey } from '../context';
 
 /**
  * Radio 和 RadioButton 共用逻辑
+ * @param props Radio 或 RadioButton 组件属性
+ * @param emit Radio 组件事件派发器
+ * @param mergedDisabled 合并组件自身和 Form 后的禁用状态
+ * @param mergedSize 合并组件自身和 Form 后的尺寸
+ * @returns Radio 的模型、原生属性和交互状态
  */
-export function useRadio(props: Readonly<RadioProps | RadioButtonProps>, emit: RadioEmits) {
+export function useRadio(
+	props: Readonly<RadioProps | RadioButtonProps>,
+	emit: RadioEmits,
+	mergedDisabled: Readonly<Ref<boolean>>,
+	mergedSize: Readonly<Ref<RadioSize>>,
+) {
 	/** 获取可能存在的 RadioGroup */
 	const groupContext = inject(radioGroupKey, null);
 
@@ -38,14 +48,14 @@ export function useRadio(props: Readonly<RadioProps | RadioButtonProps>, emit: R
 		return Boolean(props.modelValue);
 	});
 
-	/** 子项和分组任一禁用时，当前选项都不可用 */
+	/** 组件、Form 和 RadioGroup 任一禁用时当前选项都不可用 */
 	const disabled = computed(() => {
-		return Boolean(props.disabled || groupContext?.disabled.value);
+		return Boolean(mergedDisabled.value || groupContext?.disabled.value);
 	});
 
 	/** 分组尺寸优先级高于子项尺寸 */
 	const size = computed(() => {
-		return groupContext?.size.value || props.size || 'default';
+		return groupContext?.size.value || mergedSize.value;
 	});
 
 	/** 分组名称优先级高于子项名称 */
@@ -54,7 +64,7 @@ export function useRadio(props: Readonly<RadioProps | RadioButtonProps>, emit: R
 	});
 
 	/** 原生 Radio change 事件入口 */
-	const handleChange = (nativeEvent: Event) => {
+	const handleChange = (nativeEvent: Event): void => {
 		if (disabled.value || checked.value) return;
 
 		/**
@@ -83,10 +93,16 @@ export function useRadio(props: Readonly<RadioProps | RadioButtonProps>, emit: R
 	};
 
 	/** 聚焦原生 input */
-	const focus = () => inputRef.value?.focus();
+	const focus = (): void => {
+		if (disabled.value) return;
+
+		inputRef.value?.focus();
+	};
 
 	/** 让原生 input 失焦 */
-	const blur = () => inputRef.value?.blur();
+	const blur = (): void => {
+		inputRef.value?.blur();
+	};
 
 	return {
 		inputRef,

@@ -1,9 +1,9 @@
-import { computed, nextTick, ref, useId, type CSSProperties } from 'vue';
+import { computed, nextTick, Ref, ref, useId, type CSSProperties } from 'vue';
 import { getColor } from '@sangyu-ui/utils';
 import type { InputEmits, InputNativeType, InputProps } from '../Input.type';
 import { useInputModel } from './useInputModel';
 
-export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
+export function useInput(props: Readonly<InputProps>, emit: InputEmits, disabled: Readonly<Ref<boolean>>) {
 	const inputRef = ref<HTMLInputElement>();
 	const focused = ref(false);
 	/** 标记当前是否处于中文、日文等输入法的组合输入阶段。 */
@@ -17,8 +17,10 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
 	const hasValue = computed(() => value.value.length > 0);
 
 	const isFloat = computed(() => focused.value || hasValue.value);
-
-	const showClear = computed(() => Boolean(props.clearable) && hasValue.value && !props.disabled && !props.readonly);
+	// 是否显示清除按钮
+	const showClear = computed(() => {
+		return Boolean(props.clearable) && hasValue.value && !disabled.value && !props.readonly;
+	});
 
 	const inputType = computed<InputNativeType>(() => {
 		const isPassword = props.password || props.nativeType === 'password';
@@ -61,6 +63,7 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
 	};
 
 	const handleInput = (event: Event) => {
+		if (disabled.value) return;
 		// 组合输入期间不提交拼音等中间值。
 		if (isComposing.value) return;
 
@@ -90,12 +93,13 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
 	};
 
 	const handleChange = (event: Event) => {
+		if (disabled.value) return;
 		const target = event.target as HTMLInputElement;
 		commitValue(target.value, event);
 	};
 
 	const handleFocus = (event: FocusEvent) => {
-		if (props.disabled) return;
+		if (disabled.value) return;
 
 		focused.value = true;
 		emit('focus', event);
@@ -107,7 +111,7 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
 	};
 
 	const handleClear = (event: MouseEvent) => {
-		if (props.disabled || props.readonly) return;
+		if (disabled.value || props.readonly) return;
 
 		updateValue('', event);
 		commitValue('', event);
@@ -118,10 +122,21 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
 			inputRef.value?.focus();
 		});
 	};
-
-	const focus = () => inputRef.value?.focus();
+	//让输入框获取焦点
+	const focus = (): void => {
+		if (disabled.value) {
+			return;
+		}
+		inputRef.value?.focus();
+	};
 	const blur = () => inputRef.value?.blur();
-	const select = () => inputRef.value?.select();
+	//选中输入框的文字
+	const select = (): void => {
+		if (disabled.value) {
+			return;
+		}
+		inputRef.value?.select();
+	};
 
 	return {
 		inputRef,
@@ -132,6 +147,7 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits) {
 		showClear,
 		inputType,
 		ariaLabel,
+		disabled,
 		styles,
 		handleInput,
 		handleChange,

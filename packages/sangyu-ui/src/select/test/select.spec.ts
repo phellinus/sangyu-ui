@@ -1,6 +1,7 @@
 import { mount, type ComponentMountingOptions } from '@vue/test-utils';
-import { h, nextTick } from 'vue';
+import { defineComponent, h, nextTick, reactive, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { SyForm, SyFormItem } from '../../form';
 import SySelect from '../SySelect';
 import type { SelectModelValue, SelectOption } from '../Select.type';
 
@@ -115,6 +116,171 @@ describe('SySelect', () => {
 
 		expect(optionWrapper.get('.sy-select-option').classes()).toContain('sy-select-option-disabled');
 		expect(optionWrapper.emitted('update:modelValue')).toBeUndefined();
+	});
+
+	it('inherits the Form disabled state and reacts to dynamic updates', async () => {
+		const formDisabled = ref(false);
+		const model = reactive<{ category: SelectModelValue }>({
+			category: undefined,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SySelect,
+				},
+
+				/**
+				 * 提供测试所需的表单模型、选项和动态禁用状态。
+				 */
+				setup() {
+					return {
+						formDisabled,
+						model,
+						options,
+					};
+				},
+
+				template: `
+					<SyForm :model="model" :disabled="formDisabled">
+						<SyFormItem name="category">
+							<SySelect
+								v-model="model.category"
+								:options="options"
+								filterable
+								:virtual="false"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		mountedWrappers.push(wrapper);
+
+		const select = wrapper.getComponent(SySelect);
+		const trigger = select.get('.sy-select-trigger');
+		const searchInput = select.get('.sy-select-search');
+
+		// 先展开面板，用于验证 Form 动态禁用后会主动收起。
+		await trigger.trigger('click');
+		expect(select.classes()).toContain('sy-select-open');
+
+		formDisabled.value = true;
+		await nextTick();
+
+		expect(select.classes()).toContain('sy-select-disabled');
+		expect(select.attributes('aria-disabled')).toBe('true');
+		expect(trigger.attributes('tabindex')).toBe('-1');
+		expect(searchInput.attributes('disabled')).toBeDefined();
+		expect(select.classes()).not.toContain('sy-select-open');
+		expect(select.emitted('visibleChange')).toEqual([[true], [false]]);
+
+		// Form 禁用期间，点击和键盘事件都不能重新打开面板或修改模型。
+		await trigger.trigger('click');
+		await select.trigger('keydown', { key: 'ArrowDown' });
+		await select.trigger('keydown', { key: 'Enter' });
+
+		expect(select.find('.sy-select-dropdown').exists()).toBe(false);
+		expect(select.emitted('update:modelValue')).toBeUndefined();
+		expect(model.category).toBeUndefined();
+
+		// Form 恢复可用后，Select 应立即恢复正常交互。
+		formDisabled.value = false;
+		await nextTick();
+
+		expect(select.classes()).not.toContain('sy-select-disabled');
+		expect(select.attributes('aria-disabled')).toBe('false');
+		expect(trigger.attributes('tabindex')).toBe('0');
+		expect(searchInput.attributes('disabled')).toBeUndefined();
+
+		await trigger.trigger('click');
+		await select.findAll('.sy-select-option')[0].trigger('click');
+
+		expect(model.category).toBe('design');
+	});
+
+	it('moves FormItem accessibility state to the active Select control', async () => {
+		const filterable = ref(false);
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('请选择分类');
+		const model = reactive<{ category: SelectModelValue }>({
+			category: undefined,
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SySelect,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						filterable,
+						help,
+						model,
+						options,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="category"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SySelect
+								v-model="model.category"
+								:options="options"
+								:filterable="filterable"
+								aria-describedby="external-help"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		mountedWrappers.push(wrapper);
+
+		const select = wrapper.getComponent(SySelect);
+		const trigger = select.get('.sy-select-trigger');
+		const control = wrapper.get('.sy-form-item__control-input');
+		const messageId = wrapper.get('.sy-form-item__message').attributes('id');
+
+		// 普通模式将校验属性放在可聚焦的 combobox trigger 上
+		expect(trigger.attributes('role')).toBe('combobox');
+		expect(trigger.attributes('aria-invalid')).toBe('true');
+		expect(trigger.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(select.attributes('aria-invalid')).toBeUndefined();
+		expect(control.attributes('aria-invalid')).toBeUndefined();
+
+		// 可搜索模式将校验属性移动到真实 input
+		filterable.value = true;
+		await nextTick();
+
+		const searchInput = select.get('.sy-select-search');
+		expect(trigger.attributes('aria-invalid')).toBeUndefined();
+		expect(trigger.attributes('aria-describedby')).toBeUndefined();
+		expect(searchInput.attributes('aria-invalid')).toBe('true');
+		expect(searchInput.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+
+		// 校验恢复后清理 FormItem 状态并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(searchInput.attributes('aria-invalid')).toBeUndefined();
+		expect(searchInput.attributes('aria-describedby')).toBe('external-help');
 	});
 
 	it('clears the selected value without toggling the dropdown', async () => {

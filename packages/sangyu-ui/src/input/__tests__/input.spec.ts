@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
+import { defineComponent, nextTick, reactive, ref } from 'vue';
 import { describe, expect, it } from 'vitest';
+import SyForm from '../../form/SyForm';
+import SyFormItem from '../../form/SyFormItem';
 import SyInput from '../SyInput.vue';
 
 describe('SyInput', () => {
@@ -165,6 +167,70 @@ describe('SyInput', () => {
 		expect(wrapper.attributes('inputmode')).toBeUndefined();
 	});
 
+	it('binds FormItem accessibility state to the native input and clears it after recovery', async () => {
+		const validateStatus = ref<'error' | undefined>('error');
+		const help = ref<string | undefined>('用户名不能为空');
+		const model = reactive({
+			username: '',
+		});
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SyInput,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态校验状态
+				 */
+				setup() {
+					return {
+						help,
+						model,
+						validateStatus,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem
+							name="username"
+							:help="help"
+							:validate-status="validateStatus"
+						>
+							<SyInput
+								v-model="model.username"
+								aria-describedby="external-help"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+		const input = wrapper.get('input');
+		const control = wrapper.get('.sy-form-item__control-input');
+		const message = wrapper.get('.sy-form-item__message');
+		const messageId = message.attributes('id');
+
+		// ARIA 校验属性必须绑定到真实 input 而不是 FormItem 容器
+		expect(input.attributes('aria-invalid')).toBe('true');
+		expect(input.attributes('aria-describedby')?.split(/\s+/)).toEqual(
+			expect.arrayContaining(['external-help', messageId]),
+		);
+		expect(control.attributes('aria-invalid')).toBeUndefined();
+		expect(control.attributes('aria-describedby')).toBeUndefined();
+
+		// 校验恢复后移除错误状态和 FormItem 消息引用并保留外部描述
+		validateStatus.value = undefined;
+		help.value = undefined;
+		await nextTick();
+
+		expect(input.attributes('aria-invalid')).toBeUndefined();
+		expect(input.attributes('aria-describedby')).toBe('external-help');
+		expect(wrapper.find('.sy-form-item__message').exists()).toBe(false);
+	});
+
 	it('emits only the final value after composition input ends', async () => {
 		const wrapper = mount(SyInput, {
 			props: {
@@ -206,5 +272,112 @@ describe('SyInput', () => {
 		// 动态颜色改为通过 CSS 变量提供。
 		expect(style.getPropertyValue('--sy-input-text-color')).toBe('#111111');
 		expect(style.getPropertyValue('--sy-input-bg')).toBe('#eeeeee');
+	});
+
+	it('inherits the Form disabled state and reacts to dynamic updates', async () => {
+		const formDisabled = ref(true);
+		const model = reactive({
+			username: '',
+		});
+
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SyInput,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和动态禁用状态。
+				 */
+				setup() {
+					return {
+						formDisabled,
+						model,
+					};
+				},
+
+				template: `
+					<SyForm :model="model" :disabled="formDisabled">
+						<SyFormItem name="username">
+							<SyInput v-model="model.username" />
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+
+		const inputComponent = wrapper.getComponent(SyInput);
+		const input = wrapper.get('input');
+
+		// Form 禁用时，Input 的原生状态和 BEM 状态类都应同步禁用。
+		expect(input.attributes('disabled')).toBeDefined();
+		expect(inputComponent.classes()).toContain('sy-input--disabled');
+
+		// 即使主动派发输入事件，禁用状态也不能更新表单模型。
+		await input.setValue('blocked');
+		expect(model.username).toBe('');
+		expect(inputComponent.emitted('update:modelValue')).toBeUndefined();
+
+		// Form 恢复可用后，Input 应立即恢复输入能力。
+		formDisabled.value = false;
+		await nextTick();
+
+		expect(input.attributes('disabled')).toBeUndefined();
+		expect(inputComponent.classes()).not.toContain('sy-input--disabled');
+
+		await input.setValue('sangyu');
+		expect(model.username).toBe('sangyu');
+	});
+
+	it('keeps Input disabled when its own disabled prop is true', async () => {
+		const inputDisabled = ref(true);
+		const model = reactive({
+			username: '',
+		});
+
+		const wrapper = mount(
+			defineComponent({
+				components: {
+					SyForm,
+					SyFormItem,
+					SyInput,
+				},
+
+				/**
+				 * 提供测试所需的表单模型和 Input 自身禁用状态。
+				 */
+				setup() {
+					return {
+						inputDisabled,
+						model,
+					};
+				},
+
+				template: `
+					<SyForm :model="model">
+						<SyFormItem name="username">
+							<SyInput
+								v-model="model.username"
+								:disabled="inputDisabled"
+							/>
+						</SyFormItem>
+					</SyForm>
+				`,
+			}),
+		);
+
+		const inputComponent = wrapper.getComponent(SyInput);
+		const input = wrapper.get('input');
+
+		expect(input.attributes('disabled')).toBeDefined();
+		expect(inputComponent.classes()).toContain('sy-input--disabled');
+
+		inputDisabled.value = false;
+		await nextTick();
+
+		expect(input.attributes('disabled')).toBeUndefined();
+		expect(inputComponent.classes()).not.toContain('sy-input--disabled');
 	});
 });
