@@ -128,6 +128,11 @@ function handleReset(): void {
 	width: min(100%, 320px);
 }
 
+.basic-form-demo :deep(.sy-input),
+.basic-form-demo :deep(.sy-select) {
+	width: 100%;
+}
+
 .form-actions {
 	display: flex;
 	flex-wrap: wrap;
