@@ -130,7 +130,8 @@
 	left: 0;
 	right: 0;
 	overflow: auto;
-	padding: 4px;
+	padding: 0px;
+    box-sizing: border-box;
 	border: 1px solid #e3e8ef;
 	border-radius: 6px;
 	background: var(--sy-select-dropdown-bg, #fff);
@@ -138,10 +139,10 @@
 	transform-origin: top center;
 	will-change: transform, opacity;
 	scrollbar-width: thin;
-	scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+	scrollbar-color: transparent transparent;
 
 	&::-webkit-scrollbar {
-		width: 4px;
+		width: 3px;
 		height: 4px;
 	}
 
@@ -151,13 +152,33 @@
 
 	&::-webkit-scrollbar-thumb {
 		border-radius: 4px;
-		background: rgba(148, 163, 184, 0.3);
+		background: transparent;
+		transition: background 0.2s;
 	}
 
 	&::-webkit-scrollbar-thumb:hover {
-		background: rgba(148, 163, 184, 0.48);
+		background: rgba(148, 163, 184, 0.2);
 	}
 
+	&:hover {
+		scrollbar-color: rgba(148, 163, 184, 0.2) transparent;
+	}
+
+	&:hover::-webkit-scrollbar-thumb {
+		background: rgba(148, 163, 184, 0.2);
+	}
+
+	&:hover::-webkit-scrollbar-thumb:hover {
+		background: rgba(148, 163, 184, 0.35);
+	}
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        padding: 4px;
+        box-sizing: border-box;
+        gap: 4px;
+    }
 	&-empty,
 	&-loading {
 		padding: 16px;
