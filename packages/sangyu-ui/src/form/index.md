@@ -5,3 +5,7 @@
 ## 基础使用
 
 <demo src="./demos/basic-form.vue"></demo>
+
+## 自定义与跨字段校验
+
+<demo src="./demos/custom-validation-form.vue"></demo>
