@@ -1,5 +1,5 @@
 <template>
-	<label :class="classes" :style="[styles, props.customStyle]">
+	<label v-bind="rootAttrs" :class="classes" :style="[styles, props.customStyle]">
 		<input
 			:id="id"
 			ref="inputRef"
@@ -97,6 +97,14 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 const emit = defineEmits<SwitchEmits>();
 const { c, cx } = useClassnames('switch');
 const attrs = useAttrs();
+//传递给 Switch 根节点的外部属性
+const rootAttrs = computed(() => {
+	return Object.fromEntries(
+		Object.entries(attrs).filter(([key]) => {
+			return key !== 'aria-invalid' && key !== 'aria-describedby';
+		}),
+	);
+});
 /** 获取当前 Switch 所在的 FormItem 上下文 */
 const formItemContext = useFormItemContext();
 /** 合并 Switch 自身和 Form 的禁用状态 */
