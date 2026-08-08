@@ -1,9 +1,7 @@
-import type { App } from 'vue';
-import SySelect from './SySelect';
+import SySelectComponent from './SySelect';
+import { withInstall } from '@sangyu-ui/utils';
 
-(SySelect as any).install = (app: App) => {
-	app.component(SySelect.name || 'SySelect', SySelect);
-};
+const SySelect = withInstall(SySelectComponent);
 
 export { SySelect };
 export * from './Select.type';
