@@ -1,9 +1,7 @@
-import { App } from 'vue';
-import SySwitch from './SySwitch.vue';
+import SySwitchComponent from './SySwitch.vue';
+import { withInstall } from '@sangyu-ui/utils';
 
-(SySwitch as any).install = (app: App) => {
-	app.component(SySwitch.name || 'SySwitch', SySwitch);
-};
+const SySwitch = withInstall(SySwitchComponent);
 
 export { SySwitch };
 export * from './Switch.type';
