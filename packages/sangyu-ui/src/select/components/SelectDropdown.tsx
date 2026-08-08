@@ -21,7 +21,7 @@ export default defineComponent({
 	},
 	emits: ['select'],
 	setup(props, { emit, slots }) {
-		const { c } = useClassnames('select-dropdown');
+		const { c, ce } = useClassnames('select-dropdown');
 		const listRef = toRef(props, 'options');
 		const itemHeight = computed(() => toNumber(props.itemHeight, 32));
 		const listHeight = computed(() => toNumber(props.listHeight, 256));
@@ -47,7 +47,10 @@ export default defineComponent({
 						props.virtual ? { height: `${virtual.totalHeight.value}px`, position: 'relative' } : undefined
 					}
 				>
-					<div style={props.virtual ? { transform: `translateY(${virtual.offsetTop.value}px)` } : undefined}>
+					<div
+						class={c(ce('list'))}
+						style={props.virtual ? { transform: `translateY(${virtual.offsetTop.value}px)` } : undefined}
+					>
 						{items.map(({ item, index }) =>
 							slots.option ? (
 								<SelectOption

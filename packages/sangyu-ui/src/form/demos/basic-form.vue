@@ -17,11 +17,11 @@ title: 基础用法
 			@finish="handleFinish"
 			@finish-failed="handleFinishFailed"
 		>
-			<SyFormItem name="username" label="用户名" has-feedback>
+			<SyFormItem name="username" label="用户名">
 				<SyInput v-model="model.username" placeholder="请输入用户名" autocomplete="username" />
 			</SyFormItem>
 
-			<SyFormItem name="password" label="密码" has-feedback>
+			<SyFormItem name="password" label="密码">
 				<SyInput
 					v-model="model.password"
 					password
@@ -30,8 +30,8 @@ title: 基础用法
 				/>
 			</SyFormItem>
 
-			<SyFormItem name="role" label="角色" has-feedback validate-trigger="change">
-				<SySelect v-model="model.role" :options="roleOptions" placeholder="请选择角色" width="100%" />
+			<SyFormItem name="role" label="角色" validate-trigger="change">
+				<SySelect v-model="model.role" :options="roleOptions" placeholder="请选择角色" />
 			</SyFormItem>
 
 			<SyFormItem name="remember">
@@ -125,7 +125,12 @@ function handleReset(): void {
 
 <style scoped>
 .basic-form-demo {
-	width: min(100%, 520px);
+	width: min(100%, 320px);
+}
+
+.basic-form-demo :deep(.sy-input),
+.basic-form-demo :deep(.sy-select) {
+	width: 100%;
 }
 
 .form-actions {
