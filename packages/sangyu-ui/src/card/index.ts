@@ -1,8 +1,8 @@
-import type { App } from 'vue';
-import SyCard from './card.vue';
+import SyCardComponent from './card.vue';
+import { withInstall } from '@sangyu-ui/utils';
 
-SyCard.install = (app: App) => {
-	app.component(SyCard.name || 'SyCard', SyCard);
-};
+const SyCard = withInstall(SyCardComponent);
 
+export { SyCard };
+export * from './Card.type';
 export default SyCard;

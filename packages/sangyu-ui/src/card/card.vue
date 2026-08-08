@@ -1,5 +1,5 @@
 <template>
-	<div :style="tableStyle" :class="cardCls">
+	<div v-bind="$attrs" :style="tableStyle" :class="cardCls">
 		<div v-if="$slots.header" class="sy-card-header" :style="props.headerStyle">
 			<slot name="header"></slot>
 		</div>
@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { useClassnames } from '@sangyu-ui/utils';
-import { SyCardProps } from './interface';
+import { SyCardProps } from './Card.type';
 import { computed } from 'vue';
 
 defineOptions({
