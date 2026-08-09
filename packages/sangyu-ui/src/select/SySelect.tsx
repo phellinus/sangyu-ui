@@ -1,4 +1,14 @@
-import { computed, CSSProperties, defineComponent, onBeforeUnmount, onMounted, PropType, ref, watch } from 'vue';
+import {
+	computed,
+	CSSProperties,
+	defineComponent,
+	mergeProps,
+	onBeforeUnmount,
+	onMounted,
+	PropType,
+	ref,
+	watch,
+} from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
@@ -238,7 +248,34 @@ export default defineComponent({
 
 		const showClear = computed(() => props.clearable && !mergedDisabled.value && model.values.value.length > 0);
 		const styles = computed(() => [props.customStyle, props.width ? { width: props.width } : undefined]);
+		//select的class
+		const classes = computed(() => ({
+			[c()]: true,
+			[c(mergedSize.value)]: true,
+			[c('open')]: open.value,
+			[c('disabled')]: mergedDisabled.value,
+		}));
+		/**
+		 * 需要传递给 Select 根节点的外部属性
+		 * 校验相关的 aria 属性继续交给真实交互控件
+		 */
+		const rootAttrs = computed(() => {
+			return Object.fromEntries(
+				Object.entries(attrs).filter(([key]) => {
+					return key !== 'aria-invalid' && key !== 'aria-describedby';
+				}),
+			);
+		});
 
+		// 合并外部 class、style、事件和组件自身的根节点属性
+		const rootProps = computed(() => {
+			return mergeProps(rootAttrs.value, {
+				class: classes.value,
+				style: styles.value,
+				'aria-disabled': mergedDisabled.value,
+				onKeydown: handleSelectKeydown,
+			});
+		});
 		/**
 		 * 处理搜索框输入，并在最终禁用时阻止搜索状态变化。
 		 * @param event 输入事件
@@ -301,18 +338,7 @@ export default defineComponent({
 		);
 
 		return () => (
-			<div
-				ref={selectRef}
-				class={{
-					[c()]: true,
-					[c(mergedSize.value)]: true,
-					[c('open')]: open.value,
-					[c('disabled')]: mergedDisabled.value,
-				}}
-				style={styles.value}
-				aria-disabled={mergedDisabled.value}
-				onKeydown={handleSelectKeydown}
-			>
+			<div ref={selectRef} {...rootProps.value}>
 				<div
 					class={c('trigger')}
 					tabindex={mergedDisabled.value ? -1 : 0}

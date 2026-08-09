@@ -10,9 +10,14 @@ export function useVirtualList<T>(
 	listHeight: Ref<number>,
 	overscan: Ref<number>,
 ) {
-	/** 当前滚动的距离 */
+	// 当前滚动的距离
 	const scrollTop = ref(0);
-
+	//列表内容的上下内边距
+	const listPaddingY = 8;
+	// 列表项之间的间距
+	const itemGap = 4;
+	// 列表每一项的高度+间距
+	const itemStride = computed(() => itemHeight.value + itemGap);
 	/** 可视区域能展示的选项数量 */
 	const visibleCount = computed(() => Math.ceil(listHeight.value / itemHeight.value));
 
@@ -31,10 +36,13 @@ export function useVirtualList<T>(
 	);
 
 	/** 完整列表总高度，用于撑开滚动区域 */
-	const totalHeight = computed(() => list.value.length * itemHeight.value);
+	const totalHeight = computed(() => {
+		const count = list.value.length;
+		return count ? count * itemHeight.value + (count - 1) * itemGap + listPaddingY : 0;
+	});
 
 	/** 当前渲染片段相对顶部的偏移量 */
-	const offsetTop = computed(() => start.value * itemHeight.value);
+	const offsetTop = computed(() => start.value * itemStride.value);
 
 	/**
 	 * 处理滚动事件，更新 scrollTop。
