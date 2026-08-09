@@ -1,4 +1,4 @@
-import { computed, CSSProperties, defineComponent, PropType, type AriaAttributes } from 'vue';
+import { computed, CSSProperties, defineComponent, mergeProps, PropType, type AriaAttributes } from 'vue';
 import {
 	CheckboxEmits,
 	CheckboxLabelPosition,
@@ -121,13 +121,34 @@ export default defineComponent({
 			props.customStyle,
 			props.color ? ({ '--sy-checkbox-color': props.color } as CSSProperties) : undefined,
 		]);
+		// 传递给真实 input 的外部属性
+		const inputAttrs = computed(() => {
+			return Object.fromEntries(
+				Object.entries(attrs).filter(([key]) => {
+					return key !== 'class' && key !== 'style';
+				}),
+			);
+		});
+		// 合并组件自身属性和外部根节点属性
+		const rootProps = computed(() => {
+			return mergeProps(
+				{
+					class: classes.value,
+					style: styles.value,
+				},
+				{
+					class: attrs.class,
+					style: attrs.style,
+				},
+			);
+		});
 		return () => {
 			// 默认插槽优先，避免属性文本覆盖用户传入的富内容。
 			const label = slots.default?.() ?? props.content ?? props.label;
 			return (
-				<label class={classes.value} style={styles.value}>
+				<label {...rootProps.value}>
 					<input
-						{...attrs}
+						{...inputAttrs.value}
 						ref={state.inputRef}
 						id={state.id.value}
 						class={c('input')}
