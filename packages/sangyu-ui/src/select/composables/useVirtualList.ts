@@ -42,7 +42,7 @@ export function useVirtualList<T>(
 	});
 
 	/** 当前渲染片段相对顶部的偏移量 */
-	const offsetTop = computed(() => start.value * itemHeight.value);
+	const offsetTop = computed(() => start.value * itemStride.value);
 
 	/**
 	 * 处理滚动事件，更新 scrollTop。
