@@ -1,4 +1,4 @@
-import { computed, ref, type CSSProperties } from 'vue';
+import { computed, ref, watch, type CSSProperties } from 'vue';
 import { getColor, getColorWithAlpha, useClassnames } from '@sangyu-ui/utils';
 import { BUTTON_RIPPLE_TYPES } from '../constants';
 import { createButtonRipple } from '../helpers';
@@ -9,6 +9,8 @@ type ButtonAttrs = Readonly<Record<string, unknown>>;
 
 export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs: ButtonAttrs) {
 	const rootRef = ref<ButtonRootElement>();
+	//当前按钮是否是选中的状态
+	const active = ref(false);
 	const { c, cm, cx } = useClassnames('button');
 
 	const variant = computed<ButtonVariant>(() => props.type || 'filled');
@@ -20,6 +22,7 @@ export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs
 		[c(cm(variant.value))]: true,
 		[c('size', cm(props.size || 'default'))]: true,
 		[c('radius', cm(props.radius || 'default'))]: true,
+		[c('active')]: active.value,
 		[c('disabled')]: disabled.value,
 		[c('loading')]: Boolean(props.loading),
 
@@ -80,7 +83,7 @@ export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs
 			event.stopPropagation();
 			return;
 		}
-
+		active.value = true;
 		emit('click', event);
 
 		if (BUTTON_RIPPLE_TYPES.includes(variant.value)) {
@@ -100,16 +103,27 @@ export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs
 	};
 
 	const handleBlur = (event: FocusEvent) => {
+		active.value = false;
 		emit('blur', event);
 	};
 
 	const focus = () => rootRef.value?.focus();
 	const blur = () => rootRef.value?.blur();
 
+	watch(
+		disabled,
+		(value) => {
+			if (value) {
+				active.value = false;
+			}
+		},
+		{ flush: 'sync' },
+	);
 	return {
 		c,
 		rootRef,
 		tag,
+		active,
 		classes,
 		styles,
 		rootAttrs,
