@@ -1,9 +1,7 @@
-import type { App } from 'vue';
-import SyButton from './SyButton.vue';
+import SyButtonComponent from './SyButton.vue';
+import { withInstall } from '@sangyu-ui/utils';
 
-(SyButton as typeof SyButton & { install(app: App): void }).install = (app: App) => {
-	app.component(SyButton.name || 'SyButton', SyButton);
-};
+const SyButton = withInstall(SyButtonComponent);
 
 export { SyButton };
 export * from './Button.type';
