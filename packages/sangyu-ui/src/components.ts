@@ -47,3 +47,4 @@ export type {
 } from './table';
 // 导出 Tooltip 对外公开类型
 export type { TooltipProps, TooltipTrigger, TooltipType } from './tooltip';
+export { default as SyDrawer } from './drawer';
