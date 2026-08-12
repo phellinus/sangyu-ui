@@ -39,4 +39,4 @@ import './select/style/index.less';
 // form
 import './form/style/index.less';
 // drawer
-import './form/style/index.less';
+import './drawer/style/index.less';

@@ -1,3 +1,4 @@
+import { useClassnames } from '@sangyu-ui/utils';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -9,6 +10,7 @@ export default defineComponent({
 	},
 	emits: ['update:visible'],
 	setup(props, { emit }) {
+		const { c } = useClassnames('drawer');
 		return () => {
 			return <div>123</div>;
 		};
