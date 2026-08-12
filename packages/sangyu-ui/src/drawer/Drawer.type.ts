@@ -1,4 +1,4 @@
-import { CSSProperties } from "vue";
+import { CSSProperties } from 'vue';
 
 export type DrawerPlacement = 'top' | 'right' | 'bottom' | 'left';
 export interface DrawerProps {
