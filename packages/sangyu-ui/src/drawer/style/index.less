@@ -106,3 +106,55 @@
 		overflow: auto;
 	}
 }
+.sy-drawer-motion-enter-active,
+.sy-drawer-motion-leave-active {
+	.sy-drawer__mask {
+		transition: opacity 0.24s ease;
+	}
+
+	.sy-drawer__panel {
+		transition: transform 0.28s
+			cubic-bezier(0.22, 1, 0.36, 1);
+	}
+}
+
+.sy-drawer-motion-enter-from,
+.sy-drawer-motion-leave-to {
+	.sy-drawer__mask {
+		opacity: 0;
+	}
+
+	&.sy-drawer--left {
+		.sy-drawer__panel {
+			transform: translateX(-100%);
+		}
+	}
+
+	&.sy-drawer--right {
+		.sy-drawer__panel {
+			transform: translateX(100%);
+		}
+	}
+
+	&.sy-drawer--top {
+		.sy-drawer__panel {
+			transform: translateY(-100%);
+		}
+	}
+
+	&.sy-drawer--bottom {
+		.sy-drawer__panel {
+			transform: translateY(100%);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sy-drawer-motion-enter-active,
+	.sy-drawer-motion-leave-active {
+		.sy-drawer__mask,
+		.sy-drawer__panel {
+			transition: none;
+		}
+	}
+}
