@@ -1,6 +1,8 @@
 import { CSSProperties } from 'vue';
 
 export type DrawerPlacement = 'top' | 'right' | 'bottom' | 'left';
+//指定抽屉挂载位置
+export type DrawerContainer = string | HTMLElement | (() => HTMLElement) | false;
 export interface DrawerProps {
 	// 抽屉是否可见
 	visible?: boolean;
@@ -20,6 +22,10 @@ export interface DrawerProps {
 	maskClosable?: boolean;
 	// 抽屉层级
 	zIndex?: number;
+	// 关闭动画结束后是否销毁抽屉内容
+	destroyOnClose?: boolean;
+	// 指定抽屉挂载位置
+	getContainer?: DrawerContainer;
 	// 根节点自定义样式
 	customStyle?: string | CSSProperties;
 }
