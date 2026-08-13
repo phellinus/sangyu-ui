@@ -28,6 +28,16 @@ export interface DrawerProps {
 	getContainer?: DrawerContainer;
 	// 根节点自定义样式
 	customStyle?: string | CSSProperties;
+	// 是否支持按下 Esc 关闭抽屉
+	keyboard?: boolean;
+	// 抽屉打开时是否锁定页面滚动
+	lockScroll?: boolean;
+	// 抽屉打开后是否自动获得焦点
+	autoFocus?: boolean;
+	// 是否将 Tab 焦点限制在抽屉内部
+	trapFocus?: boolean;
+	// 抽屉关闭后是否恢复原来的焦点
+	restoreFocus?: boolean;
 }
 
 export interface DrawerEmits {

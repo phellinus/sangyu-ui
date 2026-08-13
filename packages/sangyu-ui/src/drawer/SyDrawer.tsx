@@ -57,6 +57,31 @@ export default defineComponent({
 		customStyle: {
 			type: [String, Object] as PropType<DrawerProps['customStyle']>,
 		},
+		//是否支持esc关闭，默认关闭
+		keyboard: {
+			type: Boolean,
+			default: true,
+		},
+		// 抽屉打开时是否锁定页面滚动
+		lockScroll: {
+			type: Boolean,
+			default: true,
+		},
+		// 抽屉打开后是否自动获得焦点
+		autoFocus: {
+			type: Boolean,
+			default: true,
+		},
+		// 是否将 Tab 焦点限制在抽屉内部
+		trapFocus: {
+			type: Boolean,
+			default: true,
+		},
+		// 抽屉关闭后是否恢复原来的焦点
+		restoreFocus: {
+			type: Boolean,
+			default: true,
+		},
 	},
 	emits: ['update:visible', 'close'],
 	setup(props, { attrs, emit, slots }) {
