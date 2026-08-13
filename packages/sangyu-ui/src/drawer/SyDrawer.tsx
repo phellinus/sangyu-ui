@@ -1,6 +1,18 @@
 import { useClassnames } from '@sangyu-ui/utils';
-import { computed, CSSProperties, defineComponent, PropType, useId } from 'vue';
-import { DrawerPlacement, DrawerProps } from './Drawer.type';
+import {
+	computed,
+	CSSProperties,
+	defineComponent,
+	PropType,
+	ref,
+	Teleport,
+	Transition,
+	useId,
+	vShow,
+	watch,
+	withDirectives,
+} from 'vue';
+import { DrawerContainer, DrawerPlacement, DrawerProps } from './Drawer.type';
 import { SyIcon } from '@sangyu-ui/icons';
 
 export default defineComponent({
@@ -37,6 +49,11 @@ export default defineComponent({
 			type: Number,
 			default: 1000,
 		},
+		destroyOnClose: Boolean,
+		getContainer: {
+			type: [String, Object, Function, Boolean] as PropType<DrawerContainer>,
+			default: 'body',
+		},
 		customStyle: {
 			type: [String, Object] as PropType<DrawerProps['customStyle']>,
 		},
@@ -66,23 +83,64 @@ export default defineComponent({
 						maxHeight: '100dvh',
 					};
 		});
-
+		// 获取 Teleport 的实际挂载位置
+		const teleportTarget = computed<string | HTMLElement>(() => {
+			if (typeof document === 'undefined' || props.getContainer === false) {
+				return 'body';
+			}
+			const container = typeof props.getContainer === 'function' ? props.getContainer() : props.getContainer;
+			if (!container) {
+				return document.body;
+			}
+			if (typeof container === 'string') {
+				return document.querySelector<HTMLElement>(container) ?? document.body;
+			}
+			return container;
+		});
 		// 通知父组件关闭抽屉
 		const close = (event?: Event) => {
 			emit('update:visible', false);
 			emit('close', event);
 		};
-
+		// 控制抽屉节点是否需要渲染,判断抽屉的dom节点是否存在
+		const rendered = ref(props.visible || !props.destroyOnClose);
 		// 处理遮罩点击
 		const handleMaskClick = (event: MouseEvent) => {
 			if (!props.maskClosable) return;
 
 			close(event);
 		};
-		return () => {
-			// 当前阶段直接控制挂载 后续动画阶段再改为 Transition
-			if (!props.visible) return null;
+		// 打开抽屉前先恢复 DOM
+		watch(
+			() => props.visible,
+			(visible) => {
+				if (visible) {
+					rendered.value = true;
+				}
+			},
+		);
+		// 动态关闭销毁功能时恢复抽屉节点
+		watch(
+			() => props.destroyOnClose,
+			(destroyOnClose) => {
+				if (!destroyOnClose) {
+					rendered.value = true;
+					return;
+				}
 
+				if (!props.visible) {
+					rendered.value = false;
+				}
+			},
+		);
+		// 关闭动画结束后按需销毁抽屉内容
+		const handleAfterLeave = () => {
+			if (props.destroyOnClose) {
+				rendered.value = false;
+			}
+		};
+		// 渲染抽屉根节点
+		const renderDrawer = () => {
 			const titleNode = slots.title?.() ?? props.title;
 			const hasHeader = Boolean(titleNode) || props.closable;
 
@@ -137,6 +195,20 @@ export default defineComponent({
 						<div class={c(ce('body'))}>{slots.default?.()}</div>
 					</section>
 				</div>
+			);
+		};
+		return () => {
+			//抽屉节点
+			const drawerNode = rendered.value ? withDirectives(renderDrawer(), [[vShow, props.visible]]) : null;
+			const transitionNode = (
+				<Transition name='sy-drawer-motion' appear duration={280} onAfterLeave={handleAfterLeave}>
+					{drawerNode}
+				</Transition>
+			);
+			return (
+				<Teleport to={teleportTarget.value} disabled={props.getContainer === false}>
+					{transitionNode}
+				</Teleport>
 			);
 		};
 	},
