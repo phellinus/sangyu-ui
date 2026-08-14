@@ -103,6 +103,9 @@ export default defineConfig({
                 {
                     text: 'SyForm 表单',
                     link: '/components/form/'
+                },{
+                    text: 'SyDrawer 抽屉',
+                    link: '/components/drawer/'
                 }
 			],
 			'/utils/': [

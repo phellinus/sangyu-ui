@@ -38,3 +38,5 @@ import './pagination/style/index.less';
 import './select/style/index.less';
 // form
 import './form/style/index.less';
+// drawer
+import './drawer/style/index.less';
