@@ -154,8 +154,6 @@ export default defineComponent({
 
 			await drawerFocus.activate();
 		};
-		// 控制抽屉节点是否需要渲染,判断抽屉的dom节点是否存在
-		const rendered = ref(props.visible || !props.destroyOnClose);
 		// 处理遮罩点击
 		const handleMaskClick = (event: MouseEvent) => {
 			if (!props.maskClosable) return;
@@ -168,38 +166,19 @@ export default defineComponent({
 			drawerStack.deactivate();
 			bodyScroll.unlock();
 			drawerFocus.restore();
-
-			if (props.destroyOnClose) {
-				rendered.value = false;
-			}
 		};
 		// 打开抽屉前先恢复 DOM
 		watch(
 			() => props.visible,
 			async (visible) => {
 				if (visible) {
-					// 先恢复 DOM 再执行焦点操作
-					rendered.value = true;
+					// 等待抽屉 DOM 创建完成后再激活焦点管理
 					await nextTick();
 					await activateDrawer();
 					return;
 				}
 				// 关闭动画期间不再处理键盘事件
 				drawerFocus.deactivate();
-			},
-		);
-		// 动态关闭销毁功能时恢复抽屉节点
-		watch(
-			() => props.destroyOnClose,
-			(destroyOnClose) => {
-				if (!destroyOnClose) {
-					rendered.value = true;
-					return;
-				}
-
-				if (!props.visible) {
-					rendered.value = false;
-				}
 			},
 		);
 		watch(
@@ -283,7 +262,11 @@ export default defineComponent({
 		};
 		return () => {
 			//抽屉节点
-			const drawerNode = rendered.value ? withDirectives(renderDrawer(), [[vShow, props.visible]]) : null;
+			const drawerNode = props.destroyOnClose
+				? props.visible
+					? renderDrawer()
+					: null
+				: withDirectives(renderDrawer(), [[vShow, props.visible]]);
 			const transitionNode = (
 				<Transition name='sy-drawer-motion' appear duration={280} onAfterLeave={handleAfterLeave}>
 					{drawerNode}
