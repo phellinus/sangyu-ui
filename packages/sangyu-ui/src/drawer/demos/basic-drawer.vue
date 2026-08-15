@@ -9,7 +9,12 @@ title: 基础用法
 <template>
 	<div>
 		<SyButton @click="visible = true">打开抽屉</SyButton>
-		<SyDrawer v-model:visible="visible" title="基础抽屉" :width="360">这里是抽屉内容</SyDrawer>
+		<SyDrawer v-model:visible="visible" title="基础抽屉" :width="360">
+			这里是抽屉内容
+			<template #footer>
+				<div>底部样式</div>
+			</template>
+		</SyDrawer>
 	</div>
 </template>
 

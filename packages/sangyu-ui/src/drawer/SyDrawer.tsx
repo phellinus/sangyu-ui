@@ -4,6 +4,8 @@ import {
 	CSSProperties,
 	defineComponent,
 	PropType,
+	nextTick,
+	onMounted,
 	ref,
 	Teleport,
 	Transition,
@@ -13,6 +15,7 @@ import {
 	withDirectives,
 } from 'vue';
 import { DrawerContainer, DrawerPlacement, DrawerProps } from './Drawer.type';
+import { useBodyScrollLock, useDrawerFocus, useDrawerStack } from './composables';
 import { SyIcon } from '@sangyu-ui/icons';
 
 export default defineComponent({
@@ -87,7 +90,8 @@ export default defineComponent({
 	setup(props, { attrs, emit, slots }) {
 		const { c, ce, cm } = useClassnames('drawer');
 		const titleId = `${useId()}-title`;
-
+		// 抽屉面板元素引用
+		const panelRef = ref<HTMLElement>();
 		//判断当前抽屉是否为水平方向
 		const isHorizontal = computed(() => {
 			return props.placement === 'left' || props.placement === 'right';
@@ -127,43 +131,74 @@ export default defineComponent({
 			emit('update:visible', false);
 			emit('close', event);
 		};
-		// 控制抽屉节点是否需要渲染,判断抽屉的dom节点是否存在
-		const rendered = ref(props.visible || !props.destroyOnClose);
+		//注册管理器
+		const bodyScroll = useBodyScrollLock();
+		const drawerStack = useDrawerStack();
+
+		const drawerFocus = useDrawerFocus({
+			panelRef,
+			keyboard: () => props.keyboard,
+			trapFocus: () => props.trapFocus,
+			autoFocus: () => props.autoFocus,
+			restoreFocus: () => props.restoreFocus,
+			isTopmost: drawerStack.isTopmost,
+			onEscape: (event) => close(event),
+		});
+		// 激活抽屉的层级 滚动锁和焦点管理
+		const activateDrawer = async () => {
+			drawerStack.activate();
+
+			if (props.lockScroll) {
+				bodyScroll.lock();
+			}
+
+			await drawerFocus.activate();
+		};
 		// 处理遮罩点击
 		const handleMaskClick = (event: MouseEvent) => {
 			if (!props.maskClosable) return;
 
 			close(event);
 		};
+		// 关闭动画结束后按需销毁抽屉内容
+		const handleAfterLeave = () => {
+			drawerFocus.deactivate();
+			drawerStack.deactivate();
+			bodyScroll.unlock();
+			drawerFocus.restore();
+		};
 		// 打开抽屉前先恢复 DOM
 		watch(
 			() => props.visible,
-			(visible) => {
+			async (visible) => {
 				if (visible) {
-					rendered.value = true;
+					// 等待抽屉 DOM 创建完成后再激活焦点管理
+					await nextTick();
+					await activateDrawer();
+					return;
 				}
+				// 关闭动画期间不再处理键盘事件
+				drawerFocus.deactivate();
 			},
 		);
-		// 动态关闭销毁功能时恢复抽屉节点
 		watch(
-			() => props.destroyOnClose,
-			(destroyOnClose) => {
-				if (!destroyOnClose) {
-					rendered.value = true;
+			() => props.lockScroll,
+			(lockScroll) => {
+				if (!props.visible) return;
+
+				if (lockScroll) {
+					bodyScroll.lock();
 					return;
 				}
 
-				if (!props.visible) {
-					rendered.value = false;
-				}
+				bodyScroll.unlock();
 			},
 		);
-		// 关闭动画结束后按需销毁抽屉内容
-		const handleAfterLeave = () => {
-			if (props.destroyOnClose) {
-				rendered.value = false;
+		onMounted(() => {
+			if (props.visible) {
+				void activateDrawer();
 			}
-		};
+		});
 		// 渲染抽屉根节点
 		const renderDrawer = () => {
 			const titleNode = slots.title?.() ?? props.title;
@@ -186,6 +221,7 @@ export default defineComponent({
 					{props.mask ? <div class={c(ce('mask'))} aria-hidden='true' onClick={handleMaskClick} /> : null}
 
 					<section
+						ref={panelRef}
 						class={c(ce('panel'))}
 						style={panelStyle.value}
 						role='dialog'
@@ -218,13 +254,19 @@ export default defineComponent({
 						) : null}
 
 						<div class={c(ce('body'))}>{slots.default?.()}</div>
+
+						{slots.footer ? <footer class={c(ce('footer'))}>{slots.footer?.()}</footer> : null}
 					</section>
 				</div>
 			);
 		};
 		return () => {
 			//抽屉节点
-			const drawerNode = rendered.value ? withDirectives(renderDrawer(), [[vShow, props.visible]]) : null;
+			const drawerNode = props.destroyOnClose
+				? props.visible
+					? renderDrawer()
+					: null
+				: withDirectives(renderDrawer(), [[vShow, props.visible]]);
 			const transitionNode = (
 				<Transition name='sy-drawer-motion' appear duration={280} onAfterLeave={handleAfterLeave}>
 					{drawerNode}
