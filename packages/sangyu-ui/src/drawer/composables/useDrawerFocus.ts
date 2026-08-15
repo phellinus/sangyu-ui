@@ -6,7 +6,7 @@ const FOCUSABLE_SELECTOR = [
 	'input:not([disabled])',
 	'select:not([disabled])',
 	'textarea:not([disabled])',
-	'[tabindex]:not([tabindex="-1"])',
+	'[tabindex]',
 	'[contenteditable="true"]',
 ].join(',');
 
@@ -39,7 +39,11 @@ interface UseDrawerFocusOptions {
 const getFocusableElements = (panel: HTMLElement): HTMLElement[] => {
 	return Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter((element) => {
 		const style = window.getComputedStyle(element);
-		return !element.hidden && style.display !== 'none' && style.visibility !== 'hidden';
+		// tabindex 小于 0 的元素不能参与 Tab 焦点循环
+		const canUseTab = element.tabIndex >= 0;
+		// 隐藏元素不能参与焦点循环
+		const isVisible = !element.hidden && style.display !== 'none' && style.visibility !== 'hidden';
+		return canUseTab && isVisible;
 	});
 };
 
