@@ -275,6 +275,8 @@ export default defineComponent({
 						) : null}
 
 						<div class={c(ce('body'))}>{slots.default?.()}</div>
+
+						{slots.footer ? <footer class={c(ce('footer'))}>{slots.footer?.()}</footer> : null}
 					</section>
 				</div>
 			);
