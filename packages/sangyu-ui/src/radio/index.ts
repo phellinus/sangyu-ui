@@ -1,11 +1,12 @@
-import type { App, Component, Plugin } from 'vue';
-import _SyRadio from './SyRadio';
-import _SyRadioButton from './SyRadioButton';
-import _SyRadioGroup from './SyRadioGroup';
+import type { App, Component } from 'vue';
+import _SyRadio from './syradio';
+import _SyRadioButton from './syradiobutton';
+import _SyRadioGroup from './syradiogroup';
+import type { ComponentWithInstall } from '../Component.type';
 
 /** 为单个组件添加 app.use() 安装能力 */
-function withInstall<T extends Component>(component: T): T & Plugin {
-	const installable = component as T & Plugin;
+function withInstall<T extends Component>(component: T): ComponentWithInstall<T> {
+	const installable = component as ComponentWithInstall<T>;
 
 	installable.install = (app: App) => {
 		/**
@@ -21,9 +22,9 @@ function withInstall<T extends Component>(component: T): T & Plugin {
 }
 
 /** 分别为三个公开组件添加安装方法 */
-const SyRadio = withInstall(_SyRadio);
-const SyRadioButton = withInstall(_SyRadioButton);
-const SyRadioGroup = withInstall(_SyRadioGroup);
+const SyRadio: ComponentWithInstall<typeof _SyRadio> = withInstall(_SyRadio);
+const SyRadioButton: ComponentWithInstall<typeof _SyRadioButton> = withInstall(_SyRadioButton);
+const SyRadioGroup: ComponentWithInstall<typeof _SyRadioGroup> = withInstall(_SyRadioGroup);
 
 /** 导出 Radio 组件 */
 export { SyRadio, SyRadioButton, SyRadioGroup };

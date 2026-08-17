@@ -1,7 +1,8 @@
 import { withInstall } from '@sangyu-ui/utils';
 import SyDrawerComponent from './SyDrawer';
+import type { ComponentWithInstall } from '../Component.type';
 
-const SyDrawer = withInstall(SyDrawerComponent);
+const SyDrawer: ComponentWithInstall<typeof SyDrawerComponent> = withInstall(SyDrawerComponent);
 
 export { SyDrawer };
 export * from './Drawer.type';
