@@ -1,7 +1,13 @@
 {
+	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
+		"build": "pnpm run build:icons && pnpm run build:ui",
+		"build:icons": "pnpm --filter @sangyu-ui/icons build",
+		"build:ui": "pnpm --filter sangyu-ui build",
+		"release:icons": "pnpm --filter @sangyu-ui/icons publish --access public",
+		"release:ui": "pnpm --filter sangyu-ui publish --access public",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --check .",
@@ -19,6 +25,7 @@
 	"devDependencies": {
 		"@ant-design/colors": "^7.2.1",
 		"@eslint/js": "^9.36.0",
+		"@microsoft/api-extractor": "^7.58.12",
 		"@types/node": "^24.10.1",
 		"@typescript-eslint/eslint-plugin": "^8.46.1",
 		"@typescript-eslint/parser": "^8.46.1",
@@ -38,6 +45,7 @@
 		"postcss": "^8.5.6",
 		"prettier": "^3.6.2",
 		"typescript": "~5.9.3",
+		"unplugin-dts": "^1.0.3",
 		"vite": "^7.2.2",
 		"vite-plugin-tsx-resolve-types": "^0.0.7",
 		"vite-plugin-vitepress-demo": "^2.2.1",
@@ -45,5 +53,6 @@
 		"vitest": "^4.1.4",
 		"vue-eslint-parser": "^9.4.3",
 		"vue-tsc": "^3.1.3"
-	}
+	},
+	"packageManager": "pnpm@10.18.3"
 }

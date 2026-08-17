@@ -1,22 +1,72 @@
 {
-  "name": "sangyu-ui",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.18.3",
-  "dependencies": {
-    "@floating-ui/vue": "^1.1.9",
-    "@v-c/utils": "^0.0.26",
-    "async-validator": "^4.2.5",
-    "lodash-es": "^4.17.21"
-  },
-  "devDependencies": {
-    "@types/lodash-es": "^4.17.12"
-  }
+	"name": "sangyu-ui",
+	"version": "0.1.0",
+	"description": "A Vue 3 component library with TypeScript support",
+	"keywords": [
+		"vue",
+		"vue3",
+		"components",
+		"component-library",
+		"ui",
+		"typescript"
+	],
+	"author": "phellinus",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/phellinus/sangyu-ui.git",
+		"directory": "packages/sangyu-ui"
+	},
+	"homepage": "https://github.com/phellinus/sangyu-ui#readme",
+	"bugs": {
+		"url": "https://github.com/phellinus/sangyu-ui/issues"
+	},
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"style": "./dist/style.css",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs",
+			"default": "./dist/index.js"
+		},
+		"./style.css": "./dist/style.css",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"sideEffects": [
+		"./src/style.ts",
+		"**/*.css",
+		"**/*.less"
+	],
+	"scripts": {
+		"build": "vite build",
+		"prepack": "pnpm run build"
+	},
+	"peerDependencies": {
+		"vue": "^3.5.0"
+	},
+	"dependencies": {
+		"@sangyu-ui/icons": "workspace:^",
+		"@floating-ui/vue": "^1.1.9",
+		"@v-c/utils": "^0.0.26",
+		"async-validator": "^4.2.5",
+		"lodash-es": "^4.17.21"
+	},
+	"devDependencies": {
+		"@types/lodash-es": "^4.17.12",
+		"vue": "^3.5.24"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"packageManager": "pnpm@10.18.3"
 }
