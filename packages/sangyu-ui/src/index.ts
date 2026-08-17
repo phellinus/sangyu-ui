@@ -1,6 +1,7 @@
 import type { App, Plugin } from 'vue';
 import pkg from '../package.json';
 import * as components from './components';
+import './style';
 
 export * from './components';
 export default {

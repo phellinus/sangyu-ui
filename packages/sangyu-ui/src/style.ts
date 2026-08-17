@@ -1,3 +1,7 @@
+// 引入图标基础样式
+import '@sangyu-ui/icons/style.css';
+// 引入组件库公共变量
+import './style/index.less';
 //Button
 import './button/style/index.less';
 //Input
