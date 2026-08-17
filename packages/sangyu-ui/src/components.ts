@@ -1,50 +1,47 @@
+export type * from './Component.type';
 export { default as SyButton } from './button';
+export type * from './button';
 export { default as SyInput } from './input';
-// 导出 Input 对外公开的类型，支持从 sangyu-ui 根入口按类型导入。
-export type {
-	InputEmits,
-	InputNativeType,
-	InputProps,
-	InputSize,
-	InputSlots,
-	InputVariant,
-	SyInputInstance,
-} from './input';
+export type * from './input';
 export { default as SyTooltip } from './tooltip';
+export type * from './tooltip';
 export { default as SyTable, SyTableColumn } from './table';
+export type * from './table';
 export { default as SyNotification } from './notification';
+export type * from './notification';
 export { default as SyCard } from './card';
+export type * from './card';
 export { default as SyTag } from './tag';
+export type * from './tag';
 export { default as SyBreadCrumb, SyBreadcrumbItem } from './breadcrumb';
+export type * from './breadcrumb';
 export { default as SyMenu } from './menu';
+export type * from './menu';
 export { default as SyAvatar } from './avatar';
+export type * from './avatar';
 export { default as SySteps } from './step';
 export { default as SyStep } from './step/step';
+export type * from './step';
 export { default as SyProgress } from './progress';
+export type * from './progress';
 export { default as SyDivider } from './divider';
+export type * from './divider';
 export { default as SyResult } from './result';
+export type * from './result';
 export { default as SyRadio } from './radio';
 export { SyRadioButton } from './radio';
 export { SyRadioGroup } from './radio';
+export type * from './radio';
 export { default as SyCheckbox } from './checkbox';
 export { SyCheckboxGroup } from './checkbox';
+export type * from './checkbox';
 export { default as SySwitch } from './switch';
+export type * from './switch';
 export { default as SyPagination } from './pagination';
+export type * from './pagination';
 export { default as SySelect } from './select';
+export type * from './select';
 export { default as SyForm, SyFormItem } from './form';
-// 导出 Table 对外公开类型
-export type {
-	TableAlign,
-	TableCellRender,
-	TableColumn,
-	TableDataIndex,
-	TableFixed,
-	TableProps,
-	TableRecord,
-	TableRowKey,
-	TableScroll,
-	TableSize,
-} from './table';
-// 导出 Tooltip 对外公开类型
-export type { TooltipProps, TooltipTrigger, TooltipType } from './tooltip';
+export type * from './form';
 export { default as SyDrawer } from './drawer';
+export type * from './drawer';

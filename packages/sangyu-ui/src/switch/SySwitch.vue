@@ -66,7 +66,7 @@ import { useClassnames } from '@sangyu-ui/utils';
 import { SyIcon } from '@sangyu-ui/icons';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
-import type { SwitchEmits, SwitchProps, SySwitchInstance } from './Switch.type';
+import type { SwitchEmits, SwitchProps, SwitchSlots, SySwitchInstance } from './Switch.type';
 import { useSwitch } from './composables';
 
 defineOptions({
@@ -95,6 +95,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 });
 
 const emit = defineEmits<SwitchEmits>();
+defineSlots<SwitchSlots>();
 const { c, cx } = useClassnames('switch');
 const attrs = useAttrs();
 //传递给 Switch 根节点的外部属性
