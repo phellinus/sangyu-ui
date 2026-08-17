@@ -19,6 +19,21 @@ export default defineConfig({
 			{ text: '工具', link: '/utils/' },
 		],
 		sidebar: {
+			'/introduce/': [
+				{
+					text: '开始使用',
+					items: [
+						{
+							text: '组件库介绍',
+							link: '/introduce/',
+						},
+						{
+							text: '主题变量',
+							link: '/introduce/theme',
+						},
+					],
+				},
+			],
 			'/components/': [
 				{
 					text: 'SyButton 按钮',
@@ -60,53 +75,54 @@ export default defineConfig({
 					text: 'SyMenu 菜单',
 					link: '/components/menu/',
 				},
-                {
-                    text: 'SyAvatar 头像',
-                    link: '/components/avatar/'
-                },
-                {
-                    text: 'SyStep 步骤',
-                    link: '/components/step/'
-                },
-                {
-                    text: 'SyProgress 进度条',
-                    link: '/components/progress/'
-                },
-                {
-                    text: 'SyDivider 分割线',
-                    link: '/components/divider/'
-                },
-                {
-                    text: 'SyResult 结果',
-                    link: '/components/result/'
-                },
-                {
-                    text: 'SyRadio 单选框',
-                    link: '/components/radio/'
-                },
-                {
-                    text: 'SyCheckbox 多选框',
-                    link: '/components/checkbox/'
-                },
-                {
-                    text: 'SySwitch 开关',
-                    link: '/components/switch/'
-                },
-                {
-                    text: 'SyPagination 分页器',
-                    link: '/components/pagination/'
-                },
-                {
-                    text: 'SySelect 选择器',
-                    link: '/components/select/'
-                },
-                {
-                    text: 'SyForm 表单',
-                    link: '/components/form/'
-                },{
-                    text: 'SyDrawer 抽屉',
-                    link: '/components/drawer/'
-                }
+				{
+					text: 'SyAvatar 头像',
+					link: '/components/avatar/',
+				},
+				{
+					text: 'SyStep 步骤',
+					link: '/components/step/',
+				},
+				{
+					text: 'SyProgress 进度条',
+					link: '/components/progress/',
+				},
+				{
+					text: 'SyDivider 分割线',
+					link: '/components/divider/',
+				},
+				{
+					text: 'SyResult 结果',
+					link: '/components/result/',
+				},
+				{
+					text: 'SyRadio 单选框',
+					link: '/components/radio/',
+				},
+				{
+					text: 'SyCheckbox 多选框',
+					link: '/components/checkbox/',
+				},
+				{
+					text: 'SySwitch 开关',
+					link: '/components/switch/',
+				},
+				{
+					text: 'SyPagination 分页器',
+					link: '/components/pagination/',
+				},
+				{
+					text: 'SySelect 选择器',
+					link: '/components/select/',
+				},
+				{
+					text: 'SyForm 表单',
+					link: '/components/form/',
+				},
+				{
+					text: 'SyDrawer 抽屉',
+					link: '/components/drawer/',
+				},
 			],
 			'/utils/': [
 				{

@@ -23,12 +23,14 @@ pnpm add sangyu-ui
 
 ```ts
 import { SyButton } from 'sangyu-ui';
-import '@sangyu-ui/theme/index.css';
+import 'sangyu-ui/style.css';
 ```
 
 ```vue
 <SyButton type="filled" color="primary">开始使用</SyButton>
 ```
+
+如果需要修改品牌色、文字色或边框色，可以继续阅读[主题变量](/introduce/theme)。
 
 ## 设计准则
 
