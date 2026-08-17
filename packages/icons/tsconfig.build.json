@@ -1,0 +1,11 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"composite": false,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"noEmit": false
+	},
+	"include": ["src/**/*.ts", "src/**/*.vue"],
+	"exclude": ["src/**/demos/**", "src/**/test/**", "src/**/*.test.ts"]
+}

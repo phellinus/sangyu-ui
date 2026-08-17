@@ -1,0 +1,27 @@
+.sy-icon {
+	display: inline-flex;
+	width: 1em;
+	height: 1em;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.sy-icon--spin {
+	animation: sy-icon-spin 1s linear infinite;
+}
+
+.sy-icon--placeholder {
+	align-items: center;
+	justify-content: center;
+	font-size: 0.75em;
+}
+
+@keyframes sy-icon-spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}

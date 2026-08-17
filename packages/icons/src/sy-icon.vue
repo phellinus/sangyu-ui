@@ -49,6 +49,11 @@ const props = defineProps({
 
 const attrs = useAttrs();
 
+// 明确默认插槽类型以生成稳定的声明文件
+defineSlots<{
+	default?: () => unknown;
+}>();
+
 const normalizedSize = computed(() => {
 	if (typeof props.size === 'number') {
 		return `${props.size}px`;
@@ -116,33 +121,3 @@ const mergedAttrs = computed(() => {
 	};
 });
 </script>
-
-<style scoped>
-.sy-icon {
-	display: inline-flex;
-	line-height: 1;
-	vertical-align: middle;
-	width: 1em;
-	height: 1em;
-}
-
-.sy-icon--spin {
-	animation: sy-icon-spin 1s linear infinite;
-}
-
-.sy-icon--placeholder {
-	align-items: center;
-	justify-content: center;
-	font-size: 0.75em;
-}
-
-@keyframes sy-icon-spin {
-	from {
-		transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(360deg);
-	}
-}
-</style>

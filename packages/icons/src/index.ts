@@ -1,4 +1,5 @@
 import SyIcon from './sy-icon.vue';
+import './style.css';
 import SyAimIcon from './aim.vue';
 import SyAllApplication from './all-application.vue';
 import SyArrowDown from './arrow-down.vue';

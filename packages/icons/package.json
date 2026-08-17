@@ -1,13 +1,61 @@
 {
-  "name": "@sangyu-ui/icons",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.18.3"
+	"name": "@sangyu-ui/icons",
+	"version": "0.1.0",
+	"description": "Vue 3 icon components for Sangyu UI",
+	"keywords": [
+		"vue",
+		"vue3",
+		"icon",
+		"icons",
+		"sangyu-ui"
+	],
+	"author": "phellinus",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/phellinus/sangyu-ui.git",
+		"directory": "packages/icons"
+	},
+	"homepage": "https://github.com/phellinus/sangyu-ui#readme",
+	"bugs": {
+		"url": "https://github.com/phellinus/sangyu-ui/issues"
+	},
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"style": "./dist/style.css",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs",
+			"default": "./dist/index.js"
+		},
+		"./style.css": "./dist/style.css",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"scripts": {
+		"build": "vite build",
+		"prepack": "pnpm run build"
+	},
+	"peerDependencies": {
+		"vue": "^3.5.0"
+	},
+	"devDependencies": {
+		"vue": "^3.5.24"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"packageManager": "pnpm@10.18.3"
 }
