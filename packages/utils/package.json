@@ -1,16 +1,14 @@
 {
-  "name": "@sangyu-ui/utils",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.18.3",
-  "dependencies": {
-    "classnames": "^2.5.1"
-  }
+	"name": "@sangyu-ui/utils",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Internal utilities for Sangyu UI",
+	"type": "module",
+	"dependencies": {
+		"classnames": "^2.5.1"
+	},
+	"peerDependencies": {
+		"vue": "^3.5.0"
+	},
+	"packageManager": "pnpm@10.18.3"
 }

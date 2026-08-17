@@ -1,13 +1,13 @@
 import type { App, Component } from 'vue';
 
 /** 带有 Vue 插件安装方法的组件类型 */
-export type ComponentWithInstall<T extends Component> = T & {
+type ComponentWithInstall<T extends Component> = T & {
 	// 将组件注册到 Vue 应用
 	install: (app: App) => void;
 };
 
 /**
- * 为组件添加 Vue 插件安装能力。
+ * 为组件添加 Vue 插件安装能力
  *
  * @param component 作为插件入口的主组件
  * @param extraComponents 需要同时注册的关联组件
@@ -16,7 +16,7 @@ export type ComponentWithInstall<T extends Component> = T & {
 export function withInstall<T extends Component>(
 	component: T,
 	extraComponents: Component[] = [],
-): ComponentWithInstall<T> {
+): T & { install: (app: App) => void } {
 	const target = component as ComponentWithInstall<T>;
 
 	/**
