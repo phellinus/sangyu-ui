@@ -58,8 +58,8 @@ defineOptions({
 	name: 'SyAvatar',
 });
 defineSlots<{
-	text: () => void;
-	badge: () => void;
+	text?: () => void;
+	badge?: () => void;
 }>();
 const props = withDefaults(defineProps<AvatarProps>(), {
 	shape: 'square',

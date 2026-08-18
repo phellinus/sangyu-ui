@@ -1,134 +1,133 @@
 .sy-avatar-wrapper {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 
-    .sy-avatar-loading-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: var(--sy-avatar-loading-size, 18px);
-        height: var(--sy-avatar-loading-size, 18px);
-        transform: translate(-50%, -50%);
-        color: #9aa1a8;
-        animation: sy-avatar-spin 0.9s linear infinite;
-        z-index: 3;
-    }
+	.sy-avatar-loading-icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: var(--sy-avatar-loading-size, 18px);
+		height: var(--sy-avatar-loading-size, 18px);
+		transform: translate(-50%, -50%);
+		color: #9aa1a8;
+		animation: sy-avatar-spin 0.9s linear infinite;
+		z-index: 3;
+	}
 }
 
-
 .sy-avatar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, .05);
-    color: var(--sy-avatar-color, #2c3e50);
-    background-color: var(--sy-avatar-bgcolor, #f5f7f8);
-    font-size: var(--sy-avatar-font-size, 16px);
-    cursor: pointer;
-    transition: all 0.25s ease;
-    
-    &:hover {
-        filter: brightness(1.09);
-    }
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.05);
+	color: var(--sy-avatar-color, #2c3e50);
+	background-color: var(--sy-avatar-bgcolor, #f5f7f8);
+	font-size: var(--sy-avatar-font-size, 16px);
+	cursor: pointer;
+	transition: all 0.25s ease;
 
-    &-circle {
-        border-radius: 50%;
-    }
+	&:hover {
+		filter: brightness(1.09);
+	}
 
-    &-square {
-        border-radius: 35%;
-    }
+	&-circle {
+		border-radius: 50%;
+	}
 
-    &-loading {
-        background-color: #eef0f2;
-        color: #9aa1a8;
-        pointer-events: none;
+	&-square {
+		border-radius: 35%;
+	}
 
-        > img {
-            opacity: 0.45;
-        }
-    }
+	&-loading {
+		background-color: #eef0f2;
+		color: #9aa1a8;
+		pointer-events: none;
 
-    &-loading::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.45);
-    }
+		> img {
+			opacity: 0.45;
+		}
+	}
 
-    &-badge {
-        position: absolute;
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        border: 1px solid #fff;
-        font-size: 12px;
-        display: inline-block;
-        background-color: var(--sy-badge-color, #e74c3c);
-        z-index: 2;
+	&-loading::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(255, 255, 255, 0.45);
+	}
 
-        &-text {
-            position: absolute;
-            min-width: 12px;
-            height: 14px;
-            padding: 0 6px;
-            color: #fff;
-            border: 1px solid #fff;
-            background-color: var(--sy-badge-color, #e74c3c);
-            border-radius: 4px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            line-height: 1;
+	&-badge {
+		position: absolute;
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		border: 1px solid #fff;
+		font-size: 12px;
+		display: inline-block;
+		background-color: var(--sy-badge-color, #e74c3c);
+		z-index: 2;
 
-            .sy-icon {
-                font-size: inherit;
-            }
-        }
+		&-text {
+			position: absolute;
+			min-width: 12px;
+			height: 14px;
+			padding: 0 6px;
+			color: #fff;
+			border: 1px solid #fff;
+			background-color: var(--sy-badge-color, #e74c3c);
+			border-radius: 4px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 11px;
+			line-height: 1;
 
-        &-bottom-right {
-            right: var(--sy-badge-offset-x, 0px);
-            bottom: var(--sy-badge-offset-y, 0px);
-        }
+			.sy-icon {
+				font-size: inherit;
+			}
+		}
 
-        &-top-right {
-            right: var(--sy-badge-offset-x, 0px);
-            top: var(--sy-badge-offset-y, 0px);
-        }
+		&-bottom-right {
+			right: var(--sy-badge-offset-x, 0px);
+			bottom: var(--sy-badge-offset-y, 0px);
+		}
 
-        &-top-left {
-            left: var(--sy-badge-offset-x, 0px);
-            top: var(--sy-badge-offset-y, 0px);
-        }
+		&-top-right {
+			right: var(--sy-badge-offset-x, 0px);
+			top: var(--sy-badge-offset-y, 0px);
+		}
 
-        &-bottom-left {
-            left: var(--sy-badge-offset-x, 0px);
-            bottom: var(--sy-badge-offset-y, 0px);
-        }
-    }
+		&-top-left {
+			left: var(--sy-badge-offset-x, 0px);
+			top: var(--sy-badge-offset-y, 0px);
+		}
 
-    >img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: inherit;
-        transition: all 0.25s ease;
+		&-bottom-left {
+			left: var(--sy-badge-offset-x, 0px);
+			bottom: var(--sy-badge-offset-y, 0px);
+		}
+	}
 
-        &:hover {
-            //图像放大
-            transform: scale(1.1);
-        }
-    }
+	> img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: inherit;
+		transition: all 0.25s ease;
+
+		&:hover {
+			//图像放大
+			transform: scale(1.1);
+		}
+	}
 }
 
 @keyframes sy-avatar-spin {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+	0% {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
 }
