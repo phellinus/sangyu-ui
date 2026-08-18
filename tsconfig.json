@@ -1,24 +1,16 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "@sangyu-ui/utils": [
-        "./packages/utils/src"
-      ],
-      "@sangyu-ui/icons": [
-        "./packages/icons/src"
-      ],
-      "sangyu-ui":[
-        "./packages/sangyu-ui/src"
-      ],
-      "sangyu-ui/*":[
-        "./packages/sangyu-ui/src/*"
-      ]
-    }
-  },
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.vitepress.json" }
-  ]
+	"compilerOptions": {
+		"paths": {
+			"@sangyu-ui/utils": ["./packages/utils/src"],
+			"@sangyu-ui/icons": ["./packages/icons/src"],
+			"sangyu-ui": ["./packages/sangyu-ui/src"],
+			"sangyu-ui/*": ["./packages/sangyu-ui/src/*"]
+		}
+	},
+	"files": [],
+	"references": [
+		{ "path": "./tsconfig.app.json" },
+		{ "path": "./tsconfig.node.json" },
+		{ "path": "./tsconfig.vitepress.json" }
+	]
 }
