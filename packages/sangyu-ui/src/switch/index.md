@@ -39,51 +39,51 @@ Switch 用于在两个互斥状态之间快速切换，强调“即时生效”�
 
 ### SySwitch Props
 
-| 属性名 | 类型 | 说明 | 默认值 |
-| --- | --- | --- | --- |
-| modelValue / v-model | `boolean \| string \| number` | 当前绑定值 | `false` |
-| activeValue | `boolean \| string \| number` | 选中态对应的值 | `true` |
-| inactiveValue | `boolean \| string \| number` | 未选中态对应的值 | `false` |
-| disabled | `boolean` | 是否禁用交互 | `false` |
-| loading | `boolean` | 是否显示加载状态；加载中同时不可交互 | `false` |
-| indeterminate | `boolean` | 是否显示半选态；仅改变视觉与 `aria` 状态 | `false` |
-| size | `'small' \| 'default' \| 'large'` | 开关尺寸 | `'default'` |
-| shape | `'round' \| 'square'` | 开关形状 | `'round'` |
-| name | `string` | 原生 `input` 的 `name` | `''` |
-| color | `string` | 选中态主色，支持主题色关键词或合法 CSS 颜色值 | `'primary'` |
-| inactiveColor | `string` | 未选中态轨道底色 | `'#eef1f4'` |
-| checkedText | `string` | 选中态文案 | `''` |
-| uncheckedText | `string` | 未选中态文案 | `''` |
-| icon | `boolean` | 是否启用图标模式 | `false` |
-| iconName | `string` | 单一图标名称，两种状态共用 | `''` |
-| activeIconName | `string` | 选中态图标名称 | `''` |
-| inactiveIconName | `string` | 未选中态图标名称 | `''` |
-| customStyle | `string \| CSSProperties` | 根元素的自定义内联样式 | `''` |
+| 属性名               | 类型                              | 说明                                          | 默认值      |
+| -------------------- | --------------------------------- | --------------------------------------------- | ----------- |
+| modelValue / v-model | `boolean \| string \| number`     | 当前绑定值                                    | `false`     |
+| activeValue          | `boolean \| string \| number`     | 选中态对应的值                                | `true`      |
+| inactiveValue        | `boolean \| string \| number`     | 未选中态对应的值                              | `false`     |
+| disabled             | `boolean`                         | 是否禁用交互                                  | `false`     |
+| loading              | `boolean`                         | 是否显示加载状态；加载中同时不可交互          | `false`     |
+| indeterminate        | `boolean`                         | 是否显示半选态；仅改变视觉与 `aria` 状态      | `false`     |
+| size                 | `'small' \| 'default' \| 'large'` | 开关尺寸                                      | `'default'` |
+| shape                | `'round' \| 'square'`             | 开关形状                                      | `'round'`   |
+| name                 | `string`                          | 原生 `input` 的 `name`                        | `''`        |
+| color                | `string`                          | 选中态主色，支持主题色关键词或合法 CSS 颜色值 | `'primary'` |
+| inactiveColor        | `string`                          | 未选中态轨道底色                              | `'#eef1f4'` |
+| checkedText          | `string`                          | 选中态文案                                    | `''`        |
+| uncheckedText        | `string`                          | 未选中态文案                                  | `''`        |
+| icon                 | `boolean`                         | 是否启用图标模式                              | `false`     |
+| iconName             | `string`                          | 单一图标名称，两种状态共用                    | `''`        |
+| activeIconName       | `string`                          | 选中态图标名称                                | `''`        |
+| inactiveIconName     | `string`                          | 未选中态图标名称                              | `''`        |
+| customStyle          | `string \| CSSProperties`         | 根元素的自定义内联样式                        | `''`        |
 
 ### Events
 
-| 事件名 | 回调参数 | 说明 |
-| --- | --- | --- |
-| update:modelValue | `(value: SwitchModelValue)` | 有效交互后更新绑定值 |
-| change | `(value: SwitchModelValue, checked: boolean)` | 值变化时触发，并返回最终选中状态 |
+| 事件名            | 回调参数                                      | 说明                             |
+| ----------------- | --------------------------------------------- | -------------------------------- |
+| update:modelValue | `(value: SwitchModelValue)`                   | 有效交互后更新绑定值             |
+| change            | `(value: SwitchModelValue, checked: boolean)` | 值变化时触发，并返回最终选中状态 |
 
 `SwitchModelValue` 为 `string | number | boolean`。
 
 ### Slots
 
-| 插槽名 | 参数 | 说明 |
-| --- | --- | --- |
-| default | - | 默认标签内容；未提供状态插槽时作为统一标签显示 |
-| checked | `{ checked, indeterminate, disabled, loading }` | 选中态标签内容 |
-| unchecked | `{ checked, indeterminate, disabled, loading }` | 未选中态标签内容 |
-| thumb | `{ checked, indeterminate, disabled, loading }` | 圆钮内容，常用于自定义 `SyIcon` |
+| 插槽名    | 参数                                            | 说明                                           |
+| --------- | ----------------------------------------------- | ---------------------------------------------- |
+| default   | -                                               | 默认标签内容；未提供状态插槽时作为统一标签显示 |
+| checked   | `{ checked, indeterminate, disabled, loading }` | 选中态标签内容                                 |
+| unchecked | `{ checked, indeterminate, disabled, loading }` | 未选中态标签内容                               |
+| thumb     | `{ checked, indeterminate, disabled, loading }` | 圆钮内容，常用于自定义 `SyIcon`                |
 
 ### Expose
 
-| 方法名 | 说明 |
-| --- | --- |
-| focus | 聚焦到底层原生 `input` |
-| blur | 让底层原生 `input` 失焦 |
+| 方法名 | 说明                    |
+| ------ | ----------------------- |
+| focus  | 聚焦到底层原生 `input`  |
+| blur   | 让底层原生 `input` 失焦 |
 
 ## 使用建议
 

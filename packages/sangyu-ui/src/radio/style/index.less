@@ -21,7 +21,7 @@
 	--sy-radio-gap: 6px;
 	--sy-radio-border-radius: 50%;
 
-    position: relative;
+	position: relative;
 	display: inline-flex;
 	align-items: center;
 	gap: var(--sy-radio-gap);
@@ -31,7 +31,7 @@
 	user-select: none;
 	transition: color 0.2s ease;
 
-    &-small {
+	&-small {
 		--sy-radio-size: 14px;
 		--sy-radio-dot-size: 6px;
 		--sy-radio-font-size: 12px;
@@ -49,12 +49,12 @@
 		--sy-radio-border-radius: 4px;
 	}
 
-    &-input {
+	&-input {
 		position: absolute;
 		opacity: 0;
 		pointer-events: none;
 	}
-    &-icon {
+	&-icon {
 		position: relative;
 		display: inline-flex;
 		align-items: center;
@@ -97,11 +97,11 @@
 	&-checked &-inner {
 		transform: scale(1);
 	}
-    &-square &-inner {
-        border-radius: 2px;
-        width: var(--sy-radio-dot-size);
-        height: var(--sy-radio-dot-size);
-    }
+	&-square &-inner {
+		border-radius: 2px;
+		width: var(--sy-radio-dot-size);
+		height: var(--sy-radio-dot-size);
+	}
 	&-disabled {
 		color: var(--sy-color-text-disabled);
 		cursor: not-allowed;

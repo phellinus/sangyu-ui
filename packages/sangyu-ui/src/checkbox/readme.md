@@ -24,23 +24,23 @@
 
 #### SyCheckbox
 
-| 属性            | 类型                      | 默认值    | 说明                 |
-| --------------- | ------------------------- | --------- | -------------------- |
-| `modelValue`    | `CheckboxValue`           | `false`   | 当前绑定值           |
-| `value`         | `CheckboxValue`           | `true`    | Group 中该选项的值   |
-| `trueValue`     | `CheckboxValue`           | `true`    | 单独使用时的选中值   |
-| `falseValue`    | `CheckboxValue`           | `false`   | 单独使用时的未选中值 |
-| `indeterminate` | `boolean`                 | `false`   | 半选状态，仅控制表现 |
-| `disabled`      | `boolean`                 | `false`   | 禁用                 |
-| `loading`       | `boolean`                 | `false`   | 加载中，同时禁止操作 |
-| `size`          | `small | default | large` | `default` | 尺寸                 |
-| `label`         | `string`                  | -         | 标签文本             |
-| `labelPosition` | `before | after`          | `after`   | 标签位置             |
-| `lineThrough`   | `boolean`                 | `false`   | 选中后标签删除线     |
-| `name`          | `string`                  | -         | 原生 `name`          |
-| `id`            | `string`                  | 自动生成  | 原生 `id`            |
-| `color`         | `string`                  | 主题主色  | 自定义颜色，P1       |
-| `customStyle`   | `CSSProperties`           | -         | 自定义样式           |
+| 属性            | 类型            | 默认值   | 说明                 |
+| --------------- | --------------- | -------- | -------------------- | --------- | ---- |
+| `modelValue`    | `CheckboxValue` | `false`  | 当前绑定值           |
+| `value`         | `CheckboxValue` | `true`   | Group 中该选项的值   |
+| `trueValue`     | `CheckboxValue` | `true`   | 单独使用时的选中值   |
+| `falseValue`    | `CheckboxValue` | `false`  | 单独使用时的未选中值 |
+| `indeterminate` | `boolean`       | `false`  | 半选状态，仅控制表现 |
+| `disabled`      | `boolean`       | `false`  | 禁用                 |
+| `loading`       | `boolean`       | `false`  | 加载中，同时禁止操作 |
+| `size`          | `small          | default  | large`               | `default` | 尺寸 |
+| `label`         | `string`        | -        | 标签文本             |
+| `labelPosition` | `before         | after`   | `after`              | 标签位置  |
+| `lineThrough`   | `boolean`       | `false`  | 选中后标签删除线     |
+| `name`          | `string`        | -        | 原生 `name`          |
+| `id`            | `string`        | 自动生成 | 原生 `id`            |
+| `color`         | `string`        | 主题主色 | 自定义颜色，P1       |
+| `customStyle`   | `CSSProperties` | -        | 自定义样式           |
 
 事件：
 
@@ -57,15 +57,15 @@ change(value: CheckboxValue, checked: boolean): void
 
 #### SyCheckboxGroup
 
-| 属性         | 类型                      | 默认值       | 说明         |
-| ------------ | ------------------------- | ------------ | ------------ |
-| `modelValue` | `CheckboxValue[]`         | `[]`         | 已选值       |
-| `disabled`   | `boolean`                 | `false`      | 禁用整个组   |
-| `min`        | `number`                  | -            | 最少选择数量 |
-| `max`        | `number`                  | -            | 最多选择数量 |
-| `size`       | `small | default | large` | `default`    | 统一尺寸     |
-| `direction`  | `horizontal | vertical`   | `horizontal` | 排列方向     |
-| `name`       | `string`                  | -            | 子项统一名称 |
+| 属性         | 类型              | 默认值    | 说明         |
+| ------------ | ----------------- | --------- | ------------ | --------- | -------- |
+| `modelValue` | `CheckboxValue[]` | `[]`      | 已选值       |
+| `disabled`   | `boolean`         | `false`   | 禁用整个组   |
+| `min`        | `number`          | -         | 最少选择数量 |
+| `max`        | `number`          | -         | 最多选择数量 |
+| `size`       | `small            | default   | large`       | `default` | 统一尺寸 |
+| `direction`  | `horizontal       | vertical` | `horizontal` | 排列方向  |
+| `name`       | `string`          | -         | 子项统一名称 |
 
 事件：
 

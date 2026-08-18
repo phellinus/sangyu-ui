@@ -365,7 +365,9 @@ describe('SySelect', () => {
 
 	it('supports a custom local filter method', async () => {
 		const filterMethod = vi.fn((query: string, option: SelectOption) =>
-			String(option.code ?? '').toLowerCase().includes(query.toLowerCase()),
+			String(option.code ?? '')
+				.toLowerCase()
+				.includes(query.toLowerCase()),
 		);
 		const wrapper = mountSelect({
 			props: {
@@ -465,9 +467,7 @@ describe('SySelect', () => {
 		await wrapper.get('.sy-select-option').trigger('click');
 
 		expect(wrapper.emitted('update:modelValue')).toEqual([[['可点击标签']]]);
-		expect(wrapper.emitted('change')?.[0][1]).toEqual([
-			{ label: '可点击标签', value: '可点击标签' },
-		]);
+		expect(wrapper.emitted('change')?.[0][1]).toEqual([{ label: '可点击标签', value: '可点击标签' }]);
 	});
 
 	it('respects max when creating labels with Enter', async () => {
@@ -498,11 +498,9 @@ describe('SySelect', () => {
 			return new Promise<void>((resolve, reject) => {
 				signals.push(signal);
 				resolveLatest = resolve;
-				signal.addEventListener(
-					'abort',
-					() => reject(new DOMException('请求已取消', 'AbortError')),
-					{ once: true },
-				);
+				signal.addEventListener('abort', () => reject(new DOMException('请求已取消', 'AbortError')), {
+					once: true,
+				});
 			});
 		});
 		const wrapper = mountSelect({

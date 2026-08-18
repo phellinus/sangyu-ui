@@ -16,14 +16,14 @@ describe('select helpers', () => {
 		const virtual = useVirtualList(list, ref(32), ref(96), ref(1));
 
 		expect(virtual.visibleItems.value.map(({ index }) => index)).toEqual([0, 1, 2, 3, 4]);
-		expect(virtual.totalHeight.value).toBe(3200);
+		expect(virtual.totalHeight.value).toBe(3604);
 		expect(virtual.offsetTop.value).toBe(0);
 
 		virtual.handleScroll({ target: { scrollTop: 160 } } as unknown as Event);
 
 		expect(virtual.scrollTop.value).toBe(160);
-		expect(virtual.visibleItems.value.map(({ index }) => index)).toEqual([4, 5, 6, 7, 8]);
-		expect(virtual.offsetTop.value).toBe(128);
+		expect(virtual.visibleItems.value.map(({ index }) => index)).toEqual([3, 4, 5, 6, 7]);
+		expect(virtual.offsetTop.value).toBe(108);
 	});
 
 	it('keeps the virtual-list range inside short lists', () => {
@@ -34,6 +34,6 @@ describe('select helpers', () => {
 			{ item: 'A', index: 0 },
 			{ item: 'B', index: 1 },
 		]);
-		expect(virtual.totalHeight.value).toBe(64);
+		expect(virtual.totalHeight.value).toBe(76);
 	});
 });

@@ -24,9 +24,9 @@ defineOptions({
 	inheritAttrs: false,
 });
 defineSlots<{
-	default: () => void;
-	header: () => void;
-	footer: () => void;
+	default?: () => void;
+	header?: () => void;
+	footer?: () => void;
 }>();
 const props = withDefaults(defineProps<SyCardProps>(), {
 	customStyle: '',

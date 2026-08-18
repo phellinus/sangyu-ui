@@ -4,9 +4,9 @@
 
 ```vue
 <template>
-  <SyTooltip content="气泡内容" placement="bottom">
-    <SyButton>Hover me</SyButton>
-  </SyTooltip>
+	<SyTooltip content="气泡内容" placement="bottom">
+		<SyButton>Hover me</SyButton>
+	</SyTooltip>
 </template>
 ```
 
@@ -43,22 +43,22 @@
 
 ## Props
 
-| Prop | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `placement` | `Placement` | `top` | 浮层位置，透传给 `@floating-ui/vue`，支持 `top-start`、`bottom-end` 等全部变体。 |
-| `content` | `string` | `-` | 简单文本内容；若需要自定义内容可改用 `#content` 插槽。 |
-| `trigger` | `'hover' \| 'click'` | `hover` | 控制展示的交互方式。 |
-| `type` | `'border' \| 'filled' \| 'border-thick'` | `filled` | 定义背景与边框的视觉样式。 |
-| `color` | `string` | `#2C3F51` | 自定义背景色（`filled` 时）或边框色（`border` / `border-thick` 时）。 |
-| `showArrow` | `boolean` | `true` | 是否展示箭头。 |
-| `arrowSize` | `number` | `6` | 箭头尺寸（像素），会同步影响偏移量。 |
-| `customStyle` | `CSSProperties` | `-` | 传入额外样式覆盖默认浮层样式。 |
+| Prop          | 类型                                     | 默认值    | 说明                                                                             |
+| ------------- | ---------------------------------------- | --------- | -------------------------------------------------------------------------------- |
+| `placement`   | `Placement`                              | `top`     | 浮层位置，透传给 `@floating-ui/vue`，支持 `top-start`、`bottom-end` 等全部变体。 |
+| `content`     | `string`                                 | `-`       | 简单文本内容；若需要自定义内容可改用 `#content` 插槽。                           |
+| `trigger`     | `'hover' \| 'click'`                     | `hover`   | 控制展示的交互方式。                                                             |
+| `type`        | `'border' \| 'filled' \| 'border-thick'` | `filled`  | 定义背景与边框的视觉样式。                                                       |
+| `color`       | `string`                                 | `#2C3F51` | 自定义背景色（`filled` 时）或边框色（`border` / `border-thick` 时）。            |
+| `showArrow`   | `boolean`                                | `true`    | 是否展示箭头。                                                                   |
+| `arrowSize`   | `number`                                 | `6`       | 箭头尺寸（像素），会同步影响偏移量。                                             |
+| `customStyle` | `CSSProperties`                          | `-`       | 传入额外样式覆盖默认浮层样式。                                                   |
 
 ## Slots
 
-| Slot | 说明 |
-| --- | --- |
-| `default` | 仅接收单个根元素作为触发节点。 |
+| Slot      | 说明                                  |
+| --------- | ------------------------------------- |
+| `default` | 仅接收单个根元素作为触发节点。        |
 | `content` | 自定义提示内容，覆盖 `content` prop。 |
 
 ## Tips

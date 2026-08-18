@@ -18,8 +18,8 @@ import { SyIcon } from '@sangyu-ui/icons';
 </script>
 
 <template>
-    <SyIcon name="search" size="20" color="#165DFF" />
-    <SyIcon name="loading" :stroke-width="5" spin />
+	<SyIcon name="search" size="20" color="#165DFF" />
+	<SyIcon name="loading" :stroke-width="5" spin />
 </template>
 ```
 

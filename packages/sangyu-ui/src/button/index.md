@@ -52,33 +52,33 @@
 
 ### 属性
 
-| 属性名                 | 类型                                                         | 说明                                                         | 默认值      |
-| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------- |
-| type                   | ` 'filled' \| 'border' \| 'flat' \| 'line' \| 'gradient' \| 'relief'` | 按钮视觉样式类型                                             | `'filled'`  |
-| size                   | `'small' \| 'default' \| 'large'`                            | 按钮尺寸                                                     | `'default'` |
-| disabled               | `boolean`写·                                                 | 是否禁用                                                     | `false`     |
-| loading                | `boolean`                                                    | 是否显示加载状态；加载时按钮不可交互                         | `false`     |
-| href                   | `string`                                                     | 配置后点击会跳转到该链接                                     | `''`        |
-| color                  | `string`                                                     | 支持主题色关键词 (`primary`/`success`/`warning`/`error`) 或任意自定义 CSS 颜色 | `'primary'` |
-| textColor              | `string`                                                     | 文本颜色，同样支持主题色或自定义颜色；为空时跟随类型的默认颜色 | `''`        |
-| lineOrigin             | `'left' \| 'right' \| 'center'`                              | `line` 类型的动画起点位置                                    | `'center'`  |
-| linePosition           | `'top' \| 'bottom'`                                          | `line` 类型的描边位置                                        | `'bottom'`  |
-| radius                 | `'small' \| 'default' \| 'large'`                            | 圆角尺寸                                                     | `'default'` |
-| gradientColorSecondary | `string`                                                     | 渐变按钮的第二个颜色值                                       | `''`        |
-| customStyle            | `string`                                                     | 追加到按钮上的自定义内联样式（支持任何合法 CSS 字符串）      | `''`        |
+| 属性名                 | 类型                                                                  | 说明                                                                           | 默认值      |
+| ---------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ----------- |
+| type                   | ` 'filled' \| 'border' \| 'flat' \| 'line' \| 'gradient' \| 'relief'` | 按钮视觉样式类型                                                               | `'filled'`  |
+| size                   | `'small' \| 'default' \| 'large'`                                     | 按钮尺寸                                                                       | `'default'` |
+| disabled               | `boolean`写·                                                          | 是否禁用                                                                       | `false`     |
+| loading                | `boolean`                                                             | 是否显示加载状态；加载时按钮不可交互                                           | `false`     |
+| href                   | `string`                                                              | 配置后点击会跳转到该链接                                                       | `''`        |
+| color                  | `string`                                                              | 支持主题色关键词 (`primary`/`success`/`warning`/`error`) 或任意自定义 CSS 颜色 | `'primary'` |
+| textColor              | `string`                                                              | 文本颜色，同样支持主题色或自定义颜色；为空时跟随类型的默认颜色                 | `''`        |
+| lineOrigin             | `'left' \| 'right' \| 'center'`                                       | `line` 类型的动画起点位置                                                      | `'center'`  |
+| linePosition           | `'top' \| 'bottom'`                                                   | `line` 类型的描边位置                                                          | `'bottom'`  |
+| radius                 | `'small' \| 'default' \| 'large'`                                     | 圆角尺寸                                                                       | `'default'` |
+| gradientColorSecondary | `string`                                                              | 渐变按钮的第二个颜色值                                                         | `''`        |
+| customStyle            | `string`                                                              | 追加到按钮上的自定义内联样式（支持任何合法 CSS 字符串）                        | `''`        |
 
 ### 事件
 
-| 事件名    | 说明                               | 类型                          |
-| --------- | ---------------------------------- | ----------------------------- |
-| click     | 点击按钮后触发                     | `(event: MouseEvent) => void` |
-| mouseover | 鼠标进入按钮区域时触发             | `(event: MouseEvent) => void` |
-| mouseout  | 鼠标离开按钮区域时触发             | `(event: MouseEvent) => void` |
+| 事件名    | 说明                                   | 类型                          |
+| --------- | -------------------------------------- | ----------------------------- |
+| click     | 点击按钮后触发                         | `(event: MouseEvent) => void` |
+| mouseover | 鼠标进入按钮区域时触发                 | `(event: MouseEvent) => void` |
+| mouseout  | 鼠标离开按钮区域时触发                 | `(event: MouseEvent) => void` |
 | blur      | 按钮失去焦点时触发（如点击后转移焦点） | `(event: MouseEvent) => void` |
 
 ### 插槽
 
-| 插槽名  | 说明                                     |
-| ------- | ---------------------------------------- |
-| default | 按钮内容                                 |
+| 插槽名  | 说明                                       |
+| ------- | ------------------------------------------ |
+| default | 按钮内容                                   |
 | loading | 自定义加载状态内容，未传时显示默认旋转图标 |

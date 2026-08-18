@@ -225,13 +225,13 @@ FormItem 展示顺序建议为：标签 → 控件 → 附加内容 → 校验�
 
 ```ts
 interface ValidateErrorInfo {
-  values: Record<string, unknown>
-  errorFields: Array<{
-    name: Array<string | number>
-    errors: string[]
-    warnings?: string[]
-  }>
-  outOfDate: boolean
+	values: Record<string, unknown>;
+	errorFields: Array<{
+		name: Array<string | number>;
+		errors: string[];
+		warnings?: string[];
+	}>;
+	outOfDate: boolean;
 }
 ```
 

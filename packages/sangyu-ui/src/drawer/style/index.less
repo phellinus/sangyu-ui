@@ -4,7 +4,7 @@
 	position: fixed;
 	inset: 0;
 	pointer-events: none;
-    &__mask {
+	&__mask {
 		position: absolute;
 		inset: 0;
 		z-index: 0;
@@ -105,12 +105,12 @@
 		padding: 20px;
 		overflow: auto;
 	}
-    &__footer {
-        flex: 0 0 auto;
-        padding: 12px 20px;
-        box-sizing: border-box;
-        border-top: 1px solid var(--sy-color-divider);
-    }
+	&__footer {
+		flex: 0 0 auto;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-top: 1px solid var(--sy-color-divider);
+	}
 }
 .sy-drawer-motion-enter-active,
 .sy-drawer-motion-leave-active {
@@ -119,8 +119,7 @@
 	}
 
 	.sy-drawer__panel {
-		transition: transform 0.28s
-			cubic-bezier(0.22, 1, 0.36, 1);
+		transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 }
 

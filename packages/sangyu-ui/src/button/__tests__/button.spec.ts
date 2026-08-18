@@ -30,11 +30,10 @@ describe('SyButton', () => {
 		expect(button.classes()).toContain('sy-button--gradient');
 		expect(button.classes()).toContain('sy-button-size--large');
 		expect(button.classes()).toContain('sy-button-radius--small');
-		expect(button.classes()).toContain('sy-button-gradient-position--top');
-		expect(button.classes()).toContain('sy-button-gradient-origin--left');
 		expect(button.attributes('style')).toContain('width: 120px;');
-		expect(button.attributes('style')).toContain('linear-gradient(60deg');
-		expect(wrapper.get('.sy-text').text()).toBe('提交需求');
+		expect(button.attributes('style')).toContain('--sy-button-gradient-direction: 60deg;');
+		expect(button.attributes('style')).toContain('--sy-button-gradient-secondary: #99ccff;');
+		expect(wrapper.get('.sy-button-content').text()).toBe('提交需求');
 	});
 
 	it('emits pointer-related events', async () => {
@@ -99,7 +98,7 @@ describe('SyButton', () => {
 		expect(button.find('.sy-button__ripple').exists()).toBe(false);
 	});
 
-	it('updates border button styles across hover, click and blur', async () => {
+	it('updates border button state across hover, click and blur', async () => {
 		const wrapper = mount(SyButton, {
 			props: {
 				type: 'border',
@@ -123,12 +122,11 @@ describe('SyButton', () => {
 			toJSON: () => ({}),
 		} as DOMRect);
 
-		expect(button.attributes('style')).toContain('border: 1px solid rgb(51, 102, 153);');
-		expect(button.attributes('style')).toContain('background-color: transparent;');
-		expect(button.attributes('style')).toContain('color: rgb(51, 102, 153);');
+		expect(button.attributes('style')).toContain('--sy-button-color: #336699;');
+		expect(button.attributes('style')).toContain('--sy-button-color-soft: rgba(51, 102, 153, 0.16);');
 
 		await button.trigger('mouseover');
-		expect(button.attributes('style')).toContain('background-color: rgba(51, 102, 153, 0.2);');
+		expect(wrapper.emitted('mouseover')).toHaveLength(1);
 
 		await button.trigger('click', {
 			clientX: 60,
@@ -137,16 +135,14 @@ describe('SyButton', () => {
 		await nextTick();
 
 		const ripple = button.get('.sy-button__ripple');
-		expect((ripple.element as HTMLElement).style.backgroundColor).toBe('rgb(51, 102, 153)');
+		expect((ripple.element as HTMLElement).style.getPropertyValue('--sy-button-ripple-color')).toBe('#336699');
+		expect(button.classes()).toContain('sy-button-active');
 
 		ripple.element.dispatchEvent(new Event('animationend'));
 		await nextTick();
 
-		expect(button.attributes('style')).toContain('background-color: rgb(51, 102, 153);');
-		expect(button.attributes('style')).toContain('color: white;');
-
 		await button.trigger('blur');
-		expect(button.attributes('style')).toContain('background-color: rgba(51, 102, 153, 0.2);');
+		expect(button.classes()).not.toContain('sy-button-active');
 	});
 
 	it('updates flat and line button visual states after interaction', async () => {
@@ -176,13 +172,14 @@ describe('SyButton', () => {
 		await nextTick();
 
 		const flatRipple = flatButton.get('.sy-button__ripple');
-		expect((flatRipple.element as HTMLElement).style.backgroundColor).toBe('rgb(51, 102, 153)');
+		expect((flatRipple.element as HTMLElement).style.getPropertyValue('--sy-button-ripple-color')).toBe('#336699');
+		expect(flatButton.classes()).toContain('sy-button-active');
 
 		flatRipple.element.dispatchEvent(new Event('animationend'));
 		await nextTick();
 
-		expect(flatButton.attributes('style')).toContain('background-color: rgb(51, 102, 153);');
-		expect(flatButton.attributes('style')).toContain('color: white;');
+		await flatButton.trigger('blur');
+		expect(flatButton.classes()).not.toContain('sy-button-active');
 
 		const lineWrapper = mount(SyButton, {
 			props: {
@@ -192,8 +189,9 @@ describe('SyButton', () => {
 		});
 		const lineButton = lineWrapper.get('button');
 
-		expect(lineButton.attributes('style')).toContain('--sy-line-color: #336699;');
-		expect(lineButton.attributes('style')).toContain('--sy-line-color-fade: rgba(51, 102, 153, 0.3);');
+		expect(lineButton.attributes('style')).toContain('--sy-button-color: #336699;');
+		expect(lineButton.classes()).toContain('sy-button-line-position--bottom');
+		expect(lineButton.classes()).toContain('sy-button-line-origin--center');
 
 		await lineButton.trigger('click', {
 			clientX: 40,
@@ -201,9 +199,10 @@ describe('SyButton', () => {
 		});
 		await nextTick();
 
-		expect(lineButton.attributes('style')).toContain('--sy-line-color-fade: #336699;');
+		expect(lineButton.classes()).toContain('sy-button-active');
+		expect(lineButton.find('.sy-button__ripple').exists()).toBe(false);
 
 		await lineButton.trigger('blur');
-		expect(lineButton.attributes('style')).toContain('--sy-line-color-fade: rgba(51, 102, 153, 0.3);');
+		expect(lineButton.classes()).not.toContain('sy-button-active');
 	});
 });

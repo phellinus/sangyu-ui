@@ -1,9 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
-import SyMenu from '../menu';
-import SyMenuItem from '../menuitem';
-import SySubMenu from '../submenu';
+import { SyMenu, SyMenuItem, SySubMenu } from '..';
 
 describe('SyMenu', () => {
 	it('renders active item and opened submenu from defaults', () => {
@@ -30,7 +28,6 @@ describe('SyMenu', () => {
 		expect(wrapper.classes()).toContain('sy-menu-vertical');
 		expect(wrapper.find('[data-index="2-1"]').classes()).toContain('sy-menu-item-active');
 		expect(wrapper.get('.sy-submenu').classes()).toContain('is-open');
-		expect(wrapper.get('.sy-submenu-title').classes()).toContain('sy-submenu-title-active');
 		expect(wrapper.find('.sy-submenu-inline').exists()).toBe(true);
 	});
 

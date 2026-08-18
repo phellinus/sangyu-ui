@@ -12,6 +12,11 @@ export type RadioShape = 'circle' | 'square';
 /** RadioGroup 排列方向 */
 export type RadioGroupDirection = 'horizontal' | 'vertical';
 
+/** 原生 input 支持的 data 属性 */
+export type RadioInputDataAttributes = {
+	[key: `data-${string}`]: string | number | boolean | undefined;
+};
+
 /** Radio 选项信息 */
 export interface RadioOptionInfo {
 	/** 当前选项绑定的值 */
@@ -47,7 +52,8 @@ export interface RadioCommonProps {
 	customStyle?: string | CSSProperties;
 
 	/** 传递给原生 input 的额外属性 */
-	inputAttrs?: Omit<InputHTMLAttributes, 'type' | 'checked' | 'disabled' | 'name' | 'value'>;
+	inputAttrs?: Omit<InputHTMLAttributes, 'type' | 'checked' | 'disabled' | 'name' | 'value'> &
+		RadioInputDataAttributes;
 }
 
 /** 基础 Radio 属性 */

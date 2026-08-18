@@ -2,27 +2,11 @@
 
 .sy-button {
 	--sy-button-color: var(--sy-color-primary);
-	--sy-button-color-soft: color-mix(
-		in srgb,
-		var(--sy-button-color) 16%,
-		transparent
-	);
-	--sy-button-shadow-color: color-mix(
-		in srgb,
-		var(--sy-button-color) 38%,
-		transparent
-	);
+	--sy-button-color-soft: color-mix(in srgb, var(--sy-button-color) 16%, transparent);
+	--sy-button-shadow-color: color-mix(in srgb, var(--sy-button-color) 38%, transparent);
 	--sy-button-gradient-direction: 30deg;
-	--sy-button-gradient-secondary: color-mix(
-		in srgb,
-		var(--sy-button-color) 70%,
-		black
-	);
-	--sy-button-relief-color: color-mix(
-		in srgb,
-		var(--sy-button-color) 70%,
-		black
-	);
+	--sy-button-gradient-secondary: color-mix(in srgb, var(--sy-button-color) 70%, black);
+	--sy-button-relief-color: color-mix(in srgb, var(--sy-button-color) 70%, black);
 
 	position: relative;
 	display: inline-flex;
@@ -108,7 +92,7 @@
 		}
 
 		&:active,
-        &.sy-button-active {
+		&.sy-button-active {
 			background: var(--sy-button-color);
 			color: var(--sy-button-text-color, #fff);
 		}
@@ -124,7 +108,7 @@
 		}
 
 		&:active,
-        &.sy-button-active {
+		&.sy-button-active {
 			background: var(--sy-button-color);
 			color: var(--sy-button-text-color, #fff);
 		}
@@ -135,9 +119,9 @@
 		background: transparent;
 		color: var(--sy-button-text-color, var(--sy-button-color));
 
-        .sy-button-content {
-		    transition: transform 0.15s ease;
-	    }
+		.sy-button-content {
+			transition: transform 0.15s ease;
+		}
 
 		&::before,
 		&::after {
@@ -147,8 +131,9 @@
 			width: 100%;
 			height: 2px;
 			background: var(--sy-button-color);
-			transition: transform 0.3s ease,
-                opacity 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				opacity 0.3s ease;
 		}
 
 		&::before {
@@ -159,10 +144,10 @@
 			transform: scaleX(0);
 		}
 
-	    &:hover::after,
-	    &:focus-visible::after,
-	    &:active::after,
-	    &.sy-button-active::after{
+		&:hover::after,
+		&:focus-visible::after,
+		&:active::after,
+		&.sy-button-active::after {
 			transform: scaleX(1);
 		}
 
@@ -170,9 +155,9 @@
 			transform: translateY(-2px);
 		}
 
-        &:active .sy-button-content {
-            transform: translateY(0);
-        }
+		&:active .sy-button-content {
+			transform: translateY(0);
+		}
 	}
 
 	&-line-position {
@@ -282,9 +267,9 @@
 	}
 
 	&-d&-disabled:hover,
-    &-disabled:active,
-    &:disabled:hover,
-    &:disabled:active {
+	&-disabled:active,
+	&:disabled:hover,
+	&:disabled:active {
 		box-shadow: none;
 		transform: none;
 	}

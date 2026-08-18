@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import { defineComponent, nextTick, reactive, ref } from 'vue';
 import { describe, expect, it } from 'vitest';
 import { SyForm, SyFormItem } from '../../form';
-import SyRadio from '../SyRadio';
+import SyRadio from '../syradio';
 
 describe('SyRadio', () => {
 	it('renders checked state, native attributes and content', () => {

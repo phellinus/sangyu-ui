@@ -132,9 +132,9 @@ describe('SyPagination', () => {
 		});
 
 		expect(wrapper.get('.sy-pagination-total').text()).toBe('共 100 条');
-		expect(wrapper.get('.sy-pagination-sizes').exists()).toBe(true);
-		expect(wrapper.get('.sy-pagination-sizes .sy-select').exists()).toBe(true);
-		expect(wrapper.get('.sy-pagination-jumper-input').exists()).toBe(true);
+		expect(wrapper.find('.sy-pagination-sizes').exists()).toBe(true);
+		expect(wrapper.find('.sy-pagination-sizes .sy-select').exists()).toBe(true);
+		expect(wrapper.find('.sy-pagination-jumper-input').exists()).toBe(true);
 		expect(wrapper.text()).toContain('第 2 页，每页 10 条');
 
 		await wrapper.get('.sy-pagination-sizes .sy-select-trigger').trigger('click');

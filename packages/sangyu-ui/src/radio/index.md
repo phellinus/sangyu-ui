@@ -34,47 +34,47 @@
 
 ### SyRadio Props
 
-| 属性名 | 类型 | 说明 | 默认值 |
-| --- | --- | --- | --- |
-| modelValue | `boolean` | 独立使用时的选中状态 | `false` |
-| label | `string \| number \| boolean` | 分组模式下的选项值 | `undefined` |
-| disabled | `boolean` | 是否禁用 | `false` |
-| shape | `'circle' \| 'square'` | 单选形态 | `'circle'` |
-| size | `'small' \| 'default' \| 'large'` | 单选尺寸 | `'default'` |
-| name | `string` | 原生 `radio` 的 `name` | `''` |
-| content | `string` | 无默认插槽时的文本内容 | `''` |
-| customStyle | `string` | 自定义内联样式 | `''` |
+| 属性名      | 类型                              | 说明                   | 默认值      |
+| ----------- | --------------------------------- | ---------------------- | ----------- |
+| modelValue  | `boolean`                         | 独立使用时的选中状态   | `false`     |
+| label       | `string \| number \| boolean`     | 分组模式下的选项值     | `undefined` |
+| disabled    | `boolean`                         | 是否禁用               | `false`     |
+| shape       | `'circle' \| 'square'`            | 单选形态               | `'circle'`  |
+| size        | `'small' \| 'default' \| 'large'` | 单选尺寸               | `'default'` |
+| name        | `string`                          | 原生 `radio` 的 `name` | `''`        |
+| content     | `string`                          | 无默认插槽时的文本内容 | `''`        |
+| customStyle | `string`                          | 自定义内联样式         | `''`        |
 
 ### SyRadioButton Props
 
-| 属性名 | 类型 | 说明 | 默认值 |
-| --- | --- | --- | --- |
-| modelValue | `boolean` | 独立使用时的选中状态 | `false` |
-| label | `string \| number \| boolean` | 分组模式下的选项值 | `undefined` |
-| disabled | `boolean` | 是否禁用 | `false` |
-| size | `'small' \| 'default' \| 'large'` | 按钮尺寸 | `'default'` |
-| name | `string` | 原生 `radio` 的 `name` | `''` |
-| content | `string` | 无默认插槽时的文本内容 | `''` |
-| customStyle | `string` | 自定义内联样式 | `''` |
+| 属性名      | 类型                              | 说明                   | 默认值      |
+| ----------- | --------------------------------- | ---------------------- | ----------- |
+| modelValue  | `boolean`                         | 独立使用时的选中状态   | `false`     |
+| label       | `string \| number \| boolean`     | 分组模式下的选项值     | `undefined` |
+| disabled    | `boolean`                         | 是否禁用               | `false`     |
+| size        | `'small' \| 'default' \| 'large'` | 按钮尺寸               | `'default'` |
+| name        | `string`                          | 原生 `radio` 的 `name` | `''`        |
+| content     | `string`                          | 无默认插槽时的文本内容 | `''`        |
+| customStyle | `string`                          | 自定义内联样式         | `''`        |
 
 ### SyRadioGroup Props
 
-| 属性名 | 类型 | 说明 | 默认值 |
-| --- | --- | --- | --- |
-| modelValue | `string \| number \| boolean` | 当前选中的值 | `undefined` |
-| disabled | `boolean` | 是否禁用整个分组 | `false` |
-| name | `string` | 传递给子项的原生 `name` | `''` |
-| size | `'small' \| 'default' \| 'large'` | 统一控制子项尺寸 | `'default'` |
-| direction | `'horizontal' \| 'vertical'` | 排列方向 | `'horizontal'` |
-| customStyle | `string` | 自定义内联样式 | `''` |
+| 属性名      | 类型                              | 说明                    | 默认值         |
+| ----------- | --------------------------------- | ----------------------- | -------------- |
+| modelValue  | `string \| number \| boolean`     | 当前选中的值            | `undefined`    |
+| disabled    | `boolean`                         | 是否禁用整个分组        | `false`        |
+| name        | `string`                          | 传递给子项的原生 `name` | `''`           |
+| size        | `'small' \| 'default' \| 'large'` | 统一控制子项尺寸        | `'default'`    |
+| direction   | `'horizontal' \| 'vertical'`      | 排列方向                | `'horizontal'` |
+| customStyle | `string`                          | 自定义内联样式          | `''`           |
 
 ### Events
 
-| 组件 | 事件名 | 说明 |
-| --- | --- | --- |
-| `SyRadio` | `update:modelValue` / `change` | 独立使用时切换选中状态触发 |
+| 组件            | 事件名                         | 说明                       |
+| --------------- | ------------------------------ | -------------------------- |
+| `SyRadio`       | `update:modelValue` / `change` | 独立使用时切换选中状态触发 |
 | `SyRadioButton` | `update:modelValue` / `change` | 独立使用时切换选中状态触发 |
-| `SyRadioGroup` | `update:modelValue` / `change` | 分组内选中项切换时触发 |
+| `SyRadioGroup`  | `update:modelValue` / `change` | 分组内选中项切换时触发     |
 
 ### 使用建议
 

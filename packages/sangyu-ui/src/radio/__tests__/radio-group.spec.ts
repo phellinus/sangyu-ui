@@ -2,9 +2,9 @@ import { mount } from '@vue/test-utils';
 import { defineComponent, h, nextTick, reactive, ref } from 'vue';
 import { describe, expect, it } from 'vitest';
 import { SyForm, SyFormItem } from '../../form';
-import SyRadio from '../SyRadio';
-import SyRadioButton from '../SyRadioButton';
-import SyRadioGroup from '../SyRadioGroup';
+import SyRadio from '../syradio';
+import SyRadioButton from '../syradiobutton';
+import SyRadioGroup from '../syradiogroup';
 
 describe('SyRadioGroup', () => {
 	it('shares group state with Radio and RadioButton children', async () => {
