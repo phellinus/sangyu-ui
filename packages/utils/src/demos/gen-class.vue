@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useClassnames } from '../gen-class';
-const { c, cx, ce, cm } = useClassnames('button');
+const { c, cx, cm } = useClassnames('button');
 const testRef = ref(false);
 const handleClick = () => {
 	testRef.value = !testRef.value;

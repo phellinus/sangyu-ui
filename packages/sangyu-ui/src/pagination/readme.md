@@ -125,13 +125,13 @@
 默认布局建议：
 
 ```ts
-['prev', 'pager', 'next', 'jumper', '->', 'total', 'slot', 'sizes']
+['prev', 'pager', 'next', 'jumper', '->', 'total', 'slot', 'sizes'];
 ```
 
 如果希望更贴近常见中文后台，也可以提供更紧凑的默认值：
 
 ```ts
-['total', 'sizes', 'prev', 'pager', 'next', 'jumper']
+['total', 'sizes', 'prev', 'pager', 'next', 'jumper'];
 ```
 
 最终默认值以 `sangyu-ui` 现有文档风格和业务场景为准。

@@ -45,61 +45,61 @@ Pagination 用于在大量数据或多页内容中提供分页导航，适合表
 
 ### SyPagination Props
 
-| 属性名 | 类型 | 说明 | 默认值 |
-| --- | --- | --- | --- |
-| currentPage / v-model:current-page | `number` | 当前页码；传入后为受控模式 | `undefined` |
-| defaultCurrentPage | `number` | 非受控模式下的默认当前页 | `1` |
-| pageSize / v-model:page-size | `number` | 每页条数；传入后为受控模式 | `undefined` |
-| defaultPageSize | `number` | 非受控模式下的默认每页条数 | `10` |
-| total | `number` | 数据总条数，会根据 `pageSize` 自动计算总页数 | `undefined` |
-| pageCount | `number` | 直接指定总页数；同时传入 `total` 时优先使用 | `undefined` |
-| pagerCount | `number` | 最多展示的页码按钮数量，建议为大于 4 的奇数 | `7` |
-| pageSizes | `number[]` | 每页条数选择器的选项 | `[10, 20, 30, 40, 50, 100]` |
-| layout | `string \| PaginationLayoutItem[]` | 分页布局配置，支持逗号分隔字符串或数组 | 默认布局 |
-| disabled | `boolean` | 是否禁用整个分页 | `false` |
-| hideOnSinglePage | `boolean` | 总页数小于等于 1 时是否隐藏分页 | `false` |
-| prevText | `string` | 上一页按钮文案 | `undefined` |
-| nextText | `string` | 下一页按钮文案 | `undefined` |
-| prevIcon | `string \| Component` | 上一页按钮图标 | `undefined` |
-| nextIcon | `string \| Component` | 下一页按钮图标 | `undefined` |
-| color | `string` | 激活态主题色，影响当前页、高亮块、进度条等 | 主题主色 |
-| shape | `'default' \| 'circle' \| 'square'` | 分页按钮形状 | `'default'` |
-| notMargin | `boolean` | 是否移除按钮之间的间距 | `false` |
-| buttonsDotted | `boolean` | 是否启用圆点分页模式 | `false` |
-| progress | `boolean` | 是否展示分页进度条 | `false` |
-| infinite | `boolean` | 是否启用首尾循环翻页 | `false` |
-| disabledItems | `number[]` | 指定禁用的页码列表 | `[]` |
-| loadingItems | `number[]` | 指定加载中的页码列表 | `[]` |
-| size | `'small' \| 'default' \| 'large'` | 分页尺寸 | `'default'` |
-| customStyle | `string \| CSSProperties` | 根元素自定义内联样式 | `undefined` |
+| 属性名                             | 类型                                | 说明                                         | 默认值                      |
+| ---------------------------------- | ----------------------------------- | -------------------------------------------- | --------------------------- |
+| currentPage / v-model:current-page | `number`                            | 当前页码；传入后为受控模式                   | `undefined`                 |
+| defaultCurrentPage                 | `number`                            | 非受控模式下的默认当前页                     | `1`                         |
+| pageSize / v-model:page-size       | `number`                            | 每页条数；传入后为受控模式                   | `undefined`                 |
+| defaultPageSize                    | `number`                            | 非受控模式下的默认每页条数                   | `10`                        |
+| total                              | `number`                            | 数据总条数，会根据 `pageSize` 自动计算总页数 | `undefined`                 |
+| pageCount                          | `number`                            | 直接指定总页数；同时传入 `total` 时优先使用  | `undefined`                 |
+| pagerCount                         | `number`                            | 最多展示的页码按钮数量，建议为大于 4 的奇数  | `7`                         |
+| pageSizes                          | `number[]`                          | 每页条数选择器的选项                         | `[10, 20, 30, 40, 50, 100]` |
+| layout                             | `string \| PaginationLayoutItem[]`  | 分页布局配置，支持逗号分隔字符串或数组       | 默认布局                    |
+| disabled                           | `boolean`                           | 是否禁用整个分页                             | `false`                     |
+| hideOnSinglePage                   | `boolean`                           | 总页数小于等于 1 时是否隐藏分页              | `false`                     |
+| prevText                           | `string`                            | 上一页按钮文案                               | `undefined`                 |
+| nextText                           | `string`                            | 下一页按钮文案                               | `undefined`                 |
+| prevIcon                           | `string \| Component`               | 上一页按钮图标                               | `undefined`                 |
+| nextIcon                           | `string \| Component`               | 下一页按钮图标                               | `undefined`                 |
+| color                              | `string`                            | 激活态主题色，影响当前页、高亮块、进度条等   | 主题主色                    |
+| shape                              | `'default' \| 'circle' \| 'square'` | 分页按钮形状                                 | `'default'`                 |
+| notMargin                          | `boolean`                           | 是否移除按钮之间的间距                       | `false`                     |
+| buttonsDotted                      | `boolean`                           | 是否启用圆点分页模式                         | `false`                     |
+| progress                           | `boolean`                           | 是否展示分页进度条                           | `false`                     |
+| infinite                           | `boolean`                           | 是否启用首尾循环翻页                         | `false`                     |
+| disabledItems                      | `number[]`                          | 指定禁用的页码列表                           | `[]`                        |
+| loadingItems                       | `number[]`                          | 指定加载中的页码列表                         | `[]`                        |
+| size                               | `'small' \| 'default' \| 'large'`   | 分页尺寸                                     | `'default'`                 |
+| customStyle                        | `string \| CSSProperties`           | 根元素自定义内联样式                         | `undefined`                 |
 
 `PaginationLayoutItem` 为：
 
 ```ts
-'prev' | 'pager' | 'next' | 'jumper' | 'total' | 'sizes' | 'slot' | '->'
+'prev' | 'pager' | 'next' | 'jumper' | 'total' | 'sizes' | 'slot' | '->';
 ```
 
 默认布局为：
 
 ```ts
-['prev', 'pager', 'next', 'jumper', '->', 'total', 'slot', 'sizes']
+['prev', 'pager', 'next', 'jumper', '->', 'total', 'slot', 'sizes'];
 ```
 
 ### Events
 
-| 事件名 | 回调参数 | 说明 |
-| --- | --- | --- |
-| update:currentPage | `(page: number)` | 当前页变化时触发 |
-| update:pageSize | `(size: number)` | 每页条数变化时触发 |
-| pageChange | `(page: number)` | 页码变化后的业务事件 |
-| sizeChange | `(size: number)` | 每页条数变化后的业务事件 |
-| prevClick | `(page: number)` | 点击上一页后触发 |
-| nextClick | `(page: number)` | 点击下一页后触发 |
+| 事件名             | 回调参数         | 说明                     |
+| ------------------ | ---------------- | ------------------------ |
+| update:currentPage | `(page: number)` | 当前页变化时触发         |
+| update:pageSize    | `(size: number)` | 每页条数变化时触发       |
+| pageChange         | `(page: number)` | 页码变化后的业务事件     |
+| sizeChange         | `(size: number)` | 每页条数变化后的业务事件 |
+| prevClick          | `(page: number)` | 点击上一页后触发         |
+| nextClick          | `(page: number)` | 点击下一页后触发         |
 
 ### Slots
 
-| 插槽名 | 参数 | 说明 |
-| --- | --- | --- |
+| 插槽名  | 参数                                                                 | 说明                           |
+| ------- | -------------------------------------------------------------------- | ------------------------------ |
 | default | `{ currentPage, pageSize, pageCount, total, pageSizes, pagerCount }` | 对应 `layout` 中的 `slot` 区域 |
 
 ### 使用建议
