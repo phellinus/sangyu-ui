@@ -48,7 +48,7 @@
 		"globals": "^16.4.0",
 		"jsdom": "^29.0.2",
 		"less": "^4.4.2",
-		"postcss": "^8.5.6",
+		"postcss": "^8.5.23",
 		"prettier": "^3.6.2",
 		"typescript": "~5.9.3",
 		"unplugin-dts": "^1.0.3",
