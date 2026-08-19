@@ -21,7 +21,7 @@
 
 ```ts
 import { SyInput, SyButton } from 'sangyu-ui';
-import '@sangyu-ui/theme/index.css';
+import 'sangyu-ui/style.css';
 ```
 
 ```vue
