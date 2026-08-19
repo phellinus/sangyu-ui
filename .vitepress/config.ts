@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	title: 'SangyuUI',
-	description: 'This is a Sangyu Component library',
+	title: 'Sangyu UI',
+	description: '基于 Vue 3 和 TypeScript 开发的开源组件库',
 	rewrites: {
 		'docs/(.*)': '(.*)',
 		'packages/sangyu-ui/src/:comp/(.*)': 'components/:comp/(.*)',
@@ -132,10 +132,16 @@ export default defineConfig({
 			],
 		},
 
-		socialLinks: [{ icon: 'github', link: 'https://github.com/phellinus' }],
+		socialLinks: [
+            {
+                icon: 'github',
+                link: 'https://github.com/phellinus/sangyu-ui',
+            },
+        ],
+
 		footer: {
-			message: 'Released under the MIT License.',
-			copyright: 'Copyright © 2025-present eastern',
+            message: 'Released under the ISC License.',
+            copyright: 'Copyright © 2026-present phellinus',
 		},
 		docFooter: {
 			prev: '上一页',
