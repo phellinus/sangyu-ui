@@ -368,4 +368,4 @@ pnpm check
 
 ## 许可证
 
-本项目基于 [ISC License](./packages/sangyu-ui/LICENSE) 开源。
+本项目基于 [ISC License](./LICENSE) 开源。

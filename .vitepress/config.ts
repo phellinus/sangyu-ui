@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
 	title: 'Sangyu UI',
 	description: '基于 Vue 3 和 TypeScript 开发的开源组件库',
+    srcExclude: ['README.md'],
 	rewrites: {
 		'docs/(.*)': '(.*)',
 		'packages/sangyu-ui/src/:comp/(.*)': 'components/:comp/(.*)',
