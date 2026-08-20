@@ -7,7 +7,7 @@ hero:
     text: 'Vue 3 时代的高颜值组件库'
     tagline: 统一设计语言，高效工程化，支持灵活的多主题体验
     image:
-        src: docs/logo.jpg
+        src: /images/logo.jpg
         alt: Sangyu UI 开发者形象
     actions:
         - theme: brand

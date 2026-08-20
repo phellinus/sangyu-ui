@@ -4,6 +4,16 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
 	title: 'Sangyu UI',
 	description: '基于 Vue 3 和 TypeScript 开发的开源组件库',
+    head: [
+		[
+			'link',
+			{
+				rel: 'icon',
+				type: 'image/png',
+				href: '/favicon.png',
+			},
+		],
+	],
     srcExclude: ['README.md'],
 	rewrites: {
 		'docs/(.*)': '(.*)',
