@@ -6,17 +6,18 @@ import './style.css';
 import { AntdTheme } from 'vite-plugin-vitepress-demo/theme';
 import sangyu from 'sangyu-ui';
 import 'sangyu-ui/style';
-import HomeReveal from './HomeReveal.vue';
+import HomeSections from './HomeSections.vue';
+import HomeHeroShowcase from './HomeHeroShowcase.vue';
 
 export default {
 	extends: DefaultTheme,
 	Layout: () => {
 		return h(DefaultTheme.Layout, null, {
-			'home-hero-before': () => h(HomeReveal),
+			'home-hero-image': () => h(HomeHeroShowcase),
+			'home-hero-after': () => h(HomeSections),
 		});
 	},
-	enhanceApp({ app, router, siteData }) {
-		// ...
+	enhanceApp({ app }) {
 		app.component('Demo', AntdTheme);
 		app.use(sangyu);
 	},
