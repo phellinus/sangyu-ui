@@ -1,4 +1,4 @@
-# Sangyu UI 介绍
+# Sangyu Design UI 介绍
 
 > 一套基于 Vue 3 和 TypeScript 开发的组件库，提供常用界面组件、独立图标包、完整类型声明和 CSS Variables 主题能力
 
@@ -26,7 +26,7 @@
 
 ### 安装组件库
 
-如果只使用 Sangyu UI 组件，可以安装主组件库：
+如果只使用 Sangyu Design UI 组件，可以安装主组件库：
 
 ```bash
 pnpm add sangyu-ui
@@ -56,7 +56,7 @@ npm install sangyu-ui @sangyu-ui/icons
 
 ### 只安装图标包
 
-如果项目只需要使用 Sangyu UI 图标：
+如果项目只需要使用 Sangyu Design UI 图标：
 
 ```bash
 pnpm add @sangyu-ui/icons
@@ -70,7 +70,7 @@ npm install @sangyu-ui/icons
 
 ## 完整引入
 
-在应用入口文件中注册 Sangyu UI，并引入完整样式：
+在应用入口文件中注册 Sangyu Design UI，并引入完整样式：
 
 ```ts
 import { createApp } from 'vue';
@@ -108,9 +108,7 @@ const visible = ref(false);
 <template>
 	<SyButton type="filled" @click="visible = true">打开抽屉</SyButton>
 
-	<SyDrawer v-model:visible="visible" title="抽屉标题">
-		这里是抽屉内容
-	</SyDrawer>
+	<SyDrawer v-model:visible="visible" title="抽屉标题">这里是抽屉内容</SyDrawer>
 </template>
 ```
 
@@ -217,7 +215,7 @@ console.log(version);
 
 ## 自定义主题
 
-Sangyu UI 使用 CSS Variables 管理主题样式。请先引入组件库样式，再引入自定义主题文件：
+Sangyu Design UI 使用 CSS Variables 管理主题样式。请先引入组件库样式，再引入自定义主题文件：
 
 ```ts
 import 'sangyu-ui/style.css';

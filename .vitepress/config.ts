@@ -2,9 +2,9 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	title: 'Sangyu UI',
+	title: 'Sangyu Design UI',
 	description: '基于 Vue 3 和 TypeScript 开发的开源组件库',
-    head: [
+	head: [
 		[
 			'link',
 			{
@@ -14,7 +14,7 @@ export default defineConfig({
 			},
 		],
 	],
-    srcExclude: ['README.md'],
+	srcExclude: ['README.md'],
 	rewrites: {
 		'docs/(.*)': '(.*)',
 		'packages/sangyu-ui/src/:comp/(.*)': 'components/:comp/(.*)',
@@ -25,7 +25,7 @@ export default defineConfig({
 		// https://vitepress.dev/reference/default-theme-config
 		nav: [
 			{ text: '首页', link: '/' },
-			{ text: '介绍', link: '/introduce' },
+			{ text: '介绍', link: '/introduce/' },
 			{ text: '组件', link: '/components/' },
 			{ text: '工具', link: '/utils/' },
 		],
@@ -144,15 +144,15 @@ export default defineConfig({
 		},
 
 		socialLinks: [
-            {
-                icon: 'github',
-                link: 'https://github.com/phellinus/sangyu-ui',
-            },
-        ],
+			{
+				icon: 'github',
+				link: 'https://github.com/phellinus/sangyu-ui',
+			},
+		],
 
 		footer: {
-            message: 'Released under the ISC License.',
-            copyright: 'Copyright © 2026-present phellinus',
+			message: 'Released under the ISC License.',
+			copyright: 'Copyright © 2026-present phellinus',
 		},
 		docFooter: {
 			prev: '上一页',

@@ -1,6 +1,6 @@
 # 图标库
 
-> Sangyu UI 的矢量图标集合，开箱即用、可主题化、支持动态注册。
+> Sangyu Design UI 的矢量图标集合，开箱即用、可主题化、支持动态注册。
 
 - **即插即用**：所有 SVG 已转换成 Vue 组件并注册到 `SyIcon` 构造器。
 - **主题友好**：图标默认继承 `currentColor` 与 `stroke-width`，可被任意 CSS 控制。
