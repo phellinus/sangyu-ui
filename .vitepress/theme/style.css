@@ -109,7 +109,7 @@
 }
 
 .VPHomeHero {
-	--sy-cover-wash: rgba(253, 253, 253, 0.6);
+	--sy-cover-wash: rgba(253, 253, 253, 0.18);
 	position: relative;
 	isolation: isolate;
 	display: flex;
@@ -126,7 +126,7 @@
 	z-index: -1;
 	background:
 		linear-gradient(var(--sy-cover-wash), var(--sy-cover-wash)),
-		url('/images/hero-monochrome-cover.png') center bottom / cover no-repeat;
+		url('/images/hero-soft-color-cover.png') center bottom / cover no-repeat;
 	content: '';
 }
 
@@ -1168,8 +1168,33 @@
 @media (min-width: 960px) {
 	.Layout .VPSidebar {
 		top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px));
+		width: var(--vp-sidebar-width);
 		padding-top: 20px;
+		padding-left: 20px;
 		padding-bottom: 40px;
+	}
+
+	.Layout .VPContent.has-sidebar {
+		padding-right: 32px;
+		padding-left: var(--vp-sidebar-width);
+	}
+
+	.Layout .VPNavBar.has-sidebar .container > .title {
+		width: var(--vp-sidebar-width);
+		padding-left: 24px;
+	}
+
+	.Layout .VPNavBar.has-sidebar .container > .content {
+		padding-right: 32px;
+		padding-left: var(--vp-sidebar-width);
+	}
+
+	.sy-components-page .VPDoc > .container {
+		margin-inline: auto;
+	}
+
+	.sy-components-page .VPContent.has-sidebar {
+		padding-right: 0;
 	}
 
 	.VPSidebar .curtain {
@@ -1296,7 +1321,8 @@
 
 .vp-doc .code-box .code-box-demo {
 	padding: 32px 24px;
-	overflow-x: auto;
+	/* Anchored dropdowns must be able to extend beyond the preview canvas. */
+	overflow: visible;
 	background: var(--sy-surface);
 }
 
@@ -1306,6 +1332,10 @@
 
 .vp-doc .code-box-demo .sy-button {
 	flex-shrink: 0;
+}
+
+.vp-doc .code-box-demo .sy-select {
+	max-width: 100%;
 }
 
 .vp-doc .code-box .code-box-title,
