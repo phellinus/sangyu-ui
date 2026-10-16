@@ -24,6 +24,7 @@
 	--sy-action-text: #fdfdfd;
 	--sy-nav-wash: rgba(253, 253, 253, 0.88);
 	--sy-surface: #fdfdfd;
+	--sy-scroll-thumb-hover: rgba(32, 32, 32, 0.16);
 }
 
 .dark {
@@ -45,6 +46,55 @@
 	--sy-action-text: #202020;
 	--sy-nav-wash: rgba(23, 23, 23, 0.92);
 	--sy-surface: #202020;
+	--sy-scroll-thumb-hover: rgba(238, 238, 238, 0.2);
+}
+
+html,
+.Layout * {
+	scrollbar-width: thin;
+	scrollbar-color: transparent transparent;
+}
+
+html {
+	overflow-y: scroll;
+	scrollbar-color: var(--sy-scroll-thumb-hover) transparent;
+}
+
+.Layout *:hover,
+.Layout *:focus-visible {
+	scrollbar-color: var(--sy-scroll-thumb-hover) transparent;
+}
+
+html::-webkit-scrollbar,
+.Layout *::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+html::-webkit-scrollbar-track,
+.Layout *::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+.Layout *::-webkit-scrollbar-thumb {
+	background: transparent;
+	border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb,
+.Layout *:hover::-webkit-scrollbar-thumb,
+.Layout *:focus-visible::-webkit-scrollbar-thumb {
+	background: var(--sy-scroll-thumb-hover);
+}
+
+/* Chromium uses the explicit 4px scrollbar; Firefox keeps its thin fallback. */
+@supports selector(::-webkit-scrollbar) {
+	html,
+	.Layout * {
+		scrollbar-width: auto;
+		scrollbar-color: auto;
+	}
 }
 
 /* The default theme supplies the home/top state for transparent navigation. */
@@ -88,6 +138,13 @@
 .VPNavBarTitle .title {
 	font-weight: 650;
 	letter-spacing: -0.025em;
+}
+
+.VPNavBarTitle .logo {
+	flex-shrink: 0;
+	width: 32px;
+	height: 32px;
+	margin-right: 10px;
 }
 .VPNavBarMenuLink.active {
 	color: var(--vp-c-text-1);
@@ -736,33 +793,11 @@
 }
 
 .Layout .VPSidebar {
-	--sy-scroll-thumb: var(--vp-c-border);
 	padding-right: 18px;
 	background: var(--vp-c-bg);
 	border-right: 1px solid var(--vp-c-divider);
-	scrollbar-width: thin;
-	scrollbar-color: var(--sy-scroll-thumb) transparent;
 	scrollbar-gutter: stable;
 	overscroll-behavior: contain;
-}
-
-.Layout .VPSidebar:hover,
-.Layout .VPSidebar:focus-within {
-	--sy-scroll-thumb: var(--vp-c-text-3);
-}
-
-.VPSidebar::-webkit-scrollbar {
-	width: 5px;
-	height: 5px;
-}
-
-.VPSidebar::-webkit-scrollbar-track {
-	background: transparent;
-}
-
-.VPSidebar::-webkit-scrollbar-thumb {
-	background: var(--sy-scroll-thumb);
-	border-radius: 999px;
 }
 
 .VPSidebarItem.level-0 {
@@ -1338,10 +1373,23 @@
 	max-width: 100%;
 }
 
-.vp-doc .code-box .code-box-title,
+.vp-doc .code-box .code-box-title {
+	position: static;
+	margin: 0;
+	padding: 16px 24px 12px;
+	background: var(--sy-surface);
+	border-radius: 0;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
 .vp-doc .code-box .code-box-title a {
 	background: var(--sy-surface);
 	font-weight: 600;
+}
+
+.vp-doc .code-box .code-box-title + .code-box-description {
+	padding-top: 0;
 }
 
 .vp-doc .code-box .code-box-actions {

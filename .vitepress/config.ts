@@ -11,8 +11,8 @@ export default defineConfig({
 			'link',
 			{
 				rel: 'icon',
-				type: 'image/png',
-				href: '/favicon.png',
+				type: 'image/svg+xml',
+				href: '/favicon.svg',
 			},
 		],
 	],
@@ -24,6 +24,11 @@ export default defineConfig({
 		'packages/icons/docs/(.*)': 'components/icons/(.*)',
 	},
 	themeConfig: {
+		logo: {
+			light: '/images/sangyu-logo-light.svg',
+			dark: '/images/sangyu-logo-dark.svg',
+			alt: '',
+		},
 		sidebarMenuLabel: '组件导航',
 		outline: { label: '本页目录' },
 		returnToTopLabel: '返回顶部',
