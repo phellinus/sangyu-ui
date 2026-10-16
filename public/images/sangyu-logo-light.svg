@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+	<title>Sangyu Design UI</title>
+	<g fill="#202020">
+		<path d="M34 4H16C10.477 4 6 8.477 6 14s4.477 10 10 10l4-8h-4a2 2 0 0 1 0-4h18V4Z" />
+		<path
+			d="M34 4H16C10.477 4 6 8.477 6 14s4.477 10 10 10l4-8h-4a2 2 0 0 1 0-4h18V4Z"
+			transform="rotate(180 20 20)"
+		/>
+	</g>
+</svg>
