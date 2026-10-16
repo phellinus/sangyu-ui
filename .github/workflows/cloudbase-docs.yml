@@ -1,0 +1,67 @@
+name: CloudBase Docs
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudbase-docs-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          package-manager-cache: false
+
+      - name: Install pnpm
+        run: npm install --global pnpm@10.18.3
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Build documentation
+        run: pnpm docs:build
+
+      - name: Deploy to CloudBase
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
+          TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
+          TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
+        run: |
+          npm install --global @cloudbase/cli@3.8.7
+
+          tcb login \
+            --apiKeyId "$TCB_SECRET_ID" \
+            --apiKey "$TCB_SECRET_KEY"
+
+          tcb app deploy sangyu-design-ui \
+            --env-id "$TCB_ENV_ID" \
+            --framework static \
+            --cwd ./.vitepress/dist \
+            --install-command "" \
+            --build-command "" \
+            --output-dir . \
+            --deploy-path / \
+            --force
