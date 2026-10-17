@@ -38,7 +38,9 @@ jobs:
               run: pnpm install --frozen-lockfile
 
             - name: Run tests
-              run: pnpm test:run
+              run: |
+                  node --test scripts/deploy-cloudbase.test.mjs
+                  pnpm test:run
 
             - name: Build documentation
               run: pnpm docs:build
@@ -57,23 +59,8 @@ jobs:
 
             - name: Deploy to CloudBase
               if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-              working-directory: .vitepress/dist
               env:
                   TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
-                  COS_SDK_KEEPALIVE: 'false'
-              # The static preset uploads every file from the runner. Use the ZIP/cloud
-              # pipeline to publish the prebuilt site, without installing or rebuilding.
-              # CLI 3.8.7 also uses --cwd as the cloud build path, so it must be
-              # relative to the archive root, not the repository root.
-              run: |
-                  test -s index.html
-
-                  tcb app deploy sangyu-design-ui \
-                    --env-id "$TCB_ENV_ID" \
-                    --framework vite \
-                    --cwd . \
-                    --install-command "" \
-                    --build-command "true" \
-                    --output-dir . \
-                    --deploy-path / \
-                    --force
+              # CloudBase checks out the tested commit and publishes it in China,
+              # avoiding a large ZIP upload from the GitHub-hosted runner.
+              run: node scripts/deploy-cloudbase.mjs
