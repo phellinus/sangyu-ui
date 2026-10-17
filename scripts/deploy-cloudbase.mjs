@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import process from 'node:process';
 import { pathToFileURL } from 'node:url';
-import { promisify } from 'node:util';
+import { promisify, stripVTControlCharacters } from 'node:util';
 import { setTimeout as delay } from 'node:timers/promises';
 
 const execFileAsync = promisify(execFile);
@@ -14,7 +14,7 @@ export function createDeploymentRequest(env) {
 	}
 	if (!/^[a-f0-9]{40}$/i.test(sha ?? '')) throw new Error('GITHUB_SHA must be a commit SHA');
 	const commands = {
-		InstallCmd: 'npx --yes pnpm@10.18.3 install --frozen-lockfile',
+		InstallCmd: `git fetch --depth=1 origin ${sha} && git checkout --detach ${sha} && npx --yes pnpm@10.18.3 install --frozen-lockfile`,
 		BuildCmd: 'npx --yes pnpm@10.18.3 docs:build',
 		DeployCmd: 'tcb hosting deploy ./.vitepress/dist /',
 	};
@@ -36,6 +36,11 @@ export function createDeploymentRequest(env) {
 		StaticConfig: {
 			Framework: 'vite',
 			NodeJsVersion: '22',
+			// The static-hosting pipeline reads these fields rather than Source.
+			// Clone main, then detach at the tested SHA before installing dependencies.
+			CodeSource: 'github',
+			CodeRepo: repository,
+			CodeBranch: 'main',
 			BuildPath: '.',
 			AppPath: '/',
 			StaticCmd: commands,
@@ -44,34 +49,84 @@ export function createDeploymentRequest(env) {
 }
 
 export function parseApiResponse(stdout) {
-	const output = JSON.parse(stdout);
+	// CLI 3.8.7 writes log.info() to stdout even with --json enabled.
+	// Extract complete objects without treating braces inside log strings as delimiters.
+	const text = stripVTControlCharacters(String(stdout ?? ''));
+	let output;
+	let start = -1;
+	let depth = 0;
+	let quoted = false;
+	let escaped = false;
+	for (let index = 0; index < text.length; index++) {
+		const char = text[index];
+		if (start < 0) {
+			if (char !== '{') continue;
+			start = index;
+			depth = 1;
+			continue;
+		}
+		if (quoted) {
+			if (escaped) escaped = false;
+			else if (char === '\\') escaped = true;
+			else if (char === '"') quoted = false;
+			continue;
+		}
+		if (char === '"') quoted = true;
+		else if (char === '{') depth++;
+		else if (char === '}') depth--;
+		if (depth !== 0) continue;
+		try {
+			const candidate = JSON.parse(text.slice(start, index + 1));
+			if (['data', 'Response', 'error', 'Error', 'BuildId', 'Status', 'Log'].some((key) => key in candidate)) {
+				output = candidate;
+			}
+		} catch {
+			// A diagnostic line can contain braces without containing JSON.
+		}
+		start = -1;
+	}
+	if (!output) {
+		throw Object.assign(new Error('CloudBase CLI did not return a complete JSON response'), {
+			code: 'CLI_OUTPUT_INVALID',
+		});
+	}
 	const data = output.data ?? output;
 	const result = data.Response ?? data;
 	const error = output.error ?? result.Error;
-	if (error) throw new Error(error.message ?? error.Message ?? 'CloudBase API request failed');
+	if (error) {
+		const code = error.code ?? error.Code ?? 'API_ERROR';
+		const requestId = error.requestId ?? result.RequestId;
+		throw Object.assign(
+			new Error(
+				`${code}: ${error.message ?? error.Message ?? 'CloudBase API request failed'}${requestId ? ` (requestId: ${requestId})` : ''}`,
+			),
+			{ code },
+		);
+	}
 	return result;
 }
 
-export async function callCloudbase(action, body) {
+export async function callCloudbase(action, body, { execute = execFileAsync } = {}) {
+	let stdout;
 	try {
-		const { stdout } = await execFileAsync(
+		({ stdout } = await execute(
 			'tcb',
 			['api', 'tcb', action, '--api-version', '2018-06-08', '--body', JSON.stringify(body), '--json'],
 			{ timeout: 60_000, maxBuffer: 2 * 1024 * 1024 },
-		);
-		return parseApiResponse(stdout);
+		));
 	} catch (error) {
 		for (const output of [error.stdout, error.stderr]) {
 			try {
-				JSON.parse(output);
-			} catch {
-				continue;
+				parseApiResponse(output);
+			} catch (apiError) {
+				if (apiError.code !== 'CLI_OUTPUT_INVALID') throw apiError;
 			}
-			// CLI JSON errors provide the API message without dumping command arguments.
-			parseApiResponse(output);
 		}
-		throw new Error(`${action} failed: ${error.code ?? 'invalid API response'}`, { cause: error });
+		throw new Error(`${action} process failed: ${error.code ?? error.signal ?? 'unknown exit status'}`, {
+			cause: error,
+		});
 	}
+	return parseApiResponse(stdout);
 }
 
 export async function deployCloudbase(
