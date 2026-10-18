@@ -61,6 +61,6 @@ jobs:
               if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
               env:
                   TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
-              # CloudBase checks out the tested commit and publishes it in China,
+              # CloudBase checks out main and publishes it in China,
               # avoiding a large ZIP upload from the GitHub-hosted runner.
               run: node scripts/deploy-cloudbase.mjs
