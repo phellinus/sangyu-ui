@@ -1,11 +1,19 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import {
+	copyFileSync,
+	existsSync,
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	realpathSync,
+	rmSync,
+	writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import process from 'node:process';
 import test from 'node:test';
-import { pathToFileURL } from 'node:url';
 import { callCloudbase, createDeploymentRequest, deployCloudbase, parseApiResponse } from './deploy-cloudbase.mjs';
 import { installCloudbase } from './install-cloudbase.mjs';
 
@@ -17,9 +25,9 @@ const env = {
 const created = { BuildId: '2608845749', VersionName: 'sangyu-design-ui-002' };
 const quiet = { log() {}, sleep: async () => {} };
 
-test('deploys the checked commit from the public repository without uploading a ZIP', () => {
+test('deploys main from the public repository without uploading a ZIP or requiring Git during installation', () => {
 	const request = createDeploymentRequest(env);
-	assert.equal(request.Source.Ref, env.GITHUB_SHA);
+	assert.equal(request.Source.Ref, 'main');
 	assert.equal(request.Source.Repo, 'https://github.com/phellinus/sangyu-ui.git');
 	assert.equal(request.Source.IsPrivate, false);
 	assert.equal(request.BuildType, 'GIT');
@@ -30,7 +38,7 @@ test('deploys the checked commit from the public repository without uploading a 
 	assert.equal(request.StaticConfig.CodeSource, 'github');
 	assert.equal(request.StaticConfig.CodeRepo, env.GITHUB_REPOSITORY);
 	assert.equal(request.StaticConfig.CodeBranch, 'main');
-	assert.equal(request.Commands.InstallCmd, `npm run cloudbase:install -- ${env.GITHUB_SHA}`);
+	assert.equal(request.Commands.InstallCmd, 'npm run cloudbase:install');
 	assert.equal(request.Commands.BuildCmd, 'npm run docs:build');
 	for (const command of Object.values(request.Commands)) {
 		assert.doesNotMatch(command, /[;&|<>`$\n\r]/);
@@ -45,41 +53,30 @@ test('rejects missing environment IDs and invalid repository or commit input', (
 	}
 });
 
-test('installs through npm run without dependencies and pins the tested commit after main advances', (t) => {
-	const directory = mkdtempSync(join(tmpdir(), 'sangyu-deploy-pin-'));
+test('installs through npm run in a source-only workspace without .git or node_modules', (t) => {
+	const directory = mkdtempSync(join(tmpdir(), 'sangyu-cloudbase-source-'));
 	t.after(() => rmSync(directory, { recursive: true, force: true }));
-	const origin = join(directory, 'origin');
-	const checkout = join(directory, 'checkout');
-	const git = (...args) =>
-		execFileSync('git', args, { cwd: origin, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
-	execFileSync('git', ['init', '--initial-branch=main', origin], { stdio: 'pipe' });
-	git('config', 'user.name', 'Deployment test');
-	git('config', 'user.email', 'deployment-test@example.invalid');
-	mkdirSync(join(origin, 'scripts'));
-	copyFileSync(new URL('./install-cloudbase.mjs', import.meta.url), join(origin, 'scripts/install-cloudbase.mjs'));
+	const checkout = join(directory, 'source');
+	mkdirSync(join(checkout, 'scripts'), { recursive: true });
+	copyFileSync(new URL('./install-cloudbase.mjs', import.meta.url), join(checkout, 'scripts/install-cloudbase.mjs'));
 	const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 	writeFileSync(
-		join(origin, 'package.json'),
+		join(checkout, 'package.json'),
 		JSON.stringify({ scripts: { 'cloudbase:install': manifest.scripts['cloudbase:install'] } }),
 	);
-	writeFileSync(join(origin, 'revision.txt'), 'tested revision');
-	git('add', '.');
-	git('commit', '-m', 'tested');
-	const sha = git('rev-parse', 'HEAD');
-	writeFileSync(join(origin, 'revision.txt'), 'newer revision');
-	git('commit', '-am', 'newer');
-	execFileSync('git', ['clone', '--depth=1', '--branch=main', pathToFileURL(origin).href, checkout], {
-		stdio: 'pipe',
-	});
+	assert.equal(existsSync(join(checkout, '.git')), false);
+	assert.equal(existsSync(join(checkout, 'node_modules')), false);
 	const bin = join(directory, 'bin');
 	const argsFile = join(directory, 'install-args.json');
 	mkdirSync(bin);
+	// Any attempt to use Git must fail, even if a parent directory is a repository.
+	writeFileSync(join(bin, 'git'), '#!/usr/bin/env node\nprocess.exit(99);\n', { mode: 0o755 });
 	writeFileSync(
 		join(bin, 'npx'),
 		`#!/usr/bin/env node\nrequire('node:fs').writeFileSync(process.env.SANGYU_INSTALL_ARGS, JSON.stringify({args:process.argv.slice(2),cwd:process.cwd()}));\n`,
 		{ mode: 0o755 },
 	);
-	const command = createDeploymentRequest({ ...env, GITHUB_SHA: sha }).StaticConfig.StaticCmd.InstallCmd;
+	const command = createDeploymentRequest(env).StaticConfig.StaticCmd.InstallCmd;
 	assert.doesNotMatch(command, /[;&|<>`$\n\r]/);
 	assert.equal(command.split(' ')[0], 'npm');
 	execFileSync('npm', command.split(' ').slice(1), {
@@ -87,7 +84,7 @@ test('installs through npm run without dependencies and pins the tested commit a
 		env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, SANGYU_INSTALL_ARGS: argsFile },
 		stdio: 'pipe',
 	});
-	assert.equal(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: checkout, encoding: 'utf8' }).trim(), sha);
+	assert.equal(existsSync(join(checkout, '.git')), false);
 	assert.deepEqual(JSON.parse(readFileSync(argsFile, 'utf8')), {
 		args: ['--yes', 'pnpm@10.18.3', 'install', '--frozen-lockfile'],
 		cwd: realpathSync(checkout),
@@ -105,62 +102,26 @@ test('installs through npm run without dependencies and pins the tested commit a
 	);
 });
 
-test('rejects invalid commit input before executing any install process', () => {
-	let calls = 0;
-	assert.throws(
-		() =>
-			installCloudbase('main', {
-				execute: () => {
-					calls++;
-				},
-			}),
-		/full commit SHA/,
-	);
-	assert.equal(calls, 0);
-});
-
-test('stops installation when checkout fails', () => {
+test('only runs the pinned package manager and preserves its installation failure', () => {
 	const calls = [];
 	assert.throws(
 		() =>
-			installCloudbase(env.GITHUB_SHA, {
-				execute: (file, args) => {
-					calls.push([file, ...args]);
-					if (args[0] === 'checkout') throw new Error('checkout failed');
-				},
-			}),
-		/checkout failed/,
-	);
-	assert.equal(calls.length, 2);
-	assert(calls.every(([file]) => file === 'git'));
-});
-
-test('stops installation if the checked-out revision is wrong', () => {
-	let installed = false;
-	assert.throws(
-		() =>
-			installCloudbase(env.GITHUB_SHA, {
-				execute: (file, args) => {
-					if (file === 'npx') installed = true;
-					if (args[0] === 'rev-parse') return 'b'.repeat(40);
-				},
-			}),
-		/does not match/,
-	);
-	assert.equal(installed, false);
-});
-
-test('preserves dependency installation failure after a successful checkout', () => {
-	assert.throws(
-		() =>
-			installCloudbase(env.GITHUB_SHA, {
-				execute: (file, args) => {
-					if (args[0] === 'rev-parse') return env.GITHUB_SHA;
-					if (file === 'npx') throw new Error('frozen lockfile mismatch');
+			installCloudbase({
+				cwd: '/source-workspace',
+				execute: (file, args, options) => {
+					calls.push({ file, args, options });
+					throw new Error('frozen lockfile mismatch');
 				},
 			}),
 		/frozen lockfile mismatch/,
 	);
+	assert.deepEqual(calls, [
+		{
+			file: 'npx',
+			args: ['--yes', 'pnpm@10.18.3', 'install', '--frozen-lockfile'],
+			options: { cwd: '/source-workspace', stdio: 'inherit' },
+		},
+	]);
 });
 
 test('parses CLI envelopes and reports API errors', () => {
@@ -231,9 +192,11 @@ test('extracts structured errors from stderr on a nonzero CLI exit', async () =>
 
 test('waits for remote build success instead of reporting trigger success as deployment success', async () => {
 	const actions = [];
+	const logs = [];
 	const statuses = ['BUILDING', 'SUCCESS'];
 	const result = await deployCloudbase(env, {
 		...quiet,
+		log: (line) => logs.push(line),
 		callApi: async (action, body) => {
 			actions.push(action);
 			if (action === 'CreateCloudApp') return created;
@@ -242,6 +205,8 @@ test('waits for remote build success instead of reporting trigger success as dep
 		},
 	});
 	assert.equal(result.BuildId, created.BuildId);
+	assert(logs.some((line) => line.includes('branch main')));
+	assert(logs.some((line) => line.includes(`workflow commit: ${env.GITHUB_SHA}`)));
 	assert.deepEqual(actions, ['CreateCloudApp', 'DescribeCloudAppVersion', 'DescribeCloudAppVersion']);
 });
 

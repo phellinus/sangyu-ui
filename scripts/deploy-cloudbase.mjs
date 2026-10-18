@@ -15,7 +15,7 @@ export function createDeploymentRequest(env) {
 	if (!/^[a-f0-9]{40}$/i.test(sha ?? '')) throw new Error('GITHUB_SHA must be a commit SHA');
 	const commands = {
 		// CloudBase's command fields accept package-manager entrypoints, not node.
-		InstallCmd: `npm run cloudbase:install -- ${sha}`,
+		InstallCmd: 'npm run cloudbase:install',
 		BuildCmd: 'npm run docs:build',
 		DeployCmd: 'tcb hosting deploy ./.vitepress/dist /',
 	};
@@ -27,7 +27,7 @@ export function createDeploymentRequest(env) {
 		Source: {
 			Type: 'git',
 			Repo: `https://github.com/${repository}.git`,
-			Ref: sha,
+			Ref: 'main',
 			Channel: 'git',
 			IsPrivate: false,
 		},
@@ -38,7 +38,8 @@ export function createDeploymentRequest(env) {
 			Framework: 'vite',
 			NodeJsVersion: '22',
 			// The static-hosting pipeline reads these fields rather than Source.
-			// Clone main, then detach at the tested SHA before installing dependencies.
+			// CloudBase clones this branch before installation. That later workspace
+			// need not include .git, so installation must not run Git commands.
 			CodeSource: 'github',
 			CodeRepo: repository,
 			CodeBranch: 'main',
@@ -135,7 +136,8 @@ export async function deployCloudbase(
 	{ callApi = callCloudbase, sleep = delay, now = Date.now, log = console.log, timeoutMs = 20 * 60_000 } = {},
 ) {
 	const request = createDeploymentRequest(env);
-	log(`Deploying ${env.GITHUB_REPOSITORY}@${env.GITHUB_SHA} through CloudBase Git checkout`);
+	log(`Deploying ${env.GITHUB_REPOSITORY} branch main through CloudBase Git checkout`);
+	log(`Triggering workflow commit: ${env.GITHUB_SHA}; CloudBase resolves main when cloning`);
 	// A timed-out create request may already have triggered a deployment. Never retry it blindly.
 	const created = await callApi('CreateCloudApp', request);
 	if (!created.BuildId || !created.VersionName) throw new Error('CloudBase returned no build identity');
