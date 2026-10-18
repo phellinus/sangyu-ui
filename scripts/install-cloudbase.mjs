@@ -5,8 +5,8 @@ import { pathToFileURL } from 'node:url';
 export function installCloudbase(sha, { execute = execFileSync, cwd = process.cwd() } = {}) {
 	if (!/^[a-f0-9]{40}$/i.test(sha ?? '')) throw new Error('A full commit SHA is required');
 	const options = { cwd, stdio: 'inherit' };
-	// Keep the CloudBase command field to one process; execute each operation
-	// separately so a failed checkout cannot continue with dependency installation.
+	// Invoked through npm run so the CloudBase command field uses a standard
+	// package-manager entrypoint. Stop immediately if checkout or installation fails.
 	execute('git', ['fetch', '--depth=1', 'origin', sha], options);
 	execute('git', ['checkout', '--detach', sha], options);
 	const checkedOut = execute('git', ['rev-parse', 'HEAD'], {

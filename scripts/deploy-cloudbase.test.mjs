@@ -30,11 +30,11 @@ test('deploys the checked commit from the public repository without uploading a 
 	assert.equal(request.StaticConfig.CodeSource, 'github');
 	assert.equal(request.StaticConfig.CodeRepo, env.GITHUB_REPOSITORY);
 	assert.equal(request.StaticConfig.CodeBranch, 'main');
-	assert.equal(request.Commands.InstallCmd, `node scripts/install-cloudbase.mjs ${env.GITHUB_SHA}`);
+	assert.equal(request.Commands.InstallCmd, `npm run cloudbase:install -- ${env.GITHUB_SHA}`);
+	assert.equal(request.Commands.BuildCmd, 'npm run docs:build');
 	for (const command of Object.values(request.Commands)) {
 		assert.doesNotMatch(command, /[;&|<>`$\n\r]/);
 	}
-	assert.match(request.Commands.BuildCmd, /docs:build$/);
 	assert.equal(request.Commands.DeployCmd, 'tcb hosting deploy ./.vitepress/dist /');
 	assert.equal('CosTimestamp' in request.Source, false);
 });
@@ -45,7 +45,7 @@ test('rejects missing environment IDs and invalid repository or commit input', (
 	}
 });
 
-test('checks out the tested commit even when main advances before the cloud clone', (t) => {
+test('installs through npm run without dependencies and pins the tested commit after main advances', (t) => {
 	const directory = mkdtempSync(join(tmpdir(), 'sangyu-deploy-pin-'));
 	t.after(() => rmSync(directory, { recursive: true, force: true }));
 	const origin = join(directory, 'origin');
@@ -57,6 +57,11 @@ test('checks out the tested commit even when main advances before the cloud clon
 	git('config', 'user.email', 'deployment-test@example.invalid');
 	mkdirSync(join(origin, 'scripts'));
 	copyFileSync(new URL('./install-cloudbase.mjs', import.meta.url), join(origin, 'scripts/install-cloudbase.mjs'));
+	const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+	writeFileSync(
+		join(origin, 'package.json'),
+		JSON.stringify({ scripts: { 'cloudbase:install': manifest.scripts['cloudbase:install'] } }),
+	);
 	writeFileSync(join(origin, 'revision.txt'), 'tested revision');
 	git('add', '.');
 	git('commit', '-m', 'tested');
@@ -76,7 +81,8 @@ test('checks out the tested commit even when main advances before the cloud clon
 	);
 	const command = createDeploymentRequest({ ...env, GITHUB_SHA: sha }).StaticConfig.StaticCmd.InstallCmd;
 	assert.doesNotMatch(command, /[;&|<>`$\n\r]/);
-	execFileSync(process.execPath, command.split(' ').slice(1), {
+	assert.equal(command.split(' ')[0], 'npm');
+	execFileSync('npm', command.split(' ').slice(1), {
 		cwd: checkout,
 		env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, SANGYU_INSTALL_ARGS: argsFile },
 		stdio: 'pipe',
@@ -86,6 +92,17 @@ test('checks out the tested commit even when main advances before the cloud clon
 		args: ['--yes', 'pnpm@10.18.3', 'install', '--frozen-lockfile'],
 		cwd: realpathSync(checkout),
 	});
+	// npm must return an installation error to the cloud pipeline, not mask it.
+	writeFileSync(join(bin, 'npx'), '#!/usr/bin/env node\nprocess.exit(17);\n', { mode: 0o755 });
+	assert.throws(
+		() =>
+			execFileSync('npm', command.split(' ').slice(1), {
+				cwd: checkout,
+				env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
+				stdio: 'pipe',
+			}),
+		(error) => error.status === 17,
+	);
 });
 
 test('rejects invalid commit input before executing any install process', () => {

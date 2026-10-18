@@ -14,8 +14,9 @@ export function createDeploymentRequest(env) {
 	}
 	if (!/^[a-f0-9]{40}$/i.test(sha ?? '')) throw new Error('GITHUB_SHA must be a commit SHA');
 	const commands = {
-		InstallCmd: `node scripts/install-cloudbase.mjs ${sha}`,
-		BuildCmd: 'npx --yes pnpm@10.18.3 docs:build',
+		// CloudBase's command fields accept package-manager entrypoints, not node.
+		InstallCmd: `npm run cloudbase:install -- ${sha}`,
+		BuildCmd: 'npm run docs:build',
 		DeployCmd: 'tcb hosting deploy ./.vitepress/dist /',
 	};
 	return {
