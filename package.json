@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
+		"cloudbase:install": "node scripts/install-cloudbase.mjs",
 		"build": "pnpm run build:icons && pnpm run build:ui",
 		"build:icons": "pnpm --filter @sangyu-ui/icons build",
 		"build:ui": "pnpm --filter sangyu-ui build",
