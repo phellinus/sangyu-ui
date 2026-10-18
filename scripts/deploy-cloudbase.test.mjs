@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import process from 'node:process';
 import test from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { callCloudbase, createDeploymentRequest, deployCloudbase, parseApiResponse } from './deploy-cloudbase.mjs';
+import { installCloudbase } from './install-cloudbase.mjs';
 
 const env = {
 	TCB_ENV_ID: 'test-env',
@@ -28,9 +30,10 @@ test('deploys the checked commit from the public repository without uploading a 
 	assert.equal(request.StaticConfig.CodeSource, 'github');
 	assert.equal(request.StaticConfig.CodeRepo, env.GITHUB_REPOSITORY);
 	assert.equal(request.StaticConfig.CodeBranch, 'main');
-	assert.match(request.Commands.InstallCmd, new RegExp(`git fetch --depth=1 origin ${env.GITHUB_SHA}`));
-	assert.match(request.Commands.InstallCmd, new RegExp(`git checkout --detach ${env.GITHUB_SHA}`));
-	assert.match(request.Commands.InstallCmd, /pnpm@10\.18\.3 install --frozen-lockfile$/);
+	assert.equal(request.Commands.InstallCmd, `node scripts/install-cloudbase.mjs ${env.GITHUB_SHA}`);
+	for (const command of Object.values(request.Commands)) {
+		assert.doesNotMatch(command, /[;&|<>`$\n\r]/);
+	}
 	assert.match(request.Commands.BuildCmd, /docs:build$/);
 	assert.equal(request.Commands.DeployCmd, 'tcb hosting deploy ./.vitepress/dist /');
 	assert.equal('CosTimestamp' in request.Source, false);
@@ -52,6 +55,8 @@ test('checks out the tested commit even when main advances before the cloud clon
 	execFileSync('git', ['init', '--initial-branch=main', origin], { stdio: 'pipe' });
 	git('config', 'user.name', 'Deployment test');
 	git('config', 'user.email', 'deployment-test@example.invalid');
+	mkdirSync(join(origin, 'scripts'));
+	copyFileSync(new URL('./install-cloudbase.mjs', import.meta.url), join(origin, 'scripts/install-cloudbase.mjs'));
 	writeFileSync(join(origin, 'revision.txt'), 'tested revision');
 	git('add', '.');
 	git('commit', '-m', 'tested');
@@ -61,11 +66,84 @@ test('checks out the tested commit even when main advances before the cloud clon
 	execFileSync('git', ['clone', '--depth=1', '--branch=main', pathToFileURL(origin).href, checkout], {
 		stdio: 'pipe',
 	});
-	const command = createDeploymentRequest({ ...env, GITHUB_SHA: sha }).StaticConfig.StaticCmd.InstallCmd.split(
-		' && npx',
-	)[0];
-	execFileSync('bash', ['-e', '-c', command], { cwd: checkout, stdio: 'pipe' });
+	const bin = join(directory, 'bin');
+	const argsFile = join(directory, 'install-args.json');
+	mkdirSync(bin);
+	writeFileSync(
+		join(bin, 'npx'),
+		`#!/usr/bin/env node\nrequire('node:fs').writeFileSync(process.env.SANGYU_INSTALL_ARGS, JSON.stringify({args:process.argv.slice(2),cwd:process.cwd()}));\n`,
+		{ mode: 0o755 },
+	);
+	const command = createDeploymentRequest({ ...env, GITHUB_SHA: sha }).StaticConfig.StaticCmd.InstallCmd;
+	assert.doesNotMatch(command, /[;&|<>`$\n\r]/);
+	execFileSync(process.execPath, command.split(' ').slice(1), {
+		cwd: checkout,
+		env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, SANGYU_INSTALL_ARGS: argsFile },
+		stdio: 'pipe',
+	});
 	assert.equal(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: checkout, encoding: 'utf8' }).trim(), sha);
+	assert.deepEqual(JSON.parse(readFileSync(argsFile, 'utf8')), {
+		args: ['--yes', 'pnpm@10.18.3', 'install', '--frozen-lockfile'],
+		cwd: realpathSync(checkout),
+	});
+});
+
+test('rejects invalid commit input before executing any install process', () => {
+	let calls = 0;
+	assert.throws(
+		() =>
+			installCloudbase('main', {
+				execute: () => {
+					calls++;
+				},
+			}),
+		/full commit SHA/,
+	);
+	assert.equal(calls, 0);
+});
+
+test('stops installation when checkout fails', () => {
+	const calls = [];
+	assert.throws(
+		() =>
+			installCloudbase(env.GITHUB_SHA, {
+				execute: (file, args) => {
+					calls.push([file, ...args]);
+					if (args[0] === 'checkout') throw new Error('checkout failed');
+				},
+			}),
+		/checkout failed/,
+	);
+	assert.equal(calls.length, 2);
+	assert(calls.every(([file]) => file === 'git'));
+});
+
+test('stops installation if the checked-out revision is wrong', () => {
+	let installed = false;
+	assert.throws(
+		() =>
+			installCloudbase(env.GITHUB_SHA, {
+				execute: (file, args) => {
+					if (file === 'npx') installed = true;
+					if (args[0] === 'rev-parse') return 'b'.repeat(40);
+				},
+			}),
+		/does not match/,
+	);
+	assert.equal(installed, false);
+});
+
+test('preserves dependency installation failure after a successful checkout', () => {
+	assert.throws(
+		() =>
+			installCloudbase(env.GITHUB_SHA, {
+				execute: (file, args) => {
+					if (args[0] === 'rev-parse') return env.GITHUB_SHA;
+					if (file === 'npx') throw new Error('frozen lockfile mismatch');
+				},
+			}),
+		/frozen lockfile mismatch/,
+	);
 });
 
 test('parses CLI envelopes and reports API errors', () => {
