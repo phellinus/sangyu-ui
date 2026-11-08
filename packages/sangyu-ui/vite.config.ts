@@ -6,7 +6,7 @@ import { defineConfig } from 'vite';
 
 const resolveFromPackage = (relativePath: string) => fileURLToPath(new URL(relativePath, import.meta.url));
 
-const externalPackages = ['vue', '@sangyu-ui/icons', '@floating-ui/vue', '@v-c/utils', 'async-validator', 'lodash-es'];
+const externalPackages = ['vue', '@sangyu-ui/icons', '@floating-ui/vue', 'async-validator', 'lodash-es'];
 
 export default defineConfig({
 	plugins: [

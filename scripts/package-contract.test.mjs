@@ -26,6 +26,17 @@ for (const { directory, name } of packages) {
 	const packageDirectory = join(root, directory);
 	const manifest = JSON.parse(readFileSync(join(packageDirectory, 'package.json'), 'utf8'));
 
+	test(`${name} does not expose the retired VNode utility dependency`, () => {
+		for (const field of ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']) {
+			assert.equal(Object.hasOwn(manifest[field] ?? {}, '@v-c/utils'), false);
+		}
+		const outputDirectory = join(packageDirectory, 'dist');
+		assert.ok(existsSync(outputDirectory), `${name}: missing dist; run pnpm build first`);
+		for (const file of collectFiles(outputDirectory).filter((file) => /\.(?:js|ts)$/.test(file))) {
+			assert.equal(readFileSync(file, 'utf8').includes('@v-c/utils'), false, file);
+		}
+	});
+
 	test(`${name} declares a consistent ESM-only public entry`, () => {
 		assert.equal(manifest.name, name);
 		assert.equal(manifest.type, 'module');

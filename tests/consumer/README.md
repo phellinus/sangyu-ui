@@ -9,6 +9,8 @@ pnpm install --frozen-lockfile
 node scripts/consumer-smoke.mjs
 ```
 
+根脚本 `pnpm test:consumer` 等价于上述 Node 命令，并已接入 `pnpm check`；Quality 工作流通过 `pnpm check` 执行同一门禁。下方体积数据对应文首记录的原始基线，不代表后续集成后的固定体积；请以当前运行生成的 `report.json` 为准。
+
 需要项目当前的 Node 和 pnpm 环境。实测 Node `22.20.0`、pnpm `10.18.3`、Vue `3.5.24`、TypeScript `5.9.3`、vue-tsc `3.1.3`、Vite `7.3.5`、plugin-vue `6.0.1`。脚本从本 Worktree 的安装结果读取工具确切版本，不升级根依赖或修改根锁文件。
 
 脚本依次对 icons、UI 执行 `pnpm pack`，由现有 `prepack` 先后构建两个包，因此运行时不需要提前构建。两个真实 tarball 位于每次新建的系统临时目录；消费者在其 `consumer/` 子目录中独立安装依赖。UI 和 icons 均使用显式 `file:../*.tgz`，并用 pnpm override 将 UI 的传递图标依赖指向同一个 icons tarball。

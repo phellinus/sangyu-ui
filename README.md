@@ -356,7 +356,9 @@ pnpm test:run
 pnpm check
 ```
 
-产物契约测试由 `pnpm check` 在构建后运行，也可以先执行 `pnpm build`，再单独运行 `pnpm test:packages`。该测试检查本地构建文件与包清单，不替代打包安装后的实际消费验证。
+产物契约测试由 `pnpm check` 在构建后运行，也可以先执行 `pnpm build`，再单独运行 `pnpm test:packages`。该测试检查本地构建文件与包清单，并防止已移除的 VNode 工具依赖重新进入包清单或产物。
+
+`pnpm check` 还会通过 `pnpm test:consumer` 执行真实 tarball 消费验证：依次打包 icons 和 UI，在系统临时目录中独立安装，检查公开导出、严格类型、显式 CSS 和四组 Vite 构建。此命令不发布包；依赖缓存不足时需要网络。验证范围、体积测量和限制见 [消费者验证说明](./tests/consumer/README.md)。
 
 ## 参与贡献
 
