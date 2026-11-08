@@ -7,5 +7,5 @@
 		"noEmit": false
 	},
 	"include": ["src/**/*.ts", "src/**/*.vue"],
-	"exclude": ["src/**/demos/**", "src/**/test/**", "src/**/*.test.ts"]
+	"exclude": ["src/**/demos/**", "src/**/test/**", "src/**/__tests__/**", "src/**/*.test.ts"]
 }

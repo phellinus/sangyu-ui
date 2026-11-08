@@ -49,6 +49,11 @@ for (const [name, component] of Object.entries(ui)) {
 	}
 }
 assert.equal(app.config.globalProperties.$notification, ui.SyNotification.info);
+const customIcon = { name: 'ConsumerBrandIcon', render: () => null };
+icons.registerIcon('aim', customIcon, { aliases: ['consumer-brand'] });
+assert.equal(icons.getIconComponent('aim'), customIcon);
+assert.equal(icons.getIconComponent('consumer-brand'), customIcon);
+icons.registerIcon('aim', icons.SyAimIcon);
 assert.equal(icons.getIconComponent('aim'), icons.SyAimIcon);
 assert.ok(icons.listRegisteredIcons().includes('zoom-out'));
 report.registeredIcons = icons.listRegisteredIcons();

@@ -25,6 +25,8 @@
 
 当前 V2 开发分支的 `sangyu-ui` 和 `@sangyu-ui/icons` 仅提供 ESM 产物，不再提供独立的 CommonJS 构建。请使用 ESM `import`；依赖传统 CommonJS 入口的项目需要先评估并迁移消费方式。
 
+ESM 产物保留内部模块边界，支持构建工具裁剪未使用的组件和具体图标。公开入口保持不变；`dist` 内部文件布局不是稳定的公开导入路径。
+
 组件库和图标包的 CSS 仍需显式导入。此格式调整不代表其他 V2 能力已经实现。
 
 ## 安装
@@ -358,7 +360,7 @@ pnpm check
 
 产物契约测试由 `pnpm check` 在构建后运行，也可以先执行 `pnpm build`，再单独运行 `pnpm test:packages`。该测试检查本地构建文件与包清单，并防止已移除的 VNode 工具依赖重新进入包清单或产物。
 
-`pnpm check` 还会通过 `pnpm test:consumer` 执行真实 tarball 消费验证：依次打包 icons 和 UI，在系统临时目录中独立安装，检查公开导出、严格类型、显式 CSS 和四组 Vite 构建。此命令不发布包；依赖缓存不足时需要网络。验证范围、体积测量和限制见 [消费者验证说明](./tests/consumer/README.md)。
+`pnpm check` 还会通过 `pnpm test:consumer` 执行真实 tarball 消费验证：依次打包 icons 和 UI，在系统临时目录中独立安装，检查公开导出、严格类型、显式 CSS 和六组 Vite 构建，并断言未使用的组件或具体图标已被裁剪。此命令不发布包；依赖缓存不足时需要网络。验证范围、体积测量和限制见 [消费者验证说明](./tests/consumer/README.md)。
 
 ## 参与贡献
 

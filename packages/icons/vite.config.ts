@@ -11,7 +11,7 @@ export default defineConfig({
 		dts({
 			tsconfigPath: resolveFromPackage('./tsconfig.build.json'),
 			include: ['src/**/*.ts', 'src/**/*.vue'],
-			exclude: ['src/**/demos/**', 'src/**/test/**', 'src/**/*.test.ts'],
+			exclude: ['src/**/demos/**', 'src/**/test/**', 'src/**/__tests__/**', 'src/**/*.test.ts'],
 			pathsToAliases: false,
 			bundleTypes: {
 				// 将私有工具包涉及的类型合并到图标声明文件中
@@ -47,6 +47,10 @@ export default defineConfig({
 			external: ['vue'],
 			output: {
 				exports: 'named',
+				preserveModules: true,
+				preserveModulesRoot: resolveFromPackage('./src'),
+				entryFileNames: (chunk) =>
+					`${chunk.name.replace(/node_modules\/(?:\.pnpm\/[^/]+\/node_modules\/)?/g, 'vendor/')}.js`,
 			},
 		},
 	},

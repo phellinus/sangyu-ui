@@ -56,6 +56,10 @@ export default defineConfig({
 			external: externalPackages,
 			output: {
 				exports: 'named',
+				preserveModules: true,
+				preserveModulesRoot: resolveFromPackage('./src'),
+				entryFileNames: (chunk) =>
+					`${chunk.name.replace(/node_modules\/(?:\.pnpm\/[^/]+\/node_modules\/)?/g, 'vendor/')}.js`,
 			},
 		},
 	},

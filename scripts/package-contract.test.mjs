@@ -83,4 +83,19 @@ for (const { directory, name } of packages) {
 			[],
 		);
 	});
+
+	test(`${name} preserves multiple ESM modules without leaking test files`, () => {
+		const outputDirectory = join(packageDirectory, 'dist');
+		assert.ok(existsSync(outputDirectory), `${name}: missing dist; run pnpm build first`);
+		const files = collectFiles(outputDirectory);
+		assert.ok(files.filter((file) => file.endsWith('.js')).length > 1);
+		assert.deepEqual(
+			files.filter((file) => /(?:__tests__|\.spec\.|\.test\.)/.test(file)),
+			[],
+		);
+		assert.deepEqual(
+			files.filter((file) => file.includes('/node_modules/')),
+			[],
+		);
+	});
 }

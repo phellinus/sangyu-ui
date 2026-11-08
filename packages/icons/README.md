@@ -8,6 +8,8 @@ Sangyu UI 的 Vue 3 SVG 图标组件包，支持直接使用图标组件，也�
 
 JavaScript 和 CSS 分开提供，单独使用图标包时仍需显式导入 `@sangyu-ui/icons/style.css`。如果已经引入 `sangyu-ui/style.css`，无需重复导入图标样式。此格式调整不代表其他 V2 能力已经实现。
 
+产物保留 ESM 模块边界，直接导入具体图标时可裁剪未使用的图标和注册表。公开导入路径不变，不要依赖 `dist` 内部文件路径。CSS 仍按上述方式显式整包导入。
+
 ## 安装
 
 ```bash
@@ -54,7 +56,7 @@ import '@sangyu-ui/icons/style.css';
 
 ## 使用 SyIcon
 
-内置图标已经注册到图标表中，可以通过名称使用：
+首次使用注册表 API 或按名称渲染 `SyIcon` 时，内置图标表会自动初始化，无需手动注册。按名称查询需要保留完整内置图标集合，因此使用 `SyIcon name` 与直接导入具体图标的体积不同；依赖此能力的组件也会保留图标表。原有自定义图标覆盖与别名用法保持不变：
 
 ```vue
 <script setup lang="ts">

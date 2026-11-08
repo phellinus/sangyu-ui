@@ -1,8 +1,9 @@
 import type { Component } from 'vue';
+import { builtInIcons } from './built-in-icons';
 
 type IconComponent = Component;
 
-const iconRegistry = new Map<string, IconComponent>();
+let iconRegistry: Map<string, IconComponent> | undefined;
 
 const camelToKebab = (value: string) =>
 	value
@@ -21,16 +22,20 @@ const normalizeKey = (value: string) => {
 		.replace(/^-|-$/g, '');
 };
 
-const addToRegistry = (name: string, component: IconComponent) => {
+const addToRegistry = (registry: Map<string, IconComponent>, name: string, component: IconComponent) => {
 	const key = normalizeKey(name);
 	if (!key) {
 		return;
 	}
 
-	iconRegistry.set(key, component);
+	registry.set(key, component);
 };
 
-const registerVariants = (component: IconComponent, ...candidates: Array<string | undefined>) => {
+const registerVariants = (
+	registry: Map<string, IconComponent>,
+	component: IconComponent,
+	...candidates: Array<string | undefined>
+) => {
 	candidates
 		.filter((candidate): candidate is string => Boolean(candidate && candidate.trim().length))
 		.forEach((candidate) => {
@@ -44,8 +49,19 @@ const registerVariants = (component: IconComponent, ...candidates: Array<string 
 				normalized.toLowerCase(),
 			]);
 
-			variants.forEach((variant) => addToRegistry(variant, component));
+			variants.forEach((variant) => addToRegistry(registry, variant, component));
 		});
+};
+
+const getRegistry = () => {
+	if (!iconRegistry) {
+		const registry = new Map<string, IconComponent>();
+		Object.entries(builtInIcons).forEach(([name, component]) => {
+			registerVariants(registry, component, name, component.name);
+		});
+		iconRegistry = registry;
+	}
+	return iconRegistry;
 };
 
 export const getIconComponent = (name?: string) => {
@@ -53,11 +69,11 @@ export const getIconComponent = (name?: string) => {
 		return undefined;
 	}
 
-	return iconRegistry.get(normalizeKey(name));
+	return getRegistry().get(normalizeKey(name));
 };
 
 export const registerIcon = (name: string, component: IconComponent, options?: { aliases?: string[] }) => {
-	registerVariants(component, name, component?.name, ...(options?.aliases ?? []));
+	registerVariants(getRegistry(), component, name, component?.name, ...(options?.aliases ?? []));
 };
 
 export const registerIcons = (icons: Record<string, IconComponent>) => {
@@ -66,4 +82,4 @@ export const registerIcons = (icons: Record<string, IconComponent>) => {
 	});
 };
 
-export const listRegisteredIcons = () => Array.from(iconRegistry.keys());
+export const listRegisteredIcons = () => Array.from(getRegistry().keys());
