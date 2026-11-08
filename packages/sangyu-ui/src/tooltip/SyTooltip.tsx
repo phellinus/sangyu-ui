@@ -1,4 +1,4 @@
-import { cloneVNode, defineComponent, mergeProps, type PropType } from 'vue';
+import { cloneVNode, defineComponent, type PropType } from 'vue';
 import type { Placement } from '@floating-ui/vue';
 import { TooltipContent } from './components';
 import { useTooltipFloating, useTooltipVisible } from './composables';
@@ -65,10 +65,11 @@ export default defineComponent({
 
 			return cloneVNode(
 				triggerNode,
-				mergeProps(triggerNode.props ?? {}, {
+				{
 					ref: floating.reference,
 					...triggerEvents,
-				}),
+				},
+				true,
 			);
 		};
 
