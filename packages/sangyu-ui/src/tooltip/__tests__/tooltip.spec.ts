@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { h, nextTick } from 'vue';
+import { createCommentVNode, createTextVNode, defineComponent, Fragment, h, nextTick } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SyTooltip } from 'sangyu-ui';
 
@@ -72,5 +72,27 @@ describe('SyTooltip', () => {
 		expect(warnSpy).toHaveBeenCalledWith('SyTooltip: only one child is allowed');
 
 		warnSpy.mockRestore();
+	});
+
+	it('binds click behavior to a component trigger inside nested fragments', async () => {
+		const onClick = vi.fn();
+		const Trigger = defineComponent({ render: () => h('button', { class: 'nested-trigger' }, '打开') });
+		const wrapper = mount(SyTooltip, {
+			attachTo: document.body,
+			props: { trigger: 'click', content: '嵌套提示' },
+			slots: {
+				default: () => [
+					createCommentVNode(),
+					h(Fragment, [createTextVNode(' '), h(Fragment, [h(Trigger, { onClick })])]),
+				],
+			},
+		});
+
+		await wrapper.get('.nested-trigger').trigger('click');
+		await nextTick();
+
+		expect(onClick).toHaveBeenCalled();
+		expect(document.body.querySelector('.sy-tooltip')?.textContent).toContain('嵌套提示');
+		wrapper.unmount();
 	});
 });
