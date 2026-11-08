@@ -1,4 +1,4 @@
-import { filterEmpty, isBaseType } from '@v-c/utils';
+import { filterEmpty, isBaseType } from '@sangyu-ui/utils';
 import { isVNode, type Slots } from 'vue';
 import type { InternalTableColumn, TableColumn, TableColumnSlots } from '../Table.type';
 

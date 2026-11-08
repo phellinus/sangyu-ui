@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { h } from 'vue';
+import { createCommentVNode, createTextVNode, Fragment, h } from 'vue';
 import { describe, expect, it } from 'vitest';
 import SyTable from '../SyTable';
 import { TableColumn } from '../components';
@@ -64,5 +64,36 @@ describe('SyTable', () => {
 		expect(fixedCells.length).toBeGreaterThan(0);
 		expect(fixedCells[0].attributes('style')).toContain('--sy-table-fixed-left: 0px;');
 		expect(wrapper.find('.sy-table-body-table').attributes('style')).toContain('min-width: 220px;');
+	});
+
+	it('renders scoped column slots from nested fragments while ignoring unrelated nodes', () => {
+		const wrapper = mount(SyTable, {
+			props: { dataSource: [{ name: '王五', age: 28 }] },
+			slots: {
+				default: () => [
+					createCommentVNode(),
+					createTextVNode('ignored text'),
+					h('div', [h(TableColumn, { title: 'wrapped' })]),
+					h(Fragment, [
+						h(TableColumn, { title: '姓名', dataIndex: 'name' }),
+						h(Fragment, [
+							createTextVNode(' '),
+							h(
+								TableColumn,
+								{ dataIndex: 'age' },
+								{
+									title: () => h('strong', '年龄'),
+									default: ({ text }: { text: unknown }) => h('span', `${text}岁`),
+								},
+							),
+						]),
+					]),
+				],
+			},
+		});
+
+		expect(wrapper.findAll('.sy-table-header-cell').map((cell) => cell.text())).toEqual(['姓名', '年龄']);
+		expect(wrapper.findAll('.sy-table-body-cell').map((cell) => cell.text())).toEqual(['王五', '28岁']);
+		wrapper.unmount();
 	});
 });

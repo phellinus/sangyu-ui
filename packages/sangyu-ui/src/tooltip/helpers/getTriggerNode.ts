@@ -1,4 +1,4 @@
-import { filterEmpty, isBaseType } from '@v-c/utils';
+import { filterEmpty, isBaseType } from '@sangyu-ui/utils';
 import type { VNode } from 'vue';
 
 // 获取 Tooltip 唯一允许的触发节点
