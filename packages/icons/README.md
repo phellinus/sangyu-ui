@@ -2,6 +2,12 @@
 
 Sangyu UI 的 Vue 3 SVG 图标组件包，支持直接使用图标组件，也支持通过 `SyIcon` 按名称渲染和注册自定义图标。
 
+## 模块格式
+
+当前 V2 开发分支仅提供 ESM 产物，不再提供独立的 CommonJS 构建。请使用 ESM `import`；依赖传统 CommonJS 入口的项目需要先评估并迁移消费方式。
+
+JavaScript 和 CSS 分开提供，单独使用图标包时仍需显式导入 `@sangyu-ui/icons/style.css`。如果已经引入 `sangyu-ui/style.css`，无需重复导入图标样式。此格式调整不代表其他 V2 能力已经实现。
+
 ## 安装
 
 ```bash

@@ -366,11 +366,11 @@ html::-webkit-scrollbar-thumb,
 	border: 1px solid var(--vp-c-divider);
 	border-radius: 4px;
 	text-align: center;
-    cursor: pointer;
-    &:hover {
-        background-color: #3e3e3e;
-        color: #fff;
-    }
+	cursor: pointer;
+	&:hover {
+		background-color: #3e3e3e;
+		color: #fff;
+	}
 }
 .sy-showcase-footer {
 	display: flex;

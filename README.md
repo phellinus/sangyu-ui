@@ -16,12 +16,16 @@
 - 提供独立的 `@sangyu-ui/icons` 图标包
 - 使用 Vitest 进行组件单元测试
 - 使用 VitePress 构建组件文档
-- 支持 ESM 和 CommonJS
+- 提供 ESM 产物
 
 ## 环境要求
 
 - Vue `^3.5.0`
 - 支持 Vue 3 的现代浏览器
+
+当前 V2 开发分支的 `sangyu-ui` 和 `@sangyu-ui/icons` 仅提供 ESM 产物，不再提供独立的 CommonJS 构建。请使用 ESM `import`；依赖传统 CommonJS 入口的项目需要先评估并迁移消费方式。
+
+组件库和图标包的 CSS 仍需显式导入。此格式调整不代表其他 V2 能力已经实现。
 
 ## 安装
 
@@ -111,9 +115,7 @@ const visible = ref(false);
 <template>
 	<SyButton type="filled" @click="visible = true">打开抽屉</SyButton>
 
-	<SyDrawer v-model:visible="visible" title="抽屉标题">
-		这里是抽屉内容
-	</SyDrawer>
+	<SyDrawer v-model:visible="visible" title="抽屉标题">这里是抽屉内容</SyDrawer>
 </template>
 ```
 
@@ -300,11 +302,11 @@ import './styles/sangyu-theme.css';
 
 ## 相关包
 
-| 包名 | 说明 | 发布状态 |
-| --- | --- | --- |
-| [`sangyu-ui`](https://www.npmjs.com/package/sangyu-ui) | Vue 3 组件库主包 | 公开 |
-| [`@sangyu-ui/icons`](https://www.npmjs.com/package/@sangyu-ui/icons) | Vue 3 SVG 图标组件包 | 公开 |
-| `@sangyu-ui/utils` | 组件库内部工具包 | 不单独发布 |
+| 包名                                                                 | 说明                 | 发布状态   |
+| -------------------------------------------------------------------- | -------------------- | ---------- |
+| [`sangyu-ui`](https://www.npmjs.com/package/sangyu-ui)               | Vue 3 组件库主包     | 公开       |
+| [`@sangyu-ui/icons`](https://www.npmjs.com/package/@sangyu-ui/icons) | Vue 3 SVG 图标组件包 | 公开       |
+| `@sangyu-ui/utils`                                                   | 组件库内部工具包     | 不单独发布 |
 
 ## 项目结构
 
@@ -353,6 +355,8 @@ pnpm test:run
 ```bash
 pnpm check
 ```
+
+产物契约测试由 `pnpm check` 在构建后运行，也可以先执行 `pnpm build`，再单独运行 `pnpm test:packages`。该测试检查本地构建文件与包清单，不替代打包安装后的实际消费验证。
 
 ## 参与贡献
 

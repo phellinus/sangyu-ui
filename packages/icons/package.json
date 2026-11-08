@@ -21,7 +21,7 @@
 		"url": "https://github.com/phellinus/sangyu-ui/issues"
 	},
 	"type": "module",
-	"main": "./dist/index.cjs",
+	"main": "./dist/index.js",
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"style": "./dist/style.css",
@@ -29,7 +29,6 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js",
-			"require": "./dist/index.cjs",
 			"default": "./dist/index.js"
 		},
 		"./style.css": "./dist/style.css",

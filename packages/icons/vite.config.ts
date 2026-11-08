@@ -38,8 +38,8 @@ export default defineConfig({
 		target: 'es2019',
 		lib: {
 			entry: resolveFromPackage('./src/index.ts'),
-			formats: ['es', 'cjs'],
-			fileName: (format) => (format === 'es' ? 'index.js' : 'index.cjs'),
+			formats: ['es'],
+			fileName: 'index',
 			cssFileName: 'style',
 		},
 		rollupOptions: {

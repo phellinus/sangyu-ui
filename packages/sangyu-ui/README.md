@@ -2,6 +2,12 @@
 
 基于 Vue 3 和 TypeScript 开发的组件库，提供常用界面组件、独立图标包、完整类型声明和 CSS Variables 主题能力。
 
+## 模块格式
+
+当前 V2 开发分支仅提供 ESM 产物，不再提供独立的 CommonJS 构建。请使用 ESM `import`；依赖传统 CommonJS 入口的项目需要先评估并迁移消费方式。
+
+JavaScript 和 CSS 分开提供，使用组件时仍需显式导入 `sangyu-ui/style.css`。此格式调整不代表其他 V2 能力已经实现。
+
 ## 安装
 
 ```bash
