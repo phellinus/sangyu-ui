@@ -1,0 +1,44 @@
+name: Quality
+
+on:
+    pull_request:
+        branches: [main, develop/v2.0.0]
+    push:
+        branches: [develop/v2.0.0]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: quality-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    quality:
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  persist-credentials: false
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: '22'
+                  package-manager-cache: false
+
+            - name: Install pnpm
+              run: npm install --global pnpm@10.18.3
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Check project
+              run: pnpm check
+
+            - name: Test deployment tooling
+              run: node --test scripts/deploy-cloudbase.test.mjs
