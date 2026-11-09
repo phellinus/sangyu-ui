@@ -2,6 +2,21 @@
 
 Sangyu Design UI 使用 CSS Variables 管理主题颜色。你可以在不重新编译组件库的情况下覆盖变量，快速调整品牌色、状态色和基础界面颜色。
 
+V2 主题配置按基础 Token、语义 Token、组件 Token 三层组织。`lightTheme` 与 `darkTheme` 是官方预设；`mergeTheme` 合并局部覆盖，`themeToVariables` 或 `themeToCSS` 将合并后的配置转换为现有 `--sy-*` 变量。后续 Provider 会负责将这些变量应用到指定作用域。
+
+```ts
+import { lightTheme, mergeTheme, themeToCSS } from 'sangyu-ui';
+
+const brandTheme = mergeTheme(lightTheme, {
+	base: { color: { primary: { 6: '#7c3aed' } } },
+});
+const scopedCSS = themeToCSS(brandTheme, '.brand-theme');
+```
+
+语义色引用基础色板，Select 的焦点边框等组件 Token 引用语义色。覆盖基础值会沿引用传递；显式设置语义或组件值时，以更具体的设置为准。合并不会修改预设或传入的覆盖对象。
+
+暗色静态样式可在目标元素上设置 `data-sy-theme="dark"`，并沿 DOM 层级继承。浮层若挂载到该元素之外，需在实际容器上设置同样的属性或应用生成的变量。
+
 ## 引入顺序
 
 先引入组件库样式，再引入自己的主题文件。后引入的变量会覆盖组件库默认值。

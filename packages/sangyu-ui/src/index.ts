@@ -5,6 +5,10 @@ import type { SangyuUIPlugin } from './Component.type';
 import './style';
 
 export * from './components';
+export { lightTheme, darkTheme } from './theme/presets';
+export { mergeTheme } from './theme/merge';
+export { themeToCSS, themeToVariables } from './theme/css';
+export type { ThemeTokens, ThemeOverride, BaseTokens, SemanticTokens, SelectTokens } from './theme/types';
 
 const isPlugin = (value: unknown): value is Plugin => {
 	const canHaveInstall = (typeof value === 'object' && value !== null) || typeof value === 'function';
