@@ -34,7 +34,12 @@
 		"SySelect",
 		"SyForm",
 		"SyFormItem",
-		"SyDrawer"
+		"SyDrawer",
+		"lightTheme",
+		"darkTheme",
+		"mergeTheme",
+		"themeToCSS",
+		"themeToVariables"
 	],
 	"@sangyu-ui/icons": [
 		"SyIcon",

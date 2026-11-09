@@ -5,11 +5,20 @@ import process from 'node:process';
 import less from 'less';
 import postcss from 'postcss';
 import { describe, expect, it } from 'vitest';
+import * as publicUI from '../../index';
 import { themeToCSS, themeToVariables } from '../css';
 import { mergeTheme } from '../merge';
 import { darkTheme, lightTheme } from '../presets';
 
 describe('theme tokens', () => {
+	it('exposes the theme presets and helpers from the public entry', () => {
+		expect(publicUI.lightTheme).toBe(lightTheme);
+		expect(publicUI.darkTheme).toBe(darkTheme);
+		expect(publicUI.mergeTheme).toBe(mergeTheme);
+		expect(publicUI.themeToCSS).toBe(themeToCSS);
+		expect(publicUI.themeToVariables).toBe(themeToVariables);
+	});
+
 	it('keeps the established light color values and names', () => {
 		const vars = themeToVariables(lightTheme);
 		expect(vars['--sy-color-primary-6']).toBe('#1677ff');
