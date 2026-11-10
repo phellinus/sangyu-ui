@@ -241,6 +241,37 @@ export interface SwitchTokens {
 	spinnerBorderWidth: ComponentValue;
 }
 
+export interface FormTokens {
+	itemGapSmall: ComponentValue;
+	itemGapDefault: ComponentValue;
+	itemGapLarge: ComponentValue;
+	inlineGap: ComponentValue;
+	labelWidth: ComponentValue;
+	labelPadding: ComponentValue;
+	verticalLabelPadding: ComponentValue;
+	labelLineHeight: ComponentValue;
+	requiredMarkMargin: ComponentValue;
+	controlWidth: ComponentValue;
+	controlMinHeight: ComponentValue;
+	feedbackWidth: ComponentValue;
+	feedbackHeight: ComponentValue;
+	feedbackFontSize: ComponentValue;
+	feedbackRight: ComponentValue;
+	messageMarginTop: ComponentValue;
+	messageFontSize: ComponentValue;
+	messageLineHeight: ComponentValue;
+	extraMarginTop: ComponentValue;
+	extraFontSize: ComponentValue;
+	labelColor: ComponentValue;
+	extraColor: ComponentValue;
+	requiredColor: ComponentValue;
+	errorColor: ComponentValue;
+	successColor: ComponentValue;
+	warningColor: ComponentValue;
+	warningMessageColor: ComponentValue;
+	validatingColor: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -254,6 +285,7 @@ export interface ThemeTokens {
 		radioGroup: RadioGroupTokens;
 		radioButton: RadioButtonTokens;
 		switch: SwitchTokens;
+		form: FormTokens;
 	};
 }
 

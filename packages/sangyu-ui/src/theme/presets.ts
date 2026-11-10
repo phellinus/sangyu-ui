@@ -308,6 +308,37 @@ const darkChoiceComponents: typeof commonChoiceComponents = {
 	},
 };
 
+const commonForm = {
+	itemGapSmall: '12px',
+	itemGapDefault: '18px',
+	itemGapLarge: '24px',
+	inlineGap: '16px',
+	labelWidth: 'auto',
+	labelPadding: '12px',
+	verticalLabelPadding: '0 0 6px',
+	labelLineHeight: '32px',
+	requiredMarkMargin: '4px',
+	controlWidth: '90%',
+	controlMinHeight: '32px',
+	feedbackWidth: '16px',
+	feedbackHeight: '16px',
+	feedbackFontSize: '14px',
+	feedbackRight: '10px',
+	messageMarginTop: '4px',
+	messageFontSize: '12px',
+	messageLineHeight: '1.5',
+	extraMarginTop: '4px',
+	extraFontSize: '12px',
+	labelColor: semantic('semantic.color.text'),
+	extraColor: semantic('semantic.color.textSecondary'),
+	requiredColor: semantic('semantic.color.error'),
+	errorColor: semantic('semantic.color.error'),
+	successColor: semantic('semantic.color.success'),
+	warningColor: semantic('semantic.color.warning'),
+	warningMessageColor: semantic('semantic.color.warningActive'),
+	validatingColor: semantic('semantic.color.primary'),
+};
+
 export const lightTheme: ThemeTokens = {
 	base: lightBase,
 	semantic: {
@@ -355,6 +386,7 @@ export const lightTheme: ThemeTokens = {
 			tagHeight: '22px',
 			tagPadding: '6px',
 		},
+		form: commonForm,
 	},
 };
 
@@ -475,5 +507,6 @@ export const darkTheme: ThemeTokens = {
 			tagHeight: '22px',
 			tagPadding: '6px',
 		},
+		form: commonForm,
 	},
 };
