@@ -110,6 +110,39 @@ describe('ThemeProvider', () => {
 		wrapper.unmount();
 	});
 
+	it('updates choice component tokens through nested scoped providers', async () => {
+		const mode = ref<ThemeMode>('light');
+		const checkboxColor = ref('#a12345');
+		const radioSize = ref('19px');
+		const Host = defineComponent(
+			() => () =>
+				h(
+					ThemeProvider,
+					{ mode: mode.value, tokens: { components: { checkbox: { color: checkboxColor.value } } } },
+					() =>
+						h(ThemeProvider, { tokens: { components: { radio: { size: radioSize.value } } } }, () =>
+							h(Probe),
+						),
+				),
+		);
+		const wrapper = mount(Host);
+		const [parent, child] = wrapper.findAll('[data-sy-theme]');
+		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		expect(parent.attributes('data-sy-theme')).toBe('light');
+		expect(css(parent, '--sy-checkbox-color')).toBe('#a12345');
+		expect(css(child, '--sy-checkbox-color')).toBe('#a12345');
+		expect(css(child, '--sy-radio-size')).toBe('19px');
+		expect(css(parent, '--sy-radio-size')).toBe('16px');
+		checkboxColor.value = '#654321';
+		radioSize.value = '21px';
+		mode.value = 'dark';
+		await nextTick();
+		expect(parent.attributes('data-sy-theme')).toBe('dark');
+		expect(css(child, '--sy-checkbox-color')).toBe('#654321');
+		expect(css(child, '--sy-radio-size')).toBe('21px');
+		wrapper.unmount();
+	});
+
 	it('renders on the server without DOM access', async () => {
 		const html = await renderToString(h(ThemeProvider, { mode: 'dark', as: 'section' }, () => h(Probe)));
 		expect(html).toContain('<section');

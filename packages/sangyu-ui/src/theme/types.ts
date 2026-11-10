@@ -115,10 +115,146 @@ export interface InputTokens {
 	radius: ComponentValue;
 }
 
+export interface CheckboxTokens {
+	size: ComponentValue;
+	sizeSmall: ComponentValue;
+	sizeLarge: ComponentValue;
+	dotRadius: ComponentValue;
+	dotRadiusSmall: ComponentValue;
+	dotRadiusLarge: ComponentValue;
+	fontSize: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	gap: ComponentValue;
+	gapSmall: ComponentValue;
+	gapLarge: ComponentValue;
+	color: ComponentValue;
+	hoverColor: ComponentValue;
+	activeColor: ComponentValue;
+	borderColor: ComponentValue;
+	background: ComponentValue;
+	disabledColor: ComponentValue;
+	disabledBackground: ComponentValue;
+	markColor: ComponentValue;
+	squareMarkRadius: ComponentValue;
+	focusShadow: ComponentValue;
+}
+
+export interface CheckboxGroupTokens {
+	gapX: ComponentValue;
+	gapY: ComponentValue;
+}
+
+export interface RadioTokens {
+	size: ComponentValue;
+	sizeSmall: ComponentValue;
+	sizeLarge: ComponentValue;
+	dotSize: ComponentValue;
+	dotSizeSmall: ComponentValue;
+	dotSizeLarge: ComponentValue;
+	fontSize: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	gap: ComponentValue;
+	gapSmall: ComponentValue;
+	gapLarge: ComponentValue;
+	squareRadius: ComponentValue;
+	color: ComponentValue;
+	hoverColor: ComponentValue;
+	activeColor: ComponentValue;
+	borderColor: ComponentValue;
+	background: ComponentValue;
+	disabledColor: ComponentValue;
+	disabledBackground: ComponentValue;
+	squareDotRadius: ComponentValue;
+	focusShadow: ComponentValue;
+}
+
+export interface RadioGroupTokens {
+	gapX: ComponentValue;
+	gapY: ComponentValue;
+}
+
+export interface RadioButtonTokens {
+	fontSize: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	height: ComponentValue;
+	heightSmall: ComponentValue;
+	heightLarge: ComponentValue;
+	paddingX: ComponentValue;
+	paddingXSmall: ComponentValue;
+	paddingXLarge: ComponentValue;
+	radius: ComponentValue;
+	radiusSmall: ComponentValue;
+	radiusLarge: ComponentValue;
+	color: ComponentValue;
+	hoverColor: ComponentValue;
+	activeColor: ComponentValue;
+	borderColor: ComponentValue;
+	background: ComponentValue;
+	checkedColor: ComponentValue;
+	checkedBackground: ComponentValue;
+	checkedShadow: ComponentValue;
+	disabledColor: ComponentValue;
+	disabledBackground: ComponentValue;
+}
+
+export interface SwitchTokens {
+	width: ComponentValue;
+	widthSmall: ComponentValue;
+	widthLarge: ComponentValue;
+	height: ComponentValue;
+	heightSmall: ComponentValue;
+	heightLarge: ComponentValue;
+	thumbSize: ComponentValue;
+	thumbSizeSmall: ComponentValue;
+	thumbSizeLarge: ComponentValue;
+	thumbActiveSize: ComponentValue;
+	thumbActiveSizeSmall: ComponentValue;
+	thumbActiveSizeLarge: ComponentValue;
+	padding: ComponentValue;
+	gap: ComponentValue;
+	fontSize: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	activeColor: ComponentValue;
+	activeColorSoft: ComponentValue;
+	activeColorStrong: ComponentValue;
+	inactiveColor: ComponentValue;
+	inactiveBorderColor: ComponentValue;
+	inactiveBackground: ComponentValue;
+	inactiveHoverBackground: ComponentValue;
+	activeBackground: ComponentValue;
+	thumbBackground: ComponentValue;
+	thumbColor: ComponentValue;
+	thumbShadow: ComponentValue;
+	disabledThumbShadow: ComponentValue;
+	loadingThumbShadow: ComponentValue;
+	focusShadow: ComponentValue;
+	radius: ComponentValue;
+	squareRadius: ComponentValue;
+	squareThumbRadius: ComponentValue;
+	indicatorSize: ComponentValue;
+	indicatorThickness: ComponentValue;
+	spinnerSize: ComponentValue;
+	spinnerBorderWidth: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
-	components: { select: SelectTokens; button: ButtonTokens; input: InputTokens };
+	components: {
+		select: SelectTokens;
+		button: ButtonTokens;
+		input: InputTokens;
+		checkbox: CheckboxTokens;
+		checkboxGroup: CheckboxGroupTokens;
+		radio: RadioTokens;
+		radioGroup: RadioGroupTokens;
+		radioButton: RadioButtonTokens;
+		switch: SwitchTokens;
+	};
 }
 
 export type DeepPartial<T> = {

@@ -1,30 +1,29 @@
 .sy-checkbox {
-	--sy-checkbox-size: 16px;
-	--sy-checkbox-font-size: 14px;
-	--sy-checkbox-gap: 8px;
-	--sy-checkbox-radius: 5px;
-	--sy-checkbox-color: var(--sy-color-primary);
+	--sy-checkbox-control-size: var(--sy-checkbox-size);
+	--sy-checkbox-control-font-size: var(--sy-checkbox-font-size);
+	--sy-checkbox-control-gap: var(--sy-checkbox-gap);
+	--sy-checkbox-control-radius: var(--sy-checkbox-dot-radius);
 
 	position: relative;
 	display: inline-flex;
 	align-items: center;
-	gap: var(--sy-checkbox-gap);
+	gap: var(--sy-checkbox-control-gap);
 	color: var(--sy-color-text);
-	font-size: var(--sy-checkbox-font-size);
+	font-size: var(--sy-checkbox-control-font-size);
 	cursor: pointer;
 	user-select: none;
 
 	&-small {
-		--sy-checkbox-size: 14px;
-		--sy-checkbox-font-size: 12px;
-		--sy-checkbox-gap: 6px;
-		--sy-checkbox-radius: 4px;
+		--sy-checkbox-control-size: var(--sy-checkbox-size-small);
+		--sy-checkbox-control-font-size: var(--sy-checkbox-font-size-small);
+		--sy-checkbox-control-gap: var(--sy-checkbox-gap-small);
+		--sy-checkbox-control-radius: var(--sy-checkbox-dot-radius-small);
 	}
 	&-large {
-		--sy-checkbox-size: 20px;
-		--sy-checkbox-font-size: 16px;
-		--sy-checkbox-gap: 10px;
-		--sy-checkbox-radius: 6px;
+		--sy-checkbox-control-size: var(--sy-checkbox-size-large);
+		--sy-checkbox-control-font-size: var(--sy-checkbox-font-size-large);
+		--sy-checkbox-control-gap: var(--sy-checkbox-gap-large);
+		--sy-checkbox-control-radius: var(--sy-checkbox-dot-radius-large);
 	}
 	&-label-before {
 		flex-direction: row-reverse;
@@ -43,12 +42,12 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--sy-checkbox-size);
-		height: var(--sy-checkbox-size);
+		width: var(--sy-checkbox-control-size);
+		height: var(--sy-checkbox-control-size);
 		box-sizing: border-box;
-		border: 1px solid var(--sy-color-border);
-		border-radius: var(--sy-checkbox-radius);
-		background: #fff;
+		border: 1px solid var(--sy-checkbox-border-color);
+		border-radius: var(--sy-checkbox-control-radius);
+		background: var(--sy-checkbox-background);
 		isolation: isolate;
 		transition:
 			border-color 0.18s ease,
@@ -91,7 +90,7 @@
 	&-check-mark {
 		width: 45%;
 		height: 25%;
-		border: solid #fff;
+		border: solid var(--sy-checkbox-mark-color);
 		border-width: 0 0 2px 2px;
 		transform: translateY(-1px) rotate(-45deg) scale(0);
 		transition: transform 0.18s ease;
@@ -100,14 +99,17 @@
 	&-mixed-mark {
 		width: 50%;
 		height: 2px;
-		border-radius: 2px;
-		background: #fff;
+		border-radius: var(--sy-checkbox-square-mark-radius);
+		background: var(--sy-checkbox-mark-color);
 		transform: scaleX(0);
 		transition: transform 0.18s ease;
 	}
 
 	&:hover:not(&-disabled) &-control {
-		border-color: var(--sy-color-primary-hover);
+		border-color: var(--sy-checkbox-hover-color);
+	}
+	&:active:not(&-disabled) &-control {
+		border-color: var(--sy-checkbox-active-color);
 	}
 	&-checked &-control,
 	&-indeterminate &-control {
@@ -130,8 +132,8 @@
 	}
 
 	&-input:focus-visible + &-control {
-		border-color: var(--sy-color-primary-hover);
-		box-shadow: 0 0 0 3px var(--sy-color-primary-3);
+		border-color: var(--sy-checkbox-hover-color);
+		box-shadow: var(--sy-checkbox-focus-shadow);
 	}
 
 	&-label {
@@ -143,16 +145,16 @@
 	}
 
 	&-disabled {
-		color: var(--sy-color-text-disabled);
+		color: var(--sy-checkbox-disabled-color);
 		cursor: not-allowed;
 	}
 	&-disabled &-control {
-		border-color: var(--sy-color-border);
-		background: var(--sy-color-bg);
+		border-color: var(--sy-checkbox-border-color);
+		background: var(--sy-checkbox-disabled-background);
 	}
 	&-disabled&-checked &-selected-bg,
 	&-disabled&-indeterminate &-selected-bg {
-		background: var(--sy-color-text-disabled);
+		background: var(--sy-checkbox-disabled-color);
 	}
 
 	&-loading &-selected-bg {
@@ -164,7 +166,7 @@
 		width: 60%;
 		height: 60%;
 		box-sizing: border-box;
-		border: 2px solid var(--sy-color-border);
+		border: 2px solid var(--sy-checkbox-border-color);
 		border-top-color: var(--sy-checkbox-color);
 		border-radius: 50%;
 		animation: sy-checkbox-spin 0.7s linear infinite;
@@ -174,7 +176,7 @@
 .sy-checkbox-group {
 	display: inline-flex;
 	align-items: flex-start;
-	gap: 12px 20px;
+	gap: var(--sy-checkbox-group-gap-y) var(--sy-checkbox-group-gap-x);
 
 	&-horizontal {
 		flex-flow: row wrap;

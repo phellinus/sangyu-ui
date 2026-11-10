@@ -50,9 +50,27 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 			variables[nameForPath(`semantic.${group}.${key}`)] = cssValue(value);
 		}
 	}
-	for (const component of ['select', 'button', 'input'] as const) {
+	for (const component of [
+		'select',
+		'button',
+		'input',
+		'checkbox',
+		'checkboxGroup',
+		'radio',
+		'radioGroup',
+		'radioButton',
+		'switch',
+	] as const) {
 		for (const [key, value] of Object.entries(theme.components[component])) {
-			variables[`--sy-${component}-${kebab(key)}`] = cssValue(value);
+			const prefix =
+				component === 'checkboxGroup'
+					? 'checkbox-group'
+					: component === 'radioGroup'
+						? 'radio-group'
+						: component === 'radioButton'
+							? 'radio-button'
+							: component;
+			variables[`--sy-${prefix}-${kebab(key)}`] = cssValue(value);
 		}
 	}
 	return variables;

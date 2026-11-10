@@ -160,6 +160,154 @@ const commonInput: ThemeTokens['components']['input'] = {
 	radius: '10px',
 };
 
+const commonCheckbox: ThemeTokens['components']['checkbox'] = {
+	size: '16px',
+	sizeSmall: '14px',
+	sizeLarge: '20px',
+	dotRadius: '5px',
+	dotRadiusSmall: '4px',
+	dotRadiusLarge: '6px',
+	fontSize: semantic('semantic.fontSize.md'),
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeLarge: semantic('semantic.fontSize.lg'),
+	gap: semantic('semantic.spacing.sm'),
+	gapSmall: '6px',
+	gapLarge: '10px',
+	color: semantic('semantic.color.primary'),
+	hoverColor: semantic('semantic.color.primaryHover'),
+	activeColor: semantic('semantic.color.primaryActive'),
+	borderColor: semantic('semantic.color.border'),
+	background: semantic('semantic.color.surface'),
+	disabledColor: semantic('semantic.color.textDisabled'),
+	disabledBackground: semantic('semantic.color.bg'),
+	markColor: '#fff',
+	squareMarkRadius: '2px',
+	focusShadow: semantic('semantic.shadow.focus'),
+};
+
+const commonCheckboxGroup: ThemeTokens['components']['checkboxGroup'] = {
+	gapX: '20px',
+	gapY: '12px',
+};
+
+const commonRadio: ThemeTokens['components']['radio'] = {
+	size: '16px',
+	sizeSmall: '14px',
+	sizeLarge: '18px',
+	dotSize: '8px',
+	dotSizeSmall: '6px',
+	dotSizeLarge: '10px',
+	fontSize: semantic('semantic.fontSize.md'),
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeLarge: semantic('semantic.fontSize.lg'),
+	gap: '6px',
+	gapSmall: semantic('semantic.spacing.xs'),
+	gapLarge: semantic('semantic.spacing.sm'),
+	squareRadius: semantic('semantic.radius.sm'),
+	color: semantic('semantic.color.primary'),
+	hoverColor: semantic('semantic.color.primaryHover'),
+	activeColor: semantic('semantic.color.primaryActive'),
+	borderColor: semantic('semantic.color.border'),
+	background: semantic('semantic.color.surface'),
+	disabledColor: semantic('semantic.color.textDisabled'),
+	disabledBackground: semantic('semantic.color.bg'),
+	squareDotRadius: '2px',
+	focusShadow: semantic('semantic.shadow.focus'),
+};
+
+const commonRadioGroup: ThemeTokens['components']['radioGroup'] = {
+	gapX: '16px',
+	gapY: '12px',
+};
+
+const commonRadioButton: ThemeTokens['components']['radioButton'] = {
+	fontSize: semantic('semantic.fontSize.md'),
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeLarge: '18px',
+	height: '36px',
+	heightSmall: '26px',
+	heightLarge: '48px',
+	paddingX: semantic('semantic.spacing.md'),
+	paddingXSmall: '10px',
+	paddingXLarge: semantic('semantic.spacing.lg'),
+	radius: '10px',
+	radiusSmall: semantic('semantic.radius.md'),
+	radiusLarge: '14px',
+	color: semantic('semantic.color.text'),
+	hoverColor: semantic('semantic.color.primaryActive'),
+	activeColor: semantic('semantic.color.primary'),
+	borderColor: semantic('semantic.color.border'),
+	background: semantic('semantic.color.surface'),
+	checkedColor: semantic('semantic.color.primaryActive'),
+	checkedBackground: semantic('semantic.color.primarySelect'),
+	checkedShadow: semantic('semantic.shadow.control'),
+	disabledColor: semantic('semantic.color.textDisabled'),
+	disabledBackground: semantic('semantic.color.bg'),
+};
+
+const commonSwitch: ThemeTokens['components']['switch'] = {
+	width: '48px',
+	widthSmall: '40px',
+	widthLarge: '56px',
+	height: '28px',
+	heightSmall: '24px',
+	heightLarge: '32px',
+	thumbSize: '22px',
+	thumbSizeSmall: '18px',
+	thumbSizeLarge: '26px',
+	thumbActiveSize: '25px',
+	thumbActiveSizeSmall: '21px',
+	thumbActiveSizeLarge: '29px',
+	padding: '3px',
+	gap: semantic('semantic.spacing.sm'),
+	fontSize: semantic('semantic.fontSize.md'),
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeLarge: semantic('semantic.fontSize.lg'),
+	activeColor: semantic('semantic.color.primary'),
+	activeColorSoft: 'color-mix(in srgb, var(--sy-color-primary) 18%, transparent)',
+	activeColorStrong: 'color-mix(in srgb, var(--sy-color-primary) 30%, transparent)',
+	inactiveColor: '#eef1f4',
+	inactiveBorderColor: 'color-mix(in srgb, var(--sy-color-border) 82%, var(--sy-color-surface))',
+	inactiveBackground: 'linear-gradient(180deg, var(--sy-color-surface) 0%, var(--sy-switch-inactive-color) 100%)',
+	inactiveHoverBackground:
+		'linear-gradient(180deg, var(--sy-color-surface) 0%, color-mix(in srgb, var(--sy-switch-inactive-color) 88%, var(--sy-color-surface)) 100%)',
+	activeBackground:
+		'linear-gradient(135deg, color-mix(in srgb, var(--sy-switch-active-color) 82%, var(--sy-color-surface)) 0%, var(--sy-switch-active-color) 100%)',
+	thumbBackground: 'linear-gradient(135deg, var(--sy-color-surface) 0%, var(--sy-color-bg) 100%)',
+	thumbColor: semantic('semantic.color.textSecondary'),
+	thumbShadow: semantic('semantic.shadow.control'),
+	disabledThumbShadow: semantic('semantic.shadow.control'),
+	loadingThumbShadow: semantic('semantic.shadow.control'),
+	focusShadow: semantic('semantic.shadow.focus'),
+	radius: semantic('semantic.radius.round'),
+	squareRadius: semantic('semantic.radius.lg'),
+	squareThumbRadius: semantic('semantic.radius.md'),
+	indicatorSize: '10px',
+	indicatorThickness: '2px',
+	spinnerSize: '10px',
+	spinnerBorderWidth: '2px',
+};
+
+const commonChoiceComponents: Pick<
+	ThemeTokens['components'],
+	'checkbox' | 'checkboxGroup' | 'radio' | 'radioGroup' | 'radioButton' | 'switch'
+> = {
+	checkbox: commonCheckbox,
+	checkboxGroup: commonCheckboxGroup,
+	radio: commonRadio,
+	radioGroup: commonRadioGroup,
+	radioButton: commonRadioButton,
+	switch: commonSwitch,
+};
+
+const darkChoiceComponents: typeof commonChoiceComponents = {
+	...commonChoiceComponents,
+	switch: {
+		...commonSwitch,
+		inactiveColor: semantic('semantic.color.border'),
+	},
+};
+
 export const lightTheme: ThemeTokens = {
 	base: lightBase,
 	semantic: {
@@ -179,6 +327,7 @@ export const lightTheme: ThemeTokens = {
 	components: {
 		button: commonButton,
 		input: commonInput,
+		...commonChoiceComponents,
 		select: {
 			color: '#1f2933',
 			bg: '#fff',
@@ -298,6 +447,7 @@ export const darkTheme: ThemeTokens = {
 	components: {
 		button: commonButton,
 		input: commonInput,
+		...darkChoiceComponents,
 		select: {
 			color: semantic('semantic.color.text'),
 			bg: '#1f1f1f',

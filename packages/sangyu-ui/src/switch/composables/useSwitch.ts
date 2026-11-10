@@ -74,15 +74,14 @@ export function useSwitch(
 	 * 3. inactive-color 用于未激活轨道底色
 	 */
 	const styles = computed<CSSProperties>(() => {
-		const activeColor = getColor(props.color || 'primary');
-		const inactiveTrack = getColor(props.inactiveColor || '#eef1f4');
-
-		return {
-			'--sy-switch-active-color': activeColor,
-			'--sy-switch-active-color-soft': getColorWithAlpha(props.color || 'primary', 0.18),
-			'--sy-switch-active-color-strong': getColorWithAlpha(props.color || 'primary', 0.3),
-			'--sy-switch-inactive-color': inactiveTrack,
-		} as CSSProperties;
+		const result: CSSProperties = {};
+		if (props.color) {
+			result['--sy-switch-active-color'] = getColor(props.color);
+			result['--sy-switch-active-color-soft'] = getColorWithAlpha(props.color, 0.18);
+			result['--sy-switch-active-color-strong'] = getColorWithAlpha(props.color, 0.3);
+		}
+		if (props.inactiveColor) result['--sy-switch-inactive-color'] = getColor(props.inactiveColor);
+		return result;
 	});
 
 	/** 原生 change 事件的统一入口；禁用态下直接阻断切换。 */

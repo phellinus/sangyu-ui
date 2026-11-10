@@ -49,6 +49,126 @@
 	--sy-select-scrollbar-thumb-hover: #94a3b859;
 	--sy-select-tag-height: 22px;
 	--sy-select-tag-padding: 6px;
+	--sy-checkbox-size: 16px;
+	--sy-checkbox-size-small: 14px;
+	--sy-checkbox-size-large: 20px;
+	--sy-checkbox-dot-radius: 5px;
+	--sy-checkbox-dot-radius-small: 4px;
+	--sy-checkbox-dot-radius-large: 6px;
+	--sy-checkbox-font-size: var(--sy-font-size-md);
+	--sy-checkbox-font-size-small: var(--sy-font-size-sm);
+	--sy-checkbox-font-size-large: var(--sy-font-size-lg);
+	--sy-checkbox-gap: var(--sy-spacing-sm);
+	--sy-checkbox-gap-small: 6px;
+	--sy-checkbox-gap-large: 10px;
+	--sy-checkbox-color: var(--sy-color-primary);
+	--sy-checkbox-hover-color: var(--sy-color-primary-hover);
+	--sy-checkbox-active-color: var(--sy-color-primary-active);
+	--sy-checkbox-border-color: var(--sy-color-border);
+	--sy-checkbox-background: var(--sy-color-surface);
+	--sy-checkbox-disabled-color: var(--sy-color-text-disabled);
+	--sy-checkbox-disabled-background: var(--sy-color-bg);
+	--sy-checkbox-mark-color: #fff;
+	--sy-checkbox-square-mark-radius: 2px;
+	--sy-checkbox-focus-shadow: var(--sy-shadow-focus);
+	--sy-checkbox-group-gap-x: 20px;
+	--sy-checkbox-group-gap-y: 12px;
+	--sy-radio-size: 16px;
+	--sy-radio-size-small: 14px;
+	--sy-radio-size-large: 18px;
+	--sy-radio-dot-size: 8px;
+	--sy-radio-dot-size-small: 6px;
+	--sy-radio-dot-size-large: 10px;
+	--sy-radio-font-size: var(--sy-font-size-md);
+	--sy-radio-font-size-small: var(--sy-font-size-sm);
+	--sy-radio-font-size-large: var(--sy-font-size-lg);
+	--sy-radio-gap: 6px;
+	--sy-radio-gap-small: var(--sy-spacing-xs);
+	--sy-radio-gap-large: var(--sy-spacing-sm);
+	--sy-radio-square-radius: var(--sy-radius-sm);
+	--sy-radio-color: var(--sy-color-primary);
+	--sy-radio-hover-color: var(--sy-color-primary-hover);
+	--sy-radio-active-color: var(--sy-color-primary-active);
+	--sy-radio-border-color: var(--sy-color-border);
+	--sy-radio-background: var(--sy-color-surface);
+	--sy-radio-disabled-color: var(--sy-color-text-disabled);
+	--sy-radio-disabled-background: var(--sy-color-bg);
+	--sy-radio-square-dot-radius: 2px;
+	--sy-radio-focus-shadow: var(--sy-shadow-focus);
+	--sy-radio-group-gap-x: 16px;
+	--sy-radio-group-gap-y: 12px;
+	--sy-radio-button-font-size: var(--sy-font-size-md);
+	--sy-radio-button-font-size-small: var(--sy-font-size-sm);
+	--sy-radio-button-font-size-large: 18px;
+	--sy-radio-button-height: 36px;
+	--sy-radio-button-height-small: 26px;
+	--sy-radio-button-height-large: 48px;
+	--sy-radio-button-padding-x: var(--sy-spacing-md);
+	--sy-radio-button-padding-x-small: 10px;
+	--sy-radio-button-padding-x-large: var(--sy-spacing-lg);
+	--sy-radio-button-radius: 10px;
+	--sy-radio-button-radius-small: var(--sy-radius-md);
+	--sy-radio-button-radius-large: 14px;
+	--sy-radio-button-color: var(--sy-color-text);
+	--sy-radio-button-hover-color: var(--sy-color-primary-active);
+	--sy-radio-button-active-color: var(--sy-color-primary);
+	--sy-radio-button-border-color: var(--sy-color-border);
+	--sy-radio-button-background: var(--sy-color-surface);
+	--sy-radio-button-checked-color: var(--sy-color-primary-active);
+	--sy-radio-button-checked-background: var(--sy-color-primary-select);
+	--sy-radio-button-checked-shadow: var(--sy-shadow-control);
+	--sy-radio-button-disabled-color: var(--sy-color-text-disabled);
+	--sy-radio-button-disabled-background: var(--sy-color-bg);
+	--sy-switch-width: 48px;
+	--sy-switch-width-small: 40px;
+	--sy-switch-width-large: 56px;
+	--sy-switch-height: 28px;
+	--sy-switch-height-small: 24px;
+	--sy-switch-height-large: 32px;
+	--sy-switch-thumb-size: 22px;
+	--sy-switch-thumb-size-small: 18px;
+	--sy-switch-thumb-size-large: 26px;
+	--sy-switch-thumb-active-size: 25px;
+	--sy-switch-thumb-active-size-small: 21px;
+	--sy-switch-thumb-active-size-large: 29px;
+	--sy-switch-padding: 3px;
+	--sy-switch-gap: var(--sy-spacing-sm);
+	--sy-switch-font-size: var(--sy-font-size-md);
+	--sy-switch-font-size-small: var(--sy-font-size-sm);
+	--sy-switch-font-size-large: var(--sy-font-size-lg);
+	--sy-switch-active-color: var(--sy-color-primary);
+	--sy-switch-active-color-soft: color-mix(in srgb, var(--sy-color-primary) 18%, transparent);
+	--sy-switch-active-color-strong: color-mix(in srgb, var(--sy-color-primary) 30%, transparent);
+	--sy-switch-inactive-color: #eef1f4;
+	--sy-switch-inactive-border-color: color-mix(in srgb, var(--sy-color-border) 82%, var(--sy-color-surface));
+	--sy-switch-inactive-background: linear-gradient(
+		180deg,
+		var(--sy-color-surface) 0%,
+		var(--sy-switch-inactive-color) 100%
+	);
+	--sy-switch-inactive-hover-background: linear-gradient(
+		180deg,
+		var(--sy-color-surface) 0%,
+		color-mix(in srgb, var(--sy-switch-inactive-color) 88%, var(--sy-color-surface)) 100%
+	);
+	--sy-switch-active-background: linear-gradient(
+		135deg,
+		color-mix(in srgb, var(--sy-switch-active-color) 82%, var(--sy-color-surface)) 0%,
+		var(--sy-switch-active-color) 100%
+	);
+	--sy-switch-thumb-background: linear-gradient(135deg, var(--sy-color-surface) 0%, var(--sy-color-bg) 100%);
+	--sy-switch-thumb-color: var(--sy-color-text-secondary);
+	--sy-switch-thumb-shadow: var(--sy-shadow-control);
+	--sy-switch-disabled-thumb-shadow: var(--sy-shadow-control);
+	--sy-switch-loading-thumb-shadow: var(--sy-shadow-control);
+	--sy-switch-focus-shadow: var(--sy-shadow-focus);
+	--sy-switch-radius: var(--sy-radius-round);
+	--sy-switch-square-radius: var(--sy-radius-lg);
+	--sy-switch-square-thumb-radius: var(--sy-radius-md);
+	--sy-switch-indicator-size: 10px;
+	--sy-switch-indicator-thickness: 2px;
+	--sy-switch-spinner-size: 10px;
+	--sy-switch-spinner-border-width: 2px;
 }
 
 [data-sy-theme='dark'] {
@@ -67,4 +187,5 @@
 	--sy-select-clear-hover-bg: #ffffff1f;
 	--sy-select-scrollbar-thumb: #ffffff33;
 	--sy-select-scrollbar-thumb-hover: #ffffff59;
+	--sy-switch-inactive-color: var(--sy-color-border);
 }

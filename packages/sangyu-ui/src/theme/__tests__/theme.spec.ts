@@ -74,6 +74,23 @@ describe('theme tokens', () => {
 		expect(themeToCSS(lightTheme, '.scope')).toContain('--sy-spacing-xs: var(--sy-base-spacing-xs);');
 	});
 
+	it('emits choice component tokens with stable names and semantic references', () => {
+		const light = themeToVariables(lightTheme);
+		const dark = themeToVariables(darkTheme);
+		expect(light['--sy-checkbox-size-small']).toBe('14px');
+		expect(light['--sy-checkbox-color']).toBe('var(--sy-color-primary)');
+		expect(light['--sy-radio-background']).toBe('var(--sy-color-surface)');
+		expect(light['--sy-radio-group-gap-x']).toBe('16px');
+		expect(light['--sy-radio-button-checked-background']).toBe('var(--sy-color-primary-select)');
+		expect(light['--sy-switch-width-large']).toBe('56px');
+		expect(light['--sy-switch-focus-shadow']).toBe('var(--sy-shadow-focus)');
+		expect(dark['--sy-checkbox-background']).toBe('var(--sy-color-surface)');
+		expect(dark['--sy-radio-disabled-background']).toBe('var(--sy-color-bg)');
+		expect(dark['--sy-switch-thumb-background']).toBe(
+			'linear-gradient(135deg, var(--sy-color-surface) 0%, var(--sy-color-bg) 100%)',
+		);
+	});
+
 	it('inherits untouched common values through partial base and semantic overrides', () => {
 		const merged = mergeTheme(lightTheme, {
 			base: { spacing: { xs: '6px' } },
@@ -90,14 +107,20 @@ describe('theme tokens', () => {
 
 	it('types common overrides and rejects unknown paths and keys', () => {
 		expectTypeOf<{ semantic: { spacing: { xs: string }; color: { surface: string } } }>().toExtend<ThemeOverride>();
+		expectTypeOf<{
+			components: { switch: { width: string }; radio: { dotSize: string } };
+		}>().toExtend<ThemeOverride>();
 		expectTypeOf<'base.spacing.xs'>().toExtend<BaseTokenPath>();
 		expectTypeOf<'semantic.shadow.overlay'>().toExtend<SemanticTokenPath>();
 		// @ts-expect-error layout width is not a common semantic token
 		const invalidOverride: ThemeOverride = { semantic: { width: { md: '24px' } } };
 		// @ts-expect-error no base token exists at this path
 		const invalidReference: BaseTokenPath = 'base.spacing.huge';
+		// @ts-expect-error component tokens reject undeclared fields
+		const invalidComponentOverride: ThemeOverride = { components: { switch: { trackWidth: '48px' } } };
 		expect(invalidOverride).toBeDefined();
 		expect(invalidReference).toBeDefined();
+		expect(invalidComponentOverride).toBeDefined();
 	});
 
 	it('carries base overrides through semantic and component references', () => {
