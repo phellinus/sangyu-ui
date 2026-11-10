@@ -3,7 +3,49 @@ import type { BaseTokenPath, SemanticTokenPath, ThemeTokens, TokenReference } fr
 const base = (path: BaseTokenPath): TokenReference<BaseTokenPath> => ({ ref: path });
 const semantic = (path: SemanticTokenPath): TokenReference<SemanticTokenPath> => ({ ref: path });
 
+const commonBase = {
+	spacing: { xs: '4px', sm: '8px', md: '16px', lg: '24px', xl: '32px' },
+	controlHeight: { sm: '24px', md: '32px', lg: '40px' },
+	fontSize: { sm: '12px', md: '14px', lg: '16px' },
+	radius: { sm: '4px', md: '6px', lg: '8px', round: '9999px' },
+};
+
+const commonSemantic = {
+	spacing: {
+		xs: base('base.spacing.xs'),
+		sm: base('base.spacing.sm'),
+		md: base('base.spacing.md'),
+		lg: base('base.spacing.lg'),
+		xl: base('base.spacing.xl'),
+	},
+	controlHeight: {
+		sm: base('base.controlHeight.sm'),
+		md: base('base.controlHeight.md'),
+		lg: base('base.controlHeight.lg'),
+	},
+	fontSize: { sm: base('base.fontSize.sm'), md: base('base.fontSize.md'), lg: base('base.fontSize.lg') },
+	radius: {
+		sm: base('base.radius.sm'),
+		md: base('base.radius.md'),
+		lg: base('base.radius.lg'),
+		round: base('base.radius.round'),
+	},
+	shadow: {
+		control: base('base.shadow.control'),
+		focus: base('base.shadow.focus'),
+		popover: base('base.shadow.popover'),
+		overlay: base('base.shadow.overlay'),
+	},
+};
+
 const lightBase: ThemeTokens['base'] = {
+	...commonBase,
+	shadow: {
+		control: '0 1px 2px 0 #0000000d',
+		focus: '0 0 0 2px #1677ff33',
+		popover: '0 6px 16px 0 #00000014',
+		overlay: '0 12px 32px 0 #0000001f',
+	},
 	color: {
 		primary: {
 			1: '#e6f4ff',
@@ -99,7 +141,9 @@ export const lightTheme: ThemeTokens = {
 			border: '#d9d9d9',
 			divider: '#0505050f',
 			bg: '#f5f5f5',
+			surface: '#ffffff',
 		},
+		...commonSemantic,
 	},
 	components: {
 		select: {
@@ -120,6 +164,13 @@ export const lightTheme: ThemeTokens = {
 
 export const darkTheme: ThemeTokens = {
 	base: {
+		...commonBase,
+		shadow: {
+			control: '0 1px 2px 0 #00000052',
+			focus: '0 0 0 2px #1677ff66',
+			popover: '0 6px 16px 0 #00000052',
+			overlay: '0 12px 32px 0 #00000066',
+		},
 		color: {
 			primary: {
 				1: '#111d2c',
@@ -193,7 +244,9 @@ export const darkTheme: ThemeTokens = {
 			border: '#424242',
 			divider: '#ffffff1f',
 			bg: '#141414',
+			surface: '#1f1f1f',
 		},
+		...commonSemantic,
 	},
 	components: {
 		select: {

@@ -88,11 +88,34 @@ describe('ThemeProvider', () => {
 		wrapper.unmount();
 	});
 
+	it('updates common semantic variables when a parent override changes', async () => {
+		const spacing = ref('6px');
+		const Host = defineComponent(
+			() => () =>
+				h(ThemeProvider, { tokens: { base: { spacing: { xs: spacing.value } } } }, () =>
+					h(ThemeProvider, null, () => h(Probe)),
+				),
+		);
+		const wrapper = mount(Host);
+		const [parent, child] = wrapper.findAll('[data-sy-theme]');
+		for (const scope of [parent, child]) {
+			expect((scope.element as HTMLElement).style.getPropertyValue('--sy-base-spacing-xs')).toBe('6px');
+			expect((scope.element as HTMLElement).style.getPropertyValue('--sy-spacing-xs')).toBe(
+				'var(--sy-base-spacing-xs)',
+			);
+		}
+		spacing.value = '10px';
+		await nextTick();
+		expect((child.element as HTMLElement).style.getPropertyValue('--sy-base-spacing-xs')).toBe('10px');
+		wrapper.unmount();
+	});
+
 	it('renders on the server without DOM access', async () => {
 		const html = await renderToString(h(ThemeProvider, { mode: 'dark', as: 'section' }, () => h(Probe)));
 		expect(html).toContain('<section');
 		expect(html).toContain('data-sy-theme="dark"');
 		expect(html).toContain('--sy-color-bg:#141414');
+		expect(html).toContain('--sy-spacing-xs:var(--sy-base-spacing-xs)');
 	});
 
 	it('accepts typed modes and nested token overrides', () => {

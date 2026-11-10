@@ -1,4 +1,12 @@
-import type { SemanticColors, ThemeTokens, TokenReference } from './types';
+import type { CommonScales, SemanticColors, ThemeTokens, TokenReference } from './types';
+
+const commonGroups = [
+	'spacing',
+	'controlHeight',
+	'fontSize',
+	'radius',
+	'shadow',
+] as const satisfies (keyof CommonScales)[];
 
 const kebab = (value: string) => value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 
@@ -9,6 +17,10 @@ const nameForPath = (path: string): string => {
 	}
 	if (parts[0] === 'semantic' && parts[1] === 'color' && parts.length === 3) {
 		return `--sy-color-${kebab(parts[2])}`;
+	}
+	if (parts.length === 3 && commonGroups.some((group) => group === parts[1])) {
+		if (parts[0] === 'base') return `--sy-base-${kebab(parts[1])}-${kebab(parts[2])}`;
+		if (parts[0] === 'semantic') return `--sy-${kebab(parts[1])}-${kebab(parts[2])}`;
 	}
 	throw new Error(`Unknown token reference: ${path}`);
 };
@@ -29,6 +41,14 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		ThemeTokens['semantic']['color'][keyof SemanticColors],
 	][]) {
 		variables[nameForPath(`semantic.color.${key}`)] = cssValue(value);
+	}
+	for (const group of commonGroups) {
+		for (const [key, value] of Object.entries(theme.base[group])) {
+			variables[nameForPath(`base.${group}.${key}`)] = value;
+		}
+		for (const [key, value] of Object.entries(theme.semantic[group])) {
+			variables[nameForPath(`semantic.${group}.${key}`)] = cssValue(value);
+		}
 	}
 	for (const [key, value] of Object.entries(theme.components.select)) {
 		variables[`--sy-select-${kebab(key)}`] = cssValue(value);
