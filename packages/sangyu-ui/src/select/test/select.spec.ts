@@ -2,6 +2,7 @@ import { mount, type ComponentMountingOptions } from '@vue/test-utils';
 import { defineComponent, h, nextTick, reactive, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SyForm, SyFormItem } from '../../form';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 import SySelect from '../SySelect';
 import type { SelectModelValue, SelectOption } from '../Select.type';
 
@@ -30,6 +31,35 @@ afterEach(() => {
 });
 
 describe('SySelect', () => {
+	it('uses scoped dark and runtime tokens through focus, disabled and error states', async () => {
+		const mode = ref<'light' | 'dark'>('light');
+		const border = ref('#b84242');
+		const disabled = ref(false);
+		const Host = defineComponent(
+			() => () =>
+				h(ThemeProvider, { mode: mode.value }, () =>
+					h(ThemeProvider, { tokens: { components: { select: { borderColor: border.value } } } }, () =>
+						h(SySelect, { options, disabled: disabled.value, 'aria-invalid': 'true' }),
+					),
+				),
+		);
+		const wrapper = mount(Host);
+		mountedWrappers.push(wrapper);
+		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
+		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#d8dee6');
+		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#b84242');
+		expect(wrapper.get('.sy-select-trigger').attributes('aria-invalid')).toBe('true');
+		await wrapper.get('.sy-select-trigger').trigger('click');
+		expect(wrapper.get('.sy-select').classes()).toContain('sy-select-open');
+		mode.value = 'dark';
+		border.value = '#ee8585';
+		disabled.value = true;
+		await nextTick();
+		expect(outer.attributes('data-sy-theme')).toBe('dark');
+		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#ee8585');
+		expect(wrapper.get('.sy-select').classes()).toContain('sy-select-disabled');
+		expect(wrapper.get('.sy-select').classes()).not.toContain('sy-select-open');
+	});
 	it('renders placeholder, size, width and custom style', () => {
 		const wrapper = mountSelect({
 			props: {

@@ -1,4 +1,4 @@
-import { computed, ref, watch, type CSSProperties } from 'vue';
+import { computed, getCurrentInstance, ref, watch, type CSSProperties } from 'vue';
 import { getColor, getColorWithAlpha, useClassnames } from '@sangyu-ui/utils';
 import { BUTTON_RIPPLE_TYPES } from '../constants';
 import { createButtonRipple } from '../helpers';
@@ -9,6 +9,7 @@ type ButtonAttrs = Readonly<Record<string, unknown>>;
 
 export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs: ButtonAttrs) {
 	const rootRef = ref<ButtonRootElement>();
+	const instance = getCurrentInstance();
 	//当前按钮是否是选中的状态
 	const active = ref(false);
 	const { c, cm, cx } = useClassnames('button');
@@ -36,18 +37,20 @@ export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs
 		const color = getColor(colorToken);
 
 		const result: Record<string, string> = {
-			'--sy-button-color': color,
-			'--sy-button-color-soft': getColorWithAlpha(colorToken, 0.16),
-			'--sy-button-shadow-color': getColorWithAlpha(colorToken, 0.38),
-
 			'--sy-button-gradient-direction': props.gradientDirection || '30deg',
-
-			'--sy-button-gradient-secondary': props.gradientColorSecondary
-				? getColor(props.gradientColorSecondary)
-				: `color-mix(in srgb, ${color} 70%, black)`,
-
-			'--sy-button-relief-color': `color-mix(in srgb, ${color} 70%, black)`,
 		};
+
+		if (colorToken !== 'primary' || Object.hasOwn(instance?.vnode.props ?? {}, 'color')) {
+			result['--sy-button-color'] = color;
+			result['--sy-button-color-soft'] = getColorWithAlpha(colorToken, 0.16);
+			result['--sy-button-shadow-color'] = getColorWithAlpha(colorToken, 0.38);
+			result['--sy-button-focus-shadow'] = `0 0 0 3px ${getColorWithAlpha(colorToken, 0.16)}`;
+			result['--sy-button-hover-shadow'] = `0 8px 25px -8px ${getColorWithAlpha(colorToken, 0.38)}`;
+			result['--sy-button-relief-color'] = `color-mix(in srgb, ${color} 70%, black)`;
+		}
+		if (props.gradientColorSecondary) {
+			result['--sy-button-gradient-secondary'] = getColor(props.gradientColorSecondary);
+		}
 
 		if (props.textColor) {
 			result['--sy-button-text-color'] = getColor(props.textColor);

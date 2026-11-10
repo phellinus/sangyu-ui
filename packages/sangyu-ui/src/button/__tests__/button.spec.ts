@@ -1,9 +1,38 @@
 import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
+import { defineComponent, h, nextTick, ref } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 import SyButton from '../SyButton.vue';
 
 describe('SyButton', () => {
+	it('inherits a nested component override and responds to mode changes without inline default color', async () => {
+		const mode = ref<'light' | 'dark'>('light');
+		const customColor = ref('#8455cc');
+		const Host = defineComponent(
+			() => () =>
+				h(ThemeProvider, { mode: mode.value }, () =>
+					h(ThemeProvider, { tokens: { components: { button: { color: customColor.value } } } }, () =>
+						h(SyButton, null, () => 'Theme'),
+					),
+				),
+		);
+		const wrapper = mount(Host);
+		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
+		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-button-color')).toBe(
+			'var(--sy-color-primary)',
+		);
+		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-button-color')).toBe('#8455cc');
+		expect(wrapper.get('button').attributes('style')).not.toContain('--sy-button-color:');
+		mode.value = 'dark';
+		customColor.value = '#bb88ff';
+		await nextTick();
+		expect(outer.attributes('data-sy-theme')).toBe('dark');
+		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-button-color')).toBe('#bb88ff');
+		wrapper.unmount();
+		const explicit = mount(SyButton, { props: { color: 'primary' } });
+		expect(explicit.get('button').attributes('style')).toContain('--sy-button-color:');
+		explicit.unmount();
+	});
 	it('renders slot content with modifier classes and custom style', () => {
 		const wrapper = mount(SyButton, {
 			props: {

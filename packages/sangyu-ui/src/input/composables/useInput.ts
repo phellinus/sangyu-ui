@@ -1,10 +1,21 @@
-import { computed, nextTick, Ref, ref, useId, type CSSProperties } from 'vue';
+import { computed, getCurrentInstance, nextTick, Ref, ref, useId, type CSSProperties } from 'vue';
 import { getColor } from '@sangyu-ui/utils';
 import type { InputEmits, InputNativeType, InputProps } from '../Input.type';
 import { useInputModel } from './useInputModel';
 
 export function useInput(props: Readonly<InputProps>, emit: InputEmits, disabled: Readonly<Ref<boolean>>) {
 	const inputRef = ref<HTMLInputElement>();
+	const instance = getCurrentInstance();
+	const isExplicit = (key: string) => {
+		const rawProps = instance?.vnode.props ?? {};
+		return (
+			Object.hasOwn(rawProps, key) ||
+			Object.hasOwn(
+				rawProps,
+				key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`),
+			)
+		);
+	};
 	const focused = ref(false);
 	/** 标记当前是否处于中文、日文等输入法的组合输入阶段。 */
 	const isComposing = ref(false);
@@ -37,21 +48,26 @@ export function useInput(props: Readonly<InputProps>, emit: InputEmits, disabled
 	});
 
 	const styles = computed<CSSProperties>(() => {
-		return {
+		const result: Record<string, string | undefined> = {
 			width: props.width,
 			height: props.height,
-			/**
-			 * 使用 CSS 变量传递颜色，避免内联 color/backgroundColor
-			 * 覆盖 disabled、readonly 等状态样式。
-			 */
-			'--sy-input-text-color': getColor(props.textColor),
-			'--sy-input-bg': getColor(props.bgColor),
-			'--border-color': getColor(props.borderColor),
-			'--focus-border-color': getColor(props.focusColor),
-			'--label-color': getColor(props.labelColor),
-			'--line-color': getColor(props.lineColor),
-			'--focu-line-color': getColor(props.focuLine),
-		} as CSSProperties;
+		};
+		// Default prop values remain public, while the Provider owns their visual defaults.
+		if (props.textColor && (props.textColor !== 'black' || isExplicit('textColor')))
+			result['--sy-input-text-color'] = getColor(props.textColor);
+		if (props.bgColor && (props.bgColor !== '#f5f7f8' || isExplicit('bgColor')))
+			result['--sy-input-bg'] = getColor(props.bgColor);
+		if (props.borderColor && (props.borderColor !== 'rgba(0, 0, 0, 0.2)' || isExplicit('borderColor')))
+			result['--border-color'] = getColor(props.borderColor);
+		if (props.focusColor && (props.focusColor !== 'primary' || isExplicit('focusColor')))
+			result['--focus-border-color'] = getColor(props.focusColor);
+		if (props.labelColor && (props.labelColor !== 'primary' || isExplicit('labelColor')))
+			result['--label-color'] = getColor(props.labelColor);
+		if (props.lineColor && (props.lineColor !== '#f1f3f4' || isExplicit('lineColor')))
+			result['--line-color'] = getColor(props.lineColor);
+		if (props.focuLine && (props.focuLine !== 'primary' || isExplicit('focuLine')))
+			result['--focu-line-color'] = getColor(props.focuLine);
+		return result as CSSProperties;
 	});
 
 	const syncNativeValue = () => {

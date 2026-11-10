@@ -1,11 +1,47 @@
 import { mount } from '@vue/test-utils';
-import { defineComponent, nextTick, reactive, ref } from 'vue';
+import { defineComponent, h, nextTick, reactive, ref } from 'vue';
 import { describe, expect, it } from 'vitest';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 import SyForm from '../../form/SyForm';
 import SyFormItem from '../../form/SyFormItem';
 import SyInput from '../SyInput.vue';
 
 describe('SyInput', () => {
+	it('uses scoped tokens across dark mode, runtime overrides, focus, disabled and error', async () => {
+		const mode = ref<'light' | 'dark'>('light');
+		const border = ref('#bb4422');
+		const disabled = ref(false);
+		const Host = defineComponent(
+			() => () =>
+				h(ThemeProvider, { mode: mode.value }, () =>
+					h(ThemeProvider, { tokens: { components: { input: { borderColor: border.value } } } }, () =>
+						h(SyInput, { disabled: disabled.value, inputAttrs: { 'aria-invalid': 'true' } }),
+					),
+				),
+		);
+		const wrapper = mount(Host);
+		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
+		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-input-border-color')).toBe(
+			'var(--sy-color-border)',
+		);
+		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-input-border-color')).toBe('#bb4422');
+		expect(wrapper.get('.sy-input').attributes('style') ?? '').not.toContain('--sy-input-bg:');
+		expect(wrapper.get('input').attributes('aria-invalid')).toBe('true');
+		await wrapper.get('input').trigger('focus');
+		expect(wrapper.get('.sy-input').classes()).toContain('hasfocu');
+		mode.value = 'dark';
+		border.value = '#ee7755';
+		disabled.value = true;
+		await nextTick();
+		expect(outer.attributes('data-sy-theme')).toBe('dark');
+		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-input-bg')).toBe('var(--sy-color-bg)');
+		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-input-border-color')).toBe('#ee7755');
+		expect(wrapper.get('.sy-input').classes()).toContain('sy-input--disabled');
+		wrapper.unmount();
+		const explicit = mount(SyInput, { props: { bgColor: '#f5f7f8' } });
+		expect(explicit.attributes('style')).toContain('--sy-input-bg: #f5f7f8;');
+		explicit.unmount();
+	});
 	it('renders variant, size, slots and password visibility state', async () => {
 		const wrapper = mount(SyInput, {
 			props: {

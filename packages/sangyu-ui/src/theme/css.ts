@@ -50,8 +50,10 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 			variables[nameForPath(`semantic.${group}.${key}`)] = cssValue(value);
 		}
 	}
-	for (const [key, value] of Object.entries(theme.components.select)) {
-		variables[`--sy-select-${kebab(key)}`] = cssValue(value);
+	for (const component of ['select', 'button', 'input'] as const) {
+		for (const [key, value] of Object.entries(theme.components[component])) {
+			variables[`--sy-${component}-${kebab(key)}`] = cssValue(value);
+		}
 	}
 	return variables;
 };

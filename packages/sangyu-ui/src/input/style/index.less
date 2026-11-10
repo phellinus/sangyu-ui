@@ -2,18 +2,18 @@
 @import (reference) '../../style/theme/mixins.less';
 
 .sy-input {
-	--sy-input-font-size: 16px;
-	--sy-input-height: 36px;
-	--sy-input-padding-y: 8px;
-	--sy-input-padding-x: 8px;
+	--sy-input-font-size: var(--sy-font-size-lg);
+	--sy-input-height: var(--sy-input-height-medium);
+	--sy-input-padding-y: var(--sy-spacing-sm);
+	--sy-input-padding-x: var(--sy-spacing-sm);
 
-	--sy-input-gap: 8px;
+	--sy-input-gap: var(--sy-spacing-sm);
 
 	position: relative;
 	display: inline-flex;
 	box-sizing: border-box;
 	align-items: center;
-	border-radius: 10px;
+	border-radius: var(--sy-input-radius);
 
 	font-size: var(--sy-input-font-size);
 	line-height: 1;
@@ -22,29 +22,29 @@
 	padding: var(--sy-input-padding-y) var(--sy-input-padding-x);
 
 	cursor: text;
-	box-shadow: 0px 0px 0px 0px #00000026;
+	box-shadow: var(--sy-shadow-control);
 	border: 1px solid transparent;
 	// 通过 CSS 变量应用动态颜色，允许状态类正常覆盖。
-	color: var(--sy-input-text-color);
+	color: var(--sy-input-text-color, var(--sy-input-color));
 	background-color: var(--sy-input-bg);
 
 	// border类型
 	&--border {
-		border-color: var(--border-color);
+		border-color: var(--border-color, var(--sy-input-border-color));
 
 		&:focus-within {
-			border-color: var(--focus-border-color);
-			box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.15);
+			border-color: var(--focus-border-color, var(--sy-input-focus-color));
+			box-shadow: var(--sy-input-focus-shadow);
 		}
 	}
 	// underline类型
 	&--underline {
 		&:focus-within {
-			border-bottom: 2px solid var(--focus-border-color);
+			border-bottom: 2px solid var(--focus-border-color, var(--sy-input-focus-color));
 		}
 	}
 	&--underline.hasfocu {
-		border-bottom: 2px solid var(--focus-border-color);
+		border-bottom: 2px solid var(--focus-border-color, var(--sy-input-focus-color));
 	}
 	// bottom-line 类型
 	&--bottom-line {
@@ -55,7 +55,7 @@
 			left: 0;
 			width: 100%;
 			height: 2px;
-			background-color: var(--line-color);
+			background-color: var(--line-color, var(--sy-input-line-color));
 		}
 		&::after {
 			content: '';
@@ -64,7 +64,7 @@
 			left: 0;
 			width: 100%;
 			height: 2px;
-			background-color: var(--line-color);
+			background-color: var(--line-color, var(--sy-input-line-color));
 			transform: scaleX(0);
 			transform-origin: center;
 
@@ -76,19 +76,19 @@
 	&--bottom-line.hasfocu {
 		&::after {
 			transform: scaleX(1);
-			background-color: var(--focu-line-color);
+			background-color: var(--focu-line-color, var(--sy-input-focus-color));
 		}
 	}
 	&--label-border {
-		border-color: var(--border-color);
+		border-color: var(--border-color, var(--sy-input-border-color));
 		.sy-input-center-ph--label.is-float {
 			transform: translate(calc(-0.6 * var(--sy-input-padding-x)), calc(-50% - 0.8em - var(--sy-input-padding-y)))
 				scale(0.85);
 			background-color: var(--sy-input-bg);
-			color: var(--focus-border-color);
+			color: var(--focus-border-color, var(--sy-input-focus-color));
 		}
 		&.hasfocu {
-			border-color: var(--focus-border-color);
+			border-color: var(--focus-border-color, var(--sy-input-focus-color));
 		}
 	}
 
@@ -96,9 +96,9 @@
 	&.hasfocu {
 		> .sy-input__fronticon,
 		> .sy-input__backicon {
-			background-color: rgb(249, 252, 253);
-			color: var(--focus-border-color);
-			box-shadow: 15px 10px 10px -10px rgba(0, 0, 0, 0.1);
+			background-color: var(--sy-color-surface);
+			color: var(--focus-border-color, var(--sy-input-focus-color));
+			box-shadow: var(--sy-input-icon-shadow);
 		}
 
 		> .sy-input__fronticon {
@@ -113,7 +113,7 @@
 		cursor: not-allowed;
 		color: var(--sy-color-text-disabled);
 		border-color: var(--sy-color-text-disabled);
-		background-color: #fafafa;
+		background-color: var(--sy-input-disabled-bg);
 		box-shadow: none;
 
 		&:focus-within {
@@ -181,7 +181,7 @@
 		margin-left: 0;
 		margin-right: calc(-1 * var(--sy-input-padding-x));
 
-		box-shadow: -15px 10px 10px -10px rgba(0, 0, 0, 0.05);
+		box-shadow: var(--sy-input-icon-shadow);
 
 		.icon-side-hover(1, 15px);
 	}
@@ -204,7 +204,7 @@
 			max-width: 100%;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			color: #98a2b3;
+			color: var(--sy-input-placeholder-color);
 
 			&--label {
 				transform-origin: left center;
@@ -216,7 +216,7 @@
 			&--label.is-float {
 				transform: translate(calc(-1 * var(--sy-input-padding-x)), calc(-80% - 1em - var(--sy-input-padding-y)))
 					scale(0.85);
-				color: var(--label-color);
+				color: var(--label-color, var(--sy-input-focus-color));
 				opacity: 1;
 			}
 		}
@@ -259,18 +259,18 @@
 	}
 
 	&--large {
-		--sy-input-font-size: 18px;
-		--sy-input-height: 44px;
-		--sy-input-padding-y: 10px;
-		--sy-input-padding-x: 10px;
+		--sy-input-font-size: var(--sy-input-font-size-large);
+		--sy-input-height: var(--sy-input-height-large);
+		--sy-input-padding-y: var(--sy-input-padding-large);
+		--sy-input-padding-x: var(--sy-input-padding-large);
 	}
 
 	&--small {
-		--sy-input-font-size: 14px;
-		--sy-input-height: 30px;
-		--sy-input-padding-y: 6px;
-		--sy-input-padding-x: 6px;
-		--sy-input-gap: 4px;
+		--sy-input-font-size: var(--sy-font-size-md);
+		--sy-input-height: var(--sy-input-height-small);
+		--sy-input-padding-y: var(--sy-input-padding-small);
+		--sy-input-padding-x: var(--sy-input-padding-small);
+		--sy-input-gap: var(--sy-spacing-xs);
 	}
 
 	&__clear {
@@ -284,7 +284,7 @@
 		appearance: none;
 
 		&:focus-visible {
-			outline: 2px solid var(--focus-border-color);
+			outline: 2px solid var(--focus-border-color, var(--sy-input-focus-color));
 			outline-offset: 2px;
 			border-radius: 50%;
 		}

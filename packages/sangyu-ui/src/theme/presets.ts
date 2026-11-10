@@ -129,6 +129,37 @@ const colorReferences = {
 	errorSelect: base('base.color.error.1'),
 };
 
+const commonButton: ThemeTokens['components']['button'] = {
+	color: semantic('semantic.color.primary'),
+	filledTextColor: '#fff',
+	focusShadow: semantic('semantic.shadow.focus'),
+	hoverShadow: semantic('semantic.shadow.control'),
+	paddingSmall: '7px',
+	paddingMedium: '10px',
+	paddingLarge: '15px',
+	radiusSmall: '2px',
+	radiusLarge: '12px',
+};
+
+const commonInput: ThemeTokens['components']['input'] = {
+	color: semantic('semantic.color.text'),
+	bg: semantic('semantic.color.bg'),
+	borderColor: semantic('semantic.color.border'),
+	focusColor: semantic('semantic.color.primary'),
+	lineColor: semantic('semantic.color.divider'),
+	placeholderColor: semantic('semantic.color.textSecondary'),
+	disabledBg: semantic('semantic.color.bg'),
+	focusShadow: semantic('semantic.shadow.focus'),
+	iconShadow: semantic('semantic.shadow.control'),
+	heightSmall: '30px',
+	heightMedium: '36px',
+	heightLarge: '44px',
+	fontSizeLarge: '18px',
+	paddingSmall: '6px',
+	paddingLarge: '10px',
+	radius: '10px',
+};
+
 export const lightTheme: ThemeTokens = {
 	base: lightBase,
 	semantic: {
@@ -146,6 +177,8 @@ export const lightTheme: ThemeTokens = {
 		...commonSemantic,
 	},
 	components: {
+		button: commonButton,
+		input: commonInput,
 		select: {
 			color: '#1f2933',
 			bg: '#fff',
@@ -158,6 +191,20 @@ export const lightTheme: ThemeTokens = {
 			optionHoverBg: '#f3f7fb',
 			optionSelectedColor: semantic('semantic.color.primary'),
 			optionSelectedBg: '#ecf5ff',
+			triggerHeightSmall: '28px',
+			triggerHeightMedium: '34px',
+			fontSizeSmall: '13px',
+			fontSizeLarge: '15px',
+			dropdownBorderColor: '#e3e8ef',
+			dropdownShadow: semantic('semantic.shadow.popover'),
+			iconColor: semantic('semantic.color.textSecondary'),
+			tagBg: semantic('semantic.color.bg'),
+			optionDisabledColor: semantic('semantic.color.textDisabled'),
+			clearHoverBg: '#0f172a0f',
+			scrollbarThumb: '#94a3b833',
+			scrollbarThumbHover: '#94a3b859',
+			tagHeight: '22px',
+			tagPadding: '6px',
 		},
 	},
 };
@@ -249,6 +296,8 @@ export const darkTheme: ThemeTokens = {
 		...commonSemantic,
 	},
 	components: {
+		button: commonButton,
+		input: commonInput,
 		select: {
 			color: semantic('semantic.color.text'),
 			bg: '#1f1f1f',
@@ -261,6 +310,20 @@ export const darkTheme: ThemeTokens = {
 			optionHoverBg: '#303030',
 			optionSelectedColor: semantic('semantic.color.primary'),
 			optionSelectedBg: '#111d2c',
+			triggerHeightSmall: '28px',
+			triggerHeightMedium: '34px',
+			fontSizeSmall: '13px',
+			fontSizeLarge: '15px',
+			dropdownBorderColor: semantic('semantic.color.border'),
+			dropdownShadow: semantic('semantic.shadow.popover'),
+			iconColor: semantic('semantic.color.textSecondary'),
+			tagBg: semantic('semantic.color.bg'),
+			optionDisabledColor: semantic('semantic.color.textDisabled'),
+			clearHoverBg: '#ffffff1f',
+			scrollbarThumb: '#ffffff33',
+			scrollbarThumbHover: '#ffffff59',
+			tagHeight: '22px',
+			tagPadding: '6px',
 		},
 	},
 };

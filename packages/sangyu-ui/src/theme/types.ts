@@ -68,12 +68,57 @@ export interface SelectTokens {
 	optionHoverBg: ComponentValue;
 	optionSelectedColor: ComponentValue;
 	optionSelectedBg: ComponentValue;
+	triggerHeightSmall: ComponentValue;
+	triggerHeightMedium: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	dropdownBorderColor: ComponentValue;
+	dropdownShadow: ComponentValue;
+	iconColor: ComponentValue;
+	tagBg: ComponentValue;
+	optionDisabledColor: ComponentValue;
+	clearHoverBg: ComponentValue;
+	scrollbarThumb: ComponentValue;
+	scrollbarThumbHover: ComponentValue;
+	tagHeight: ComponentValue;
+	tagPadding: ComponentValue;
+}
+
+export interface ButtonTokens {
+	color: ComponentValue;
+	filledTextColor: ComponentValue;
+	focusShadow: ComponentValue;
+	hoverShadow: ComponentValue;
+	paddingSmall: ComponentValue;
+	paddingMedium: ComponentValue;
+	paddingLarge: ComponentValue;
+	radiusSmall: ComponentValue;
+	radiusLarge: ComponentValue;
+}
+
+export interface InputTokens {
+	color: ComponentValue;
+	bg: ComponentValue;
+	borderColor: ComponentValue;
+	focusColor: ComponentValue;
+	lineColor: ComponentValue;
+	placeholderColor: ComponentValue;
+	disabledBg: ComponentValue;
+	focusShadow: ComponentValue;
+	iconShadow: ComponentValue;
+	heightSmall: ComponentValue;
+	heightMedium: ComponentValue;
+	heightLarge: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	paddingSmall: ComponentValue;
+	paddingLarge: ComponentValue;
+	radius: ComponentValue;
 }
 
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
-	components: { select: SelectTokens };
+	components: { select: SelectTokens; button: ButtonTokens; input: InputTokens };
 }
 
 export type DeepPartial<T> = {
