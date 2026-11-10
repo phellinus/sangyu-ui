@@ -39,7 +39,9 @@
 		"darkTheme",
 		"mergeTheme",
 		"themeToCSS",
-		"themeToVariables"
+		"themeToVariables",
+		"ThemeProvider",
+		"useTheme"
 	],
 	"@sangyu-ui/icons": [
 		"SyIcon",

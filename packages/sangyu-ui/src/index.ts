@@ -8,6 +8,9 @@ export * from './components';
 export { lightTheme, darkTheme } from './theme/presets';
 export { mergeTheme } from './theme/merge';
 export { themeToCSS, themeToVariables } from './theme/css';
+export { ThemeProvider } from './theme/ThemeProvider';
+export { useTheme } from './theme/context';
+export type { ThemeContext, ThemeMode } from './theme/context';
 export type { ThemeTokens, ThemeOverride, BaseTokens, SemanticTokens, SelectTokens } from './theme/types';
 
 const isPlugin = (value: unknown): value is Plugin => {
