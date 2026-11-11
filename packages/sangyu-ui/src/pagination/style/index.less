@@ -1,13 +1,6 @@
 @import '../../style/index.less';
 
 .sy-pagination {
-	--sy-pagination-active-color: var(--sy-color-primary);
-	--sy-pagination-height: 32px;
-	--sy-pagination-min-width: 32px;
-	--sy-pagination-radius: 8px;
-	--sy-pagination-gap: 6px;
-	--sy-pagination-font-size: 14px;
-
 	display: flex;
 	align-items: center;
 	gap: var(--sy-pagination-gap);
@@ -16,15 +9,15 @@
 	white-space: nowrap;
 
 	&-small {
-		--sy-pagination-height: 26px;
-		--sy-pagination-min-width: 26px;
-		--sy-pagination-font-size: 12px;
+		--sy-pagination-height: var(--sy-pagination-height-small);
+		--sy-pagination-min-width: var(--sy-pagination-min-width-small);
+		--sy-pagination-font-size: var(--sy-pagination-font-size-small);
 	}
 
 	&-large {
-		--sy-pagination-height: 38px;
-		--sy-pagination-min-width: 38px;
-		--sy-pagination-font-size: 15px;
+		--sy-pagination-height: var(--sy-pagination-height-large);
+		--sy-pagination-min-width: var(--sy-pagination-min-width-large);
+		--sy-pagination-font-size: var(--sy-pagination-font-size-large);
 	}
 
 	&-right {
@@ -41,7 +34,7 @@
 	.sy-pager-more {
 		min-width: var(--sy-pagination-min-width);
 		height: var(--sy-pagination-height);
-		padding: 0 8px;
+		padding: 0 var(--sy-pagination-item-padding-x);
 		border: none;
 		border-radius: var(--sy-pagination-radius);
 		background: transparent;
@@ -57,7 +50,7 @@
 	&-next:hover:not(:disabled),
 	.sy-pager-button:hover:not(.sy-pager-disabled),
 	.sy-pager-more:hover {
-		background: var(--sy-color-bg);
+		background: var(--sy-pagination-hover-bg);
 	}
 
 	&-prev:active:not(:disabled),
@@ -71,13 +64,13 @@
 	&-next:disabled,
 	.sy-pager-disabled,
 	.sy-pager-loading {
-		opacity: 0.45;
+		opacity: var(--sy-pagination-disabled-opacity);
 		cursor: not-allowed;
 		pointer-events: none;
 	}
 
 	&-circle {
-		--sy-pagination-radius: 999px;
+		--sy-pagination-radius: var(--sy-pagination-circle-radius);
 	}
 
 	&-square {
@@ -93,30 +86,30 @@
 	}
 
 	&-buttons-dotted {
-		--sy-pagination-height: 12px;
-		--sy-pagination-min-width: 12px;
-		gap: 8px;
+		--sy-pagination-height: var(--sy-pagination-dotted-height);
+		--sy-pagination-min-width: var(--sy-pagination-dotted-min-width);
+		gap: var(--sy-pagination-dotted-gap);
 
 		.sy-pagination-prev,
 		.sy-pagination-next {
-			width: 16px;
-			min-width: 16px;
-			height: 18px;
+			width: var(--sy-pagination-dotted-control-width);
+			min-width: var(--sy-pagination-dotted-control-width);
+			height: var(--sy-pagination-dotted-control-height);
 			padding: 0;
 			background: transparent;
-			line-height: 18px;
+			line-height: var(--sy-pagination-dotted-control-height);
 		}
 
 		.sy-pager {
-			gap: 10px;
+			gap: var(--sy-pagination-dotted-pager-gap);
 		}
 
 		.sy-pager-button {
-			width: 12px;
-			min-width: 12px;
-			height: 12px;
+			width: var(--sy-pagination-dotted-item-size);
+			min-width: var(--sy-pagination-dotted-item-size);
+			height: var(--sy-pagination-dotted-item-size);
 			padding: 0;
-			border-radius: 50%;
+			border-radius: var(--sy-pagination-circle-radius);
 			background: var(--sy-color-border);
 			color: transparent;
 			font-size: 0;
@@ -131,10 +124,10 @@
 		}
 
 		.sy-pager-aria-active {
-			width: 12px;
-			height: 12px;
-			border-radius: 50%;
-			box-shadow: 0 8px 24px rgba(22, 93, 255, 0.28);
+			width: var(--sy-pagination-dotted-item-size);
+			height: var(--sy-pagination-dotted-item-size);
+			border-radius: var(--sy-pagination-circle-radius);
+			box-shadow: var(--sy-pagination-dotted-active-shadow);
 			transform: scale(1);
 		}
 
@@ -178,8 +171,8 @@
 		height: var(--sy-pagination-height);
 		border-radius: var(--sy-pagination-radius);
 		background: var(--sy-pagination-active-color);
-		color: #fff;
-		box-shadow: 0 5px 20px rgba(22, 93, 255, 0.3);
+		color: var(--sy-pagination-active-text-color);
+		box-shadow: var(--sy-pagination-active-shadow);
 		pointer-events: none;
 		transition:
 			left 0.28s cubic-bezier(0.22, 1, 0.36, 1),
@@ -220,9 +213,9 @@
 
 	&-spinner {
 		display: inline-block;
-		width: 12px;
-		height: 12px;
-		border: 2px solid var(--sy-color-border);
+		width: var(--sy-pagination-spinner-size);
+		height: var(--sy-pagination-spinner-size);
+		border: var(--sy-pagination-spinner-border-width) solid var(--sy-color-border);
 		border-top-color: var(--sy-pagination-active-color);
 		border-radius: 50%;
 		animation: sy-pagination-spin 0.7s linear infinite;
@@ -233,9 +226,9 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: -8px;
-	height: 3px;
-	border-radius: 10px;
+	bottom: var(--sy-pagination-progress-offset);
+	height: var(--sy-pagination-progress-height);
+	border-radius: var(--sy-pagination-progress-radius);
 	background: var(--sy-color-bg);
 
 	&-bar {
@@ -249,10 +242,10 @@
 .sy-pagination-jumper {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--sy-pagination-jumper-gap);
 
 	&-input {
-		width: 52px;
+		width: var(--sy-pagination-jumper-width);
 		height: var(--sy-pagination-height);
 		box-sizing: border-box;
 		border: 1px solid var(--sy-color-border);
@@ -266,7 +259,7 @@
 	height: var(--sy-pagination-height);
 	border: 1px solid var(--sy-color-border);
 	border-radius: var(--sy-pagination-radius);
-	background: #fff;
+	background: var(--sy-color-surface);
 	color: var(--sy-color-text);
 }
 

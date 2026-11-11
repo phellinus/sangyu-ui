@@ -91,6 +91,20 @@ describe('theme tokens', () => {
 		);
 	});
 
+	it('emits navigation component tokens with stable names in both presets', () => {
+		const light = themeToVariables(lightTheme);
+		const dark = themeToVariables(darkTheme);
+		expect(light['--sy-menu-popup-shadow']).toContain('0 12px 32px -8px');
+		expect(light['--sy-menu-active-indicator-color']).toBe('var(--sy-color-primary)');
+		expect(light['--sy-pagination-height']).toBe('var(--sy-control-height-md)');
+		expect(light['--sy-pagination-active-color']).toBe('var(--sy-color-primary)');
+		expect(light['--sy-breadcrumb-current-color']).toBe('var(--sy-color-text)');
+		expect(dark['--sy-breadcrumb-link-hover-color']).toBe('var(--sy-color-text)');
+		expect(light['--sy-step-finish-color']).toBe('var(--sy-color-success)');
+		expect(dark['--sy-step-error-color']).toBe('var(--sy-color-error)');
+		expect(dark['--sy-step-indicator-size']).toBe('36px');
+	});
+
 	it('inherits untouched common values through partial base and semantic overrides', () => {
 		const merged = mergeTheme(lightTheme, {
 			base: { spacing: { xs: '6px' } },
@@ -110,6 +124,14 @@ describe('theme tokens', () => {
 		expectTypeOf<{
 			components: { switch: { width: string }; radio: { dotSize: string } };
 		}>().toExtend<ThemeOverride>();
+		expectTypeOf<{
+			components: {
+				menu: { activeBg: string };
+				pagination: { height: string };
+				breadcrumb: { currentColor: string };
+				step: { indicatorSize: string };
+			};
+		}>().toExtend<ThemeOverride>();
 		expectTypeOf<'base.spacing.xs'>().toExtend<BaseTokenPath>();
 		expectTypeOf<'semantic.shadow.overlay'>().toExtend<SemanticTokenPath>();
 		// @ts-expect-error layout width is not a common semantic token
@@ -118,9 +140,12 @@ describe('theme tokens', () => {
 		const invalidReference: BaseTokenPath = 'base.spacing.huge';
 		// @ts-expect-error component tokens reject undeclared fields
 		const invalidComponentOverride: ThemeOverride = { components: { switch: { trackWidth: '48px' } } };
+		// @ts-expect-error component token names stay typed
+		const invalidMenuOverride: ThemeOverride = { components: { menu: { selectedBg: '#eee' } } };
 		expect(invalidOverride).toBeDefined();
 		expect(invalidReference).toBeDefined();
 		expect(invalidComponentOverride).toBeDefined();
+		expect(invalidMenuOverride).toBeDefined();
 	});
 
 	it('carries base overrides through semantic and component references', () => {

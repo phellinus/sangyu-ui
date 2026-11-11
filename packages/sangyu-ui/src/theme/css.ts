@@ -61,6 +61,10 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		'radioButton',
 		'switch',
 		'form',
+		'menu',
+		'pagination',
+		'breadcrumb',
+		'step',
 	] as const) {
 		for (const [key, value] of Object.entries(theme.components[component])) {
 			const prefix =

@@ -143,12 +143,58 @@ describe('ThemeProvider', () => {
 		wrapper.unmount();
 	});
 
+	it('updates navigation tokens through nested scoped providers and mode changes', async () => {
+		const mode = ref<ThemeMode>('light');
+		const menuBg = ref('#eee');
+		const paginationHeight = ref('40px');
+		const Host = defineComponent(
+			() => () =>
+				h(
+					ThemeProvider,
+					{ mode: mode.value, tokens: { components: { menu: { activeBg: menuBg.value } } } },
+					() =>
+						h(
+							ThemeProvider,
+							{
+								tokens: {
+									components: {
+										pagination: { height: paginationHeight.value },
+										breadcrumb: { currentColor: '#123456' },
+										step: { indicatorSize: '42px' },
+									},
+								},
+							},
+							() => h(Probe),
+						),
+				),
+		);
+		const wrapper = mount(Host);
+		const [parent, child] = wrapper.findAll('[data-sy-theme]');
+		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		expect(css(parent, '--sy-menu-active-bg')).toBe('#eee');
+		expect(css(child, '--sy-menu-active-bg')).toBe('#eee');
+		expect(css(child, '--sy-pagination-height')).toBe('40px');
+		expect(css(parent, '--sy-pagination-height')).toBe('var(--sy-control-height-md)');
+		expect(css(child, '--sy-breadcrumb-current-color')).toBe('#123456');
+		expect(css(child, '--sy-step-indicator-size')).toBe('42px');
+		menuBg.value = '#ddd';
+		paginationHeight.value = '44px';
+		mode.value = 'dark';
+		await nextTick();
+		expect(parent.attributes('data-sy-theme')).toBe('dark');
+		expect(css(child, '--sy-menu-active-bg')).toBe('#ddd');
+		expect(css(child, '--sy-pagination-height')).toBe('44px');
+		wrapper.unmount();
+	});
+
 	it('renders on the server without DOM access', async () => {
 		const html = await renderToString(h(ThemeProvider, { mode: 'dark', as: 'section' }, () => h(Probe)));
 		expect(html).toContain('<section');
 		expect(html).toContain('data-sy-theme="dark"');
 		expect(html).toContain('--sy-color-bg:#141414');
 		expect(html).toContain('--sy-spacing-xs:var(--sy-base-spacing-xs)');
+		expect(html).toContain('--sy-menu-active-bg:var(--sy-color-bg)');
+		expect(html).toContain('--sy-step-finish-color:var(--sy-color-success)');
 	});
 
 	it('accepts typed modes and nested token overrides', () => {

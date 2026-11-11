@@ -272,6 +272,144 @@ export interface FormTokens {
 	validatingColor: ComponentValue;
 }
 
+export interface MenuTokens {
+	color: ComponentValue;
+	bg: ComponentValue;
+	borderColor: ComponentValue;
+	fontSize: ComponentValue;
+	hoverColor: ComponentValue;
+	hoverBg: ComponentValue;
+	activeColor: ComponentValue;
+	activeBg: ComponentValue;
+	activeIndicatorColor: ComponentValue;
+	popupBg: ComponentValue;
+	popupBorderColor: ComponentValue;
+	popupShadow: ComponentValue;
+	menuShadow: ComponentValue;
+	horizontalRadius: ComponentValue;
+	verticalRadius: ComponentValue;
+	itemHeightHorizontal: ComponentValue;
+	itemHeightVertical: ComponentValue;
+	itemHeightSubmenu: ComponentValue;
+	horizontalPadding: ComponentValue;
+	itemPaddingHorizontal: ComponentValue;
+	itemPaddingVertical: ComponentValue;
+	itemMarginHorizontal: ComponentValue;
+	itemMarginVertical: ComponentValue;
+	collapsedWidth: ComponentValue;
+	verticalWidth: ComponentValue;
+	popupMinWidth: ComponentValue;
+	collapsedPopupMinWidth: ComponentValue;
+	collapsedPopupOffset: ComponentValue;
+	popupRadius: ComponentValue;
+	popupPadding: ComponentValue;
+	itemRadius: ComponentValue;
+	verticalItemRadius: ComponentValue;
+	popupItemActiveBg: ComponentValue;
+	indicatorWidth: ComponentValue;
+	indicatorHeight: ComponentValue;
+	indicatorInset: ComponentValue;
+	indicatorRadius: ComponentValue;
+	iconGap: ComponentValue;
+	submenuContentGap: ComponentValue;
+	submenuArrowGap: ComponentValue;
+	popupItemPaddingX: ComponentValue;
+	popupItemMarginBottom: ComponentValue;
+	verticalPadding: ComponentValue;
+	submenuIndent: ComponentValue;
+}
+
+export interface PaginationTokens {
+	activeColor: ComponentValue;
+	activeTextColor: ComponentValue;
+	activeShadow: ComponentValue;
+	dottedActiveShadow: ComponentValue;
+	height: ComponentValue;
+	minWidth: ComponentValue;
+	radius: ComponentValue;
+	gap: ComponentValue;
+	fontSize: ComponentValue;
+	heightSmall: ComponentValue;
+	minWidthSmall: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	heightLarge: ComponentValue;
+	minWidthLarge: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	hoverBg: ComponentValue;
+	dottedColor: ComponentValue;
+	disabledOpacity: ComponentValue;
+	itemPaddingX: ComponentValue;
+	circleRadius: ComponentValue;
+	dottedHeight: ComponentValue;
+	dottedMinWidth: ComponentValue;
+	dottedGap: ComponentValue;
+	dottedControlWidth: ComponentValue;
+	dottedControlHeight: ComponentValue;
+	dottedPagerGap: ComponentValue;
+	dottedItemSize: ComponentValue;
+	spinnerSize: ComponentValue;
+	spinnerBorderWidth: ComponentValue;
+	progressOffset: ComponentValue;
+	progressHeight: ComponentValue;
+	progressRadius: ComponentValue;
+	jumperGap: ComponentValue;
+	jumperWidth: ComponentValue;
+}
+
+export interface BreadcrumbTokens {
+	fontSize: ComponentValue;
+	color: ComponentValue;
+	separatorColor: ComponentValue;
+	separatorFontSize: ComponentValue;
+	linkHoverColor: ComponentValue;
+	linkHoverBg: ComponentValue;
+	currentColor: ComponentValue;
+	separatorGap: ComponentValue;
+	contentGap: ComponentValue;
+	paddingX: ComponentValue;
+	paddingY: ComponentValue;
+	radius: ComponentValue;
+}
+
+export interface StepTokens {
+	waitColor: ComponentValue;
+	waitBg: ComponentValue;
+	processColor: ComponentValue;
+	processBg: ComponentValue;
+	finishColor: ComponentValue;
+	finishBg: ComponentValue;
+	errorColor: ComponentValue;
+	errorBg: ComponentValue;
+	tailColor: ComponentValue;
+	indicatorSize: ComponentValue;
+	indicatorFontSize: ComponentValue;
+	indicatorProcessShadow: ComponentValue;
+	horizontalHeadMinWidth: ComponentValue;
+	verticalMinHeight: ComponentValue;
+	verticalHeadGap: ComponentValue;
+	horizontalTailGap: ComponentValue;
+	verticalTailMinHeight: ComponentValue;
+	verticalTailMarginTop: ComponentValue;
+	horizontalMainPadding: ComponentValue;
+	horizontalMainMaxWidth: ComponentValue;
+	verticalMainPadding: ComponentValue;
+	titleFontSize: ComponentValue;
+	descriptionFontSize: ComponentValue;
+	descriptionMarginTop: ComponentValue;
+	descriptionColor: ComponentValue;
+	waitDescriptionColor: ComponentValue;
+	finishTitleColor: ComponentValue;
+	errorTitleColor: ComponentValue;
+	tailFinishColor: ComponentValue;
+	tailProcessColor: ComponentValue;
+	headMinWidth: ComponentValue;
+	horizontalHeadPaddingTop: ComponentValue;
+	indicatorRadius: ComponentValue;
+	tailRadius: ComponentValue;
+	tailWidth: ComponentValue;
+	tailHeight: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -286,6 +424,10 @@ export interface ThemeTokens {
 		radioButton: RadioButtonTokens;
 		switch: SwitchTokens;
 		form: FormTokens;
+		menu: MenuTokens;
+		pagination: PaginationTokens;
+		breadcrumb: BreadcrumbTokens;
+		step: StepTokens;
 	};
 }
 

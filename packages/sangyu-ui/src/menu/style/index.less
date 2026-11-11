@@ -2,10 +2,10 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	background-color: #ffffff;
-	color: #6a7076;
-	font-size: 14px;
-	border: 1px solid rgba(224, 228, 232, 0.7);
+	background-color: var(--sy-menu-bg);
+	color: var(--sy-menu-color);
+	font-size: var(--sy-menu-font-size);
+	border: 1px solid var(--sy-menu-border-color);
 	transition:
 		background 0.3s,
 		width 0.3s;
@@ -16,21 +16,21 @@
 		display: flex;
 		align-items: center;
 		justify-content: var(--menu-item-justify, flex-start);
-		border-radius: 12px;
-		padding: 0 16px;
-		box-shadow: 0 4px 16px -6px rgba(140, 144, 150, 0.05);
+		border-radius: var(--sy-menu-horizontal-radius);
+		padding: 0 var(--sy-menu-horizontal-padding);
+		box-shadow: var(--sy-menu-menu-shadow);
 
 		> .sy-menu-item,
 		> .sy-submenu > .sy-submenu-title {
-			padding: 0 20px;
-			height: 52px;
-			border-radius: 6px;
-			margin: 4px 2px;
+			padding: 0 var(--sy-menu-item-padding-horizontal);
+			height: var(--sy-menu-item-height-horizontal);
+			border-radius: var(--sy-menu-item-radius);
+			margin: var(--sy-menu-item-margin-horizontal);
 		}
 
 		> .sy-menu-item:hover,
 		> .sy-submenu:hover > .sy-submenu-title {
-			background-color: var(--hover-bg-color);
+			background-color: var(--sy-menu-hover-bg);
 		}
 
 		> .sy-submenu:hover > .sy-submenu-title .sy-submenu-arrow {
@@ -42,33 +42,33 @@
 			transform: translateY(4px);
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item {
-			height: 40px;
-			padding: 0 16px;
-			border-radius: 6px;
-			margin-bottom: 2px;
+			height: var(--sy-menu-item-height-submenu);
+			padding: 0 var(--sy-menu-popup-item-padding-x);
+			border-radius: var(--sy-menu-item-radius);
+			margin-bottom: var(--sy-menu-popup-item-margin-bottom);
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item:hover {
-			background-color: var(--hover-bg-color);
+			background-color: var(--sy-menu-hover-bg);
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item.sy-menu-item-active {
-			color: #2c3034;
+			color: var(--sy-menu-active-color);
 			font-weight: 600;
-			background-color: #f7f8fa;
+			background-color: var(--sy-menu-popup-item-active-bg);
 			box-shadow: none;
 		}
 
 		.sy-menu-item.sy-menu-item-active {
-			color: #2c3034;
+			color: var(--sy-menu-active-color);
 			font-weight: 600;
 			background-color: transparent;
-			box-shadow: inset 0 -2px 0 #2c3034;
+			box-shadow: inset 0 -2px 0 var(--sy-menu-active-indicator-color);
 			border-radius: 0;
 		}
 	}
 
 	&-vertical&-collapse {
-		width: 72px;
-		padding: 12px 0;
+		width: var(--sy-menu-collapsed-width);
+		padding: var(--sy-menu-vertical-padding);
 
 		> .sy-menu-item,
 		> .sy-submenu > .sy-submenu-title {
@@ -93,13 +93,13 @@
 			position: relative;
 		}
 		> .sy-submenu > .sy-submenu-popup {
-			left: calc(100% + 8px);
+			left: calc(100% + var(--sy-menu-collapsed-popup-offset));
 			top: 0;
-			min-width: 160px;
+			min-width: var(--sy-menu-collapsed-popup-min-width);
 			transform: translateY(0);
 		}
 		> .sy-submenu:hover > .sy-submenu-title {
-			background-color: var(--hover-bg-color);
+			background-color: var(--sy-menu-hover-bg);
 		}
 		> .sy-submenu:hover > .sy-submenu-popup {
 			visibility: visible;
@@ -107,18 +107,18 @@
 			transform: translateY(0);
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item {
-			height: 40px;
-			padding: 0 16px;
-			border-radius: 6px;
-			margin-bottom: 2px;
+			height: var(--sy-menu-item-height-submenu);
+			padding: 0 var(--sy-menu-popup-item-padding-x);
+			border-radius: var(--sy-menu-item-radius);
+			margin-bottom: var(--sy-menu-popup-item-margin-bottom);
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item:hover {
-			background-color: var(--hover-bg-color);
+			background-color: var(--sy-menu-hover-bg);
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item.sy-menu-item-active {
-			color: #2c3034;
+			color: var(--sy-menu-active-color);
 			font-weight: 600;
-			background-color: #f7f8fa;
+			background-color: var(--sy-menu-popup-item-active-bg);
 			box-shadow: none;
 		}
 		> .sy-submenu > .sy-submenu-popup .sy-menu-item-content {
@@ -127,40 +127,40 @@
 	}
 	//垂直菜单
 	&-vertical {
-		width: 240px;
-		border-radius: 16px;
-		padding: 12px 0;
-		box-shadow: 0 4px 16px -6px rgba(140, 144, 150, 0.05);
+		width: var(--sy-menu-vertical-width);
+		border-radius: var(--sy-menu-vertical-radius);
+		padding: var(--sy-menu-vertical-padding);
+		box-shadow: var(--sy-menu-menu-shadow);
 
 		.sy-menu-item,
 		.sy-submenu-title {
-			height: 44px;
-			padding: 0 20px;
-			margin: 4px 12px;
-			border-radius: 8px;
+			height: var(--sy-menu-item-height-vertical);
+			padding: 0 var(--sy-menu-item-padding-vertical);
+			margin: var(--sy-menu-item-margin-vertical);
+			border-radius: var(--sy-menu-vertical-item-radius);
 		}
 		//垂直状态下 hover 效果
 		.sy-menu-item:hover,
 		.sy-submenu-title:hover {
-			background-color: var(--hover-bg-color);
+			background-color: var(--sy-menu-hover-bg);
 		}
 		//垂直状态下 active 效果
 		.sy-menu-item.sy-menu-item-active {
-			color: #2c3034;
+			color: var(--sy-menu-active-color);
 			font-weight: 600;
-			background-color: #f4f5f7;
+			background-color: var(--sy-menu-active-bg);
 		}
 		/* 左侧指示线 */
 		.sy-menu-item::before {
 			content: '';
 			position: absolute;
-			left: -12px; /* 移动到最左侧边缘 */
+			left: var(--sy-menu-indicator-inset);
 			top: 50%;
 			transform: translateY(-50%) scaleY(0);
-			width: 3px;
-			height: 20px;
-			background-color: #2c3034;
-			border-radius: 0 4px 4px 0;
+			width: var(--sy-menu-indicator-width);
+			height: var(--sy-menu-indicator-height);
+			background-color: var(--sy-menu-active-indicator-color);
+			border-radius: var(--sy-menu-indicator-radius);
 			transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 		}
 		.sy-menu-item.sy-menu-item-active::before {
@@ -203,11 +203,11 @@
 
 		//内嵌子菜单缩进
 		.sy-submenu-inline .sy-menu-item {
-			padding-left: 46px;
-			height: 40px;
+			padding-left: var(--sy-menu-submenu-indent);
+			height: var(--sy-menu-item-height-submenu);
 		}
 		.sy-submenu-inline .sy-menu-item::before {
-			left: -12px;
+			left: var(--sy-menu-indicator-inset);
 		}
 	}
 
@@ -221,12 +221,12 @@
 		white-space: nowrap;
 
 		&-icon {
-			margin-right: 8px;
+			margin-right: var(--sy-menu-icon-gap);
 		}
 
 		&-icon-right {
 			margin-right: 0;
-			margin-left: 8px;
+			margin-left: var(--sy-menu-icon-gap);
 		}
 
 		&-content {
@@ -249,18 +249,18 @@
 	}
 
 	.sy-submenu-title.sy-submenu-title-active {
-		color: #2c3034;
+		color: var(--sy-menu-active-color);
 		font-weight: 600;
 	}
 
 	.sy-submenu-title-content {
 		display: inline-flex;
 		align-items: center;
-		gap: 8px;
+		gap: var(--sy-menu-submenu-content-gap);
 	}
 
 	.sy-submenu-arrow {
-		margin-left: 8px;
+		margin-left: var(--sy-menu-submenu-arrow-gap);
 		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		opacity: 0.6;
 	}
@@ -269,16 +269,14 @@
 		position: absolute;
 		top: 100%;
 		left: 0;
-		min-width: 140px;
-		background: #ffffff;
-		border: 1px solid rgba(224, 228, 232, 0.7);
-		border-radius: 10px;
-		padding: 8px;
+		min-width: var(--sy-menu-popup-min-width);
+		background: var(--sy-menu-popup-bg);
+		border: 1px solid var(--sy-menu-popup-border-color);
+		border-radius: var(--sy-menu-popup-radius);
+		padding: var(--sy-menu-popup-padding);
 		margin: 0;
 		list-style: none;
-		box-shadow:
-			0 12px 32px -8px rgba(140, 144, 150, 0.12),
-			0 4px 12px -4px rgba(140, 144, 150, 0.08);
+		box-shadow: var(--sy-menu-popup-shadow);
 		z-index: 1000;
 		visibility: hidden;
 		opacity: 0;
@@ -305,6 +303,6 @@
 
 	.sy-menu-item:hover,
 	.sy-submenu-title:hover {
-		color: var(--hover-color); /* 悬浮深碳灰 */
+		color: var(--sy-menu-hover-color);
 	}
 }

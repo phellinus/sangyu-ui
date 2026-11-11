@@ -1,13 +1,4 @@
 .sy-steps {
-	--sy-step-wait-color: #b8c0c8;
-	--sy-step-wait-bg: #f8fafb;
-	--sy-step-process-color: #2c3034;
-	--sy-step-process-bg: #f2f4f6;
-	--sy-step-finish-color: #2f7d4f;
-	--sy-step-finish-bg: #2f7d4f;
-	--sy-step-error-color: #cf4e4e;
-	--sy-step-error-bg: #cf4e4e;
-	--sy-step-tail-color: #dde3e8;
 	display: flex;
 	width: 100%;
 	box-sizing: border-box;
@@ -26,7 +17,7 @@
 	display: flex;
 	min-width: 0;
 	box-sizing: border-box;
-	color: #6e7680;
+	color: var(--sy-step-wait-color);
 
 	&-horizontal {
 		flex: 1 1 0;
@@ -35,7 +26,7 @@
 
 	&-vertical {
 		align-items: stretch;
-		min-height: 92px;
+		min-height: var(--sy-step-vertical-min-height);
 	}
 
 	&.is-last.sy-step-vertical {
@@ -45,19 +36,19 @@
 	&-head {
 		display: flex;
 		flex: 1 1 auto;
-		min-width: 36px;
+		min-width: var(--sy-step-head-min-width);
 	}
 
 	&-horizontal &-head {
 		align-items: center;
-		padding-top: 2px;
-		min-width: 64px;
+		padding-top: var(--sy-step-horizontal-head-padding-top);
+		min-width: var(--sy-step-horizontal-head-min-width);
 	}
 
 	&-vertical &-head {
 		flex-direction: column;
 		align-items: center;
-		margin-right: 16px;
+		margin-right: var(--sy-step-vertical-head-gap);
 	}
 
 	&-indicator {
@@ -66,13 +57,13 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 36px;
-		height: 36px;
-		border-radius: 999px;
+		width: var(--sy-step-indicator-size);
+		height: var(--sy-step-indicator-size);
+		border-radius: var(--sy-step-indicator-radius);
 		border: 1px solid var(--sy-step-wait-color);
-		background: #ffffff;
+		background: var(--sy-step-wait-bg);
 		color: var(--sy-step-wait-color);
-		font-size: 15px;
+		font-size: var(--sy-step-indicator-font-size);
 		font-weight: 600;
 		flex-shrink: 0;
 		box-sizing: border-box;
@@ -87,19 +78,19 @@
 		border-color: var(--sy-step-process-color);
 		background: var(--sy-step-process-bg);
 		color: var(--sy-step-process-color);
-		box-shadow: 0 0 0 5px rgba(44, 48, 52, 0.08);
+		box-shadow: var(--sy-step-indicator-process-shadow);
 	}
 
 	&-indicator-finish {
 		border-color: var(--sy-step-finish-color);
 		background: var(--sy-step-finish-bg);
-		color: #ffffff;
+		color: var(--sy-color-surface);
 	}
 
 	&-indicator-error {
 		border-color: var(--sy-step-error-color);
 		background: var(--sy-step-error-bg);
-		color: #ffffff;
+		color: var(--sy-color-surface);
 	}
 
 	&-indicator-wait {
@@ -112,33 +103,33 @@
 
 	&-tail {
 		background: var(--sy-step-tail-color);
-		border-radius: 999px;
+		border-radius: var(--sy-step-tail-radius);
 		transition: background-color 0.2s ease;
 	}
 
 	&-horizontal &-tail {
 		flex: 1 1 auto;
-		height: 2px;
-		margin: 0 14px;
+		height: var(--sy-step-tail-height);
+		margin: 0 var(--sy-step-horizontal-tail-gap);
 	}
 
 	&-vertical &-tail {
-		width: 2px;
-		min-height: 40px;
+		width: var(--sy-step-tail-width);
+		min-height: var(--sy-step-vertical-tail-min-height);
 		flex: 1 1 auto;
-		margin-top: 12px;
+		margin-top: var(--sy-step-vertical-tail-margin-top);
 	}
 
 	&-tail-finish {
-		background: rgba(47, 125, 79, 0.28);
+		background: var(--sy-step-tail-finish-color);
 	}
 
 	&-tail-process {
-		background: linear-gradient(90deg, rgba(44, 48, 52, 0.28), var(--sy-step-tail-color));
+		background: linear-gradient(90deg, var(--sy-step-tail-process-color), var(--sy-step-tail-color));
 	}
 
 	&-vertical &-tail-process {
-		background: linear-gradient(180deg, rgba(44, 48, 52, 0.28), var(--sy-step-tail-color));
+		background: linear-gradient(180deg, var(--sy-step-tail-process-color), var(--sy-step-tail-color));
 	}
 
 	&-main {
@@ -147,12 +138,12 @@
 	}
 
 	&-horizontal &-main {
-		padding-right: 16px;
-		max-width: 260px;
+		padding-right: var(--sy-step-horizontal-main-padding);
+		max-width: var(--sy-step-horizontal-main-max-width);
 	}
 
 	&-vertical &-main {
-		padding-bottom: 20px;
+		padding-bottom: var(--sy-step-vertical-main-padding);
 	}
 
 	&.is-last &-main {
@@ -161,18 +152,18 @@
 	}
 
 	&-title {
-		font-size: 15px;
+		font-size: var(--sy-step-title-font-size);
 		line-height: 1.45;
 		font-weight: 600;
-		color: #9098a1;
+		color: var(--sy-step-wait-color);
 		transition: color 0.2s ease;
 	}
 
 	&-description {
-		margin-top: 6px;
-		font-size: 13px;
+		margin-top: var(--sy-step-description-margin-top);
+		font-size: var(--sy-step-description-font-size);
 		line-height: 1.6;
-		color: #7d858e;
+		color: var(--sy-step-description-color);
 	}
 
 	&-process &-title {
@@ -180,14 +171,14 @@
 	}
 
 	&-finish &-title {
-		color: #274f37;
+		color: var(--sy-step-finish-title-color);
 	}
 
 	&-error &-title {
-		color: #a63e3e;
+		color: var(--sy-step-error-title-color);
 	}
 
 	&-wait &-description {
-		color: #9ca4ac;
+		color: var(--sy-step-wait-description-color);
 	}
 }

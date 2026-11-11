@@ -5,16 +5,16 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	font-size: 14px;
+	font-size: var(--sy-breadcrumb-font-size);
 
 	&-item {
 		display: inline-flex;
 		align-items: center;
 
 		&__separator {
-			margin: 0 8px;
-			color: #aeb4ba; /* 浅冷灰，不抢视觉 */
-			font-size: 14px;
+			margin: 0 var(--sy-breadcrumb-separator-gap);
+			color: var(--sy-breadcrumb-separator-color);
+			font-size: var(--sy-breadcrumb-separator-font-size);
 			font-weight: 400;
 			display: inline-flex;
 			align-items: center;
@@ -22,23 +22,23 @@
 		&__inner {
 			display: inline-flex;
 			align-items: center;
-			gap: 6px;
-			color: #6a7076;
+			gap: var(--sy-breadcrumb-content-gap);
+			color: var(--sy-breadcrumb-color);
 			text-decoration: none;
-			padding: 4px 8px;
-			margin: -4px 0;
-			border-radius: 6px;
+			padding: var(--sy-breadcrumb-padding-y) var(--sy-breadcrumb-padding-x);
+			margin: calc(-1 * var(--sy-breadcrumb-padding-y)) 0;
+			border-radius: var(--sy-breadcrumb-radius);
 			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 		}
 		&__inner.is-link {
 			cursor: pointer;
 		}
 		&__inner.is-link:hover {
-			color: #2c3034; /* 深碳灰 */
-			background-color: rgba(224, 228, 232, 0.4);
+			color: var(--sy-breadcrumb-link-hover-color);
+			background-color: var(--sy-breadcrumb-link-hover-bg);
 		}
 		&__inner.is-last {
-			color: #2c3034;
+			color: var(--sy-breadcrumb-current-color);
 			font-weight: 600;
 			cursor: default;
 			background-color: transparent;
