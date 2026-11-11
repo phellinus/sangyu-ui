@@ -410,6 +410,171 @@ export interface StepTokens {
 	tailHeight: ComponentValue;
 }
 
+export interface CardTokens {
+	background: ComponentValue;
+	borderColor: ComponentValue;
+	headerColor: ComponentValue;
+	contentColor: ComponentValue;
+	sectionBorderColor: ComponentValue;
+	shadowAlways: ComponentValue;
+	shadowHover: ComponentValue;
+	borderRadius: ComponentValue;
+	headerPadding: ComponentValue;
+	headerFontSize: ComponentValue;
+	contentPadding: ComponentValue;
+	contentFontSize: ComponentValue;
+	contentLineHeight: ComponentValue;
+	footerPadding: ComponentValue;
+	footerGap: ComponentValue;
+}
+
+export interface TagTokens {
+	primaryColor: ComponentValue;
+	successColor: ComponentValue;
+	warningColor: ComponentValue;
+	errorColor: ComponentValue;
+	borderAlpha: ComponentValue;
+	backgroundAlpha: ComponentValue;
+	borderRadius: ComponentValue;
+	focusShadow: ComponentValue;
+	heightSmall: ComponentValue;
+	heightDefault: ComponentValue;
+	heightLarge: ComponentValue;
+	paddingXSmall: ComponentValue;
+	paddingXDefault: ComponentValue;
+	paddingXLarge: ComponentValue;
+	fontSizeSmall: ComponentValue;
+	fontSizeDefault: ComponentValue;
+	fontSizeLarge: ComponentValue;
+	closeHoverBackground: ComponentValue;
+	closeSize: ComponentValue;
+	closeGap: ComponentValue;
+	closeOffset: ComponentValue;
+	closeRadius: ComponentValue;
+	closeOpacity: ComponentValue;
+	closeFocusShadow: ComponentValue;
+}
+
+export interface AvatarTokens {
+	size: ComponentValue;
+	fontSize: ComponentValue;
+	textColor: ComponentValue;
+	background: ComponentValue;
+	loadingBackground: ComponentValue;
+	loadingColor: ComponentValue;
+	loadingOverlay: ComponentValue;
+	loadingSize: ComponentValue;
+	badgeColor: ComponentValue;
+	badgeSize: ComponentValue;
+	badgeTextMinWidth: ComponentValue;
+	badgeTextHeight: ComponentValue;
+	badgeTextPaddingX: ComponentValue;
+	badgeTextColor: ComponentValue;
+	badgeBorderColor: ComponentValue;
+	badgeTextFontSize: ComponentValue;
+	badgeFontSize: ComponentValue;
+	badgeBorderWidth: ComponentValue;
+	badgeTextRadius: ComponentValue;
+	circleRadius: ComponentValue;
+	squareRadius: ComponentValue;
+	hoverBrightness: ComponentValue;
+	loadingOpacity: ComponentValue;
+}
+
+export interface DividerTokens {
+	defaultColor: ComponentValue;
+	textColor: ComponentValue;
+	thickTextColor: ComponentValue;
+	thicknessThin: ComponentValue;
+	thicknessMedium: ComponentValue;
+	thicknessThick: ComponentValue;
+	contentGap: ComponentValue;
+	horizontalMargin: ComponentValue;
+	verticalMargin: ComponentValue;
+	startLineWidth: ComponentValue;
+	endLineWidth: ComponentValue;
+	contentMaxWidth: ComponentValue;
+	contentPaddingX: ComponentValue;
+	fontSize: ComponentValue;
+	contentLineHeight: ComponentValue;
+	contentFontWeight: ComponentValue;
+	contentLetterSpacing: ComponentValue;
+	lineOpacity: ComponentValue;
+}
+
+export interface ResultTokens {
+	primaryColor: ComponentValue;
+	successColor: ComponentValue;
+	warningColor: ComponentValue;
+	errorColor: ComponentValue;
+	forbiddenColor: ComponentValue;
+	notFoundColor: ComponentValue;
+	serverErrorColor: ComponentValue;
+	surfaceAlpha: ComponentValue;
+	compactSurfaceAlpha: ComponentValue;
+	borderColor: ComponentValue;
+	backgroundTop: ComponentValue;
+	backgroundBottom: ComponentValue;
+	shadow: ComponentValue;
+	innerHighlight: ComponentValue;
+	gap: ComponentValue;
+	padding: ComponentValue;
+	borderRadius: ComponentValue;
+	compactGap: ComponentValue;
+	compactPadding: ComponentValue;
+	compactBorderRadius: ComponentValue;
+	visualSize: ComponentValue;
+	visualRadius: ComponentValue;
+	visualHighlight: ComponentValue;
+	visualShadow: ComponentValue;
+	compactVisualSize: ComponentValue;
+	compactVisualRadius: ComponentValue;
+	exceptionMinWidth: ComponentValue;
+	exceptionPadding: ComponentValue;
+	exceptionRadius: ComponentValue;
+	compactExceptionMinWidth: ComponentValue;
+	compactExceptionPadding: ComponentValue;
+	compactExceptionRadius: ComponentValue;
+	codeFontSize: ComponentValue;
+	compactCodeFontSize: ComponentValue;
+	titleColor: ComponentValue;
+	titleFontSize: ComponentValue;
+	compactTitleFontSize: ComponentValue;
+	subTitleMarginTop: ComponentValue;
+	subTitleFontSize: ComponentValue;
+	subTitleColor: ComponentValue;
+	bodyMarginTop: ComponentValue;
+	bodyPadding: ComponentValue;
+	bodyRadius: ComponentValue;
+	bodyBackground: ComponentValue;
+	bodyFontSize: ComponentValue;
+	bodyColor: ComponentValue;
+	extraMarginTop: ComponentValue;
+	extraGap: ComponentValue;
+	mainMaxWidth: ComponentValue;
+	compactMainMaxWidth: ComponentValue;
+	mobilePadding: ComponentValue;
+	mobileGap: ComponentValue;
+	mobileTitleFontSize: ComponentValue;
+	compactMobileTitleFontSize: ComponentValue;
+}
+
+export interface ProgressTokens {
+	defaultColor: ComponentValue;
+	defaultTrackColor: ComponentValue;
+	lineHeight: ComponentValue;
+	lineRadius: ComponentValue;
+	lineMinWidth: ComponentValue;
+	circleSize: ComponentValue;
+	infoFontSize: ComponentValue;
+	infoInsideFontSize: ComponentValue;
+	infoColor: ComponentValue;
+	infoInsideColor: ComponentValue;
+	trackShadow: ComponentValue;
+	gradientMix: ComponentValue;
+	gap: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -428,6 +593,12 @@ export interface ThemeTokens {
 		pagination: PaginationTokens;
 		breadcrumb: BreadcrumbTokens;
 		step: StepTokens;
+		card: CardTokens;
+		tag: TagTokens;
+		avatar: AvatarTokens;
+		divider: DividerTokens;
+		result: ResultTokens;
+		progress: ProgressTokens;
 	};
 }
 

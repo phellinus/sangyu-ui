@@ -61,6 +61,6 @@ describe('SyDivider', () => {
 		expect(wrapper.attributes('style')).toContain('height: 24px');
 		expect(wrapper.attributes('style')).toContain('margin: 6px');
 		expect(wrapper.attributes('style')).toContain('--sy-divider-color: var(--sy-color-success)');
-		expect(wrapper.attributes('style')).toContain('--sy-divider-thickness: 4px');
+		expect(wrapper.attributes('style')).toContain('--sy-divider-thickness: var(--sy-divider-thickness-thick, 4px)');
 	});
 });

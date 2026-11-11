@@ -2,10 +2,10 @@ import { computed, defineComponent, PropType } from 'vue';
 import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { DividerProps } from './interface';
 
-const thicknessMap = {
-	thin: 1,
-	medium: 2,
-	thick: 4,
+const thicknessMap: Record<DividerProps['thickness'] & string, string> = {
+	thin: 'var(--sy-divider-thickness-thin, 1px)',
+	medium: 'var(--sy-divider-thickness-medium, 2px)',
+	thick: 'var(--sy-divider-thickness-thick, 4px)',
 };
 
 const normalizeSize = (value?: string | number, fallback?: string) => {
@@ -63,17 +63,24 @@ export default defineComponent({
 	setup(props, { slots }) {
 		const { c } = useClassnames('divider');
 		const isVertical = computed(() => props.direction === 'vertical');
-		const resolvedColor = computed(() => getColor(props.color) || '#d7dde5');
+		const resolvedColor = computed(() =>
+			props.color ? getColor(props.color) : 'var(--sy-divider-default-color, var(--sy-color-divider))',
+		);
 		const lineThickness = computed(() => thicknessMap[props.thickness] || thicknessMap.thin);
 		const hasContent = computed(() => !isVertical.value && !!(slots.default?.().length || props.content));
 		const rootStyle = computed(() => [
 			props.customStyle,
 			{
 				'--sy-divider-color': resolvedColor.value,
-				'--sy-divider-thickness': `${lineThickness.value}px`,
+				'--sy-divider-thickness': lineThickness.value,
 				width: isVertical.value ? 'auto' : normalizeSize(props.width, '100%'),
 				height: isVertical.value ? normalizeSize(props.height, '1em') : normalizeSize(props.height),
-				margin: normalizeSize(props.margin, isVertical.value ? '0 10px' : '24px 0'),
+				margin:
+					props.margin === undefined
+						? isVertical.value
+							? 'var(--sy-divider-vertical-margin, 0 10px)'
+							: 'var(--sy-divider-horizontal-margin, 24px 0)'
+						: normalizeSize(props.margin),
 			},
 		]);
 		const getDividerCls = () => ({

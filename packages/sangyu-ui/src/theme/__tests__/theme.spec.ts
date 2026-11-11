@@ -105,6 +105,20 @@ describe('theme tokens', () => {
 		expect(dark['--sy-step-indicator-size']).toBe('36px');
 	});
 
+	it('emits display component tokens with stable names and semantic references', () => {
+		const light = themeToVariables(lightTheme);
+		const dark = themeToVariables(darkTheme);
+		expect(light['--sy-card-background']).toBe('var(--sy-color-surface)');
+		expect(light['--sy-card-content-color']).toBe('var(--sy-color-text-secondary)');
+		expect(light['--sy-tag-primary-color']).toBe('var(--sy-color-primary)');
+		expect(dark['--sy-avatar-background']).toBe('var(--sy-color-bg)');
+		expect(light['--sy-divider-default-color']).toBe('var(--sy-color-divider)');
+		expect(light['--sy-result-error-color']).toBe('var(--sy-color-error)');
+		expect(dark['--sy-result-not-found-color']).toBe('var(--sy-color-text-secondary)');
+		expect(light['--sy-progress-default-color']).toBe('var(--sy-color-primary)');
+		expect(light['--sy-progress-line-height']).toBe('8px');
+	});
+
 	it('inherits untouched common values through partial base and semantic overrides', () => {
 		const merged = mergeTheme(lightTheme, {
 			base: { spacing: { xs: '6px' } },
@@ -132,6 +146,16 @@ describe('theme tokens', () => {
 				step: { indicatorSize: string };
 			};
 		}>().toExtend<ThemeOverride>();
+		expectTypeOf<{
+			components: {
+				card: { background: string };
+				tag: { primaryColor: string };
+				avatar: { size: string };
+				divider: { defaultColor: string };
+				result: { errorColor: string };
+				progress: { lineHeight: string };
+			};
+		}>().toExtend<ThemeOverride>();
 		expectTypeOf<'base.spacing.xs'>().toExtend<BaseTokenPath>();
 		expectTypeOf<'semantic.shadow.overlay'>().toExtend<SemanticTokenPath>();
 		// @ts-expect-error layout width is not a common semantic token
@@ -142,10 +166,13 @@ describe('theme tokens', () => {
 		const invalidComponentOverride: ThemeOverride = { components: { switch: { trackWidth: '48px' } } };
 		// @ts-expect-error component token names stay typed
 		const invalidMenuOverride: ThemeOverride = { components: { menu: { selectedBg: '#eee' } } };
+		// @ts-expect-error component token names stay typed
+		const invalidCardOverride: ThemeOverride = { components: { card: { elevation: '4px' } } };
 		expect(invalidOverride).toBeDefined();
 		expect(invalidReference).toBeDefined();
 		expect(invalidComponentOverride).toBeDefined();
 		expect(invalidMenuOverride).toBeDefined();
+		expect(invalidCardOverride).toBeDefined();
 	});
 
 	it('carries base overrides through semantic and component references', () => {

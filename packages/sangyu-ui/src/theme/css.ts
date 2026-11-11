@@ -65,6 +65,12 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		'pagination',
 		'breadcrumb',
 		'step',
+		'card',
+		'tag',
+		'avatar',
+		'divider',
+		'result',
+		'progress',
 	] as const) {
 		for (const [key, value] of Object.entries(theme.components[component])) {
 			const prefix =

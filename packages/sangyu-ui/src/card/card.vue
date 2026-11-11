@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useClassnames } from '@sangyu-ui/utils';
 import { SyCardProps } from './Card.type';
-import { computed } from 'vue';
+import { computed, getCurrentInstance } from 'vue';
 
 defineOptions({
 	name: 'SyCard',
@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<SyCardProps>(), {
 	shadow: 'always',
 	borderRadius: '20',
 });
+const instance = getCurrentInstance();
 const { c, cm } = useClassnames('card');
 const cardCls = {
 	[c()]: true,
@@ -44,9 +45,15 @@ const cardCls = {
 //表格样式
 const tableStyle = computed(() => [
 	props.customStyle,
-	{
-		borderRadius: `${props.borderRadius}px`,
-	},
+	(() => {
+		const borderRadius = props.borderRadius;
+		return {
+			borderRadius:
+				instance?.vnode.props?.borderRadius === undefined
+					? 'var(--sy-card-border-radius, 20px)'
+					: `${borderRadius}px`,
+		};
+	})(),
 ]);
 </script>
 

@@ -187,6 +187,60 @@ describe('ThemeProvider', () => {
 		wrapper.unmount();
 	});
 
+	it('updates display component tokens through nested scoped providers and mode changes', async () => {
+		const mode = ref<ThemeMode>('light');
+		const cardBackground = ref('#f0f0f0');
+		const progressHeight = ref('12px');
+		const Host = defineComponent(
+			() => () =>
+				h(
+					ThemeProvider,
+					{
+						mode: mode.value,
+						tokens: {
+							components: {
+								card: { background: cardBackground.value },
+								tag: { successColor: '#12ab34' },
+							},
+						},
+					},
+					() =>
+						h(
+							ThemeProvider,
+							{
+								tokens: {
+									components: {
+										avatar: { size: '48px' },
+										divider: { defaultColor: '#445566' },
+										result: { errorColor: '#cc1122' },
+										progress: { lineHeight: progressHeight.value },
+									},
+								},
+							},
+							() => h(Probe),
+						),
+				),
+		);
+		const wrapper = mount(Host);
+		const [parent, child] = wrapper.findAll('[data-sy-theme]');
+		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		expect(css(parent, '--sy-card-background')).toBe('#f0f0f0');
+		expect(css(child, '--sy-card-background')).toBe('#f0f0f0');
+		expect(css(child, '--sy-tag-success-color')).toBe('#12ab34');
+		expect(css(child, '--sy-avatar-size')).toBe('48px');
+		expect(css(child, '--sy-divider-default-color')).toBe('#445566');
+		expect(css(child, '--sy-result-error-color')).toBe('#cc1122');
+		expect(css(child, '--sy-progress-line-height')).toBe('12px');
+		cardBackground.value = '#e0e0e0';
+		progressHeight.value = '16px';
+		mode.value = 'dark';
+		await nextTick();
+		expect(parent.attributes('data-sy-theme')).toBe('dark');
+		expect(css(child, '--sy-card-background')).toBe('#e0e0e0');
+		expect(css(child, '--sy-progress-line-height')).toBe('16px');
+		wrapper.unmount();
+	});
+
 	it('renders on the server without DOM access', async () => {
 		const html = await renderToString(h(ThemeProvider, { mode: 'dark', as: 'section' }, () => h(Probe)));
 		expect(html).toContain('<section');
@@ -195,6 +249,8 @@ describe('ThemeProvider', () => {
 		expect(html).toContain('--sy-spacing-xs:var(--sy-base-spacing-xs)');
 		expect(html).toContain('--sy-menu-active-bg:var(--sy-color-bg)');
 		expect(html).toContain('--sy-step-finish-color:var(--sy-color-success)');
+		expect(html).toContain('--sy-card-background:var(--sy-color-surface)');
+		expect(html).toContain('--sy-progress-default-color:var(--sy-color-primary)');
 	});
 
 	it('accepts typed modes and nested token overrides', () => {

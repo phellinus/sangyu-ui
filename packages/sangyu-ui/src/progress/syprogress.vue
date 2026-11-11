@@ -53,8 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { getColor, getColorWithAlpha, useClassnames } from '@sangyu-ui/utils';
+import { computed, getCurrentInstance } from 'vue';
+import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { ProgressProps } from './interface';
 
 defineOptions({
@@ -73,21 +73,29 @@ const props = withDefaults(defineProps<ProgressProps>(), {
 });
 
 const { c } = useClassnames('progress');
+const instance = getCurrentInstance();
+const hasExplicitProp = (name: string) => instance?.vnode.props?.[name] !== undefined;
 const isLine = computed(() => props.type === 'line');
 const normalizedPercentage = computed(() => {
 	const value = Number.isFinite(props.percentage) ? Number(props.percentage) : 0;
 	return Math.min(100, Math.max(0, Math.round(value)));
 });
-const resolvedColor = computed(() => getColor(props.color || 'primary') || 'var(--sy-color-primary)');
+const resolvedColor = computed(() => {
+	const color = props.color;
+	return hasExplicitProp('color') ? getColor(color) : 'var(--sy-progress-default-color, var(--sy-color-primary))';
+});
 const resolvedTrackColor = computed(() => {
 	if (props.trackColor) {
 		return getColor(props.trackColor);
 	}
 
-	return getColorWithAlpha(resolvedColor.value, 0.16);
+	return 'var(--sy-progress-default-track-color, color-mix(in srgb, var(--sy-progress-color) 16%, transparent))';
 });
 const lineSize = computed(() => Math.max(4, props.type === 'line' ? (props.size ?? 8) : 8));
-const lineRadius = computed(() => Math.max(0, props.borderRadius));
+const lineRadius = computed(() => {
+	const borderRadius = props.borderRadius;
+	return hasExplicitProp('borderRadius') ? Math.max(0, borderRadius) : undefined;
+});
 const circleSize = computed(() => Math.max(56, props.type === 'circle' ? (props.size ?? 120) : 120));
 const circleStrokeWidth = computed(() => Math.max(6, Math.round(circleSize.value * 0.08)));
 const circleCenter = computed(() => circleSize.value / 2);
@@ -105,15 +113,16 @@ const progressStyle = computed(() => [
 	{
 		'--sy-progress-color': resolvedColor.value,
 		'--sy-progress-track-color': resolvedTrackColor.value,
-		'--sy-progress-line-size': `${lineSize.value}px`,
-		'--sy-progress-line-radius': `${lineRadius.value}px`,
-		'--sy-progress-circle-size': `${circleSize.value}px`,
-		'--sy-progress-info-size': `${Math.max(12, Math.round(circleSize.value * 0.18))}px`,
+		'--sy-progress-line-size': props.size === undefined ? undefined : `${lineSize.value}px`,
+		'--sy-progress-line-radius': lineRadius.value === undefined ? undefined : `${lineRadius.value}px`,
+		'--sy-progress-circle-size': props.size === undefined ? undefined : `${circleSize.value}px`,
+		'--sy-progress-info-size-override':
+			props.size === undefined ? undefined : `${Math.max(12, Math.round(circleSize.value * 0.18))}px`,
 	},
 ]);
 const lineBarStyle = computed(() => ({
 	width: `${normalizedPercentage.value}%`,
-	borderRadius: `${lineRadius.value}px`,
+	borderRadius: lineRadius.value === undefined ? undefined : `${lineRadius.value}px`,
 }));
 </script>
 

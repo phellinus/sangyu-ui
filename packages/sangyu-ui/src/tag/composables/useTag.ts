@@ -1,12 +1,17 @@
-import { computed, type CSSProperties } from 'vue';
-import { getColor, getColorWithAlpha } from '@sangyu-ui/utils';
+import { computed, getCurrentInstance, type CSSProperties } from 'vue';
+import { getColor } from '@sangyu-ui/utils';
 import type { TagEmits, TagProps } from '../Tag.type';
 
 /** 管理标签的视觉样式和交互逻辑 */
 export function useTag(props: Readonly<TagProps>, emit: TagEmits) {
+	const instance = getCurrentInstance();
 	/** 根据 type 获取标签主题色 */
 	const themeColor = computed(() => {
-		return getColor(props.type || 'primary');
+		const type = props.type?.trim().toLowerCase() || 'primary';
+		if (['primary', 'success', 'warning', 'error'].includes(type)) {
+			return `var(--sy-tag-${type}-color, var(--sy-color-${type}))`;
+		}
+		return getColor(type);
 	});
 
 	/** 文字颜色优先使用 color，否则回退到主题色 */
@@ -23,12 +28,12 @@ export function useTag(props: Readonly<TagProps>, emit: TagEmits) {
 			return getColor(props.bgColor);
 		}
 
-		return getColorWithAlpha(themeColor.value, 0.2);
+		return `color-mix(in srgb, ${themeColor.value} var(--sy-tag-background-alpha, 20%), transparent)`;
 	});
 
 	/** 边框颜色跟随文字颜色，并生成较浅的透明效果 */
 	const borderColor = computed(() => {
-		return getColorWithAlpha(textColor.value, 0.3);
+		return `color-mix(in srgb, ${textColor.value} var(--sy-tag-border-alpha, 30%), transparent)`;
 	});
 
 	/**
@@ -36,7 +41,8 @@ export function useTag(props: Readonly<TagProps>, emit: TagEmits) {
 	 * 数字自动添加 px，字符串保留调用方提供的单位
 	 */
 	const borderRadius = computed(() => {
-		const value = props.borderRadius ?? 6;
+		const value = props.borderRadius;
+		if (instance?.vnode.props?.borderRadius === undefined || value === undefined) return undefined;
 
 		return typeof value === 'number' ? `${value}px` : value;
 	});

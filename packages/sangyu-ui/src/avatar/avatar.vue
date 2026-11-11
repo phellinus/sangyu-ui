@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useSlots, watch } from 'vue';
+import { computed, getCurrentInstance, ref, useSlots, watch } from 'vue';
 import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { AvatarProps } from './interface';
 import { SyIcon } from '@sangyu-ui/icons';
@@ -72,19 +72,32 @@ const props = withDefaults(defineProps<AvatarProps>(), {
 	badgeOffsetY: 0,
 	loading: false,
 });
-const wraperStyle = {
-	'--sy-badge-color': getColor(props.badgeColor),
-	'--sy-badge-offset-x': `${props.badgeOffsetX}px`,
-	'--sy-badge-offset-y': `${props.badgeOffsetY}px`,
-	'--sy-avatar-color': getColor(props.color),
-	'--sy-avatar-bgcolor': getColor(props.bgcolor),
-	'--sy-avatar-font-size': `${Math.max(12, Math.round(props.size * 0.4))}px`,
-	'--sy-avatar-loading-size': `${Math.max(12, Math.round(props.size * 0.45))}px`,
-};
-const AvatarStyle = {
-	width: `${props.size}px`,
-	height: `${props.size}px`,
-};
+const instance = getCurrentInstance();
+const hasExplicitProp = (name: string) => instance?.vnode.props?.[name] !== undefined;
+const wraperStyle = computed(() => {
+	const size = props.size;
+	const badgeColor = props.badgeColor;
+	return {
+		'--sy-avatar-badge-color-override': hasExplicitProp('badgeColor') ? getColor(badgeColor) : undefined,
+		'--sy-badge-offset-x': `${props.badgeOffsetX}px`,
+		'--sy-badge-offset-y': `${props.badgeOffsetY}px`,
+		'--sy-avatar-text-color-override': props.color ? getColor(props.color) : undefined,
+		'--sy-avatar-background-override': props.bgcolor ? getColor(props.bgcolor) : undefined,
+		'--sy-avatar-font-size-override': !hasExplicitProp('size')
+			? undefined
+			: `${Math.max(12, Math.round(size * 0.4))}px`,
+		'--sy-avatar-loading-size-override': !hasExplicitProp('size')
+			? undefined
+			: `${Math.max(12, Math.round(size * 0.45))}px`,
+	};
+});
+const AvatarStyle = computed(() => {
+	const size = props.size;
+	return {
+		width: hasExplicitProp('size') ? `${size}px` : undefined,
+		height: hasExplicitProp('size') ? `${size}px` : undefined,
+	};
+});
 const { c } = useClassnames('avatar');
 const slots = useSlots();
 const imageLoaded = ref(false);

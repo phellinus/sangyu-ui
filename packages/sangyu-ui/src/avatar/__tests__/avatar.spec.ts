@@ -25,7 +25,7 @@ describe('SyAvatar', () => {
 		expect(wrapper.get('.sy-avatar-img').attributes('src')).toBe('/avatar.png');
 		expect(wrapper.attributes('style')).toContain('--sy-badge-offset-x: 4px;');
 		expect(wrapper.attributes('style')).toContain('--sy-badge-offset-y: 6px;');
-		expect(wrapper.attributes('style')).toContain('--sy-avatar-font-size: 19px;');
+		expect(wrapper.attributes('style')).toContain('--sy-avatar-font-size-override: 19px;');
 
 		await wrapper.get('.sy-avatar-img').trigger('load');
 

@@ -4,7 +4,7 @@
 	align-items: center;
 	width: 100%;
 	box-sizing: border-box;
-	color: #6d7680;
+	color: var(--sy-divider-text-color, var(--sy-color-text-secondary));
 
 	&-horizontal {
 		min-width: 0;
@@ -16,7 +16,7 @@
 		width: auto;
 		min-height: 1em;
 		border-left: var(--sy-divider-thickness) solid var(--sy-divider-color);
-		opacity: 0.95;
+		opacity: var(--sy-divider-line-opacity, 0.95);
 	}
 
 	&-line {
@@ -25,7 +25,7 @@
 		border-top-width: var(--sy-divider-thickness);
 		border-top-style: solid;
 		border-top-color: var(--sy-divider-color);
-		opacity: 0.95;
+		opacity: var(--sy-divider-line-opacity, 0.95);
 	}
 
 	&-line-full,
@@ -38,27 +38,27 @@
 	}
 
 	&-with-content {
-		gap: 16px;
+		gap: var(--sy-divider-content-gap, var(--sy-spacing-md));
 	}
 
 	&-left &-line-start {
-		flex: 0 0 72px;
+		flex: 0 0 var(--sy-divider-start-line-width, 72px);
 	}
 
 	&-right &-line-end {
-		flex: 0 0 72px;
+		flex: 0 0 var(--sy-divider-end-line-width, 72px);
 	}
 
 	&-content {
 		position: relative;
 		flex: 0 0 auto;
-		max-width: 46%;
-		padding: 0 2px;
-		font-size: 13px;
-		line-height: 1.4;
-		font-weight: 600;
-		letter-spacing: 0.02em;
-		color: #78818a;
+		max-width: var(--sy-divider-content-max-width, 46%);
+		padding: 0 var(--sy-divider-content-padding-x, 2px);
+		font-size: var(--sy-divider-font-size, 13px);
+		line-height: var(--sy-divider-content-line-height, 1.4);
+		font-weight: var(--sy-divider-content-font-weight, 600);
+		letter-spacing: var(--sy-divider-content-letter-spacing, 0.02em);
+		color: var(--sy-divider-text-color, var(--sy-color-text-secondary));
 		white-space: nowrap;
 	}
 
@@ -73,6 +73,6 @@
 	}
 
 	&-thick&-horizontal &-content {
-		color: #626b75;
+		color: var(--sy-divider-thick-text-color, var(--sy-color-text-secondary));
 	}
 }
