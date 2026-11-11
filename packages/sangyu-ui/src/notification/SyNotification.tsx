@@ -4,10 +4,14 @@ import { NotificationItem } from './components';
 import { useNotification } from './composables';
 import { NOTIFICATION_POSITIONS } from './constants';
 import type { NotificationManager } from './Notification.type';
+import { useTheme } from '../theme/context';
+import type { ThemeContext } from '../theme/context';
 
 export default defineComponent({
 	name: 'SyNotificationContainer',
 	props: {
+		/** Captured by the service call site so teleported hosts retain the active scope. */
+		theme: Object as PropType<ThemeContext>,
 		/** 容器挂载完成后，将内部管理器交给函数式服务 */
 		onReady: {
 			type: Function as PropType<(manager: NotificationManager) => void>,
@@ -16,6 +20,8 @@ export default defineComponent({
 	},
 	setup(props, { expose }) {
 		const { c } = useClassnames('notification');
+		const inheritedTheme = useTheme();
+		const theme = props.theme ?? inheritedTheme;
 
 		const { getByPosition, add, remove, clear } = useNotification();
 
@@ -53,6 +59,7 @@ export default defineComponent({
 							tag='div'
 							name={`sy-notification-${position}`}
 							class={[c(), c('position', position)]}
+							style={theme.variables.value}
 						>
 							{items.map((item) => (
 								<NotificationItem

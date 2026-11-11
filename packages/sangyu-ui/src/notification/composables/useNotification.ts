@@ -6,6 +6,7 @@ import type {
 	NotificationPosition,
 	NotificationRecord,
 } from '../Notification.type';
+import type { ThemeContext } from '../../theme/context';
 
 let notificationSeed = 0;
 
@@ -53,7 +54,7 @@ export function useNotification(): NotificationManager & {
 	};
 
 	/** 添加一条新通知 */
-	const add = (options: NotificationOptions) => {
+	const add = (options: NotificationOptions, theme?: ThemeContext) => {
 		const duration = normalizeDuration(options);
 
 		const notification: NotificationRecord = {
@@ -66,6 +67,7 @@ export function useNotification(): NotificationManager & {
 			position: options.position ?? DEFAULT_NOTIFICATION_POSITION,
 			showClose: options.showClose ?? true,
 			clamp: Math.max(1, Math.trunc(options.clamp ?? DEFAULT_NOTIFICATION_CLAMP)),
+			theme,
 		};
 
 		notifications.value = [...notifications.value, notification];

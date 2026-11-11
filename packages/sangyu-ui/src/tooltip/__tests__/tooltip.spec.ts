@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { createCommentVNode, createTextVNode, defineComponent, Fragment, h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { SyTooltip } from 'sangyu-ui';
+import { SyTooltip, ThemeProvider } from 'sangyu-ui';
 
 describe('SyTooltip', () => {
 	afterEach(() => {
@@ -58,6 +58,63 @@ describe('SyTooltip', () => {
 		expect(tooltip.textContent).toContain('自定义提示');
 		expect(tooltip.style.maxWidth).toBe('180px');
 		expect(document.body.querySelector('.sy-tooltip-arrow')).toBeNull();
+	});
+
+	it('uses provider tooltip background and arrow tokens reactively', async () => {
+		const background = ref('#314159');
+		const arrowSize = ref('9px');
+		const explicitColor = ref<string>();
+		const explicitArrowSize = ref<number>();
+		const Host = defineComponent(() => () => {
+			const tooltipProps = {
+				content: '主题提示',
+				...(explicitColor.value ? { color: explicitColor.value } : {}),
+				...(explicitArrowSize.value !== undefined ? { arrowSize: explicitArrowSize.value } : {}),
+			};
+			return h(
+				ThemeProvider,
+				{
+					tokens: {
+						components: { tooltip: { background: background.value, arrowSize: arrowSize.value } },
+					},
+				},
+				() => h(SyTooltip, tooltipProps, { default: () => h('button', { class: 'theme-trigger' }, '悬浮') }),
+			);
+		});
+		const wrapper = mount(Host, { attachTo: document.body });
+		await wrapper.get('.theme-trigger').trigger('mouseenter');
+		await nextTick();
+		const tooltip = document.body.querySelector<HTMLElement>('.sy-tooltip')!;
+		expect(tooltip.style.getPropertyValue('--tooltip-color')).toBe('var(--sy-tooltip-background, #2C3F51)');
+		expect(tooltip.style.getPropertyValue('--tooltip-arrow')).toBe('9px');
+		background.value = '#271828';
+		arrowSize.value = '11px';
+		await nextTick();
+		await nextTick();
+		expect(tooltip.style.getPropertyValue('--tooltip-arrow')).toBe('11px');
+		expect(tooltip.style.getPropertyValue('--tooltip-color')).toBe('var(--sy-tooltip-background, #2C3F51)');
+		explicitColor.value = '#123456';
+		explicitArrowSize.value = 12;
+		await nextTick();
+		await nextTick();
+		expect(tooltip.style.getPropertyValue('--tooltip-color')).toBe('rgba(18, 52, 86, 1)');
+		expect(tooltip.style.getPropertyValue('--tooltip-arrow')).toBe('12px');
+		wrapper.unmount();
+	});
+
+	it('keeps explicit color and arrow size ahead of theme defaults', async () => {
+		const wrapper = mount(SyTooltip, {
+			attachTo: document.body,
+			props: { trigger: 'click', type: 'border', content: '自定义提示', color: '#123456', arrowSize: 8 },
+			slots: { default: () => h('button', { class: 'explicit-trigger' }, '查看') },
+		});
+		await wrapper.get('.explicit-trigger').trigger('click');
+		await nextTick();
+		const tooltip = document.body.querySelector<HTMLElement>('.sy-tooltip')!;
+		expect(tooltip.style.getPropertyValue('--tooltip-color')).toBe('rgba(18, 52, 86, 1)');
+		expect(tooltip.style.getPropertyValue('--tooltip-border-color')).toBe('var(--tooltip-color)');
+		expect(tooltip.style.getPropertyValue('--tooltip-arrow')).toBe('8px');
+		wrapper.unmount();
 	});
 
 	it('warns when multiple default children are provided', () => {

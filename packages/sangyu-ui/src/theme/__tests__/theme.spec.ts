@@ -119,6 +119,24 @@ describe('theme tokens', () => {
 		expect(light['--sy-progress-line-height']).toBe('8px');
 	});
 
+	it('emits overlay and table tokens with stable names in light and dark presets', () => {
+		const light = themeToVariables(lightTheme);
+		const dark = themeToVariables(darkTheme);
+		for (const vars of [light, dark]) {
+			expect(vars['--sy-tooltip-background']).toBe('#2c3f51');
+			expect(vars['--sy-tooltip-border-background']).toBe('var(--sy-color-surface)');
+			expect(vars['--sy-drawer-panel-background']).toBe('var(--sy-color-surface)');
+			expect(vars['--sy-drawer-header-border-color']).toBe('var(--sy-color-divider)');
+			expect(vars['--sy-notification-success-color']).toBe('var(--sy-color-success)');
+			expect(vars['--sy-notification-title-color']).toBe('var(--sy-color-text)');
+			expect(vars['--sy-table-header-background']).toBe('var(--sy-color-bg)');
+			expect(vars['--sy-table-cell-border-color']).toBe('var(--sy-color-divider)');
+			expect(vars['--sy-table-cell-padding-y']).toBe('var(--sy-spacing-md)');
+		}
+		expect(light['--sy-table-background']).toBe('var(--sy-color-surface)');
+		expect(dark['--sy-table-background']).toBe('var(--sy-color-surface)');
+	});
+
 	it('inherits untouched common values through partial base and semantic overrides', () => {
 		const merged = mergeTheme(lightTheme, {
 			base: { spacing: { xs: '6px' } },
@@ -148,6 +166,14 @@ describe('theme tokens', () => {
 		}>().toExtend<ThemeOverride>();
 		expectTypeOf<{
 			components: {
+				tooltip: { background: string; arrowSize: string };
+				drawer: { panelBackground: string };
+				notification: { successColor: string };
+				table: { headerBackground: string; cellPaddingYSmall: string };
+			};
+		}>().toExtend<ThemeOverride>();
+		expectTypeOf<{
+			components: {
 				card: { background: string };
 				tag: { primaryColor: string };
 				avatar: { size: string };
@@ -168,11 +194,14 @@ describe('theme tokens', () => {
 		const invalidMenuOverride: ThemeOverride = { components: { menu: { selectedBg: '#eee' } } };
 		// @ts-expect-error component token names stay typed
 		const invalidCardOverride: ThemeOverride = { components: { card: { elevation: '4px' } } };
+		// @ts-expect-error overlay and table fields are typed
+		const invalidOverlayOverride: ThemeOverride = { components: { drawer: { panelWidth: '500px' } } };
 		expect(invalidOverride).toBeDefined();
 		expect(invalidReference).toBeDefined();
 		expect(invalidComponentOverride).toBeDefined();
 		expect(invalidMenuOverride).toBeDefined();
 		expect(invalidCardOverride).toBeDefined();
+		expect(invalidOverlayOverride).toBeDefined();
 	});
 
 	it('carries base overrides through semantic and component references', () => {

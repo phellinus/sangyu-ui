@@ -575,6 +575,113 @@ export interface ProgressTokens {
 	gap: ComponentValue;
 }
 
+export interface TooltipTokens {
+	background: ComponentValue;
+	textColor: ComponentValue;
+	borderColor: ComponentValue;
+	borderBackground: ComponentValue;
+	borderThickShadow: ComponentValue;
+	fontSize: ComponentValue;
+	paddingX: ComponentValue;
+	paddingY: ComponentValue;
+	borderRadius: ComponentValue;
+	arrowSize: ComponentValue;
+	zIndex: ComponentValue;
+}
+
+export interface DrawerTokens {
+	maskBackground: ComponentValue;
+	panelBackground: ComponentValue;
+	panelColor: ComponentValue;
+	panelShadow: ComponentValue;
+	headerMinHeight: ComponentValue;
+	headerPadding: ComponentValue;
+	headerBorderColor: ComponentValue;
+	titleFontSize: ComponentValue;
+	closeSize: ComponentValue;
+	closeRadius: ComponentValue;
+	closeColor: ComponentValue;
+	closeHoverBackground: ComponentValue;
+	closeHoverColor: ComponentValue;
+	focusColor: ComponentValue;
+	bodyPadding: ComponentValue;
+	footerPadding: ComponentValue;
+	footerBorderColor: ComponentValue;
+}
+
+export interface NotificationTokens {
+	infoColor: ComponentValue;
+	successColor: ComponentValue;
+	warningColor: ComponentValue;
+	errorColor: ComponentValue;
+	zIndex: ComponentValue;
+	hostMinWidth: ComponentValue;
+	positionTop: ComponentValue;
+	positionRight: ComponentValue;
+	minWidth: ComponentValue;
+	maxWidth: ComponentValue;
+	paddingY: ComponentValue;
+	paddingX: ComponentValue;
+	itemGap: ComponentValue;
+	background: ComponentValue;
+	borderColor: ComponentValue;
+	borderRadius: ComponentValue;
+	color: ComponentValue;
+	shadow: ComponentValue;
+	titleColor: ComponentValue;
+	titleFontSize: ComponentValue;
+	titleMarginBottom: ComponentValue;
+	contentGap: ComponentValue;
+	contentColor: ComponentValue;
+	contentFontSize: ComponentValue;
+	contentLineHeight: ComponentValue;
+	closeSize: ComponentValue;
+	closeColor: ComponentValue;
+	closeHoverColor: ComponentValue;
+	closeFocusRadius: ComponentValue;
+	iconSize: ComponentValue;
+}
+
+export interface TableTokens {
+	background: ComponentValue;
+	textColor: ComponentValue;
+	headerBackground: ComponentValue;
+	rowBackground: ComponentValue;
+	rowHoverBackground: ComponentValue;
+	stripedBackground: ComponentValue;
+	cellBorderColor: ComponentValue;
+	borderRadius: ComponentValue;
+	cellPaddingY: ComponentValue;
+	cellPaddingX: ComponentValue;
+	cellPaddingYSmall: ComponentValue;
+	cellPaddingXSmall: ComponentValue;
+	cellPaddingYLarge: ComponentValue;
+	cellPaddingXLarge: ComponentValue;
+	headerHeight: ComponentValue;
+	headerFontSize: ComponentValue;
+	headerFontWeight: ComponentValue;
+	cellFontSize: ComponentValue;
+	cellLineHeight: ComponentValue;
+	fixedShadow: ComponentValue;
+	fixedShadowRight: ComponentValue;
+	emptyColor: ComponentValue;
+	emptyMinHeight: ComponentValue;
+	emptyPadding: ComponentValue;
+	loadingBackground: ComponentValue;
+	loadingOpacity: ComponentValue;
+	loadingColor: ComponentValue;
+	loadingSpinnerSize: ComponentValue;
+	loadingSpinnerBorder: ComponentValue;
+	loadingSpinnerTrack: ComponentValue;
+	loadingSpinnerActive: ComponentValue;
+	scrollbarSize: ComponentValue;
+	scrollbarTrack: ComponentValue;
+	scrollbarThumb: ComponentValue;
+	scrollbarThumbHover: ComponentValue;
+	scrollbarRadius: ComponentValue;
+	transitionDuration: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -599,6 +706,10 @@ export interface ThemeTokens {
 		divider: DividerTokens;
 		result: ResultTokens;
 		progress: ProgressTokens;
+		tooltip: TooltipTokens;
+		drawer: DrawerTokens;
+		notification: NotificationTokens;
+		table: TableTokens;
 	};
 }
 

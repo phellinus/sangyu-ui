@@ -1,7 +1,8 @@
 import { mount, type ComponentMountingOptions } from '@vue/test-utils';
-import { defineComponent, h, nextTick, onUnmounted } from 'vue';
+import { defineComponent, h, nextTick, onUnmounted, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import SyDrawer from '../SyDrawer';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 
 const mountedWrappers: Array<{ unmount: () => void }> = [];
 
@@ -145,6 +146,32 @@ describe('SyDrawer', () => {
 		});
 		await flushDrawer();
 		expect(inlineWrapper.find('.sy-drawer').exists()).toBe(true);
+	});
+
+	it('copies reactive nested theme variables onto teleported drawer roots', async () => {
+		const panelBackground = ref('#fefefe');
+		const mode = ref<'light' | 'dark'>('light');
+		const Host = defineComponent(
+			() => () =>
+				h(
+					ThemeProvider,
+					{
+						mode: mode.value,
+						tokens: { components: { drawer: { panelBackground: panelBackground.value } } },
+					},
+					() => h(SyDrawer, { visible: true, lockScroll: false }),
+				),
+		);
+		const wrapper = mount(Host);
+		mountedWrappers.push(wrapper);
+		await flushDrawer();
+		const drawer = getDrawer()!;
+		expect(drawer.style.getPropertyValue('--sy-drawer-panel-background')).toBe('#fefefe');
+		panelBackground.value = '#222222';
+		mode.value = 'dark';
+		await nextTick();
+		expect(drawer.getAttribute('style')).toContain('--sy-drawer-panel-background: #222222');
+		expect(drawer.getAttribute('style')).toContain('--sy-color-surface: #1f1f1f');
 	});
 
 	it('destroys slot content after the leave transition', async () => {

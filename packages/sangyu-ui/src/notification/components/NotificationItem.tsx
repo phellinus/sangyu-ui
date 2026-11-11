@@ -17,7 +17,7 @@ export default defineComponent({
 
 		return () => {
 			const item = props.notification;
-
+			const themeStyle = item.theme?.variables.value as CSSProperties | undefined;
 			const contentStyle = {
 				'--sy-notification-line-clamp': String(item.clamp),
 			} as CSSProperties;
@@ -25,6 +25,7 @@ export default defineComponent({
 			return (
 				<article
 					class={c('notify')}
+					style={themeStyle}
 					role={item.type === 'error' ? 'alert' : 'status'}
 					aria-live={item.type === 'error' ? 'assertive' : 'polite'}
 				>

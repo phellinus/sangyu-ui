@@ -10,7 +10,7 @@ export default defineComponent({
 		content: String,
 		color: {
 			type: String,
-			default: DEFAULT_TOOLTIP_COLOR,
+			default: undefined,
 		},
 		type: {
 			type: String as PropType<TooltipType>,
@@ -58,7 +58,14 @@ export default defineComponent({
 		const styles = computed(() => [
 			props.floatingStyle,
 			{
-				'--tooltip-color': getColorWithAlpha(props.color, 1),
+				'--tooltip-color': props.color
+					? getColorWithAlpha(props.color, 1)
+					: `var(--sy-tooltip-background, ${DEFAULT_TOOLTIP_COLOR})`,
+				'--tooltip-text-color': 'var(--sy-tooltip-text-color, #fff)',
+				'--tooltip-border-color': props.color
+					? 'var(--tooltip-color)'
+					: 'var(--sy-tooltip-border-color, var(--tooltip-color))',
+				'--tooltip-border-background': 'var(--sy-tooltip-border-background, var(--sy-color-surface, #fff))',
 				'--tooltip-arrow': `${props.arrowSize}px`,
 			},
 			props.customStyle,

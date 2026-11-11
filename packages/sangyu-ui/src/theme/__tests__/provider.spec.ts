@@ -241,6 +241,51 @@ describe('ThemeProvider', () => {
 		wrapper.unmount();
 	});
 
+	it('updates tooltip, drawer, notification and table tokens through nested scopes', async () => {
+		const mode = ref<ThemeMode>('light');
+		const arrowSize = ref('9px');
+		const rowHover = ref('#f0f0f0');
+		const Host = defineComponent(
+			() => () =>
+				h(
+					ThemeProvider,
+					{
+						mode: mode.value,
+						tokens: {
+							components: {
+								tooltip: { background: '#283848', arrowSize: arrowSize.value },
+								drawer: { panelBackground: '#fefefe' },
+								notification: { successColor: '#118833' },
+								table: { rowHoverBackground: rowHover.value },
+							},
+						},
+					},
+					() =>
+						h(ThemeProvider, { tokens: { components: { table: { headerBackground: '#eeeeee' } } } }, () =>
+							h(Probe),
+						),
+				),
+		);
+		const wrapper = mount(Host);
+		const [parent, child] = wrapper.findAll('[data-sy-theme]');
+		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		expect(css(parent, '--sy-tooltip-background')).toBe('#283848');
+		expect(css(child, '--sy-tooltip-arrow-size')).toBe('9px');
+		expect(css(child, '--sy-drawer-panel-background')).toBe('#fefefe');
+		expect(css(child, '--sy-notification-success-color')).toBe('#118833');
+		expect(css(child, '--sy-table-row-hover-background')).toBe('#f0f0f0');
+		expect(css(child, '--sy-table-header-background')).toBe('#eeeeee');
+		arrowSize.value = '11px';
+		rowHover.value = '#e0e0e0';
+		mode.value = 'dark';
+		await nextTick();
+		expect(parent.attributes('data-sy-theme')).toBe('dark');
+		expect(css(child, '--sy-tooltip-arrow-size')).toBe('11px');
+		expect(css(child, '--sy-table-row-hover-background')).toBe('#e0e0e0');
+		expect(css(child, '--sy-table-header-background')).toBe('#eeeeee');
+		wrapper.unmount();
+	});
+
 	it('renders on the server without DOM access', async () => {
 		const html = await renderToString(h(ThemeProvider, { mode: 'dark', as: 'section' }, () => h(Probe)));
 		expect(html).toContain('<section');
@@ -251,6 +296,10 @@ describe('ThemeProvider', () => {
 		expect(html).toContain('--sy-step-finish-color:var(--sy-color-success)');
 		expect(html).toContain('--sy-card-background:var(--sy-color-surface)');
 		expect(html).toContain('--sy-progress-default-color:var(--sy-color-primary)');
+		expect(html).toContain('--sy-tooltip-background:#2c3f51');
+		expect(html).toContain('--sy-drawer-panel-background:var(--sy-color-surface)');
+		expect(html).toContain('--sy-notification-success-color:var(--sy-color-success)');
+		expect(html).toContain('--sy-table-cell-padding-y:var(--sy-spacing-md)');
 	});
 
 	it('accepts typed modes and nested token overrides', () => {

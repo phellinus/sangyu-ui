@@ -2,42 +2,42 @@
 
 .sy-notification {
 	position: fixed;
-	z-index: 1000;
-	min-width: 58px;
+	z-index: var(--sy-notification-z-index, 1000);
+	min-width: var(--sy-notification-host-min-width, 58px);
 	padding-top: 0;
 	padding-bottom: 0;
 	box-sizing: border-box;
 
 	&-position-top-right {
-		top: 20px;
-		right: 24px;
+		top: var(--sy-notification-position-top, 20px);
+		right: var(--sy-notification-position-right, 24px);
 		bottom: auto;
 		left: auto;
-		padding-top: 20px;
+		padding-top: var(--sy-notification-position-top, 20px);
 	}
 
 	&-position-top-left {
-		top: 20px;
-		left: 24px;
+		top: var(--sy-notification-position-top, 20px);
+		left: var(--sy-notification-position-right, 24px);
 		bottom: auto;
 		right: auto;
-		padding-top: 20px;
+		padding-top: var(--sy-notification-position-top, 20px);
 	}
 
 	&-position-bottom-right {
-		bottom: 20px;
-		right: 24px;
+		bottom: var(--sy-notification-position-top, 20px);
+		right: var(--sy-notification-position-right, 24px);
 		top: auto;
 		left: auto;
-		padding-bottom: 20px;
+		padding-bottom: var(--sy-notification-position-top, 20px);
 	}
 
 	&-position-bottom-left {
-		bottom: 20px;
-		left: 24px;
+		bottom: var(--sy-notification-position-top, 20px);
+		left: var(--sy-notification-position-right, 24px);
 		top: auto;
 		right: auto;
-		padding-bottom: 20px;
+		padding-bottom: var(--sy-notification-position-top, 20px);
 	}
 
 	&-top-right-enter-active,
@@ -104,20 +104,18 @@
 	&-notify {
 		display: flex;
 		align-items: flex-start;
-		min-width: 320px;
-		max-width: 360px;
-		padding: 20px 12px;
-		margin-bottom: 10px;
+		min-width: var(--sy-notification-min-width, 320px);
+		max-width: var(--sy-notification-max-width, 360px);
+		padding: var(--sy-notification-padding-y, 16px) var(--sy-notification-padding-x, 12px);
+		margin-bottom: var(--sy-notification-item-gap, 8px);
 		box-sizing: border-box;
 
-		background-color: #fff;
-		border: 1px solid rgba(235, 228, 220, 0.8);
-		border-radius: 16px;
-		color: #5c544d;
+		background-color: var(--sy-notification-background, var(--sy-color-surface, #fff));
+		border: 1px solid var(--sy-notification-border-color, var(--sy-color-border));
+		border-radius: var(--sy-notification-border-radius, 16px);
+		color: var(--sy-notification-color, var(--sy-color-text-secondary));
 
-		box-shadow:
-			0 12px 32px -8px rgba(184, 172, 161, 0.25),
-			0 4px 12px -4px rgba(184, 172, 161, 0.15);
+		box-shadow: var(--sy-notification-shadow, var(--sy-shadow-overlay));
 
 		transition:
 			transform 0.3s ease,
@@ -126,22 +124,22 @@
 	&-wrapper {
 		flex: 1;
 		min-width: 0;
-		margin-left: 8px;
+		margin-left: var(--sy-notification-content-gap, 8px);
 
 		&-title {
-			margin-bottom: 8px;
-			font-size: 16px;
+			margin-bottom: var(--sy-notification-title-margin-bottom, 8px);
+			font-size: var(--sy-notification-title-font-size, 16px);
 			font-weight: 600;
 			line-height: 1.4;
-			color: #433c36;
+			color: var(--sy-notification-title-color, var(--sy-color-text));
 		}
 
 		&-content {
 			display: -webkit-box;
 			overflow: hidden;
-			font-size: 14px;
-			line-height: 1.6;
-			color: #7a7067;
+			font-size: var(--sy-notification-content-font-size, 14px);
+			line-height: var(--sy-notification-content-line-height, 1.6);
+			color: var(--sy-notification-content-color, var(--sy-color-text-secondary));
 			overflow-wrap: break-word;
 			-webkit-box-orient: vertical;
 			-webkit-line-clamp: var(--sy-notification-line-clamp, 3);
@@ -153,12 +151,12 @@
 		align-items: center;
 		justify-content: center;
 		flex: none;
-		width: 24px;
-		height: 24px;
+		width: var(--sy-notification-close-size, 24px);
+		height: var(--sy-notification-close-size, 24px);
 		padding: 4px;
 		border: 0;
 		background: transparent;
-		color: #7a7067;
+		color: var(--sy-notification-close-color, var(--sy-color-text-secondary));
 		cursor: pointer;
 
 		svg {
@@ -168,35 +166,35 @@
 		}
 
 		&:hover {
-			color: #433c36;
+			color: var(--sy-notification-close-hover-color, var(--sy-color-text));
 		}
 
 		&:focus-visible {
 			outline: 2px solid var(--sy-color-primary);
 			outline-offset: 2px;
-			border-radius: 4px;
+			border-radius: var(--sy-notification-close-focus-radius, 4px);
 		}
 	}
 	&-icon {
 		flex: none;
-		width: 28px;
-		height: 28px;
+		width: var(--sy-notification-icon-size, 28px);
+		height: var(--sy-notification-icon-size, 28px);
 		fill: currentColor;
 
 		&-info {
-			color: #1677ff;
+			color: var(--sy-notification-info-color, var(--sy-color-primary));
 		}
 
 		&-success {
-			color: #52c41a;
+			color: var(--sy-notification-success-color, var(--sy-color-success));
 		}
 
 		&-warning {
-			color: #faad14;
+			color: var(--sy-notification-warning-color, var(--sy-color-warning));
 		}
 
 		&-error {
-			color: #f5222d;
+			color: var(--sy-notification-error-color, var(--sy-color-error));
 		}
 	}
 }

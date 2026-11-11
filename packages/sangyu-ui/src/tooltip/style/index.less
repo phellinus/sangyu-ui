@@ -2,14 +2,14 @@
 
 // Tooltip 基础浮层样式
 .sy-tooltip {
-	z-index: 10;
-	font-size: 14px;
-	padding: 4px 8px;
+	z-index: var(--sy-tooltip-z-index, 10);
+	font-size: var(--sy-tooltip-font-size, 14px);
+	padding: var(--sy-tooltip-padding-y, 4px) var(--sy-tooltip-padding-x, 8px);
 	box-sizing: border-box;
 	position: relative;
-	border-radius: 4px;
-	color: white;
-	background-color: var(--tooltip-color);
+	border-radius: var(--sy-tooltip-border-radius, 4px);
+	color: var(--tooltip-text-color);
+	background-color: var(--tooltip-color, var(--sy-tooltip-background, #2c3f51));
 
 	&-arrow {
 		width: 0;
@@ -43,15 +43,15 @@
 	}
 
 	&-border {
-		background-color: white;
-		color: var(--tooltip-color);
-		border: 1px solid var(--tooltip-color);
+		border: 1px solid var(--tooltip-border-color, var(--tooltip-color));
+		background-color: var(--tooltip-border-background, #fff);
+		color: var(--tooltip-color, var(--sy-tooltip-background, #2c3f51));
 	}
 
 	&-border-thick {
-		background-color: white;
-		color: var(--tooltip-color);
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+		background-color: var(--tooltip-border-background, #fff);
+		color: var(--tooltip-color, var(--sy-tooltip-background, #2c3f51));
+		box-shadow: var(--sy-tooltip-border-thick-shadow, 0 2px 10px rgba(0, 0, 0, 0.08));
 
 		&[data-placement^='top'] {
 			border-bottom: 2px solid var(--tooltip-color);

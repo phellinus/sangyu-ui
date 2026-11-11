@@ -14,6 +14,7 @@ import {
 	watch,
 	withDirectives,
 } from 'vue';
+import { useTheme } from '../theme/context';
 import { DrawerContainer, DrawerPlacement, DrawerProps } from './Drawer.type';
 import { useBodyScrollLock, useDrawerFocus, useDrawerStack } from './composables';
 import { SyIcon } from '@sangyu-ui/icons';
@@ -89,6 +90,7 @@ export default defineComponent({
 	emits: ['update:visible', 'close'],
 	setup(props, { attrs, emit, slots }) {
 		const { c, ce, cm } = useClassnames('drawer');
+		const theme = useTheme();
 		const titleId = `${useId()}-title`;
 		// 抽屉面板元素引用
 		const panelRef = ref<HTMLElement>();
@@ -212,6 +214,7 @@ export default defineComponent({
 						[c(cm(props.placement))]: true,
 					}}
 					style={[
+						theme.variables.value,
 						props.customStyle,
 						{
 							zIndex: props.zIndex,

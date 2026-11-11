@@ -1,4 +1,4 @@
-import { cloneVNode, defineComponent, type PropType } from 'vue';
+import { cloneVNode, computed, defineComponent, getCurrentInstance, type PropType } from 'vue';
 import type { Placement } from '@floating-ui/vue';
 import { TooltipContent } from './components';
 import { useTooltipFloating, useTooltipVisible } from './composables';
@@ -11,6 +11,8 @@ import {
 } from './constants';
 import { getArrowStyle, getTriggerNode } from './helpers';
 import type { TooltipTrigger, TooltipType } from './Tooltip.type';
+import type { TooltipProps } from './Tooltip.type';
+import { useTheme } from '../theme/context';
 
 // Tooltip 入口组件负责组合触发器 交互状态和浮层内容
 export default defineComponent({
@@ -44,8 +46,31 @@ export default defineComponent({
 		customStyle: Object,
 	},
 	setup(props, { slots }) {
+		const instance = getCurrentInstance();
+		const hasColorOverride = computed(() => {
+			void props.color;
+			return Object.prototype.hasOwnProperty.call(instance?.vnode.props ?? {}, 'color');
+		});
+		const hasArrowSizeOverride = computed(() => {
+			void props.arrowSize;
+			return Object.prototype.hasOwnProperty.call(instance?.vnode.props ?? {}, 'arrowSize');
+		});
+		const theme = useTheme();
+		const arrowSize = computed(() =>
+			hasArrowSizeOverride.value
+				? props.arrowSize
+				: Number.parseFloat(
+						theme.variables.value['--sy-tooltip-arrow-size'] ?? String(DEFAULT_TOOLTIP_ARROW_SIZE),
+					),
+		);
+		const floatingProps = new Proxy(props, {
+			get(target, key, receiver) {
+				if (key === 'arrowSize') return arrowSize.value;
+				return Reflect.get(target, key, receiver);
+			},
+		}) as Readonly<TooltipProps>;
 		const visibility = useTooltipVisible();
-		const floating = useTooltipFloating(props, visibility.visible);
+		const floating = useTooltipFloating(floatingProps, visibility.visible);
 
 		// 渲染并保留触发节点原有事件
 		const renderTrigger = () => {
@@ -78,7 +103,7 @@ export default defineComponent({
 			if (!visibility.visible.value) return null;
 
 			const arrowStyle = props.showArrow
-				? getArrowStyle(floating.middlewareData.value, floating.resolvedPlacement.value, props.arrowSize)
+				? getArrowStyle(floating.middlewareData.value, floating.resolvedPlacement.value, arrowSize.value)
 				: undefined;
 
 			const hoverEvents =
@@ -91,10 +116,10 @@ export default defineComponent({
 
 			const tooltipProps = {
 				content: props.content,
-				color: props.color,
+				color: hasColorOverride.value ? props.color : undefined,
 				type: props.type,
 				showArrow: props.showArrow,
-				arrowSize: props.arrowSize,
+				arrowSize: arrowSize.value,
 				placement: floating.resolvedPlacement.value,
 				floatingRef: floating.floating,
 				arrowRef: floating.floatingArrow,

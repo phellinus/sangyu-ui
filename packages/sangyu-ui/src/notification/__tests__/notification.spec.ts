@@ -1,9 +1,10 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
+import { defineComponent, h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createNotification } from '../Notification.service';
 import SyNotificationContainer from '../SyNotification';
 import type { NotificationManager } from '../Notification.type';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 
 enableAutoUnmount(afterEach);
 
@@ -67,6 +68,74 @@ describe('SyNotification', () => {
 		);
 		expect(wrapper.find('button[aria-label="关闭通知"]').exists()).toBe(true);
 		expect(wrapper.find('.sy-notification-icon').exists()).toBe(false);
+	});
+
+	it('applies reactive provider tokens to notification hosts and items', async () => {
+		const successColor = ref('#167744');
+		let manager: NotificationManager | undefined;
+		const Host = defineComponent(
+			() => () =>
+				h(
+					ThemeProvider,
+					{ tokens: { components: { notification: { successColor: successColor.value } } } },
+					() =>
+						h(SyNotificationContainer, {
+							onReady: (instance: NotificationManager) => {
+								manager = instance;
+							},
+						}),
+				),
+		);
+		const wrapper = mount(Host);
+		manager?.add({ title: '主题通知', content: '主题内容', type: 'success', duration: 0 });
+		await nextTick();
+		const host = wrapper.find('.sy-notification-position-top-right');
+		expect((host.element as HTMLElement).style.getPropertyValue('--sy-notification-success-color')).toBe('#167744');
+		successColor.value = '#225588';
+		await nextTick();
+		expect((host.element as HTMLElement).style.getPropertyValue('--sy-notification-success-color')).toBe('#225588');
+		wrapper.unmount();
+	});
+
+	it('captures the calling Provider scope for service-created notification items', async () => {
+		const service = createNotification();
+		try {
+			service.info({ title: '初始化', content: '服务容器', duration: 0 });
+			await nextTick();
+			const successColor = ref('#167744');
+			const mode = ref<'light' | 'dark'>('light');
+			const Caller = defineComponent({
+				setup() {
+					service.info({ title: '作用域通知', content: 'Provider 主题', type: 'success', duration: 0 });
+					return () => h('span');
+				},
+			});
+			const Host = defineComponent(
+				() => () =>
+					h(
+						ThemeProvider,
+						{
+							mode: mode.value,
+							tokens: { components: { notification: { successColor: successColor.value } } },
+						},
+						() => h(Caller),
+					),
+			);
+			const wrapper = mount(Host);
+			await nextTick();
+			const item = [...document.body.querySelectorAll<HTMLElement>('.sy-notification-notify')].find((node) =>
+				node.textContent?.includes('作用域通知'),
+			)!;
+			expect(item.style.getPropertyValue('--sy-notification-success-color')).toBe('#167744');
+			successColor.value = '#225588';
+			mode.value = 'dark';
+			await nextTick();
+			expect(item.style.getPropertyValue('--sy-notification-success-color')).toBe('#225588');
+			expect(item.style.getPropertyValue('--sy-color-surface')).toBe('#1f1f1f');
+			wrapper.unmount();
+		} finally {
+			service.destroy();
+		}
 	});
 
 	it('到达duration后自动移除通知且不触发onClose', async () => {

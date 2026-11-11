@@ -1,4 +1,5 @@
 import type { AppContext, VNodeChild } from 'vue';
+import type { ThemeContext } from '../theme/context';
 
 /** Notification 支持的通知类型 */
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
@@ -74,6 +75,9 @@ export interface NotificationRecord
 
 	/** 自动关闭计时器 */
 	timer?: ReturnType<typeof setTimeout>;
+
+	/** Provider context captured at the service call site for teleported notification styles. */
+	theme?: ThemeContext;
 }
 
 /** 创建通知后返回的关闭函数 */
@@ -81,7 +85,7 @@ export type NotificationCloseHandler = () => void;
 
 /** Notification 容器暴露给服务层的方法 */
 export interface NotificationManager {
-	add: (options: NotificationOptions) => NotificationCloseHandler;
+	add: (options: NotificationOptions, theme?: ThemeContext) => NotificationCloseHandler;
 
 	/**
 	 * 关闭指定通知

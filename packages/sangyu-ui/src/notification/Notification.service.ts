@@ -1,6 +1,7 @@
-import { createVNode, render, type VNode } from 'vue';
+import { createVNode, getCurrentInstance, render, type VNode } from 'vue';
 import SyNotificationContainer from './SyNotification';
 import type { NotificationManager, NotificationOptions, NotificationService } from './Notification.type';
+import { themeContextKey, type ThemeContext } from '../theme/context';
 
 /**
  * 创建一个独立的 Notification 服务
@@ -12,7 +13,7 @@ export function createNotification(): NotificationService {
 	let rootVNode: VNode | undefined;
 
 	/** 挂载 Notification 容器 */
-	const mountContainer = (options: NotificationOptions) => {
+	const mountContainer = (options: NotificationOptions, theme?: ThemeContext) => {
 		/**
 		 * Notification 属于函数式组件，不能直接 render 到 body
 		 * 单独创建容器可以避免 Vue 接管或覆盖 body 中的其他内容
@@ -22,6 +23,7 @@ export function createNotification(): NotificationService {
 		document.body.appendChild(container);
 
 		rootVNode = createVNode(SyNotificationContainer, {
+			theme,
 			onReady(instance: NotificationManager) {
 				manager = instance;
 			},
@@ -48,11 +50,14 @@ export function createNotification(): NotificationService {
 			return () => undefined;
 		}
 
+		const caller = getCurrentInstance();
+		const instanceProvides = (caller as unknown as { provides?: Record<PropertyKey, unknown> } | null)?.provides;
+		const theme = instanceProvides?.[themeContextKey] ?? options.appContext?.provides[themeContextKey];
 		if (!manager) {
-			mountContainer(options);
+			mountContainer(options, theme as ThemeContext | undefined);
 		}
 
-		return manager?.add(options) ?? (() => undefined);
+		return manager?.add(options, theme as ThemeContext | undefined) ?? (() => undefined);
 	};
 
 	/** 销毁整个 Notification 服务 */
