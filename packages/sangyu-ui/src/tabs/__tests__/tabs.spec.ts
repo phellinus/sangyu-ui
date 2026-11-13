@@ -17,6 +17,16 @@ describe('SyTabs', () => {
 		expect(tabs[0].attributes('disabled')).toBeDefined();
 	});
 
+	it('encodes whitespace names in stable ARIA IDs', () => {
+		const wrapper = mount(SyTabs, { slots: { default: () => [pane('first tab'), pane('second tab')] } });
+		const tab = wrapper.find('[role="tab"]');
+		const panel = wrapper.find('[role="tabpanel"]');
+		expect(tab.attributes('id')).not.toMatch(/\s/);
+		expect(panel.attributes('id')).not.toMatch(/\s/);
+		expect(tab.attributes('aria-controls')).toBe(panel.attributes('id'));
+		expect(panel.attributes('aria-labelledby')).toBe(tab.attributes('id'));
+	});
+
 	it('supports automatic and manual keyboard activation', async () => {
 		const wrapper = mount(SyTabs, { slots: { default: () => [pane('a'), pane('b'), pane('c', true)] } });
 		await wrapper.findAll('[role="tab"]')[0].trigger('keydown', { key: 'ArrowRight' });

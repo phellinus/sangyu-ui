@@ -15,6 +15,15 @@ import {
 import { SyTabPane } from './SyTabPane';
 import type { TabName, TabsActivation, TabsOrientation } from './Tabs.type';
 
+function safeNameId(name: TabName): string {
+	const prefix = typeof name === 'number' ? 'n' : 's';
+	const encoded = String(name)
+		.split('')
+		.map((unit) => unit.charCodeAt(0).toString(16).padStart(4, '0'))
+		.join('');
+	return `${prefix}-${encoded}`;
+}
+
 function flatten(nodes: VNode[]): VNode[] {
 	return nodes.flatMap((node) => (node.type === Fragment ? flatten(node.children as VNode[]) : [node]));
 }
@@ -131,8 +140,8 @@ export const SyTabs = defineComponent({
 									}}
 									type='button'
 									role='tab'
-									id={`${id}-tab-${name}`}
-									aria-controls={`${id}-panel-${name}`}
+									id={`${id}-tab-${safeNameId(name)}`}
+									aria-controls={`${id}-panel-${safeNameId(name)}`}
 									aria-selected={active.value === name}
 									aria-disabled={disabled || undefined}
 									disabled={disabled}
@@ -156,8 +165,8 @@ export const SyTabs = defineComponent({
 							return cloneVNode(pane, {
 								key: name,
 								active: active.value === name,
-								tabId: `${id}-tab-${name}`,
-								panelId: `${id}-panel-${name}`,
+								tabId: `${id}-tab-${safeNameId(name)}`,
+								panelId: `${id}-panel-${safeNameId(name)}`,
 							});
 						})}
 					</div>
