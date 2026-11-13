@@ -119,6 +119,19 @@ describe('theme tokens', () => {
 		expect(light['--sy-progress-line-height']).toBe('8px');
 	});
 
+	it('emits tabs tokens for both presets and component overrides', () => {
+		for (const theme of [lightTheme, darkTheme]) {
+			const vars = themeToVariables(theme);
+			expect(vars['--sy-tabs-active-color']).toBe('var(--sy-color-primary)');
+			expect(vars['--sy-tabs-panel-padding']).toBe('var(--sy-spacing-md)');
+		}
+		expect(
+			themeToVariables(mergeTheme(lightTheme, { components: { tabs: { activeColor: '#123456' } } }))[
+				'--sy-tabs-active-color'
+			],
+		).toBe('#123456');
+	});
+
 	it('emits overlay and table tokens with stable names in light and dark presets', () => {
 		const light = themeToVariables(lightTheme);
 		const dark = themeToVariables(darkTheme);
