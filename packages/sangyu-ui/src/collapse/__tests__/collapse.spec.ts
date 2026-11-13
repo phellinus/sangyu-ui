@@ -74,4 +74,28 @@ describe('SyCollapse', () => {
 		expect(html).toContain('aria-expanded="true"');
 		expect(html).toContain('role="region"');
 	});
+
+	it('keeps extra actions outside the toggle and passes expanded to the icon slot', async () => {
+		const wrapper = mount(SyCollapse, {
+			slots: {
+				default: () =>
+					h(
+						SyCollapseItem,
+						{ name: 'a' },
+						{
+							header: () => 'A',
+							extra: () => h('button', { class: 'extra-action' }, 'Extra'),
+							'expand-icon': ({ expanded }: { expanded: boolean }) =>
+								h('span', { class: 'custom-icon' }, expanded ? 'open' : 'closed'),
+						},
+					),
+			},
+		});
+		expect(wrapper.find('.custom-icon').text()).toBe('closed');
+		await wrapper.find('.extra-action').trigger('click');
+		expect(wrapper.find('.sy-collapse-item__trigger').attributes('aria-expanded')).toBe('false');
+		expect(wrapper.emitted('change')).toBeUndefined();
+		await wrapper.find('.sy-collapse-item__trigger').trigger('click');
+		expect(wrapper.find('.custom-icon').text()).toBe('open');
+	});
 });
