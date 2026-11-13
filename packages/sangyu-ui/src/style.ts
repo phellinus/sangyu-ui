@@ -44,3 +44,5 @@ import './select/style/index.less';
 import './form/style/index.less';
 // drawer
 import './drawer/style/index.less';
+// Tabs
+import './tabs/style/index.less';

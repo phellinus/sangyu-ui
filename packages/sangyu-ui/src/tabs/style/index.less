@@ -1,0 +1,70 @@
+.sy-tabs {
+	--sy-tabs-color: var(--sy-color-text-secondary);
+	--sy-tabs-active-color: var(--sy-color-primary);
+	--sy-tabs-border-color: var(--sy-color-border);
+	--sy-tabs-indicator-color: var(--sy-color-primary);
+	--sy-tabs-padding: var(--sy-spacing-md);
+	--sy-tabs-gap: var(--sy-spacing-sm);
+	--sy-tabs-panel-padding: var(--sy-spacing-md);
+
+	&__list {
+		display: flex;
+		gap: var(--sy-tabs-gap);
+		overflow: auto hidden;
+		white-space: nowrap;
+		border-bottom: 1px solid var(--sy-tabs-border-color);
+		scrollbar-width: thin;
+	}
+
+	&__tab {
+		position: relative;
+		flex: none;
+		padding: var(--sy-tabs-padding);
+		border: 0;
+		background: transparent;
+		color: var(--sy-tabs-color);
+		cursor: pointer;
+		font: inherit;
+
+		&--active {
+			color: var(--sy-tabs-active-color);
+		}
+		&--active::after {
+			position: absolute;
+			inset: auto 0 0;
+			height: 2px;
+			background: var(--sy-tabs-indicator-color);
+			content: '';
+		}
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
+		}
+		&:focus-visible {
+			outline: 2px solid var(--sy-tabs-active-color);
+			outline-offset: -2px;
+		}
+	}
+
+	&__panels {
+		min-width: 0;
+		padding: var(--sy-tabs-panel-padding);
+	}
+	&--vertical {
+		display: flex;
+		& > .sy-tabs__list {
+			flex-direction: column;
+			overflow: hidden auto;
+			border: 0;
+			border-right: 1px solid var(--sy-tabs-border-color);
+		}
+		& > .sy-tabs__list > .sy-tabs__tab--active::after {
+			inset: 0 0 0 auto;
+			width: 2px;
+			height: auto;
+		}
+		& > .sy-tabs__panels {
+			flex: 1;
+		}
+	}
+}
