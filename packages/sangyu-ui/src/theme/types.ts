@@ -682,6 +682,16 @@ export interface TableTokens {
 	transitionDuration: ComponentValue;
 }
 
+export interface TabsTokens {
+	color: ComponentValue;
+	activeColor: ComponentValue;
+	borderColor: ComponentValue;
+	indicatorColor: ComponentValue;
+	padding: ComponentValue;
+	gap: ComponentValue;
+	panelPadding: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -710,6 +720,7 @@ export interface ThemeTokens {
 		drawer: DrawerTokens;
 		notification: NotificationTokens;
 		table: TableTokens;
+		tabs: TabsTokens;
 	};
 }
 

@@ -752,6 +752,16 @@ const commonTable: ThemeTokens['components']['table'] = {
 	transitionDuration: '180ms',
 };
 
+const commonTabs = {
+	color: semantic('semantic.color.textSecondary'),
+	activeColor: semantic('semantic.color.primary'),
+	borderColor: semantic('semantic.color.border'),
+	indicatorColor: semantic('semantic.color.primary'),
+	padding: semantic('semantic.spacing.md'),
+	gap: semantic('semantic.spacing.sm'),
+	panelPadding: semantic('semantic.spacing.md'),
+};
+
 export const lightTheme: ThemeTokens = {
 	base: lightBase,
 	semantic: {
@@ -814,6 +824,7 @@ export const lightTheme: ThemeTokens = {
 		drawer: commonDrawer,
 		notification: commonNotification,
 		table: commonTable,
+		tabs: commonTabs,
 	},
 };
 
@@ -949,5 +960,6 @@ export const darkTheme: ThemeTokens = {
 		drawer: commonDrawer,
 		notification: commonNotification,
 		table: commonTable,
+		tabs: commonTabs,
 	},
 };
