@@ -8,6 +8,8 @@
 		"SyTooltip",
 		"SyTable",
 		"SyTableColumn",
+		"SyTabs",
+		"SyTabPane",
 		"createNotification",
 		"SyNotification",
 		"SyNotificationContainer",
