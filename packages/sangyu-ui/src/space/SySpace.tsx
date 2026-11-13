@@ -1,19 +1,29 @@
-import { Comment, defineComponent, Fragment, Text, type PropType, type VNode } from 'vue';
+import { Comment, createTextVNode, defineComponent, Fragment, Text, type PropType, type VNode } from 'vue';
 import type { SpaceGap, SpaceProps } from './Space.type';
 
 const gapValue = (value: SpaceGap): string =>
 	typeof value === 'number' ? `${value}px` : `var(--sy-space-gap-${value})`;
 
-const meaningfulChildren = (nodes: VNode[]): VNode[] => {
+const meaningfulChildren = (nodes: unknown[]): VNode[] => {
 	const children: VNode[] = [];
 	for (const node of nodes) {
-		if (node.type === Comment) continue;
-		if (node.type === Text && !String(node.children ?? '').trim()) continue;
-		if (node.type === Fragment) {
-			if (Array.isArray(node.children)) children.push(...meaningfulChildren(node.children as VNode[]));
+		if (Array.isArray(node)) {
+			children.push(...meaningfulChildren(node));
 			continue;
 		}
-		children.push(node);
+		if (typeof node === 'string' || typeof node === 'number') {
+			if (String(node).trim()) children.push(createTextVNode(String(node)));
+			continue;
+		}
+		if (!node || typeof node !== 'object' || !('type' in node)) continue;
+		const vnode = node as VNode;
+		if (vnode.type === Comment) continue;
+		if (vnode.type === Text && !String(vnode.children ?? '').trim()) continue;
+		if (vnode.type === Fragment) {
+			if (Array.isArray(vnode.children)) children.push(...meaningfulChildren(vnode.children));
+			continue;
+		}
+		children.push(vnode);
 	}
 	return children;
 };
