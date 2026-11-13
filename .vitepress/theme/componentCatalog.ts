@@ -100,6 +100,12 @@ export const componentCatalog: ComponentGroup[] = [
 				description: '聚合相关内容，使用标题、插槽与阴影区分层级。',
 			},
 			{
+				name: 'SyCollapse',
+				label: '折叠面板',
+				link: '/components/collapse/',
+				description: '按需展开内容，支持多项展开与手风琴模式。',
+			},
+			{
 				name: 'SyTag',
 				label: '标签',
 				link: '/components/tag/',

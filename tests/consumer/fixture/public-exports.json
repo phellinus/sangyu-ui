@@ -12,6 +12,8 @@
 		"SyNotification",
 		"SyNotificationContainer",
 		"SyCard",
+		"SyCollapse",
+		"SyCollapseItem",
 		"SyTag",
 		"SyBreadCrumb",
 		"SyBreadcrumbItem",
