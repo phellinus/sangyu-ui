@@ -6,6 +6,7 @@ import {
 	getCurrentInstance,
 	nextTick,
 	ref,
+	shallowRef,
 	useId,
 	watch,
 	type PropType,
@@ -36,12 +37,7 @@ export const SyTabs = defineComponent({
 		const visited = new Set<TabName>();
 		const tabRefs = new Map<TabName, HTMLElement>();
 		const id = useId();
-		const panes = computed(() =>
-			flatten(slots.default?.() ?? []).filter(
-				(node) => node.type === SyTabPane || (node.type as { name?: string })?.name === 'SyTabPane',
-			),
-		);
-		const names = computed(() => panes.value.map((pane) => pane.props?.name as TabName));
+		const panes = shallowRef<VNode[]>([]);
 		const enabled = computed(() =>
 			panes.value.filter((pane) => !pane.props?.disabled).map((pane) => pane.props?.name as TabName),
 		);
@@ -64,15 +60,15 @@ export const SyTabs = defineComponent({
 					!list.includes(requested.value) &&
 					old?.includes(requested.value)
 				) {
-					const previousIndex = names.value.indexOf(requested.value);
-					const next = list.find((name) => names.value.indexOf(name) >= previousIndex) ?? list.at(-1);
-					if (next !== undefined) select(next);
+					const previousIndex = old.indexOf(requested.value);
+					const next = list[previousIndex] ?? list.at(-1);
+					if (next !== undefined) select(next, true);
 				}
 			},
 			{ flush: 'post' },
 		);
-		function select(name: TabName) {
-			if (name === active.value || !enabled.value.includes(name)) return;
+		function select(name: TabName, force = false) {
+			if ((!force && name === active.value) || !enabled.value.includes(name)) return;
 			if (!controlled.value) internal.value = name;
 			emit('update:modelValue', name);
 			emit('change', name);
@@ -107,52 +103,66 @@ export const SyTabs = defineComponent({
 			if (name !== undefined)
 				nextTick(() => tabRefs.get(name)?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' }));
 		});
-		return () => (
-			<div class={['sy-tabs', `sy-tabs--${props.orientation}`]}>
-				<div role='tablist' aria-orientation={props.orientation} class='sy-tabs__list'>
-					{panes.value.map((pane) => {
-						const name = pane.props?.name as TabName;
-						const disabled = Boolean(pane.props?.disabled);
-						return (
-							<button
-								key={name}
-								ref={(el) => {
-									if (el) tabRefs.set(name, el as HTMLElement);
-									else tabRefs.delete(name);
-								}}
-								type='button'
-								role='tab'
-								id={`${id}-tab-${name}`}
-								aria-controls={`${id}-panel-${name}`}
-								aria-selected={active.value === name}
-								aria-disabled={disabled || undefined}
-								disabled={disabled}
-								tabindex={(focusName.value ?? active.value) === name ? 0 : -1}
-								class={['sy-tabs__tab', { 'sy-tabs__tab--active': active.value === name }]}
-								onClick={() => {
-									focusName.value = name;
-									select(name);
-								}}
-								onKeydown={(event) => keydown(event, name)}
-							>
-								{pane.props?.label ?? name}
-							</button>
-						);
-					})}
+		return () => {
+			const nextPanes = flatten(slots.default?.() ?? []).filter(
+				(node) => node.type === SyTabPane || (node.type as { name?: string })?.name === 'SyTabPane',
+			);
+			if (
+				nextPanes.length !== panes.value.length ||
+				nextPanes.some(
+					(pane, index) =>
+						pane.props?.name !== panes.value[index]?.props?.name ||
+						pane.props?.disabled !== panes.value[index]?.props?.disabled,
+				)
+			)
+				panes.value = nextPanes;
+			return (
+				<div class={['sy-tabs', `sy-tabs--${props.orientation}`]}>
+					<div role='tablist' aria-orientation={props.orientation} class='sy-tabs__list'>
+						{panes.value.map((pane) => {
+							const name = pane.props?.name as TabName;
+							const disabled = Boolean(pane.props?.disabled);
+							return (
+								<button
+									key={name}
+									ref={(el) => {
+										if (el) tabRefs.set(name, el as HTMLElement);
+										else tabRefs.delete(name);
+									}}
+									type='button'
+									role='tab'
+									id={`${id}-tab-${name}`}
+									aria-controls={`${id}-panel-${name}`}
+									aria-selected={active.value === name}
+									aria-disabled={disabled || undefined}
+									disabled={disabled}
+									tabindex={(focusName.value ?? active.value) === name ? 0 : -1}
+									class={['sy-tabs__tab', { 'sy-tabs__tab--active': active.value === name }]}
+									onClick={() => {
+										focusName.value = name;
+										select(name);
+									}}
+									onKeydown={(event) => keydown(event, name)}
+								>
+									{pane.props?.label ?? name}
+								</button>
+							);
+						})}
+					</div>
+					<div class='sy-tabs__panels'>
+						{panes.value.map((pane) => {
+							const name = pane.props?.name as TabName;
+							if (props.lazy && active.value !== name && !visited.has(name)) return null;
+							return cloneVNode(pane, {
+								key: name,
+								active: active.value === name,
+								tabId: `${id}-tab-${name}`,
+								panelId: `${id}-panel-${name}`,
+							});
+						})}
+					</div>
 				</div>
-				<div class='sy-tabs__panels'>
-					{panes.value.map((pane) => {
-						const name = pane.props?.name as TabName;
-						if (props.lazy && active.value !== name && !visited.has(name)) return null;
-						return cloneVNode(pane, {
-							key: name,
-							active: active.value === name,
-							tabId: `${id}-tab-${name}`,
-							panelId: `${id}-panel-${name}`,
-						});
-					})}
-				</div>
-			</div>
-		);
+			);
+		};
 	},
 });
