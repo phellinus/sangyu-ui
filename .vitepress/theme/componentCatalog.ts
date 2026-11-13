@@ -37,6 +37,12 @@ export const componentCatalog: ComponentGroup[] = [
 				link: '/components/divider/',
 				description: '划分内容与信息层级，支持水平、垂直与文字分隔。',
 			},
+			{
+				name: 'SySpace',
+				label: '间距',
+				link: '/components/space/',
+				description: '用原生 flex gap 排列子项，支持方向、换行和分隔内容。',
+			},
 		],
 	},
 	{
