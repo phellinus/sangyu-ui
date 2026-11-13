@@ -1,10 +1,11 @@
 import { mount } from '@vue/test-utils';
-import { createSSRApp, createVNode, Fragment, h } from 'vue';
+import { createSSRApp, createVNode, defineComponent, Fragment, h, nextTick, ref } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { describe, expect, it } from 'vitest';
 import { mergeTheme } from '../../theme/merge';
 import { darkTheme, lightTheme } from '../../theme/presets';
 import { themeToVariables } from '../../theme/css';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 import SySpace from '..';
 
 describe('SySpace', () => {
@@ -67,6 +68,25 @@ describe('SySpace', () => {
 		const override = mergeTheme(lightTheme, { components: { space: { gapMedium: '18px' } } });
 		expect(themeToVariables(override)['--sy-space-gap-medium']).toBe('18px');
 		expect(themeToVariables(lightTheme)['--sy-space-gap-medium']).toBe('var(--sy-spacing-md)');
+	});
+
+	it('uses a scoped Provider gap override and responds when it changes', async () => {
+		const gap = ref('18px');
+		const Host = defineComponent(
+			() => () =>
+				h(ThemeProvider, { tokens: { components: { space: { gapMedium: gap.value } } } }, () =>
+					h(SySpace, null, () => [h('b', 'one'), h('b', 'two')]),
+				),
+		);
+		const wrapper = mount(Host);
+		const scope = wrapper.find('[data-sy-theme]');
+		const space = scope.find('.sy-space');
+		expect((scope.element as HTMLElement).style.getPropertyValue('--sy-space-gap-medium')).toBe('18px');
+		expect(space.attributes('style')).toContain('column-gap: var(--sy-space-gap-medium)');
+		gap.value = '24px';
+		await nextTick();
+		expect((scope.element as HTMLElement).style.getPropertyValue('--sy-space-gap-medium')).toBe('24px');
+		expect(space.attributes('style')).toContain('column-gap: var(--sy-space-gap-medium)');
 	});
 
 	it('renders on the server without DOM globals', async () => {
