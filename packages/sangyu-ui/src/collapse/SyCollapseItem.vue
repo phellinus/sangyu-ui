@@ -4,6 +4,12 @@ import { collapseKey } from './context';
 import type { SyCollapseItemProps } from './Collapse.type';
 
 const props = withDefaults(defineProps<SyCollapseItemProps>(), { disabled: false, lazy: false });
+defineSlots<{
+	default?: () => unknown;
+	header?: () => unknown;
+	extra?: () => unknown;
+	'expand-icon'?: (props: { expanded: boolean }) => unknown;
+}>();
 const context = inject(collapseKey);
 if (!context) throw new Error('SyCollapseItem must be inside SyCollapse');
 const id = useId();

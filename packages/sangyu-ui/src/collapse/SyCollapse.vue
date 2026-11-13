@@ -4,6 +4,7 @@ import { collapseKey } from './context';
 import type { CollapseName, CollapseValue, SyCollapseProps } from './Collapse.type';
 
 const props = withDefaults(defineProps<SyCollapseProps>(), { accordion: false });
+defineSlots<{ default?: () => unknown }>();
 const emit = defineEmits<{ 'update:modelValue': [value: CollapseValue]; change: [value: CollapseValue] }>();
 const instance = getCurrentInstance();
 const controlled = computed(() => Object.prototype.hasOwnProperty.call(instance?.vnode.props ?? {}, 'modelValue'));
