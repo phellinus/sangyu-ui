@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { defineComponent, h, nextTick, ref } from 'vue';
+import { renderToString } from 'vue/server-renderer';
 import SyCollapse from '../SyCollapse.vue';
 import SyCollapseItem from '../SyCollapseItem.vue';
 import { lightTheme, darkTheme } from '../../theme/presets';
@@ -66,5 +67,11 @@ describe('SyCollapse', () => {
 			expect(vars['--sy-collapse-background']).toBe('var(--sy-color-surface)');
 			expect(vars['--sy-collapse-border-color']).toBe('var(--sy-color-divider)');
 		}
+	});
+
+	it('renders headers and regions on the server', async () => {
+		const html = await renderToString(h(SyCollapse, { defaultValue: ['a'] }, { default: () => item('a') }));
+		expect(html).toContain('aria-expanded="true"');
+		expect(html).toContain('role="region"');
 	});
 });
