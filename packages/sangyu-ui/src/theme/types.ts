@@ -502,6 +502,12 @@ export interface DividerTokens {
 	lineOpacity: ComponentValue;
 }
 
+export interface SpaceTokens {
+	gapSmall: ComponentValue;
+	gapMedium: ComponentValue;
+	gapLarge: ComponentValue;
+}
+
 export interface ResultTokens {
 	primaryColor: ComponentValue;
 	successColor: ComponentValue;
@@ -704,6 +710,7 @@ export interface ThemeTokens {
 		tag: TagTokens;
 		avatar: AvatarTokens;
 		divider: DividerTokens;
+		space: SpaceTokens;
 		result: ResultTokens;
 		progress: ProgressTokens;
 		tooltip: TooltipTokens;

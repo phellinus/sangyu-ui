@@ -69,6 +69,7 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		'tag',
 		'avatar',
 		'divider',
+		'space',
 		'result',
 		'progress',
 		'tooltip',

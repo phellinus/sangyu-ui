@@ -28,6 +28,8 @@ import './step/style/index.less';
 import './progress/style/index.less';
 // divider
 import './divider/style/index.less';
+// Space
+import './space/style/index.less';
 // result
 import './result/style/index.less';
 // radio
