@@ -143,6 +143,12 @@ export const componentCatalog: ComponentGroup[] = [
 				description: '组织多级导航，管理选中、展开与收起状态。',
 			},
 			{
+				name: 'SyTabs',
+				label: '标签页',
+				link: '/components/tabs/',
+				description: '在同级内容之间切换，支持键盘导航与延迟挂载。',
+			},
+			{
 				name: 'SySteps',
 				label: '步骤条',
 				link: '/components/step/',
