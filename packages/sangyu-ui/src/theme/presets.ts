@@ -571,6 +571,12 @@ const commonDivider: ThemeTokens['components']['divider'] = {
 	lineOpacity: '0.95',
 };
 
+const commonSpace: ThemeTokens['components']['space'] = {
+	gapSmall: semantic('semantic.spacing.sm'),
+	gapMedium: semantic('semantic.spacing.md'),
+	gapLarge: semantic('semantic.spacing.lg'),
+};
+
 const commonResult: ThemeTokens['components']['result'] = {
 	primaryColor: semantic('semantic.color.primary'),
 	successColor: semantic('semantic.color.success'),
@@ -827,6 +833,7 @@ export const lightTheme: ThemeTokens = {
 		tag: commonTag,
 		avatar: commonAvatar,
 		divider: commonDivider,
+		space: commonSpace,
 		result: commonResult,
 		progress: commonProgress,
 		tooltip: commonTooltip,
@@ -963,6 +970,7 @@ export const darkTheme: ThemeTokens = {
 		tag: commonTag,
 		avatar: commonAvatar,
 		divider: commonDivider,
+		space: commonSpace,
 		result: commonResult,
 		progress: commonProgress,
 		tooltip: commonTooltip,
