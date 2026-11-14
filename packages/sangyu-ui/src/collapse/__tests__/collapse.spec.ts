@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { defineComponent, h, nextTick, ref } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import SyCollapse from '../SyCollapse.vue';
-import SyCollapseItem from '../SyCollapseItem.vue';
+import SyCollapseItem from '../components/CollapseItem.vue';
 import { lightTheme, darkTheme } from '../../theme/presets';
 import { themeToVariables } from '../../theme/css';
 
@@ -14,12 +14,12 @@ describe('SyCollapse', () => {
 	it('opens multiple items and emits arrays', async () => {
 		const wrapper = mount(SyCollapse, { slots: { default: () => [item('a'), item('b')] } });
 		const buttons = wrapper.findAll('button');
+		expect(wrapper.find('.sy-collapse-item__icon svg').attributes('viewBox')).toBe('0 0 16 16');
+		expect(wrapper.find('.sy-collapse-item__icon svg path').attributes('stroke')).toBe('currentColor');
 		await buttons[0].trigger('click');
 		await buttons[1].trigger('click');
 		expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toEqual(['a', 'b']);
-		expect(buttons[0].attributes('aria-expanded')).toBe('true');
-		expect(buttons[0].attributes('aria-controls')).toBe(wrapper.findAll('[role="region"]')[0].attributes('id'));
-		expect(wrapper.findAll('[role="region"]')[0].attributes('aria-labelledby')).toBe(buttons[0].attributes('id'));
+		expect(wrapper.findAll('.sy-collapse-item')[0].classes()).toContain('is-expanded');
 	});
 
 	it('supports accordion and disabled items', async () => {
@@ -27,7 +27,7 @@ describe('SyCollapse', () => {
 			props: { accordion: true, defaultValue: 'a' },
 			slots: { default: () => [item('a'), item('b', { disabled: true })] },
 		});
-		expect(wrapper.findAll('button')[0].attributes('aria-expanded')).toBe('true');
+		expect(wrapper.findAll('.sy-collapse-item')[0].classes()).toContain('is-expanded');
 		await wrapper.findAll('button')[1].trigger('click');
 		expect(wrapper.emitted('change')).toBeUndefined();
 		await wrapper.findAll('button')[0].trigger('click');
@@ -39,13 +39,13 @@ describe('SyCollapse', () => {
 			props: { modelValue: [] },
 			slots: { default: () => item('a', { lazy: true }) },
 		});
-		expect(wrapper.find('[role="region"]').text()).toBe('');
+		expect(wrapper.find('.sy-collapse-item__content').text()).toBe('');
 		await wrapper.find('button').trigger('click');
-		expect(wrapper.find('button').attributes('aria-expanded')).toBe('false');
+		expect(wrapper.find('.sy-collapse-item').classes()).not.toContain('is-expanded');
 		await wrapper.setProps({ modelValue: ['a'] });
-		expect(wrapper.find('[role="region"]').text()).toBe('a');
+		expect(wrapper.find('.sy-collapse-item__content').text()).toBe('a');
 		await wrapper.setProps({ modelValue: [] });
-		expect(wrapper.find('[role="region"]').text()).toBe('a');
+		expect(wrapper.find('.sy-collapse-item__content').text()).toBe('a');
 	});
 
 	it('prunes removed names', async () => {
@@ -69,10 +69,12 @@ describe('SyCollapse', () => {
 		}
 	});
 
-	it('renders headers and regions on the server', async () => {
+	it('renders headers and content on the server', async () => {
 		const html = await renderToString(h(SyCollapse, { defaultValue: ['a'] }, { default: () => item('a') }));
-		expect(html).toContain('aria-expanded="true"');
-		expect(html).toContain('role="region"');
+		expect(html).toContain('<button');
+		expect(html).toContain('Title a');
+		expect(html).not.toMatch(/\saria-[\w-]+=/);
+		expect(html).not.toMatch(/\srole="region"/);
 	});
 
 	it('keeps extra actions outside the toggle and passes expanded to the icon slot', async () => {
@@ -93,7 +95,7 @@ describe('SyCollapse', () => {
 		});
 		expect(wrapper.find('.custom-icon').text()).toBe('closed');
 		await wrapper.find('.extra-action').trigger('click');
-		expect(wrapper.find('.sy-collapse-item__trigger').attributes('aria-expanded')).toBe('false');
+		expect(wrapper.find('.sy-collapse-item').classes()).not.toContain('is-expanded');
 		expect(wrapper.emitted('change')).toBeUndefined();
 		await wrapper.find('.sy-collapse-item__trigger').trigger('click');
 		expect(wrapper.find('.custom-icon').text()).toBe('open');

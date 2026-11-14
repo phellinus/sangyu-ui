@@ -8,4 +8,5 @@ export interface CollapseContext {
 	unregister: (name: CollapseName) => void;
 }
 
+// 子项通过该 key 读取状态并注册自身
 export const collapseKey: InjectionKey<CollapseContext> = Symbol('SyCollapse');

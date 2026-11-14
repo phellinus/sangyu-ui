@@ -1,6 +1,6 @@
 import type { App } from 'vue';
 import SyCollapseComponent from './SyCollapse.vue';
-import SyCollapseItem from './SyCollapseItem.vue';
+import { SyCollapseItem } from './components';
 
 const SyCollapse = SyCollapseComponent as typeof SyCollapseComponent & { install: (app: App) => void };
 SyCollapse.install = (app) => {
