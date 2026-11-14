@@ -685,11 +685,20 @@ export interface TableTokens {
 export interface TabsTokens {
 	color: ComponentValue;
 	activeColor: ComponentValue;
+	hoverColor: ComponentValue;
 	borderColor: ComponentValue;
 	indicatorColor: ComponentValue;
+	surfaceColor: ComponentValue;
+	panelBackground: ComponentValue;
 	padding: ComponentValue;
 	gap: ComponentValue;
 	panelPadding: ComponentValue;
+	radius: ComponentValue;
+	heightMini: ComponentValue;
+	heightSmall: ComponentValue;
+	heightMedium: ComponentValue;
+	heightLarge: ComponentValue;
+	closeHoverBackground: ComponentValue;
 }
 
 export interface ThemeTokens {

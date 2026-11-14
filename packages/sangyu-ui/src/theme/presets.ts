@@ -755,11 +755,20 @@ const commonTable: ThemeTokens['components']['table'] = {
 const commonTabs = {
 	color: semantic('semantic.color.textSecondary'),
 	activeColor: semantic('semantic.color.primary'),
+	hoverColor: semantic('semantic.color.text'),
 	borderColor: semantic('semantic.color.border'),
 	indicatorColor: semantic('semantic.color.primary'),
+	surfaceColor: semantic('semantic.color.surface'),
+	panelBackground: semantic('semantic.color.surface'),
 	padding: semantic('semantic.spacing.md'),
 	gap: semantic('semantic.spacing.sm'),
 	panelPadding: semantic('semantic.spacing.md'),
+	radius: semantic('semantic.radius.md'),
+	heightMini: '24px',
+	heightSmall: '32px',
+	heightMedium: '40px',
+	heightLarge: '48px',
+	closeHoverBackground: 'color-mix(in srgb, var(--sy-color-text) 8%, transparent)',
 };
 
 export const lightTheme: ThemeTokens = {
