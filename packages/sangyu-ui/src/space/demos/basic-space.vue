@@ -9,8 +9,8 @@ title: SySpace 基础用法
 <template>
 	<div class="space-demo">
 		<SySpace size="small">
-			<button>保存</button>
-			<button>取消</button>
+			<SyButton>保存</SyButton>
+			<SyButton type="border">取消</SyButton>
 		</SySpace>
 		<SySpace direction="vertical" :size="16">
 			<span>第一行</span>
@@ -20,7 +20,7 @@ title: SySpace 基础用法
 </template>
 
 <script setup lang="ts">
-import { SySpace } from 'sangyu-ui';
+import { SyButton, SySpace } from 'sangyu-ui';
 </script>
 
 <style scoped>
