@@ -428,6 +428,17 @@ export interface CardTokens {
 	footerGap: ComponentValue;
 }
 
+export interface CollapseTokens {
+	background: ComponentValue;
+	borderColor: ComponentValue;
+	color: ComponentValue;
+	contentColor: ComponentValue;
+	headerPadding: ComponentValue;
+	contentPadding: ComponentValue;
+	radius: ComponentValue;
+	focusShadow: ComponentValue;
+}
+
 export interface TagTokens {
 	primaryColor: ComponentValue;
 	successColor: ComponentValue;
@@ -726,6 +737,7 @@ export interface ThemeTokens {
 		breadcrumb: BreadcrumbTokens;
 		step: StepTokens;
 		card: CardTokens;
+		collapse: CollapseTokens;
 		tag: TagTokens;
 		avatar: AvatarTokens;
 		divider: DividerTokens;

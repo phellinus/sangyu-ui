@@ -497,6 +497,17 @@ const commonCard: ThemeTokens['components']['card'] = {
 	footerGap: semantic('semantic.spacing.sm'),
 };
 
+const commonCollapse: ThemeTokens['components']['collapse'] = {
+	background: semantic('semantic.color.surface'),
+	borderColor: semantic('semantic.color.divider'),
+	color: semantic('semantic.color.text'),
+	contentColor: semantic('semantic.color.textSecondary'),
+	headerPadding: '16px 20px',
+	contentPadding: '0 20px 16px',
+	radius: semantic('semantic.radius.md'),
+	focusShadow: semantic('semantic.shadow.focus'),
+};
+
 const commonTag: ThemeTokens['components']['tag'] = {
 	primaryColor: semantic('semantic.color.primary'),
 	successColor: semantic('semantic.color.success'),
@@ -830,6 +841,7 @@ export const lightTheme: ThemeTokens = {
 		breadcrumb: commonBreadcrumb,
 		step: commonStep,
 		card: commonCard,
+		collapse: commonCollapse,
 		tag: commonTag,
 		avatar: commonAvatar,
 		divider: commonDivider,
@@ -967,6 +979,7 @@ export const darkTheme: ThemeTokens = {
 		breadcrumb: commonBreadcrumb,
 		step: commonStep,
 		card: commonCard,
+		collapse: commonCollapse,
 		tag: commonTag,
 		avatar: commonAvatar,
 		divider: commonDivider,

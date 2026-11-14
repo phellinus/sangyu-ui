@@ -11,6 +11,8 @@ export { createNotification, default as SyNotification, SyNotificationContainer 
 export type * from './notification';
 export { default as SyCard } from './card';
 export type * from './card';
+export { default as SyCollapse, SyCollapseItem } from './collapse';
+export type * from './collapse';
 export { default as SyTag } from './tag';
 export type * from './tag';
 export { default as SyBreadCrumb, SyBreadcrumbItem } from './breadcrumb';
