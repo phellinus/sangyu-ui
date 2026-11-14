@@ -6,9 +6,25 @@
 
 <demo src="./demos/basic-space.vue"></demo>
 
+## 间距尺寸
+
+<demo src="./demos/sizes-space.vue"></demo>
+
+## 对齐方式
+
+<demo src="./demos/align-space.vue"></demo>
+
+## 自动换行
+
+<demo src="./demos/wrap-space.vue"></demo>
+
 ## 方向与分隔
 
 <demo src="./demos/split-space.vue"></demo>
+
+## split 属性
+
+<demo src="./demos/split-property-space.vue"></demo>
 
 ## API
 
