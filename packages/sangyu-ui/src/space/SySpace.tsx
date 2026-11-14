@@ -1,9 +1,11 @@
 import { Comment, createTextVNode, defineComponent, Fragment, Text, type PropType, type VNode } from 'vue';
 import type { SpaceGap, SpaceProps } from './Space.type';
 
+/** 将数字间距转成像素值，将预设间距映射到主题变量 */
 const gapValue = (value: SpaceGap): string =>
 	typeof value === 'number' ? `${value}px` : `var(--sy-space-gap-${value})`;
 
+/** 展平 Fragment，并过滤不参与布局的空内容 */
 const meaningfulChildren = (nodes: unknown[]): VNode[] => {
 	const children: VNode[] = [];
 	for (const node of nodes) {
@@ -28,6 +30,7 @@ const meaningfulChildren = (nodes: unknown[]): VNode[] => {
 	return children;
 };
 
+/** 使用单个 inline-flex 容器排列子项，并在有效子项之间插入分隔内容 */
 export default defineComponent({
 	name: 'SySpace',
 	props: {
@@ -40,6 +43,7 @@ export default defineComponent({
 	setup(props, { slots }) {
 		return () => {
 			const children = meaningfulChildren(slots.default?.() ?? []);
+			// 自定义分隔插槽优先于 split 属性
 			const hasSplit = !!slots.split || props.split !== undefined;
 			const content: (VNode | string | number)[] = [];
 			children.forEach((child, index) => {
@@ -48,6 +52,7 @@ export default defineComponent({
 				}
 				content.push(child);
 			});
+			// 标量尺寸同时控制横向和纵向间距
 			const [horizontal, vertical] = Array.isArray(props.size)
 				? props.size
 				: [props.size as SpaceGap, props.size as SpaceGap];
