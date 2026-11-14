@@ -1,6 +1,6 @@
 import type { App } from 'vue';
 import { SyTabs } from './SyTabs';
-import { SyTabPane } from './SyTabPane';
+import { SyTabPane } from './components';
 
 const Tabs = SyTabs as typeof SyTabs & { install: (app: App) => void };
 Tabs.install = (app: App) => {
