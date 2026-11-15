@@ -31,6 +31,7 @@ import './progress/style/index.less';
 import './divider/style/index.less';
 // Space
 import './space/style/index.less';
+import './layout/style/index.less';
 // result
 import './result/style/index.less';
 // radio

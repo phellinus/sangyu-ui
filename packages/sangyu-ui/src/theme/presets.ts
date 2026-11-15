@@ -588,6 +588,14 @@ const commonSpace: ThemeTokens['components']['space'] = {
 	gapLarge: semantic('semantic.spacing.lg'),
 };
 
+const commonLayout: ThemeTokens['components']['layout'] = {
+	siderWidth: '200px',
+	headerBackground: semantic('semantic.color.surface'),
+	siderBackground: semantic('semantic.color.surface'),
+	contentBackground: semantic('semantic.color.bg'),
+	footerBackground: semantic('semantic.color.surface'),
+};
+
 const commonResult: ThemeTokens['components']['result'] = {
 	primaryColor: semantic('semantic.color.primary'),
 	successColor: semantic('semantic.color.success'),
@@ -846,6 +854,7 @@ export const lightTheme: ThemeTokens = {
 		avatar: commonAvatar,
 		divider: commonDivider,
 		space: commonSpace,
+		layout: commonLayout,
 		result: commonResult,
 		progress: commonProgress,
 		tooltip: commonTooltip,
@@ -984,6 +993,7 @@ export const darkTheme: ThemeTokens = {
 		avatar: commonAvatar,
 		divider: commonDivider,
 		space: commonSpace,
+		layout: commonLayout,
 		result: commonResult,
 		progress: commonProgress,
 		tooltip: commonTooltip,

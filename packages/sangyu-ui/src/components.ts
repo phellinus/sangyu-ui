@@ -29,6 +29,8 @@ export { default as SyDivider } from './divider';
 export type * from './divider';
 export { default as SySpace } from './space';
 export type * from './space';
+export { default as SyLayout, SyLayoutHeader, SyLayoutSider, SyLayoutContent, SyLayoutFooter } from './layout';
+export type * from './layout';
 export { default as SyResult } from './result';
 export type * from './result';
 export { default as SyRadio, SyRadioButton, SyRadioGroup } from './radio';
