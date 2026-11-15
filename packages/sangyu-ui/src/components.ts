@@ -47,3 +47,5 @@ export { default as SyDrawer } from './drawer';
 export type * from './drawer';
 export { default as SyTabs, SyTabPane } from './tabs';
 export type * from './tabs';
+export { default as SyCarousel, SyCarouselItem } from './carousel';
+export type * from './carousel';
