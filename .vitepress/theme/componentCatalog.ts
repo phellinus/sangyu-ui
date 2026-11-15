@@ -20,6 +20,12 @@ export const componentCatalog: ComponentGroup[] = [
 		description: '从一次点击、一枚图标开始，建立界面的基础语言。',
 		items: [
 			{
+				name: 'SyLayout',
+				label: '布局',
+				link: '/components/layout/',
+				description: '用页头、侧栏、内容和页脚组合响应式页面骨架。',
+			},
+			{
 				name: 'SyButton',
 				label: '按钮',
 				link: '/components/button/',
