@@ -16,6 +16,8 @@
 
 视口宽度不大于 `768px` 时，带直属侧栏的容器改为纵向排列，侧栏占满容器宽度。布局不内置折叠状态或触发器；交互式导航可自行组合菜单和按钮。
 
+直属侧栏的自动识别依赖 [CSS `:has()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:has)：需使用 Chrome/Edge 105+、Safari 15.4+ 或 Firefox 121+。更旧的浏览器会保持默认纵向布局，带侧栏的页面需自行提供横向布局样式。
+
 ## API
 
 | 组件              | 根元素   | 属性                                | 说明                                                  |
@@ -29,3 +31,5 @@
 所有组件支持 Vue 原生 `class` 和 `style` 属性及默认插槽。设置侧栏 `width` 后，窄屏仍会自动转为整宽。
 
 布局颜色来自 `components.layout` 主题 Token：`headerBackground`、`siderBackground`、`contentBackground`、`footerBackground` 引用现有语义颜色，`siderWidth` 控制默认侧栏宽度。可通过 `ThemeProvider` 覆盖并切换亮暗主题。
+
+静态主题同时补齐了全库共享的 `--sy-color-surface`：亮色为 `#ffffff`，暗色为 `#1f1f1f`。现有引用该变量的组件也会获得对应的表面色，无需单独包裹 `ThemeProvider`。
