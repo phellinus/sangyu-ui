@@ -14,7 +14,7 @@
 
 ## 受控切换
 
-使用 `v-model` 时，父组件需要将新索引回传。`defaultValue` 仅用于非受控初始值。
+使用 `v-model` 时，父组件需要将新索引回传；如果父组件不回传，自动播放会在发出切换请求后停止。`defaultValue` 仅用于非受控初始值。
 
 <demo src="./demos/controlled-carousel.vue"></demo>
 
@@ -42,7 +42,7 @@
 | `interval`               | `number`                         | `3000`       | 自动播放间隔，单位毫秒                      |
 | `pauseOnHover`           | `boolean`                        | `true`       | 鼠标悬停时暂停                              |
 | `direction`              | `horizontal \| vertical`         | `horizontal` | 切换方向                                    |
-| `animation`              | `slide \| fade`                  | `slide`      | 切换动画；Card 暂不支持                     |
+| `animation`              | `slide \| fade`                  | `slide`      | 首期支持 Slide 和 Fade                      |
 | `indicator`              | `dot \| line \| none`            | `dot`        | 指示器形态                                  |
 | `indicatorPosition`      | `top \| bottom \| left \| right` | `bottom`     | 指示器位置                                  |
 | `showArrow`              | `always \| hover \| never`       | `always`     | 箭头显示时机                                |
@@ -59,6 +59,8 @@
 ### 插槽与子项
 
 `SyCarousel` 默认插槽放置 `SyCarouselItem`。每个子项的默认插槽渲染该页内容。空项和单项不会显示切换控件，也不会启动自动播放。
+
+循环 Slide 在首尾边界会渲染镜像节点。子项内容应避免写死 DOM `id`，以免镜像节点产生重复标识。
 
 根节点使用 `role="region"`，可传入 `aria-label` 指定轮播名称。箭头、指示器和播放按钮均可通过键盘激活。非活动内容不可聚焦。
 

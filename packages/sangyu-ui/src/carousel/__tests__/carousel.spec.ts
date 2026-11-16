@@ -1,4 +1,9 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import process from 'node:process';
 import { mount } from '@vue/test-utils';
+import less from 'less';
+import postcss from 'postcss';
 import { createApp, createSSRApp, defineComponent, h, nextTick, ref } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -114,6 +119,7 @@ describe('SyCarousel', () => {
 	it('pauses autoplay on hover, focus, explicit pause and page visibility, then cleans up', async () => {
 		vi.useFakeTimers();
 		const wrapper = carousel({ autoplay: true, interval: 100, pauseOnHover: true });
+		expect(wrapper.get('[aria-label="暂停自动播放"]').text()).toBe('⏸');
 		await wrapper.trigger('mouseenter');
 		vi.advanceTimersByTime(300);
 		expect(wrapper.emitted('change')).toBeUndefined();
@@ -213,6 +219,45 @@ describe('SyCarousel', () => {
 		expect(
 			(wrapper.get('[data-sy-theme]').element as HTMLElement).style.getPropertyValue('--sy-carousel-arrow-color'),
 		).toBe('var(--sy-color-text)');
+	});
+
+	it('keeps carousel tokens usable with only the static style entry', async () => {
+		const filename = resolve(process.cwd(), 'packages/sangyu-ui/src/style/index.less');
+		const compiled = await less.render(readFileSync(filename, 'utf8'), { filename });
+		const root: Record<string, string> = {};
+		const dark: Record<string, string> = {};
+		postcss.parse(compiled.css).walkRules((rule) => {
+			const target = rule.selector === ':root' ? root : rule.selector === "[data-sy-theme='dark']" ? dark : null;
+			if (target)
+				rule.walkDecls((declaration) => {
+					target[declaration.prop] = declaration.value;
+				});
+		});
+		const carouselTokens = Object.entries(root).filter(([name]) => name.startsWith('--sy-carousel-'));
+		expect(carouselTokens).toHaveLength(20);
+		expect(root['--sy-color-bg']).toBeDefined();
+		for (const [name, value] of carouselTokens) {
+			for (const match of value.matchAll(/var\((--[\w-]+)(?=,|\))/g)) {
+				const dependency = match[1];
+				expect(
+					root[dependency] !== undefined || value.includes(`var(${dependency},`),
+					`${name} needs a static fallback for ${dependency}`,
+				).toBe(true);
+			}
+		}
+		for (const name of [
+			'background',
+			'color',
+			'arrow-background',
+			'arrow-color',
+			'arrow-hover-background',
+			'indicator-color',
+			'indicator-active-color',
+			'focus-shadow',
+		]) {
+			const property = `--sy-carousel-${name}`;
+			expect(dark[property], `${property} must recalculate in the dark scope`).toBe(root[property]);
+		}
 	});
 
 	it('renders on the server without browser globals', async () => {

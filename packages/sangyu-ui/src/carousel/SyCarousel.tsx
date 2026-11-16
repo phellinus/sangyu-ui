@@ -171,7 +171,7 @@ export const SyCarousel = defineComponent({
 								state.paused.value = !state.paused.value;
 							}}
 						>
-							{state.paused.value ? '▶' : 'Ⅱ'}
+							{state.paused.value ? '▶' : '⏸'}
 						</button>
 					)}
 				</section>
