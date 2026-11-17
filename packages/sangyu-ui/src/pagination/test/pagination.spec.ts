@@ -150,6 +150,22 @@ describe('SyPagination', () => {
 		expect(wrapper.emitted('update:currentPage')?.at(-1)).toEqual([5]);
 	});
 
+	it.each(['small', 'default', 'large'] as const)(
+		'passes %s size and disabled state to the page-size selector',
+		(size) => {
+			const wrapper = mount(SyPagination, {
+				props: { size, disabled: true, total: 100, layout: 'sizes' },
+			});
+
+			const select = wrapper.get('.sy-pagination-sizes .sy-select');
+			expect(wrapper.classes()).toEqual(expect.arrayContaining(['sy-pagination', 'sy-pagination-disabled']));
+			if (size !== 'default') expect(wrapper.classes()).toContain(`sy-pagination-${size}`);
+			expect(select.classes()).toContain(`sy-select-${size}`);
+			expect(select.attributes('aria-disabled')).toBe('true');
+			expect(select.get('.sy-select-trigger').attributes('tabindex')).toBe('-1');
+		},
+	);
+
 	it('renders dotted and progress modes', async () => {
 		const wrapper = mount(SyPagination, {
 			props: {
