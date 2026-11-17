@@ -112,6 +112,12 @@ export const componentCatalog: ComponentGroup[] = [
 				description: '聚合相关内容，使用标题、插槽与阴影区分层级。',
 			},
 			{
+				name: 'SyCarousel',
+				label: '轮播',
+				link: '/components/carousel/',
+				description: '循环展示内容，支持自动播放、方向切换和主题定制。',
+			},
+			{
 				name: 'SyCollapse',
 				label: '折叠面板',
 				link: '/components/collapse/',

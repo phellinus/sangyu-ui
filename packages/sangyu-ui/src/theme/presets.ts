@@ -796,6 +796,29 @@ const commonTabs = {
 	closeHoverBackground: 'color-mix(in srgb, var(--sy-color-text) 8%, transparent)',
 };
 
+const commonCarousel: ThemeTokens['components']['carousel'] = {
+	aspectRatio: '16 / 9',
+	radius: semantic('semantic.radius.md'),
+	background: semantic('semantic.color.surface'),
+	color: semantic('semantic.color.text'),
+	controlSize: semantic('semantic.controlHeight.md'),
+	controlRadius: semantic('semantic.radius.round'),
+	controlOffset: semantic('semantic.spacing.md'),
+	arrowBackground: 'color-mix(in srgb, var(--sy-color-surface) 78%, transparent)',
+	arrowColor: semantic('semantic.color.text'),
+	arrowHoverBackground: semantic('semantic.color.surface'),
+	indicatorOffset: semantic('semantic.spacing.md'),
+	indicatorGap: semantic('semantic.spacing.sm'),
+	indicatorSize: '8px',
+	indicatorRadius: semantic('semantic.radius.round'),
+	indicatorColor: 'color-mix(in srgb, var(--sy-color-text-secondary) 65%, transparent)',
+	indicatorActiveColor: semantic('semantic.color.primary'),
+	indicatorLineWidth: '24px',
+	indicatorLineHeight: '4px',
+	focusShadow: semantic('semantic.shadow.focus'),
+	toggleFontSize: semantic('semantic.fontSize.sm'),
+};
+
 export const lightTheme: ThemeTokens = {
 	base: lightBase,
 	semantic: {
@@ -862,6 +885,7 @@ export const lightTheme: ThemeTokens = {
 		notification: commonNotification,
 		table: commonTable,
 		tabs: commonTabs,
+		carousel: commonCarousel,
 	},
 };
 
@@ -1001,5 +1025,6 @@ export const darkTheme: ThemeTokens = {
 		notification: commonNotification,
 		table: commonTable,
 		tabs: commonTabs,
+		carousel: commonCarousel,
 	},
 };

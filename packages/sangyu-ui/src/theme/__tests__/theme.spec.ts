@@ -274,7 +274,11 @@ describe('theme tokens', () => {
 		] as const) {
 			const variables = themeToVariables(theme);
 			for (const [name, value] of Object.entries(actual[mode])) {
-				expect(variables[name]).toBe(value);
+				// 静态 Carousel 可补回退值，但主语义引用须与 Provider 输出一致
+				const expected = name.startsWith('--sy-carousel-')
+					? value.replace(/var\((--[\w-]+),\s*(?:[^()]|\([^()]*\))*\)/g, 'var($1)')
+					: value;
+				expect(variables[name]).toBe(expected);
 			}
 		}
 	});

@@ -726,6 +726,29 @@ export interface LayoutTokens {
 	footerBackground: ComponentValue;
 }
 
+export interface CarouselTokens {
+	aspectRatio: ComponentValue;
+	radius: ComponentValue;
+	background: ComponentValue;
+	color: ComponentValue;
+	controlSize: ComponentValue;
+	controlRadius: ComponentValue;
+	controlOffset: ComponentValue;
+	arrowBackground: ComponentValue;
+	arrowColor: ComponentValue;
+	arrowHoverBackground: ComponentValue;
+	indicatorOffset: ComponentValue;
+	indicatorGap: ComponentValue;
+	indicatorSize: ComponentValue;
+	indicatorRadius: ComponentValue;
+	indicatorColor: ComponentValue;
+	indicatorActiveColor: ComponentValue;
+	indicatorLineWidth: ComponentValue;
+	indicatorLineHeight: ComponentValue;
+	focusShadow: ComponentValue;
+	toggleFontSize: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -758,6 +781,7 @@ export interface ThemeTokens {
 		notification: NotificationTokens;
 		table: TableTokens;
 		tabs: TabsTokens;
+		carousel: CarouselTokens;
 	};
 }
 

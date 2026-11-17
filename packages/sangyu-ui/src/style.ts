@@ -50,3 +50,4 @@ import './form/style/index.less';
 import './drawer/style/index.less';
 // Tabs
 import './tabs/style/index.less';
+import './carousel/style/index.less';
