@@ -1,7 +1,10 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
 import type { CarouselProps } from '../Carousel.type';
 
-type ChangeEmit = (event: 'update:modelValue' | 'change', ...args: number[] | [number, number, boolean]) => void;
+type ChangeEmit = {
+	(event: 'update:modelValue', index: number): void;
+	(event: 'change', index: number, previousIndex: number, isManual: boolean): void;
+};
 
 function normalize(index: number | undefined, count: number): number {
 	if (count < 1 || !Number.isFinite(index)) return 0;
