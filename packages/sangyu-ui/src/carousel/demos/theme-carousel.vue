@@ -3,8 +3,9 @@
 		<button type="button" @click="dark = !dark">切换{{ dark ? '亮色' : '暗色' }}主题</button>
 		<ThemeProvider :mode="dark ? 'dark' : 'light'">
 			<SyCarousel aria-label="主题轮播">
-				<SyCarouselItem><div class="carousel-demo-slide">主题项一</div></SyCarouselItem>
-				<SyCarouselItem><div class="carousel-demo-slide">主题项二</div></SyCarouselItem>
+				<SyCarouselItem v-for="(slide, index) in slides" :key="slide.src">
+					<CarouselImageSlide :slide="slide" :loading="index === 0 ? 'eager' : 'lazy'" />
+				</SyCarouselItem>
 			</SyCarousel>
 		</ThemeProvider>
 	</div>
@@ -13,22 +14,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { SyCarousel, SyCarouselItem, ThemeProvider } from 'sangyu-ui';
+import CarouselImageSlide from './components/CarouselImageSlide.vue';
+import { rotateImageSlides } from './imageSlides';
 
 const dark = ref(false);
+const slides = rotateImageSlides(3);
 </script>
 
 <style scoped>
 .carousel-demo-stack {
 	display: grid;
 	gap: var(--sy-spacing-sm);
-}
-.carousel-demo-slide {
-	display: grid;
-	place-items: center;
-	width: 100%;
-	height: 100%;
-	background: var(--sy-color-bg);
-	color: var(--sy-color-text);
-	font-size: 2rem;
 }
 </style>
