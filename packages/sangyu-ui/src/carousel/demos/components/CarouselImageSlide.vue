@@ -44,10 +44,26 @@ withDefaults(defineProps<{ slide: ImageSlide; loading?: 'eager' | 'lazy' }>(), {
 	display: grid;
 	gap: var(--sy-spacing-xs, 4px);
 	max-width: min(70%, 30rem);
-	padding: var(--sy-spacing-sm, 8px) var(--sy-spacing-md, 16px);
-	border-radius: var(--sy-carousel-radius, 6px);
-	background: color-mix(in srgb, var(--sy-color-surface, var(--sy-color-bg)) 88%, transparent);
-	color: var(--sy-color-text);
+	padding: 12px var(--sy-spacing-lg, 20px) 12px var(--sy-spacing-md, 20px);
+	overflow: hidden;
+	border: 1px solid rgb(255 255 255 / 16%);
+	border-radius: var(--sy-carousel-radius, 8px);
+	background: linear-gradient(135deg, rgb(15 23 42 / 88%), rgb(15 23 42 / 72%));
+	box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+	color: #fff;
+	-webkit-backdrop-filter: blur(14px) saturate(130%);
+	backdrop-filter: blur(14px) saturate(130%);
+}
+
+.carousel-image-slide__caption::before {
+	position: absolute;
+	top: 12px;
+	bottom: 12px;
+	left: 0;
+	width: 3px;
+	border-radius: 0 3px 3px 0;
+	background: var(--sy-color-primary, #4f7cff);
+	content: '';
 }
 
 .carousel-image-slide__title,
@@ -57,12 +73,14 @@ withDefaults(defineProps<{ slide: ImageSlide; loading?: 'eager' | 'lazy' }>(), {
 
 .carousel-image-slide__title {
 	font-size: var(--sy-font-size-lg, 16px);
+	font-weight: 600;
 	line-height: 1.4;
+	letter-spacing: 0.02em;
 }
 
 .carousel-image-slide__description {
-	color: var(--sy-color-text-secondary);
+	color: rgb(255 255 255 / 76%);
 	font-size: var(--sy-font-size-md, 14px);
-	line-height: 1.5;
+	line-height: 1.6;
 }
 </style>

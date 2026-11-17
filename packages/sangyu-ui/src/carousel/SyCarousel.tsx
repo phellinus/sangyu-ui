@@ -123,6 +123,7 @@ export const SyCarousel = defineComponent({
 							<button
 								class='sy-carousel__arrow sy-carousel__arrow--previous'
 								type='button'
+								aria-label='上一张'
 								disabled={!props.loop && state.current.value === 0}
 								onClick={state.previous}
 							>
@@ -131,6 +132,7 @@ export const SyCarousel = defineComponent({
 							<button
 								class='sy-carousel__arrow sy-carousel__arrow--next'
 								type='button'
+								aria-label='下一张'
 								disabled={!props.loop && state.current.value === count.value - 1}
 								onClick={() => state.next()}
 							>
@@ -148,6 +150,8 @@ export const SyCarousel = defineComponent({
 									key={index}
 									class={['sy-carousel__indicator', { 'is-active': index === state.current.value }]}
 									type='button'
+									aria-label={`转到第 ${index + 1} 张`}
+									aria-current={index === state.current.value ? 'true' : undefined}
 									onClick={() => state.select(index)}
 								/>
 							))}
@@ -157,11 +161,26 @@ export const SyCarousel = defineComponent({
 						<button
 							class='sy-carousel__play-toggle'
 							type='button'
+							aria-label={state.paused.value ? '继续自动播放' : '暂停自动播放'}
 							onClick={() => {
 								state.paused.value = !state.paused.value;
 							}}
 						>
-							{state.paused.value ? '▶' : '⏸'}
+							<svg
+								class='sy-carousel__play-toggle-icon'
+								viewBox='0 0 24 24'
+								fill='none'
+								aria-hidden='true'
+							>
+								{state.paused.value ? (
+									<path d='M8 5.5v13l11-6.5L8 5.5Z' fill='currentColor' />
+								) : (
+									<>
+										<rect x='6.5' y='5' width='4' height='14' rx='1.25' fill='currentColor' />
+										<rect x='13.5' y='5' width='4' height='14' rx='1.25' fill='currentColor' />
+									</>
+								)}
+							</svg>
 						</button>
 					)}
 				</section>

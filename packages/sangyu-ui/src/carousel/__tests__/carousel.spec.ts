@@ -119,7 +119,7 @@ describe('SyCarousel', () => {
 	it('pauses autoplay on hover, focus, explicit pause and page visibility, then cleans up', async () => {
 		vi.useFakeTimers();
 		const wrapper = carousel({ autoplay: true, interval: 100, pauseOnHover: true });
-		expect(wrapper.get('[aria-label="暂停自动播放"]').text()).toBe('⏸');
+		expect(wrapper.get('[aria-label="暂停自动播放"]').find('svg').exists()).toBe(true);
 		await wrapper.trigger('mouseenter');
 		vi.advanceTimersByTime(300);
 		expect(wrapper.emitted('change')).toBeUndefined();
