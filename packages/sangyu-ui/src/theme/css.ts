@@ -71,6 +71,7 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		'avatar',
 		'divider',
 		'space',
+		'layout',
 		'result',
 		'progress',
 		'tooltip',
@@ -78,6 +79,7 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		'notification',
 		'table',
 		'tabs',
+		'carousel',
 	] as const) {
 		for (const [key, value] of Object.entries(theme.components[component])) {
 			const prefix =

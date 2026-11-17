@@ -1,4 +1,9 @@
 :root {
+	--sy-layout-sider-width: 200px;
+	--sy-layout-header-background: var(--sy-color-surface);
+	--sy-layout-sider-background: var(--sy-color-surface);
+	--sy-layout-content-background: var(--sy-color-bg);
+	--sy-layout-footer-background: var(--sy-color-surface);
 	--sy-button-color: var(--sy-color-primary);
 	--sy-button-filled-text-color: #fff;
 	--sy-button-focus-shadow: var(--sy-shadow-focus);
@@ -418,6 +423,26 @@
 	--sy-table-scrollbar-thumb-hover: color-mix(in srgb, var(--sy-color-text-secondary) 62%, transparent);
 	--sy-table-scrollbar-radius: var(--sy-radius-round);
 	--sy-table-transition-duration: 180ms;
+	--sy-carousel-aspect-ratio: 16 / 9;
+	--sy-carousel-radius: var(--sy-radius-md, 6px);
+	--sy-carousel-background: var(--sy-color-surface, var(--sy-color-bg));
+	--sy-carousel-color: var(--sy-color-text);
+	--sy-carousel-control-size: var(--sy-control-height-md, 32px);
+	--sy-carousel-control-radius: var(--sy-radius-round, 9999px);
+	--sy-carousel-control-offset: var(--sy-spacing-md, 16px);
+	--sy-carousel-arrow-background: color-mix(in srgb, var(--sy-color-surface, var(--sy-color-bg)) 78%, transparent);
+	--sy-carousel-arrow-color: var(--sy-color-text);
+	--sy-carousel-arrow-hover-background: var(--sy-color-surface, var(--sy-color-bg));
+	--sy-carousel-indicator-offset: var(--sy-spacing-md, 16px);
+	--sy-carousel-indicator-gap: var(--sy-spacing-sm, 8px);
+	--sy-carousel-indicator-size: 8px;
+	--sy-carousel-indicator-radius: var(--sy-radius-round, 9999px);
+	--sy-carousel-indicator-color: color-mix(in srgb, var(--sy-color-text-secondary) 65%, transparent);
+	--sy-carousel-indicator-active-color: var(--sy-color-primary);
+	--sy-carousel-indicator-line-width: 24px;
+	--sy-carousel-indicator-line-height: 4px;
+	--sy-carousel-focus-shadow: var(--sy-shadow-focus, 0 0 0 2px var(--sy-color-primary));
+	--sy-carousel-toggle-font-size: var(--sy-font-size-sm, 12px);
 }
 
 [data-sy-theme='dark'] {
@@ -437,4 +462,12 @@
 	--sy-select-scrollbar-thumb: #ffffff33;
 	--sy-select-scrollbar-thumb-hover: #ffffff59;
 	--sy-switch-inactive-color: var(--sy-color-border);
+	--sy-carousel-background: var(--sy-color-surface, var(--sy-color-bg));
+	--sy-carousel-color: var(--sy-color-text);
+	--sy-carousel-arrow-background: color-mix(in srgb, var(--sy-color-surface, var(--sy-color-bg)) 78%, transparent);
+	--sy-carousel-arrow-color: var(--sy-color-text);
+	--sy-carousel-arrow-hover-background: var(--sy-color-surface, var(--sy-color-bg));
+	--sy-carousel-indicator-color: color-mix(in srgb, var(--sy-color-text-secondary) 65%, transparent);
+	--sy-carousel-indicator-active-color: var(--sy-color-primary);
+	--sy-carousel-focus-shadow: var(--sy-shadow-focus, 0 0 0 2px var(--sy-color-primary));
 }

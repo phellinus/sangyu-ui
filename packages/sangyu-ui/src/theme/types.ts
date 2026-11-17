@@ -718,6 +718,37 @@ export interface TabsTokens {
 	closeHoverBackground: ComponentValue;
 }
 
+export interface LayoutTokens {
+	siderWidth: ComponentValue;
+	headerBackground: ComponentValue;
+	siderBackground: ComponentValue;
+	contentBackground: ComponentValue;
+	footerBackground: ComponentValue;
+}
+
+export interface CarouselTokens {
+	aspectRatio: ComponentValue;
+	radius: ComponentValue;
+	background: ComponentValue;
+	color: ComponentValue;
+	controlSize: ComponentValue;
+	controlRadius: ComponentValue;
+	controlOffset: ComponentValue;
+	arrowBackground: ComponentValue;
+	arrowColor: ComponentValue;
+	arrowHoverBackground: ComponentValue;
+	indicatorOffset: ComponentValue;
+	indicatorGap: ComponentValue;
+	indicatorSize: ComponentValue;
+	indicatorRadius: ComponentValue;
+	indicatorColor: ComponentValue;
+	indicatorActiveColor: ComponentValue;
+	indicatorLineWidth: ComponentValue;
+	indicatorLineHeight: ComponentValue;
+	focusShadow: ComponentValue;
+	toggleFontSize: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -742,6 +773,7 @@ export interface ThemeTokens {
 		avatar: AvatarTokens;
 		divider: DividerTokens;
 		space: SpaceTokens;
+		layout: LayoutTokens;
 		result: ResultTokens;
 		progress: ProgressTokens;
 		tooltip: TooltipTokens;
@@ -749,6 +781,7 @@ export interface ThemeTokens {
 		notification: NotificationTokens;
 		table: TableTokens;
 		tabs: TabsTokens;
+		carousel: CarouselTokens;
 	};
 }
 

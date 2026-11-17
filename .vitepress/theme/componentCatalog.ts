@@ -20,6 +20,12 @@ export const componentCatalog: ComponentGroup[] = [
 		description: '从一次点击、一枚图标开始，建立界面的基础语言。',
 		items: [
 			{
+				name: 'SyLayout',
+				label: '布局',
+				link: '/components/layout/',
+				description: '用页头、侧栏、内容和页脚组合响应式页面骨架。',
+			},
+			{
 				name: 'SyButton',
 				label: '按钮',
 				link: '/components/button/',
@@ -104,6 +110,12 @@ export const componentCatalog: ComponentGroup[] = [
 				label: '卡片',
 				link: '/components/card/',
 				description: '聚合相关内容，使用标题、插槽与阴影区分层级。',
+			},
+			{
+				name: 'SyCarousel',
+				label: '轮播',
+				link: '/components/carousel/',
+				description: '循环展示内容，支持自动播放、方向切换和主题定制。',
 			},
 			{
 				name: 'SyCollapse',

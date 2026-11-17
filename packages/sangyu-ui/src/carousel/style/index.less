@@ -1,0 +1,206 @@
+.sy-carousel {
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	aspect-ratio: var(--sy-carousel-aspect-ratio);
+	overflow: hidden;
+	border-radius: var(--sy-carousel-radius);
+	background: var(--sy-carousel-background);
+	color: var(--sy-carousel-color);
+
+	&__viewport {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	&__track {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		width: 100%;
+		height: 100%;
+		transition: transform var(--sy-carousel-transition-duration) cubic-bezier(0.34, 0.69, 0.1, 1);
+	}
+
+	&--vertical &__track {
+		flex-direction: column;
+	}
+
+	&__slide {
+		position: relative;
+		flex: 0 0 100%;
+		width: 100%;
+		height: 100%;
+		min-width: 0;
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	&__item {
+		width: 100%;
+		height: 100%;
+	}
+
+	&--fade &__track {
+		transform: none !important;
+		transition: none;
+	}
+
+	&--fade &__slide {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--sy-carousel-transition-duration) ease;
+	}
+
+	&--fade &__slide.is-active {
+		z-index: 1;
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	&__arrow,
+	&__play-toggle {
+		position: absolute;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--sy-carousel-control-size);
+		height: var(--sy-carousel-control-size);
+		padding: 0;
+		border: 0;
+		border-radius: var(--sy-carousel-control-radius);
+		background: var(--sy-carousel-arrow-background);
+		color: var(--sy-carousel-arrow-color);
+		cursor: pointer;
+		transition:
+			background-color 160ms ease,
+			opacity 160ms ease;
+	}
+
+	&__arrow:hover:not(:disabled),
+	&__play-toggle:hover {
+		background: var(--sy-carousel-arrow-hover-background);
+	}
+
+	&__arrow:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+
+	&__arrow:focus-visible,
+	&__play-toggle:focus-visible,
+	&__indicator:focus-visible {
+		outline: 2px solid var(--sy-carousel-indicator-active-color);
+		outline-offset: 2px;
+		box-shadow: var(--sy-carousel-focus-shadow);
+	}
+
+	&__arrow--previous {
+		top: 50%;
+		left: var(--sy-carousel-control-offset);
+		transform: translateY(-50%);
+	}
+
+	&__arrow--next {
+		top: 50%;
+		right: var(--sy-carousel-control-offset);
+		transform: translateY(-50%);
+	}
+
+	&--vertical &__arrow--previous {
+		top: var(--sy-carousel-control-offset);
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&--vertical &__arrow--next {
+		top: auto;
+		right: auto;
+		bottom: var(--sy-carousel-control-offset);
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&--arrow-hover &__arrow {
+		opacity: 0;
+	}
+
+	&--arrow-hover:hover &__arrow,
+	&--arrow-hover:focus-within &__arrow {
+		opacity: 1;
+	}
+
+	&__indicators {
+		position: absolute;
+		z-index: 2;
+		bottom: var(--sy-carousel-indicator-offset);
+		left: 50%;
+		display: flex;
+		align-items: center;
+		gap: var(--sy-carousel-indicator-gap);
+		transform: translateX(-50%);
+	}
+
+	&--indicator-top &__indicators {
+		top: var(--sy-carousel-indicator-offset);
+		bottom: auto;
+	}
+
+	&--indicator-left &__indicators,
+	&--indicator-right &__indicators {
+		top: 50%;
+		bottom: auto;
+		left: var(--sy-carousel-indicator-offset);
+		flex-direction: column;
+		transform: translateY(-50%);
+	}
+
+	&--indicator-right &__indicators {
+		right: var(--sy-carousel-indicator-offset);
+		left: auto;
+	}
+
+	&__indicator {
+		box-sizing: border-box;
+		width: var(--sy-carousel-indicator-size);
+		height: var(--sy-carousel-indicator-size);
+		padding: 0;
+		border: 0;
+		border-radius: var(--sy-carousel-indicator-radius);
+		background: var(--sy-carousel-indicator-color);
+		cursor: pointer;
+		transition:
+			background-color 160ms ease,
+			transform 160ms ease;
+	}
+
+	&__indicator.is-active {
+		background: var(--sy-carousel-indicator-active-color);
+		transform: scale(1.25);
+	}
+
+	&__indicators--line &__indicator {
+		width: var(--sy-carousel-indicator-line-width);
+		height: var(--sy-carousel-indicator-line-height);
+	}
+
+	&__play-toggle {
+		right: var(--sy-carousel-control-offset);
+		bottom: var(--sy-carousel-control-offset);
+		font-size: var(--sy-carousel-toggle-font-size);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sy-carousel__track,
+	.sy-carousel__slide,
+	.sy-carousel__arrow,
+	.sy-carousel__indicator,
+	.sy-carousel__play-toggle {
+		transition-duration: 0ms;
+	}
+}
