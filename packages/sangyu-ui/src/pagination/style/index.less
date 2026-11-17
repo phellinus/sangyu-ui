@@ -256,11 +256,15 @@
 }
 
 .sy-pagination-sizes {
-	height: var(--sy-pagination-height);
-	border: 1px solid var(--sy-color-border);
-	border-radius: var(--sy-pagination-radius);
-	background: var(--sy-color-surface);
-	color: var(--sy-color-text);
+	display: inline-flex;
+	align-items: center;
+
+	.sy-select .sy-select-trigger {
+		box-sizing: border-box;
+		height: var(--sy-pagination-height);
+		min-height: var(--sy-pagination-height);
+		padding-block: 0;
+	}
 }
 
 .sy-pagination-total-disabled {
