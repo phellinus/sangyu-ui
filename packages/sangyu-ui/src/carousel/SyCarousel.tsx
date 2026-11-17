@@ -46,10 +46,6 @@ export const SyCarousel = defineComponent({
 				<div
 					key={`${ghost ? 'ghost' : 'item'}-${index}`}
 					class={['sy-carousel__slide', { 'is-active': active }]}
-					role='group'
-					aria-roledescription='幻灯片'
-					aria-label={`${index + 1} / ${count.value}`}
-					aria-hidden={active ? undefined : 'true'}
 					inert={active ? undefined : true}
 				>
 					{cloneVNode(node, { key: `${ghost ? 'ghost' : 'item'}-${index}` })}
@@ -127,7 +123,6 @@ export const SyCarousel = defineComponent({
 							<button
 								class='sy-carousel__arrow sy-carousel__arrow--previous'
 								type='button'
-								aria-label='上一张'
 								disabled={!props.loop && state.current.value === 0}
 								onClick={state.previous}
 							>
@@ -136,7 +131,6 @@ export const SyCarousel = defineComponent({
 							<button
 								class='sy-carousel__arrow sy-carousel__arrow--next'
 								type='button'
-								aria-label='下一张'
 								disabled={!props.loop && state.current.value === count.value - 1}
 								onClick={() => state.next()}
 							>
@@ -154,8 +148,6 @@ export const SyCarousel = defineComponent({
 									key={index}
 									class={['sy-carousel__indicator', { 'is-active': index === state.current.value }]}
 									type='button'
-									aria-label={`转到第 ${index + 1} 张`}
-									aria-current={index === state.current.value ? 'true' : undefined}
 									onClick={() => state.select(index)}
 								/>
 							))}
@@ -165,8 +157,6 @@ export const SyCarousel = defineComponent({
 						<button
 							class='sy-carousel__play-toggle'
 							type='button'
-							aria-label={state.paused.value ? '继续自动播放' : '暂停自动播放'}
-							aria-pressed={!state.paused.value}
 							onClick={() => {
 								state.paused.value = !state.paused.value;
 							}}

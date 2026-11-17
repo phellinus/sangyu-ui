@@ -1,7 +1,10 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue';
 import type { CarouselProps } from '../Carousel.type';
 
-type ChangeEmit = (event: 'update:modelValue' | 'change', ...args: number[] | [number, number, boolean]) => void;
+type ChangeEmit = {
+	(event: 'update:modelValue', index: number): void;
+	(event: 'change', index: number, previousIndex: number, isManual: boolean): void;
+};
 
 function normalize(index: number | undefined, count: number): number {
 	if (count < 1 || !Number.isFinite(index)) return 0;
@@ -29,8 +32,12 @@ export function useCarousel(props: CarouselProps, count: Ref<number>, emit: Chan
 	let media: MediaQueryList | undefined;
 	let snapFrame: number | undefined;
 
-	const hasClones = computed(() => props.animation === 'slide' && props.loop !== false && count.value > 1);
-	const visualIndex = computed(() => targetVisualIndex.value ?? current.value + (hasClones.value ? 1 : 0));
+	const hasClones = computed(() => {
+		return props.animation === 'slide' && props.loop !== false && count.value > 1;
+	});
+	const visualIndex = computed(() => {
+		return targetVisualIndex.value ?? current.value + (hasClones.value ? 1 : 0);
+	});
 	const canPlay = computed(
 		() =>
 			mounted.value &&
@@ -46,25 +53,35 @@ export function useCarousel(props: CarouselProps, count: Ref<number>, emit: Chan
 	);
 
 	function clearAutoplay() {
-		if (autoplayTimer !== undefined) clearTimeout(autoplayTimer);
+		if (autoplayTimer !== undefined) {
+			clearTimeout(autoplayTimer);
+		}
 		autoplayTimer = undefined;
 	}
 
 	function settle() {
-		if (transitionTimer !== undefined) clearTimeout(transitionTimer);
+		if (transitionTimer !== undefined) {
+			clearTimeout(transitionTimer);
+		}
 		transitionTimer = undefined;
-		if (snapFrame !== undefined) cancelAnimationFrame(snapFrame);
+		if (snapFrame !== undefined) {
+			cancelAnimationFrame(snapFrame);
+		}
 		snapFrame = undefined;
 		suppressTransition.value = false;
 		const snapping =
 			hasClones.value && (targetVisualIndex.value === 0 || targetVisualIndex.value === count.value + 1);
-		if (snapping) suppressTransition.value = true;
+		if (snapping) {
+			suppressTransition.value = true;
+		}
 		targetVisualIndex.value = null;
 		animating.value = false;
 		if (snapping && typeof requestAnimationFrame === 'function') {
 			// 镜像项归位先提交无过渡的 DOM，再恢复后续切换动画
 			void nextTick(() => {
-				if (!mounted.value) return;
+				if (!mounted.value) {
+					return;
+				}
 				snapFrame = requestAnimationFrame(() => {
 					snapFrame = requestAnimationFrame(() => {
 						suppressTransition.value = false;
@@ -76,14 +93,21 @@ export function useCarousel(props: CarouselProps, count: Ref<number>, emit: Chan
 	}
 
 	function request(index: number, isManual = true, hint: -1 | 0 | 1 = 0) {
-		if (count.value < 2 || animating.value || suppressTransition.value) return;
+		if (count.value < 2 || animating.value || suppressTransition.value) {
+			return;
+		}
 		const next =
 			props.loop === false ? normalize(index, count.value) : ((index % count.value) + count.value) % count.value;
-		if (next === current.value || pending.value === next) return;
+		if (next === current.value || pending.value === next) {
+			return;
+		}
 		const previous = current.value;
 		directionHint = hint;
-		if (controlled.value) pending.value = next;
-		else internal.value = next;
+		if (controlled.value) {
+			pending.value = next;
+		} else {
+			internal.value = next;
+		}
 		emit('update:modelValue', next);
 		emit('change', next, previous, isManual);
 	}
@@ -102,7 +126,9 @@ export function useCarousel(props: CarouselProps, count: Ref<number>, emit: Chan
 
 	function restartAutoplay() {
 		clearAutoplay();
-		if (!canPlay.value) return;
+		if (!canPlay.value) {
+			return;
+		}
 		autoplayTimer = setTimeout(
 			() => {
 				autoplayTimer = undefined;
@@ -114,23 +140,33 @@ export function useCarousel(props: CarouselProps, count: Ref<number>, emit: Chan
 
 	function onVisibilityChange() {
 		pageHidden.value = document.hidden;
-		if (pageHidden.value) clearAutoplay();
+		if (pageHidden.value) {
+			clearAutoplay();
+		}
 	}
 
 	function onMediaChange(event: MediaQueryListEvent) {
 		reducedMotion.value = event.matches;
-		if (reducedMotion.value) clearAutoplay();
+		if (reducedMotion.value) {
+			clearAutoplay();
+		}
 	}
 
 	watch(
 		current,
 		(value, previousValue) => {
 			pending.value = null;
-			if (value === previousValue || count.value < 2) return;
+			if (value === previousValue || count.value < 2) {
+				return;
+			}
 			settle();
-			if (props.animation !== 'slide' && props.animation !== 'fade') return;
+			if (props.animation !== 'slide' && props.animation !== 'fade') {
+				return;
+			}
 			const duration = reducedMotion.value ? 0 : Math.max(0, props.transitionDuration ?? 500);
-			if (duration === 0) return;
+			if (duration === 0) {
+				return;
+			}
 			if (props.animation === 'slide') {
 				const last = count.value - 1;
 				if (hasClones.value && previousValue === last && value === 0 && directionHint === 1) {
@@ -168,7 +204,9 @@ export function useCarousel(props: CarouselProps, count: Ref<number>, emit: Chan
 		mounted.value = false;
 		clearAutoplay();
 		settle();
-		if (snapFrame !== undefined) cancelAnimationFrame(snapFrame);
+		if (snapFrame !== undefined) {
+			cancelAnimationFrame(snapFrame);
+		}
 		document.removeEventListener('visibilitychange', onVisibilityChange);
 		media?.removeEventListener('change', onMediaChange);
 	});

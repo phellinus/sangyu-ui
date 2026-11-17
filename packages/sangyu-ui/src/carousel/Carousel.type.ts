@@ -4,7 +4,9 @@ export type CarouselIndicator = 'dot' | 'line' | 'none';
 export type CarouselIndicatorPosition = 'top' | 'bottom' | 'left' | 'right';
 export type CarouselArrowVisibility = 'always' | 'hover' | 'never';
 
-/** 轮播索引从零开始，受控值由父组件负责回传 */
+/**
+ * 轮播索引从零开始，受控值由父组件负责回传
+ */
 export interface CarouselProps {
 	modelValue?: number;
 	defaultValue?: number;
