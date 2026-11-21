@@ -51,3 +51,5 @@ export { default as SyTabs, SyTabPane } from './tabs';
 export type * from './tabs';
 export { default as SyCarousel, SyCarouselItem } from './carousel';
 export type * from './carousel';
+export { default as SyVerify } from './verify';
+export type * from './verify';
