@@ -35,3 +35,32 @@ jobs:
               with:
                   version-script: pnpm run release:version
                   pr-title: 'chore: version packages'
+    pack:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+
+        steps:
+            - uses: actions/checkout@v7
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: '24'
+                  package-manager-cache: false
+
+            - run: npm install --global pnpm@10.18.3
+            - run: pnpm install --frozen-lockfile
+            - run: pnpm check
+
+            - name: Pack npm packages
+              run: |
+                  mkdir -p release-tarballs
+                  cd packages/icons
+                  pnpm pack --out ../../release-tarballs/icons.tgz
+                  cd ../sangyu-ui
+                  pnpm pack --out ../../release-tarballs/ui.tgz
+
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: npm-tarballs
+                  path: release-tarballs/*.tgz
