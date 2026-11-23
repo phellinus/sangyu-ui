@@ -1,6 +1,6 @@
 {
 	"name": "@sangyu-ui/icons",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Vue 3 icon components for Sangyu UI",
 	"keywords": [
 		"vue",
