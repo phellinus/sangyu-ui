@@ -26,13 +26,15 @@
 		"docs:dev": "vitepress dev",
 		"docs:build": "vitepress build",
 		"docs:preview": "vitepress preview",
-		"genColors": "esno ./scripts/gen-colors.ts"
+		"genColors": "esno ./scripts/gen-colors.ts",
+		"release:version": "changeset version && pnpm install --lockfile-only"
 	},
 	"dependencies": {
 		"vue": "^3.5.24"
 	},
 	"devDependencies": {
 		"@ant-design/colors": "^7.2.1",
+		"@changesets/cli": "^3.0.3",
 		"@eslint/js": "^9.36.0",
 		"@microsoft/api-extractor": "^7.58.12",
 		"@types/node": "^24.10.1",
