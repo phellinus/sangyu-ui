@@ -1,0 +1,37 @@
+name: Release
+
+on:
+    push:
+        branches: [main]
+
+permissions:
+    contents: read
+
+concurrency:
+    group: release-${{ github.ref }}
+    cancel-in-progress: false
+
+jobs:
+    version:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: '24'
+                  package-manager-cache: false
+
+            - run: npm install --global pnpm@10.18.3
+            - run: pnpm install --frozen-lockfile
+
+            - uses: changesets/action@v2.1.2
+              with:
+                  version-script: pnpm run release:version
+                  pr-title: 'chore: version packages'

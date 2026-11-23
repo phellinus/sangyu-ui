@@ -26,7 +26,8 @@
 		"docs:dev": "vitepress dev",
 		"docs:build": "vitepress build",
 		"docs:preview": "vitepress preview",
-		"genColors": "esno ./scripts/gen-colors.ts"
+		"genColors": "esno ./scripts/gen-colors.ts",
+		"release:version": "changeset version && pnpm install --lockfile-only"
 	},
 	"dependencies": {
 		"vue": "^3.5.24"
