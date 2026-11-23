@@ -1,4 +1,4 @@
-import type { BaseTokenPath, SemanticTokenPath, ThemeTokens, TokenReference } from './types';
+import type { BaseTokenPath, SemanticTokenPath, ThemeTokens, TokenReference, VerifyTokens } from './types';
 
 const base = (path: BaseTokenPath): TokenReference<BaseTokenPath> => ({ ref: path });
 const semantic = (path: SemanticTokenPath): TokenReference<SemanticTokenPath> => ({ ref: path });
@@ -818,6 +818,16 @@ const commonCarousel: ThemeTokens['components']['carousel'] = {
 	focusShadow: semantic('semantic.shadow.focus'),
 	toggleFontSize: semantic('semantic.fontSize.sm'),
 };
+const commonVerify: VerifyTokens = {
+	background: semantic('semantic.color.surface'),
+	textColor: semantic('semantic.color.text'),
+	mutedColor: semantic('semantic.color.textSecondary'),
+	borderColor: semantic('semantic.color.border'),
+	accentColor: semantic('semantic.color.primary'),
+	trackBackground: semantic('semantic.color.bg'),
+	radius: semantic('semantic.radius.lg'),
+	shadow: semantic('semantic.shadow.popover'),
+};
 
 export const lightTheme: ThemeTokens = {
 	base: lightBase,
@@ -886,6 +896,7 @@ export const lightTheme: ThemeTokens = {
 		table: commonTable,
 		tabs: commonTabs,
 		carousel: commonCarousel,
+		verify: commonVerify,
 	},
 };
 
@@ -1026,5 +1037,6 @@ export const darkTheme: ThemeTokens = {
 		table: commonTable,
 		tabs: commonTabs,
 		carousel: commonCarousel,
+		verify: commonVerify,
 	},
 };

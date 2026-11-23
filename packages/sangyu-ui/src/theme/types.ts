@@ -749,6 +749,17 @@ export interface CarouselTokens {
 	toggleFontSize: ComponentValue;
 }
 
+export interface VerifyTokens {
+	background: ComponentValue;
+	textColor: ComponentValue;
+	mutedColor: ComponentValue;
+	borderColor: ComponentValue;
+	accentColor: ComponentValue;
+	trackBackground: ComponentValue;
+	radius: ComponentValue;
+	shadow: ComponentValue;
+}
+
 export interface ThemeTokens {
 	base: BaseTokens;
 	semantic: SemanticTokens;
@@ -782,6 +793,7 @@ export interface ThemeTokens {
 		table: TableTokens;
 		tabs: TabsTokens;
 		carousel: CarouselTokens;
+		verify: VerifyTokens;
 	};
 }
 
