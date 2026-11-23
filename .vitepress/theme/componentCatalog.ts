@@ -184,7 +184,7 @@ export const componentCatalog: ComponentGroup[] = [
 				link: '/components/pagination/',
 				description: '浏览分段数据，支持页码、条数选择与快速跳转。',
 			},
-            {
+			{
 				name: 'SyVerify',
 				label: '滑动验证',
 				link: '/components/verify/',
