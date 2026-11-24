@@ -1,19 +1,19 @@
 # Sangyu Design UI 介绍
 
-> 一套基于 Vue 3 和 TypeScript 开发的组件库，提供常用界面组件、独立图标包、完整类型声明和 CSS Variables 主题能力
+> 一套基于 Vue 3 和 TypeScript 开发的组件库，提供常用界面组件、独立图标包、完整类型声明和三层设计 Token 主题体系
 
 ## 愿景
 
 - **一致**：统一设计语言和代码规范，降低项目的开发与维护成本
 - **高效**：提供常用组件、图标库和完整示例，帮助开发者快速搭建界面
-- **可塑**：通过 CSS Variables 支持品牌色和局部主题定制
+- **可塑**：通过设计 Token 自定义品牌色，并为页面局部设置主题
 - **可靠**：通过 TypeScript、单元测试和完整质量检查保证组件质量
 
 ## 核心能力
 
 1. **常用组件**：覆盖基础组件、表单组件、数据展示、导航和反馈组件
 2. **独立图标包**：提供 `@sangyu-ui/icons` 图标组件和 `SyIcon` 图标包装器
-3. **主题定制**：使用 CSS Variables 管理颜色、边框、文字和状态样式
+3. **主题定制**：通过基础、语义和组件三层设计 Token 管理样式，提供亮色和暗色预设
 4. **类型支持**：组件 Props、Emits 和实例类型均提供 TypeScript 声明
 5. **工程化**：基于 Vite、Vue 3、TypeScript、Vitest 和 VitePress 构建
 
@@ -215,27 +215,45 @@ console.log(version);
 
 ## 自定义主题
 
-Sangyu Design UI 使用 CSS Variables 管理主题样式。请先引入组件库样式，再引入自定义主题文件：
+V2 将主题配置组织为三层设计 Token，并通过 `--sy-*` CSS 变量应用到组件样式。
 
-```ts
+### 三层设计 Token
+
+- **基础 Token**（`base`）定义色板、字号、间距和圆角等基础值。例如，`base.color.primary[6]` 是主色色板里的第 6 阶颜色。
+- **语义 Token**（`semantic`）为值赋予界面用途。例如，`semantic.color.primary` 默认引用主色色板的第 6 阶。修改它可以调整使用这一语义的组件样式。
+- **组件 Token**（`components`）对应具体组件的样式。例如，`components.select.focusBorderColor` 默认引用语义主色。修改它可以单独调整 Select 的焦点边框。
+
+修改色板第 6 阶时，变化会沿引用传递到语义主色和 Select 焦点边框。单独设置语义主色时，它会使用显式值。再单独设置 Select 的焦点边框时，该边框会使用组件层的值。
+
+### 使用 ThemeProvider 定制局部主题
+
+`ThemeProvider` 根据 `mode` 选择亮色或暗色预设，将 `tokens` 中的覆盖应用到包裹的区域。下面将区域内的默认主色改为紫色，并给 Select 指定更深的焦点边框色。
+
+```vue
+<script setup lang="ts">
+import { SySelect, ThemeProvider } from 'sangyu-ui';
+import type { ThemeOverride } from 'sangyu-ui';
 import 'sangyu-ui/style.css';
-import './styles/sangyu-theme.css';
+
+const tokens: ThemeOverride = {
+	base: { color: { primary: { 6: '#7c3aed' } } },
+	components: { select: { focusBorderColor: '#6d28d9' } },
+};
+
+const options = [
+	{ label: '设计', value: 'design' },
+	{ label: '开发', value: 'development' },
+];
+</script>
+
+<template>
+	<ThemeProvider mode="light" :tokens="tokens">
+		<SySelect :options="options" placeholder="请选择方向" />
+	</ThemeProvider>
+</template>
 ```
 
-在主题文件中覆盖需要修改的变量：
-
-```css
-:root {
-	--sy-color-primary: #7c3aed;
-	--sy-color-primary-hover: #8b5cf6;
-	--sy-color-primary-active: #6d28d9;
-	--sy-color-primary-select: #f3e8ff;
-	--sy-color-text: #1f2937;
-	--sy-color-border: #d1d5db;
-}
-```
-
-完整变量及主题定制方式请阅读[主题变量](/introduce/theme)。
+了解如何生成静态 CSS、直接覆盖变量和配置嵌套主题，可查看 [主题变量](/introduce/theme)。
 
 ## 设计准则
 
