@@ -11,9 +11,9 @@
 
 ## 核心能力
 
-1. **常用组件**：覆盖基础组件、表单组件、数据展示、导航和反馈组件
+1. **常用组件**：覆盖基础组件、表单组件、数据展示、导航和反馈组件，参见 [组件概览](/components/)
 2. **独立图标包**：提供 `@sangyu-ui/icons` 图标组件和 `SyIcon` 图标包装器
-3. **主题定制**：通过基础、语义和组件三层设计 Token 管理样式，提供亮色和暗色预设
+3. **主题定制**：通过基础、语义和组件三层设计 Token 管理样式，支持用 `ThemeProvider` 在局部区域切换亮暗主题
 4. **类型支持**：组件 Props、Emits 和实例类型均提供 TypeScript 声明
 5. **工程化**：基于 Vite、Vue 3、TypeScript、Vitest 和 VitePress 构建
 
@@ -23,6 +23,7 @@
 
 - Vue `^3.5.0`
 - 支持 Vue 3 的现代浏览器
+- 支持 ESM 的构建环境，`sangyu-ui` 和 `@sangyu-ui/icons` 均提供 ESM 入口
 
 ### 安装组件库
 
@@ -68,7 +69,7 @@ pnpm add @sangyu-ui/icons
 npm install @sangyu-ui/icons
 ```
 
-## 完整引入
+### 完整引入
 
 在应用入口文件中注册 Sangyu Design UI，并引入完整样式：
 
@@ -92,7 +93,7 @@ app.mount('#app');
 </template>
 ```
 
-## 按需引入
+### 按需引入
 
 可以从主包中导入需要使用的组件：
 
@@ -112,7 +113,7 @@ const visible = ref(false);
 </template>
 ```
 
-当前版本按需导入组件时，仍然需要引入完整的 `sangyu-ui/style.css`。
+使用具名导入时，构建工具可以裁剪未使用的组件 JavaScript。样式需要显式引入完整的 `sangyu-ui/style.css`。
 
 ## 使用图标
 
@@ -173,12 +174,6 @@ app.mount('#app');
 </template>
 ```
 
-`app.use(SangyuUI)` 只会注册主组件库中的组件，不会自动全局注册独立图标包中的 `SyIcon`，因此需要单独执行：
-
-```ts
-app.component('SyIcon', SyIcon);
-```
-
 ### 直接使用图标组件
 
 也可以直接导入具体的图标组件：
@@ -215,7 +210,7 @@ console.log(version);
 
 ## 自定义主题
 
-V2 将主题配置组织为三层设计 Token，并通过 `--sy-*` CSS 变量应用到组件样式。
+Sangyu Design UI 将主题配置组织为三层设计 Token，并通过 `--sy-*` CSS 变量应用到组件样式。
 
 ### 三层设计 Token
 
@@ -227,12 +222,13 @@ V2 将主题配置组织为三层设计 Token，并通过 `--sy-*` CSS 变量应
 
 ### 使用 ThemeProvider 定制局部主题
 
-`ThemeProvider` 根据 `mode` 选择亮色或暗色预设，将 `tokens` 中的覆盖应用到包裹的区域。下面将区域内的默认主色改为紫色，并给 Select 指定更深的焦点边框色。
+`ThemeProvider` 根据 `mode` 选择亮色或暗色预设，将 `tokens` 中的覆盖应用到包裹的区域。下面的按钮使用修改后的默认主色，Select 获得焦点时使用单独设置的深紫色边框。
 
 ```vue
 <script setup lang="ts">
-import { SySelect, ThemeProvider } from 'sangyu-ui';
-import type { ThemeOverride } from 'sangyu-ui';
+import { shallowRef } from 'vue';
+import { SyButton, SySelect, ThemeProvider } from 'sangyu-ui';
+import type { SelectModelValue, ThemeOverride } from 'sangyu-ui';
 import 'sangyu-ui/style.css';
 
 const tokens: ThemeOverride = {
@@ -244,11 +240,14 @@ const options = [
 	{ label: '设计', value: 'design' },
 	{ label: '开发', value: 'development' },
 ];
+
+const selectedDirection = shallowRef<SelectModelValue>();
 </script>
 
 <template>
 	<ThemeProvider mode="light" :tokens="tokens">
-		<SySelect :options="options" placeholder="请选择方向" />
+		<SyButton type="filled">主题主色</SyButton>
+		<SySelect v-model="selectedDirection" :options="options" placeholder="请选择方向" />
 	</ThemeProvider>
 </template>
 ```
@@ -271,8 +270,8 @@ const options = [
 
 ## 发展计划
 
-- 持续扩展 Dialog、Upload、Tabs、Tree 和 DatePicker 等组件
-- 完善暗色主题与主题切换能力
+- 持续扩展 Dialog、Upload、Tree 和 DatePicker 等组件
+- 补充应用级亮暗主题切换示例
 - 支持组件样式按需引入
 - 增加自动化可访问性和视觉回归测试
 - 建设在线组件演练场
