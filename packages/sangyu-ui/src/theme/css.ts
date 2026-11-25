@@ -50,57 +50,21 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 			variables[nameForPath(`semantic.${group}.${key}`)] = cssValue(value);
 		}
 	}
-	for (const component of [
-		'select',
-		'button',
-		'input',
-		'checkbox',
-		'checkboxGroup',
-		'radio',
-		'radioGroup',
-		'radioButton',
-		'switch',
-		'form',
-		'menu',
-		'pagination',
-		'breadcrumb',
-		'step',
-		'card',
-		'collapse',
-		'tag',
-		'avatar',
-		'divider',
-		'space',
-		'layout',
-		'result',
-		'progress',
-		'tooltip',
-		'drawer',
-		'notification',
-		'table',
-		'tabs',
-		'carousel',
-		'verify',
-	] as const) {
-		for (const [key, value] of Object.entries(theme.components[component])) {
-			const prefix =
-				component === 'checkboxGroup'
-					? 'checkbox-group'
-					: component === 'radioGroup'
-						? 'radio-group'
-						: component === 'radioButton'
-							? 'radio-button'
-							: component;
-			variables[`--sy-${prefix}-${kebab(key)}`] = cssValue(value);
+	for (const [component, tokens] of Object.entries(theme.components)) {
+		for (const [key, value] of Object.entries(tokens)) {
+			if (value !== undefined) variables[`--sy-${kebab(component)}-${kebab(key)}`] = cssValue(value);
 		}
 	}
 	return variables;
 };
 
-/** Generate declarations for a root or future Provider-owned scope. */
-export const themeToCSS = (theme: ThemeTokens, selector = ':root'): string => {
-	const declarations = Object.entries(themeToVariables(theme))
+export const variablesToCSS = (variables: Record<string, string>, selector: string): string => {
+	const declarations = Object.entries(variables)
 		.map(([name, value]) => `\t${name}: ${value};`)
 		.join('\n');
 	return `${selector} {\n${declarations}\n}`;
 };
+
+/** Generate declarations for a theme scope. */
+export const themeToCSS = (theme: ThemeTokens, selector = ':root'): string =>
+	variablesToCSS(themeToVariables(theme), selector);

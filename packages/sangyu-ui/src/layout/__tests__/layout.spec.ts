@@ -98,9 +98,6 @@ describe('SyLayout', () => {
 		expect(css).toContain('@media (max-width: 768px)');
 		expect(css).toContain('.sy-layout > .sy-layout-sider');
 		expect(css).toContain('width: 100%');
-		const variables = readFileSync('packages/sangyu-ui/src/style/theme/var.less', 'utf8');
-		expect(variables).toMatch(/:root\s*\{[^}]*--sy-color-surface: #ffffff/s);
-		expect(variables).toMatch(/\[data-sy-theme='dark'\]\s*\{[^}]*--sy-color-surface: #1f1f1f/s);
 	});
 
 	it('registers the full family and renders without DOM globals on the server', async () => {

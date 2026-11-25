@@ -1,10 +1,6 @@
-/// <reference types="node" />
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import process from 'node:process';
-import less from 'less';
 import postcss from 'postcss';
 import { describe, expect, expectTypeOf, it } from 'vitest';
+import { renderThemeCSS } from '../../../../../scripts/sangyu-theme-css';
 import * as publicUI from '../../index';
 import { themeToCSS, themeToVariables } from '../css';
 import { mergeTheme } from '../merge';
@@ -252,11 +248,9 @@ describe('theme tokens', () => {
 		expect(vars['--sy-select-focus-border-color']).toBe('var(--sy-color-primary)');
 	});
 
-	it('matches every static light and dark Less declaration', async () => {
-		const filename = resolve(process.cwd(), 'packages/sangyu-ui/src/style/index.less');
-		const compiled = await less.render(readFileSync(filename, 'utf8'), { filename });
+	it('generates complete light and dark static tokens from the presets', () => {
 		const actual = { light: {} as Record<string, string>, dark: {} as Record<string, string> };
-		postcss.parse(compiled.css).walkRules((rule) => {
+		postcss.parse(renderThemeCSS()).walkRules((rule) => {
 			const target =
 				rule.selector === ':root'
 					? actual.light
@@ -268,18 +262,9 @@ describe('theme tokens', () => {
 				target[decl.prop] = decl.value;
 			});
 		});
-		for (const [mode, theme] of [
-			['light', lightTheme],
-			['dark', darkTheme],
-		] as const) {
-			const variables = themeToVariables(theme);
-			for (const [name, value] of Object.entries(actual[mode])) {
-				// 静态 Carousel 可补回退值，但主语义引用须与 Provider 输出一致
-				const expected = name.startsWith('--sy-carousel-')
-					? value.replace(/var\((--[\w-]+),\s*(?:[^()]|\([^()]*\))*\)/g, 'var($1)')
-					: value;
-				expect(variables[name]).toBe(expected);
-			}
-		}
+		expect(actual.light).toEqual(themeToVariables(lightTheme));
+		expect({ ...actual.light, ...actual.dark }).toEqual(themeToVariables(darkTheme));
+		expect(actual.dark['--sy-select-focus-border-color']).toBe('var(--sy-color-primary)');
+		expect(actual.dark).not.toHaveProperty('--sy-control-height-md');
 	});
 });

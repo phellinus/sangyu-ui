@@ -1,9 +1,6 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import process from 'node:process';
 import { mount } from '@vue/test-utils';
-import less from 'less';
 import postcss from 'postcss';
+import { renderThemeCSS } from '../../../../../scripts/sangyu-theme-css';
 import { createApp, createSSRApp, defineComponent, h, nextTick, ref } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -221,12 +218,10 @@ describe('SyCarousel', () => {
 		).toBe('var(--sy-color-text)');
 	});
 
-	it('keeps carousel tokens usable with only the static style entry', async () => {
-		const filename = resolve(process.cwd(), 'packages/sangyu-ui/src/style/index.less');
-		const compiled = await less.render(readFileSync(filename, 'utf8'), { filename });
+	it('keeps carousel tokens usable with only the static style entry', () => {
 		const root: Record<string, string> = {};
 		const dark: Record<string, string> = {};
-		postcss.parse(compiled.css).walkRules((rule) => {
+		postcss.parse(renderThemeCSS()).walkRules((rule) => {
 			const target = rule.selector === ':root' ? root : rule.selector === "[data-sy-theme='dark']" ? dark : null;
 			if (target)
 				rule.walkDecls((declaration) => {

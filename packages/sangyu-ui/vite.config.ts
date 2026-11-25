@@ -3,6 +3,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import { fileURLToPath, URL } from 'node:url';
 import dts from 'unplugin-dts/vite';
 import { defineConfig } from 'vite';
+import { sangyuThemeCSS } from '../../scripts/sangyu-theme-css';
 
 const resolveFromPackage = (relativePath: string) => fileURLToPath(new URL(relativePath, import.meta.url));
 
@@ -10,6 +11,7 @@ const externalPackages = ['vue', '@sangyu-ui/icons', '@floating-ui/vue', 'async-
 
 export default defineConfig({
 	plugins: [
+		sangyuThemeCSS(),
 		vue(),
 		vueJsx(),
 		dts({

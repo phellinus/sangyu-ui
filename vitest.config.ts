@@ -3,11 +3,12 @@ import { fileURLToPath } from 'url';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { defineConfig } from 'vitest/config';
+import { sangyuThemeCSS } from './scripts/sangyu-theme-css';
 
 const baseUrl = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
-	plugins: [vue(), vueJsx()],
+	plugins: [sangyuThemeCSS(), vue(), vueJsx()],
 	resolve: {
 		alias: [
 			{

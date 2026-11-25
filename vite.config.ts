@@ -4,12 +4,14 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import tsxResolveTypes from 'vite-plugin-tsx-resolve-types';
+import { sangyuThemeCSS } from './scripts/sangyu-theme-css';
 // import vue from '@vitejs/plugin-vue';
 
 const baseUrl = fileURLToPath(new URL('.', import.meta.url));
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
+		sangyuThemeCSS(),
 		vueJsx(),
 		tsxResolveTypes(),
 		vitepressDemo({
