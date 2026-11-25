@@ -102,6 +102,35 @@ describe('SySelect', () => {
 		expect(wrapper.emitted('visibleChange')).toEqual([[true], [false]]);
 	});
 
+	it('uses the rendered option height and spacing for virtual scroll offsets', async () => {
+		const wrapper = mountSelect({
+			props: {
+				options: Array.from({ length: 12 }, (_, i) => ({ value: i, label: `选项 ${i}` })),
+				itemHeight: '40px',
+				listHeight: 100,
+				overscan: 0,
+			},
+		});
+		await wrapper.get('.sy-select-trigger').trigger('click');
+
+		const dropdown = wrapper.get<HTMLElement>('.sy-select-dropdown');
+		const list = wrapper.get<HTMLElement>('.sy-select-dropdown__list');
+		expect(dropdown.element.style.getPropertyValue('--sy-select-option-height')).toBe('40px');
+		expect(dropdown.element.style.getPropertyValue('--sy-select-list-spacing')).toBe('4px');
+		expect(list.element.parentElement?.style.height).toBe('532px');
+		expect(wrapper.findAll('.sy-select-option')).toHaveLength(3);
+
+		dropdown.element.scrollTop = 92;
+		await dropdown.trigger('scroll');
+		expect(list.element.style.transform).toBe('translateY(88px)');
+		expect(wrapper.findAll('.sy-select-option')[0].text()).toBe('选项 2');
+
+		await wrapper.setProps({ itemHeight: 36, virtual: false });
+		expect(dropdown.element.style.getPropertyValue('--sy-select-option-height')).toBe('36px');
+		expect(list.element.style.transform).toBe('');
+		expect(wrapper.findAll('.sy-select-option')).toHaveLength(12);
+	});
+
 	it('selects an enabled option and closes single-select dropdown', async () => {
 		const wrapper = mountSelect({
 			props: {

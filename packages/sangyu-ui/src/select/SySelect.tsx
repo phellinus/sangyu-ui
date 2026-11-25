@@ -15,6 +15,9 @@ import { mergeAriaIds, resolveAriaInvalid } from '../form/utils/aria';
 import type { SelectModelValue, SelectOption, SelectValue } from './Select.type';
 import { useSelectKeyboard, useSelectModel, useSelectSearch } from './composables';
 import { SelectDropdown, SelectTags } from './components';
+import { toNumber } from './helpers';
+
+const defaultItemHeight = 32;
 
 export default defineComponent({
 	name: 'SySelect',
@@ -38,7 +41,7 @@ export default defineComponent({
 		width: String,
 		placement: { type: String as PropType<'top' | 'bottom'>, default: 'bottom' },
 		virtual: { type: Boolean, default: true },
-		itemHeight: { type: [String, Number], default: 32 },
+		itemHeight: { type: [String, Number], default: defaultItemHeight },
 		listHeight: { type: [String, Number], default: 256 },
 		overscan: { type: Number, default: 6 },
 		emptyText: { type: String, default: '暂无数据' },
@@ -65,6 +68,10 @@ export default defineComponent({
 		// Select 最终使用的尺寸
 		const mergedSize = computed(() => {
 			return props.size || formItemContext?.size.value || 'default';
+		});
+		const itemHeight = computed(() => {
+			const height = toNumber(props.itemHeight, defaultItemHeight);
+			return height > 0 ? height : defaultItemHeight;
 		});
 		/** 可交互元素最终使用的 aria-invalid */
 		const ariaInvalid = computed(() => {
@@ -419,7 +426,7 @@ export default defineComponent({
 					loading={mergedLoading.value}
 					emptyText={props.emptyText}
 					virtual={props.virtual}
-					itemHeight={props.itemHeight}
+					itemHeight={itemHeight.value}
 					listHeight={props.listHeight}
 					overscan={props.overscan}
 					activeIndex={keyboard.activeIndex.value}

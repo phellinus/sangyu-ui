@@ -12,14 +12,9 @@ export function useVirtualList<T>(
 ) {
 	// 当前滚动的距离
 	const scrollTop = ref(0);
-	//列表内容的上下内边距
-	const listPaddingY = 8;
-	// 列表顶部内边距
-	const listPaddingTop = listPaddingY / 2;
-	// 列表项之间的间距
-	const itemGap = 4;
-	// 列表每一项的高度+间距
-	const itemStride = computed(() => itemHeight.value + itemGap);
+	const listSpacing = 4;
+	const listPaddingY = listSpacing * 2;
+	const itemStride = computed(() => itemHeight.value + listSpacing);
 	/** 可视区域能展示的选项数量 */
 	const visibleCount = computed(() =>
 		Math.max(1, Math.ceil(Math.max(0, listHeight.value - listPaddingY) / itemStride.value)),
@@ -27,7 +22,7 @@ export function useVirtualList<T>(
 
 	/** 当前需要渲染的起始索引，额外向上预渲染 overscan 项 */
 	const start = computed(() =>
-		Math.max(0, Math.floor(Math.max(0, scrollTop.value - listPaddingTop) / itemStride.value) - overscan.value),
+		Math.max(0, Math.floor(Math.max(0, scrollTop.value - listSpacing) / itemStride.value) - overscan.value),
 	);
 
 	/** 当前需要渲染的结束索引，额外向下预渲染 overscan 项 */
@@ -44,7 +39,7 @@ export function useVirtualList<T>(
 	/** 完整列表总高度，用于撑开滚动区域 */
 	const totalHeight = computed(() => {
 		const count = list.value.length;
-		return count ? count * itemHeight.value + (count - 1) * itemGap + listPaddingY : 0;
+		return count ? count * itemStride.value - listSpacing + listPaddingY : 0;
 	});
 
 	/** 当前渲染片段相对顶部的偏移量 */
@@ -59,6 +54,7 @@ export function useVirtualList<T>(
 	};
 
 	return {
+		listSpacing,
 		scrollTop,
 		visibleItems,
 		totalHeight,
