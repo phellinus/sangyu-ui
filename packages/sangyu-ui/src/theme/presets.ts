@@ -1,7 +1,8 @@
-import type { BaseTokenPath, SemanticTokenPath, ThemeTokens, TokenReference, VerifyTokens } from './types';
+import { mergeTheme } from './merge';
+import type { ThemeOverride, ThemeTokens, TokenReference } from './types';
 
-const base = (path: BaseTokenPath): TokenReference<BaseTokenPath> => ({ ref: path });
-const semantic = (path: SemanticTokenPath): TokenReference<SemanticTokenPath> => ({ ref: path });
+const base = <Path extends `base.${string}`>(path: Path): TokenReference<Path> => ({ ref: path });
+const semantic = <Path extends `semantic.${string}`>(path: Path): TokenReference<Path> => ({ ref: path });
 
 const commonBase = {
 	spacing: { xs: '4px', sm: '8px', md: '16px', lg: '24px', xl: '32px' },
@@ -42,7 +43,7 @@ const commonSemantic = {
 	},
 };
 
-const lightBase: ThemeTokens['base'] = {
+const lightBase = {
 	...commonBase,
 	shadow: {
 		control: '0 1px 2px 0 #0000000d',
@@ -133,8 +134,9 @@ const colorReferences = {
 	errorSelect: base('base.color.error.1'),
 };
 
-const commonButton: ThemeTokens['components']['button'] = {
+const commonButton = {
 	color: semantic('semantic.color.primary'),
+	gradientDirection: '30deg',
 	filledTextColor: '#fff',
 	focusShadow: semantic('semantic.shadow.focus'),
 	hoverShadow: semantic('semantic.shadow.control'),
@@ -145,7 +147,7 @@ const commonButton: ThemeTokens['components']['button'] = {
 	radiusLarge: '12px',
 };
 
-const commonInput: ThemeTokens['components']['input'] = {
+const commonInput = {
 	color: semantic('semantic.color.text'),
 	bg: semantic('semantic.color.bg'),
 	borderColor: semantic('semantic.color.border'),
@@ -164,7 +166,7 @@ const commonInput: ThemeTokens['components']['input'] = {
 	radius: semantic('semantic.control.radius'),
 };
 
-const commonSelect: ThemeTokens['components']['select'] = {
+const commonSelect = {
 	color: '#1f2933',
 	bg: '#fff',
 	borderColor: semantic('semantic.color.border'),
@@ -193,7 +195,7 @@ const commonSelect: ThemeTokens['components']['select'] = {
 	tagPadding: '6px',
 };
 
-const commonCheckbox: ThemeTokens['components']['checkbox'] = {
+const commonCheckbox = {
 	size: '16px',
 	sizeSmall: '14px',
 	sizeLarge: '20px',
@@ -218,12 +220,12 @@ const commonCheckbox: ThemeTokens['components']['checkbox'] = {
 	focusShadow: semantic('semantic.shadow.focus'),
 };
 
-const commonCheckboxGroup: ThemeTokens['components']['checkboxGroup'] = {
+const commonCheckboxGroup = {
 	gapX: '20px',
 	gapY: '12px',
 };
 
-const commonRadio: ThemeTokens['components']['radio'] = {
+const commonRadio = {
 	size: '16px',
 	sizeSmall: '14px',
 	sizeLarge: '18px',
@@ -248,12 +250,12 @@ const commonRadio: ThemeTokens['components']['radio'] = {
 	focusShadow: semantic('semantic.shadow.focus'),
 };
 
-const commonRadioGroup: ThemeTokens['components']['radioGroup'] = {
+const commonRadioGroup = {
 	gapX: '16px',
 	gapY: '12px',
 };
 
-const commonRadioButton: ThemeTokens['components']['radioButton'] = {
+const commonRadioButton = {
 	fontSize: semantic('semantic.fontSize.md'),
 	fontSizeSmall: semantic('semantic.fontSize.sm'),
 	fontSizeLarge: '18px',
@@ -278,7 +280,7 @@ const commonRadioButton: ThemeTokens['components']['radioButton'] = {
 	disabledBackground: semantic('semantic.color.bg'),
 };
 
-const commonSwitch: ThemeTokens['components']['switch'] = {
+const commonSwitch = {
 	width: '48px',
 	widthSmall: '40px',
 	widthLarge: '56px',
@@ -321,24 +323,13 @@ const commonSwitch: ThemeTokens['components']['switch'] = {
 	spinnerBorderWidth: '2px',
 };
 
-const commonChoiceComponents: Pick<
-	ThemeTokens['components'],
-	'checkbox' | 'checkboxGroup' | 'radio' | 'radioGroup' | 'radioButton' | 'switch'
-> = {
+const commonChoiceComponents = {
 	checkbox: commonCheckbox,
 	checkboxGroup: commonCheckboxGroup,
 	radio: commonRadio,
 	radioGroup: commonRadioGroup,
 	radioButton: commonRadioButton,
 	switch: commonSwitch,
-};
-
-const darkChoiceComponents: typeof commonChoiceComponents = {
-	...commonChoiceComponents,
-	switch: {
-		...commonSwitch,
-		inactiveColor: semantic('semantic.color.border'),
-	},
 };
 
 const commonForm = {
@@ -510,7 +501,7 @@ const commonStep = {
 	tailHeight: '2px',
 };
 
-const commonCard: ThemeTokens['components']['card'] = {
+const commonCard = {
 	background: semantic('semantic.color.surface'),
 	borderColor: semantic('semantic.color.border'),
 	headerColor: semantic('semantic.color.text'),
@@ -530,7 +521,7 @@ const commonCard: ThemeTokens['components']['card'] = {
 	footerGap: semantic('semantic.spacing.sm'),
 };
 
-const commonCollapse: ThemeTokens['components']['collapse'] = {
+const commonCollapse = {
 	background: semantic('semantic.color.surface'),
 	borderColor: semantic('semantic.color.divider'),
 	color: semantic('semantic.color.text'),
@@ -541,7 +532,7 @@ const commonCollapse: ThemeTokens['components']['collapse'] = {
 	focusShadow: semantic('semantic.shadow.focus'),
 };
 
-const commonTag: ThemeTokens['components']['tag'] = {
+const commonTag = {
 	primaryColor: semantic('semantic.color.primary'),
 	successColor: semantic('semantic.color.success'),
 	warningColor: semantic('semantic.color.warning'),
@@ -568,7 +559,7 @@ const commonTag: ThemeTokens['components']['tag'] = {
 	closeFocusShadow: semantic('semantic.shadow.focus'),
 };
 
-const commonAvatar: ThemeTokens['components']['avatar'] = {
+const commonAvatar = {
 	size: '40px',
 	fontSize: '16px',
 	textColor: semantic('semantic.color.text'),
@@ -594,7 +585,7 @@ const commonAvatar: ThemeTokens['components']['avatar'] = {
 	loadingOpacity: '0.45',
 };
 
-const commonDivider: ThemeTokens['components']['divider'] = {
+const commonDivider = {
 	defaultColor: semantic('semantic.color.divider'),
 	textColor: semantic('semantic.color.textSecondary'),
 	thickTextColor: semantic('semantic.color.textSecondary'),
@@ -615,13 +606,13 @@ const commonDivider: ThemeTokens['components']['divider'] = {
 	lineOpacity: '0.95',
 };
 
-const commonSpace: ThemeTokens['components']['space'] = {
+const commonSpace = {
 	gapSmall: semantic('semantic.spacing.sm'),
 	gapMedium: semantic('semantic.spacing.md'),
 	gapLarge: semantic('semantic.spacing.lg'),
 };
 
-const commonLayout: ThemeTokens['components']['layout'] = {
+const commonLayout = {
 	siderWidth: '200px',
 	headerBackground: semantic('semantic.color.surface'),
 	siderBackground: semantic('semantic.color.surface'),
@@ -629,7 +620,7 @@ const commonLayout: ThemeTokens['components']['layout'] = {
 	footerBackground: semantic('semantic.color.surface'),
 };
 
-const commonResult: ThemeTokens['components']['result'] = {
+const commonResult = {
 	primaryColor: semantic('semantic.color.primary'),
 	successColor: semantic('semantic.color.success'),
 	warningColor: semantic('semantic.color.warning'),
@@ -653,8 +644,8 @@ const commonResult: ThemeTokens['components']['result'] = {
 	visualSize: '112px',
 	visualRadius: '32px',
 	visualHighlight: 'color-mix(in srgb, var(--sy-color-surface) 92%, transparent)',
-	visualShadow:
-		'inset 0 1px 0 color-mix(in srgb, var(--sy-color-surface) 80%, transparent), 0 14px 28px -22px var(--sy-result-color)',
+	// The fallback uses the status color computed on each Result instance.
+	visualShadow: 'initial',
 	compactVisualSize: '72px',
 	compactVisualRadius: '22px',
 	exceptionMinWidth: '132px',
@@ -687,7 +678,7 @@ const commonResult: ThemeTokens['components']['result'] = {
 	compactMobileTitleFontSize: '20px',
 };
 
-const commonProgress: ThemeTokens['components']['progress'] = {
+const commonProgress = {
 	defaultColor: semantic('semantic.color.primary'),
 	defaultTrackColor: 'color-mix(in srgb, var(--sy-color-primary) 16%, transparent)',
 	lineHeight: '8px',
@@ -703,7 +694,7 @@ const commonProgress: ThemeTokens['components']['progress'] = {
 	gap: semantic('semantic.spacing.sm'),
 };
 
-const commonTooltip: ThemeTokens['components']['tooltip'] = {
+const commonTooltip = {
 	background: '#2c3f51',
 	textColor: '#ffffff',
 	borderColor: '#2c3f51',
@@ -717,7 +708,7 @@ const commonTooltip: ThemeTokens['components']['tooltip'] = {
 	zIndex: '10',
 };
 
-const commonDrawer: ThemeTokens['components']['drawer'] = {
+const commonDrawer = {
 	maskBackground: 'rgba(0, 0, 0, 0.45)',
 	panelBackground: semantic('semantic.color.surface'),
 	panelColor: semantic('semantic.color.text'),
@@ -737,7 +728,7 @@ const commonDrawer: ThemeTokens['components']['drawer'] = {
 	footerBorderColor: semantic('semantic.color.divider'),
 };
 
-const commonNotification: ThemeTokens['components']['notification'] = {
+const commonNotification = {
 	infoColor: semantic('semantic.color.primary'),
 	successColor: semantic('semantic.color.success'),
 	warningColor: semantic('semantic.color.warning'),
@@ -770,7 +761,7 @@ const commonNotification: ThemeTokens['components']['notification'] = {
 	iconSize: '28px',
 };
 
-const commonTable: ThemeTokens['components']['table'] = {
+const commonTable = {
 	background: semantic('semantic.color.surface'),
 	textColor: semantic('semantic.color.text'),
 	headerBackground: semantic('semantic.color.bg'),
@@ -829,7 +820,7 @@ const commonTabs = {
 	closeHoverBackground: 'color-mix(in srgb, var(--sy-color-text) 8%, transparent)',
 };
 
-const commonCarousel: ThemeTokens['components']['carousel'] = {
+const commonCarousel = {
 	aspectRatio: '16 / 9',
 	radius: semantic('semantic.radius.md'),
 	background: semantic('semantic.color.surface'),
@@ -851,7 +842,7 @@ const commonCarousel: ThemeTokens['components']['carousel'] = {
 	focusShadow: semantic('semantic.shadow.focus'),
 	toggleFontSize: semantic('semantic.fontSize.sm'),
 };
-const commonVerify: VerifyTokens = {
+const commonVerify = {
 	background: semantic('semantic.color.surface'),
 	textColor: semantic('semantic.color.text'),
 	mutedColor: semantic('semantic.color.textSecondary'),
@@ -862,7 +853,7 @@ const commonVerify: VerifyTokens = {
 	shadow: semantic('semantic.shadow.popover'),
 };
 
-export const lightTheme: ThemeTokens = {
+const lightDefinition = {
 	base: lightBase,
 	semantic: {
 		color: {
@@ -907,12 +898,13 @@ export const lightTheme: ThemeTokens = {
 	},
 };
 
-export const darkTheme: ThemeTokens = {
+export type ThemeDefinition = typeof lightDefinition;
+export const lightTheme: ThemeTokens = lightDefinition;
+
+const darkOverride = {
 	base: {
-		...commonBase,
 		shadow: {
 			control: '0 1px 2px 0 #00000052',
-			focus: 'none',
 			popover: '0 6px 16px 0 #00000052',
 			overlay: '0 12px 32px 0 #00000066',
 		},
@@ -923,7 +915,6 @@ export const darkTheme: ThemeTokens = {
 				3: '#15395b',
 				4: '#164c7e',
 				5: '#1765ad',
-				6: '#1677ff',
 				7: '#3c89e8',
 				8: '#65a9f3',
 				9: '#8dc5f8',
@@ -981,7 +972,6 @@ export const darkTheme: ThemeTokens = {
 	},
 	semantic: {
 		color: {
-			...colorReferences,
 			base: '#ffffffd9',
 			text: '#ffffffd9',
 			textSecondary: '#ffffffa6',
@@ -991,14 +981,10 @@ export const darkTheme: ThemeTokens = {
 			bg: '#141414',
 			surface: '#1f1f1f',
 		},
-		...commonSemantic,
 	},
 	components: {
-		button: commonButton,
-		input: commonInput,
-		...darkChoiceComponents,
+		switch: { inactiveColor: semantic('semantic.color.border') },
 		select: {
-			...commonSelect,
 			color: semantic('semantic.color.text'),
 			bg: '#1f1f1f',
 			disabledBg: '#262626',
@@ -1012,26 +998,7 @@ export const darkTheme: ThemeTokens = {
 			scrollbarThumb: '#ffffff33',
 			scrollbarThumbHover: '#ffffff59',
 		},
-		form: commonForm,
-		menu: commonMenu,
-		pagination: commonPagination,
-		breadcrumb: commonBreadcrumb,
-		step: commonStep,
-		card: commonCard,
-		collapse: commonCollapse,
-		tag: commonTag,
-		avatar: commonAvatar,
-		divider: commonDivider,
-		space: commonSpace,
-		layout: commonLayout,
-		result: commonResult,
-		progress: commonProgress,
-		tooltip: commonTooltip,
-		drawer: commonDrawer,
-		notification: commonNotification,
-		table: commonTable,
-		tabs: commonTabs,
-		carousel: commonCarousel,
-		verify: commonVerify,
 	},
-};
+} satisfies ThemeOverride;
+
+export const darkTheme = mergeTheme(lightTheme, darkOverride);
