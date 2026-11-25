@@ -22,6 +22,7 @@
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:packages": "node --test scripts/package-contract.test.mjs",
+		"test:browser:theme": "node --test scripts/theme-browser.test.mjs",
 		"test:consumer": "node scripts/consumer-smoke.mjs",
 		"docs:dev": "vitepress dev",
 		"docs:build": "vitepress build",
