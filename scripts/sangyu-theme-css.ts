@@ -1,33 +1,30 @@
 import type { Plugin } from 'vite';
-import { themeToVariables, variablesToCSS } from '../packages/sangyu-ui/src/theme/css';
+import { themeToVariables, variableReferences, variablesToCSS } from '../packages/sangyu-ui/src/theme/css';
 import { darkTheme, lightTheme } from '../packages/sangyu-ui/src/theme/presets';
 
 export function renderThemeCSS(): string {
 	const light = themeToVariables(lightTheme);
 	const dark = themeToVariables(darkTheme);
-	const darkEntries = Object.entries(dark);
-	const changed = new Set(
-		darkEntries
-			.filter(
-				([name, value]) =>
-					name.startsWith('--sy-color-') || name.startsWith('--gray-') || light[name] !== value,
-			)
-			.map(([name]) => name),
-	);
+	const names = new Set([...Object.keys(light), ...Object.keys(dark)]);
 
-	// CSS custom property references are evaluated in the scope declaring them.
-	// Redeclare aliases that depend on dark values, while inheriting shared dimensions.
-	let previousSize = 0;
-	while (previousSize !== changed.size) {
-		previousSize = changed.size;
-		for (const [name, value] of darkEntries) {
-			const references = value.matchAll(/var\((--[\w-]+)/g);
-			if (Array.from(references).some(([, dependency]) => changed.has(dependency))) changed.add(name);
-		}
+	for (const [mode, variables] of Object.entries({ light, dark })) {
+		const validated = new Set<string>();
+		const visiting = new Set<string>();
+		const validate = (name: string) => {
+			if (validated.has(name)) return;
+			if (visiting.has(name)) throw new Error(`Circular ${mode} theme token reference: ${name}`);
+			if (!Object.hasOwn(variables, name)) throw new Error(`Missing ${mode} theme token: ${name}`);
+			visiting.add(name);
+			for (const reference of variableReferences(variables[name])) validate(reference);
+			visiting.delete(name);
+			validated.add(name);
+		};
+		for (const name of names) validate(name);
 	}
 
-	const darkOverrides = Object.fromEntries(darkEntries.filter(([name]) => changed.has(name)));
-	return `${variablesToCSS(light, ':root')}\n\n${variablesToCSS(darkOverrides, "[data-sy-theme='dark']")}\n`;
+	// Same-mode providers inherit the already active preset and its local overrides.
+	const scope = (mode: string) => `[data-sy-theme='${mode}']:where(:not([data-sy-theme-inherit]))`;
+	return `${variablesToCSS(light, `:root, ${scope('light')}`)}\n\n${variablesToCSS(dark, scope('dark'))}\n`;
 }
 
 export function sangyuThemeCSS(): Plugin {

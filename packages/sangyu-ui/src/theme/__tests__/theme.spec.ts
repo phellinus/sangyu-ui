@@ -296,22 +296,20 @@ describe('theme tokens', () => {
 	it('generates complete light and dark static tokens from the presets', () => {
 		const actual = { light: {} as Record<string, string>, dark: {} as Record<string, string> };
 		postcss.parse(renderThemeCSS()).walkRules((rule) => {
-			const target =
-				rule.selector === ':root'
-					? actual.light
-					: rule.selector === "[data-sy-theme='dark']"
-						? actual.dark
-						: null;
+			const target = rule.selectors.includes(':root')
+				? actual.light
+				: rule.selector.startsWith("[data-sy-theme='dark']")
+					? actual.dark
+					: null;
 			if (!target) return;
 			rule.walkDecls((decl) => {
 				target[decl.prop] = decl.value;
 			});
 		});
 		expect(actual.light).toEqual(themeToVariables(lightTheme));
-		expect({ ...actual.light, ...actual.dark }).toEqual(themeToVariables(darkTheme));
+		expect(actual.dark).toEqual(themeToVariables(darkTheme));
 		expect(actual.dark['--sy-select-focus-border-color']).toBe('var(--sy-color-primary)');
-		expect(actual.dark).not.toHaveProperty('--sy-input-focus-shadow');
-		expect(actual.dark).not.toHaveProperty('--sy-control-height-md');
-		expect(actual.dark).not.toHaveProperty('--sy-control-field-width');
+		expect(actual.dark['--sy-control-height-md']).toBe('var(--sy-base-control-height-md)');
+		expect(actual.dark['--sy-control-field-width']).toBe('240px');
 	});
 });

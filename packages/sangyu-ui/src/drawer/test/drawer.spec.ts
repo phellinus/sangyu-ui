@@ -171,7 +171,8 @@ describe('SyDrawer', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(drawer.getAttribute('style')).toContain('--sy-drawer-panel-background: #222222');
-		expect(drawer.getAttribute('style')).toContain('--sy-color-surface: #1f1f1f');
+		expect(drawer.getAttribute('data-sy-theme')).toBe('dark');
+		expect(drawer.style.getPropertyValue('--sy-color-surface')).toBe('');
 	});
 
 	it('destroys slot content after the leave transition', async () => {

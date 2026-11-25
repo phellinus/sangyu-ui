@@ -107,12 +107,11 @@ test('sangyu-ui ships theme defaults in the public stylesheet', async () => {
 	const tokens = { light: {}, dark: {} };
 	const css = postcss.parse(readFileSync(new URL('style.css', dist), 'utf8'));
 	css.walkRules((rule) => {
-		const target =
-			rule.selector === ':root'
-				? tokens.light
-				: /^\[data-sy-theme=['"]?dark['"]?\]$/.test(rule.selector)
-					? tokens.dark
-					: undefined;
+		const target = rule.selectors.includes(':root')
+			? tokens.light
+			: /^\[data-sy-theme=['"]?dark['"]?\]/.test(rule.selector)
+				? tokens.dark
+				: undefined;
 		if (!target) return;
 		rule.walkDecls(/^--/, ({ prop, value }) => {
 			target[prop] = value;
@@ -120,10 +119,7 @@ test('sangyu-ui ships theme defaults in the public stylesheet', async () => {
 	});
 
 	assert.deepEqual(Object.keys(tokens.light).sort(), Object.keys(themeToVariables(lightTheme)).sort());
-	assert.deepEqual(
-		Object.keys({ ...tokens.light, ...tokens.dark }).sort(),
-		Object.keys(themeToVariables(darkTheme)).sort(),
-	);
+	assert.deepEqual(Object.keys(tokens.dark).sort(), Object.keys(themeToVariables(darkTheme)).sort());
 	assert.equal(tokens.light['--sy-base-control-height-md'], '36px');
 	assert.equal(tokens.light['--sy-control-field-width'], '240px');
 	assert.equal(tokens.light['--sy-base-shadow-focus'], 'none');

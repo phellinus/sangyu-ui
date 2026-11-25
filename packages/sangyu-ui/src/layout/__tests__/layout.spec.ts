@@ -89,7 +89,7 @@ describe('SyLayout', () => {
 		await nextTick();
 		const scope = wrapper.get('[data-sy-theme]');
 		expect(scope.attributes('data-sy-theme')).toBe('dark');
-		expect((scope.element as HTMLElement).style.getPropertyValue('--sy-color-surface')).toBe('#1f1f1f');
+		expect(scope.attributes('style')).toBeUndefined();
 	});
 
 	it('uses direct-sider and responsive CSS rules', () => {

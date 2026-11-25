@@ -213,16 +213,18 @@ describe('SyCarousel', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(wrapper.get('[data-sy-theme]').attributes('data-sy-theme')).toBe('dark');
-		expect(
-			(wrapper.get('[data-sy-theme]').element as HTMLElement).style.getPropertyValue('--sy-carousel-arrow-color'),
-		).toBe('var(--sy-color-text)');
+		expect(wrapper.get('[data-sy-theme]').attributes('style')).toBeUndefined();
 	});
 
 	it('keeps carousel tokens usable with only the static style entry', () => {
 		const root: Record<string, string> = {};
 		const dark: Record<string, string> = {};
 		postcss.parse(renderThemeCSS()).walkRules((rule) => {
-			const target = rule.selector === ':root' ? root : rule.selector === "[data-sy-theme='dark']" ? dark : null;
+			const target = rule.selectors.includes(':root')
+				? root
+				: rule.selector.startsWith("[data-sy-theme='dark']")
+					? dark
+					: null;
 			if (target)
 				rule.walkDecls((declaration) => {
 					target[declaration.prop] = declaration.value;

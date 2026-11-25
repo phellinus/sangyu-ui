@@ -53,6 +53,9 @@ export interface NotificationOptions {
 	 * 使用 h() 渲染业务组件时，可以传入当前 Vue 应用上下文
 	 */
 	appContext?: AppContext;
+
+	/** 从组件的 setup 获取的主题，用于在事件或异步回调中打开通知。 */
+	theme?: ThemeContext;
 }
 
 /** Notification 内部保存的标准化数据 */
@@ -75,9 +78,6 @@ export interface NotificationRecord
 
 	/** 自动关闭计时器 */
 	timer?: ReturnType<typeof setTimeout>;
-
-	/** Provider context captured at the service call site for teleported notification styles. */
-	theme?: ThemeContext;
 }
 
 /** 创建通知后返回的关闭函数 */

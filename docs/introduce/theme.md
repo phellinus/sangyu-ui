@@ -4,7 +4,7 @@ Sangyu Design UI 使用 CSS Variables 管理主题颜色。你可以在不重新
 
 V2 主题配置按基础 Token、语义 Token、组件 Token 三层组织。`lightTheme` 与 `darkTheme` 是官方预设；`mergeTheme` 合并局部覆盖，`themeToVariables` 或 `themeToCSS` 将合并后的配置转换为现有 `--sy-*` 变量。`ThemeProvider` 会将变量应用到局部 DOM 作用域，并支持嵌套覆盖和亮暗主题切换。
 
-发布的 `style.css` 和 `ThemeProvider` 共用 TypeScript 预设。引入样式即可使用默认 Token。
+发布的 `style.css` 从 TypeScript 预设生成完整的亮暗主题。引入样式即可使用默认 Token。`ThemeProvider` 在自己的节点上写入局部覆盖和受影响的引用，同模式嵌套沿用父级覆盖，切换模式时从目标预设重新开始。`useTheme()` 继续提供当前作用域合并后的主题和完整变量表。
 
 ```ts
 import { lightTheme, mergeTheme, themeToCSS } from 'sangyu-ui';
@@ -17,7 +17,9 @@ const scopedCSS = themeToCSS(brandTheme, '.brand-theme');
 
 语义色引用基础色板，Select 的焦点边框等组件 Token 引用语义色。覆盖基础值会沿引用传递；显式设置语义或组件值时，以更具体的设置为准。合并不会修改预设或传入的覆盖对象。
 
-暗色静态样式可在目标元素上设置 `data-sy-theme="dark"`，并沿 DOM 层级继承。使用 `ThemeProvider` 时，组件与其后代会自动获得对应主题变量。浮层若挂载到 Provider 之外（例如 Teleport 到 `body`），需在实际容器上设置同样的属性并应用 `themeToVariables` 生成的变量。
+可以给 DOM 元素设置 `data-sy-theme="dark"` 或 `data-sy-theme="light"` 来开启新的静态主题作用域。组件库的 Drawer 和带主题上下文的 Notification 会将来源作用域的主题带到浮层容器。使用自定义 Teleport 时，可以通过 `useTheme()` 在实际容器上应用来源的模式和变量。
+
+在事件或异步回调中调用 `SyNotification.info()` 时，可以在 `setup` 中先取得 `const theme = useTheme()`，再通过通知的 `theme` 选项传入。
 
 ## 引入顺序
 
