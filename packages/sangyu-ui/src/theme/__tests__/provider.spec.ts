@@ -174,7 +174,7 @@ describe('ThemeProvider', () => {
 		expect(css(parent, '--sy-menu-active-bg')).toBe('#eee');
 		expect(css(child, '--sy-menu-active-bg')).toBe('#eee');
 		expect(css(child, '--sy-pagination-height')).toBe('40px');
-		expect(css(parent, '--sy-pagination-height')).toBe('var(--sy-control-height-md)');
+		expect(css(parent, '--sy-pagination-height')).toBe('32px');
 		expect(css(child, '--sy-breadcrumb-current-color')).toBe('#123456');
 		expect(css(child, '--sy-step-indicator-size')).toBe('42px');
 		menuBg.value = '#ddd';

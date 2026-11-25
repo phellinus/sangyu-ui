@@ -2,7 +2,7 @@
 @import (reference) '../../style/theme/mixins.less';
 
 .sy-input {
-	--sy-input-font-size: var(--sy-font-size-lg);
+	--sy-input-font-size: var(--sy-font-size-md);
 	--sy-input-height: var(--sy-input-height-medium);
 	--sy-input-padding-y: var(--sy-spacing-sm);
 	--sy-input-padding-x: var(--sy-spacing-sm);
@@ -18,6 +18,10 @@
 	font-size: var(--sy-input-font-size);
 	line-height: 1;
 
+	width: var(--sy-control-field-width);
+	min-width: 0;
+	max-width: 100%;
+	height: var(--sy-input-height);
 	min-height: var(--sy-input-height);
 	padding: var(--sy-input-padding-y) var(--sy-input-padding-x);
 
@@ -189,7 +193,6 @@
 		position: relative;
 		flex: 1;
 		min-width: 0;
-		min-height: calc(var(--sy-input-height) - var(--sy-input-padding-y) * 2);
 		display: flex;
 		align-items: center;
 
@@ -243,6 +246,7 @@
 
 	input,
 	&-input {
+		box-sizing: border-box;
 		width: 100%;
 		min-width: 0;
 		max-width: 100%;
@@ -250,6 +254,7 @@
 		line-height: inherit;
 
 		border: 0;
+		padding: 0;
 		outline: none;
 		background: transparent;
 
@@ -266,7 +271,7 @@
 	}
 
 	&--small {
-		--sy-input-font-size: var(--sy-font-size-md);
+		--sy-input-font-size: var(--sy-font-size-sm);
 		--sy-input-height: var(--sy-input-height-small);
 		--sy-input-padding-y: var(--sy-input-padding-small);
 		--sy-input-padding-x: var(--sy-input-padding-small);

@@ -1,18 +1,22 @@
 .sy-select {
 	position: relative;
 	display: inline-block;
-	width: 240px;
+	width: var(--sy-control-field-width);
+	min-width: 0;
+	max-width: 100%;
 	color: var(--sy-select-color, #1f2933);
 	font-size: var(--sy-font-size-md);
 
 	&-trigger {
+		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		min-height: var(--sy-select-trigger-height-medium);
 		padding: var(--sy-spacing-xs) var(--sy-spacing-sm);
-		border: 1px solid var(--sy-select-border-color, #d8dee6);
-		border-radius: var(--sy-radius-md);
+		border: 1px solid var(--sy-select-border-color, var(--sy-color-border, #d9d9d9));
+		border-radius: var(--sy-control-radius);
 		background: var(--sy-select-bg, #fff);
+		line-height: 1;
 		cursor: pointer;
 		transition:
 			border-color 0.2s,
@@ -96,14 +100,21 @@
 		pointer-events: none;
 	}
 
-	&-small &-trigger {
-		min-height: var(--sy-select-trigger-height-small);
+	&-small {
 		font-size: var(--sy-select-font-size-small);
 	}
 
-	&-large &-trigger {
-		min-height: var(--sy-control-height-lg);
+	&-large {
 		font-size: var(--sy-select-font-size-large);
+	}
+
+	&-small &-trigger {
+		min-height: var(--sy-select-trigger-height-small);
+		padding-block: 2px;
+	}
+
+	&-large &-trigger {
+		min-height: var(--sy-select-trigger-height-large, var(--sy-control-height-lg));
 	}
 
 	&-open &-trigger {

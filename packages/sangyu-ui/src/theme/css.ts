@@ -18,6 +18,9 @@ const nameForPath = (path: string): string => {
 	if (parts[0] === 'semantic' && parts[1] === 'color' && parts.length === 3) {
 		return `--sy-color-${kebab(parts[2])}`;
 	}
+	if (parts[0] === 'semantic' && parts[1] === 'control' && parts.length === 3) {
+		return `--sy-control-${kebab(parts[2])}`;
+	}
 	if (parts.length === 3 && commonGroups.some((group) => group === parts[1])) {
 		if (parts[0] === 'base') return `--sy-base-${kebab(parts[1])}-${kebab(parts[2])}`;
 		if (parts[0] === 'semantic') return `--sy-${kebab(parts[1])}-${kebab(parts[2])}`;
@@ -49,6 +52,9 @@ export const themeToVariables = (theme: ThemeTokens): Record<string, string> => 
 		for (const [key, value] of Object.entries(theme.semantic[group])) {
 			variables[nameForPath(`semantic.${group}.${key}`)] = cssValue(value);
 		}
+	}
+	for (const [key, value] of Object.entries(theme.semantic.control ?? {})) {
+		if (value !== undefined) variables[nameForPath(`semantic.control.${key}`)] = cssValue(value);
 	}
 	for (const [component, tokens] of Object.entries(theme.components)) {
 		for (const [key, value] of Object.entries(tokens)) {

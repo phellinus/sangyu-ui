@@ -46,13 +46,20 @@ export interface SemanticColors {
 
 export type SemanticTokenPath =
 	| `semantic.color.${keyof SemanticColors}`
+	| `semantic.control.${keyof ControlTokens}`
 	| { [Group in keyof CommonScales]: `semantic.${Group}.${keyof CommonScales[Group] & string}` }[keyof CommonScales];
 export type TokenReference<Path extends string> = { readonly ref: Path };
 export type SemanticValue = string | TokenReference<BaseTokenPath>;
 export type ComponentValue = string | TokenReference<BaseTokenPath | SemanticTokenPath>;
 
+interface ControlTokens {
+	radius?: SemanticValue;
+	fieldWidth?: SemanticValue;
+}
+
 export type SemanticTokens = {
 	color: { [K in keyof SemanticColors]: SemanticValue };
+	control?: ControlTokens;
 } & { [Group in keyof CommonScales]: { [Key in keyof CommonScales[Group]]: SemanticValue } };
 
 // Select already reads these variables without defining them on its own root.
@@ -70,6 +77,7 @@ export interface SelectTokens {
 	optionSelectedBg: ComponentValue;
 	triggerHeightSmall: ComponentValue;
 	triggerHeightMedium: ComponentValue;
+	triggerHeightLarge?: ComponentValue;
 	fontSizeSmall: ComponentValue;
 	fontSizeLarge: ComponentValue;
 	dropdownBorderColor: ComponentValue;

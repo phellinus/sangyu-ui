@@ -124,6 +124,16 @@ test('sangyu-ui ships theme defaults in the public stylesheet', async () => {
 		Object.keys({ ...tokens.light, ...tokens.dark }).sort(),
 		Object.keys(themeToVariables(darkTheme)).sort(),
 	);
+	assert.equal(tokens.light['--sy-base-control-height-md'], '36px');
+	assert.equal(tokens.light['--sy-control-field-width'], '240px');
 	assert.equal(tokens.dark['--sy-color-surface'], '#1f1f1f');
 	assert.equal(tokens.dark['--sy-select-focus-border-color'], 'var(--sy-color-primary)');
+
+	const inputHeights = [];
+	css.walkRules('.sy-input', (rule) => {
+		rule.walkDecls('height', (declaration) => {
+			inputHeights.push(declaration.value);
+		});
+	});
+	assert.deepEqual(inputHeights, ['var(--sy-input-height)']);
 });

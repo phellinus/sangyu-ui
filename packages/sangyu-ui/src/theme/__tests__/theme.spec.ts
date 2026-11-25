@@ -65,9 +65,53 @@ describe('theme tokens', () => {
 			expect(dark[name]).toBe(value);
 		}
 		expect(light['--sy-base-spacing-xs']).toBe('4px');
-		expect(light['--sy-base-control-height-md']).toBe('32px');
+		expect(light['--sy-base-control-height-md']).toBe('36px');
 		expect(dark['--sy-base-shadow-focus']).toBe('0 0 0 2px #1677ff66');
 		expect(themeToCSS(lightTheme, '.scope')).toContain('--sy-spacing-xs: var(--sy-base-spacing-xs);');
+	});
+
+	it('shares the control sizes across input and select with per-component overrides', () => {
+		for (const theme of [lightTheme, darkTheme]) {
+			const vars = themeToVariables(theme);
+			expect(vars).toMatchObject({
+				'--sy-base-control-height-sm': '28px',
+				'--sy-base-control-height-md': '36px',
+				'--sy-base-control-height-lg': '44px',
+				'--sy-control-radius': 'var(--sy-base-radius-lg)',
+				'--sy-base-radius-lg': '8px',
+				'--sy-control-field-width': '240px',
+				'--sy-input-radius': 'var(--sy-control-radius)',
+				'--sy-input-font-size-large': 'var(--sy-font-size-lg)',
+				'--sy-select-font-size-small': 'var(--sy-font-size-sm)',
+				'--sy-select-font-size-large': 'var(--sy-font-size-lg)',
+				'--sy-input-border-color': 'var(--sy-color-border)',
+				'--sy-select-border-color': 'var(--sy-color-border)',
+				'--sy-form-control-width': '100%',
+				'--sy-carousel-control-size': '32px',
+			});
+			for (const [size, scale] of [
+				['small', 'sm'],
+				['medium', 'md'],
+				['large', 'lg'],
+			]) {
+				expect(vars[`--sy-input-height-${size}`]).toBe(`var(--sy-control-height-${scale})`);
+				expect(vars[`--sy-select-trigger-height-${size}`]).toBe(`var(--sy-control-height-${scale})`);
+			}
+		}
+		const vars = themeToVariables(
+			mergeTheme(lightTheme, {
+				semantic: { controlHeight: { md: '42px' }, control: { fieldWidth: '280px', radius: '10px' } },
+				components: { select: { triggerHeightMedium: '48px', fontSizeLarge: '20px' } },
+			}),
+		);
+		expect(vars).toMatchObject({
+			'--sy-control-height-md': '42px',
+			'--sy-control-radius': '10px',
+			'--sy-control-field-width': '280px',
+			'--sy-input-height-medium': 'var(--sy-control-height-md)',
+			'--sy-select-trigger-height-medium': '48px',
+			'--sy-select-font-size-large': '20px',
+		});
 	});
 
 	it('emits choice component tokens with stable names and semantic references', () => {
@@ -92,7 +136,7 @@ describe('theme tokens', () => {
 		const dark = themeToVariables(darkTheme);
 		expect(light['--sy-menu-popup-shadow']).toContain('0 12px 32px -8px');
 		expect(light['--sy-menu-active-indicator-color']).toBe('var(--sy-color-primary)');
-		expect(light['--sy-pagination-height']).toBe('var(--sy-control-height-md)');
+		expect(light['--sy-pagination-height']).toBe('32px');
 		expect(light['--sy-pagination-active-color']).toBe('var(--sy-color-primary)');
 		expect(light['--sy-breadcrumb-current-color']).toBe('var(--sy-color-text)');
 		expect(dark['--sy-breadcrumb-link-hover-color']).toBe('var(--sy-color-text)');
@@ -266,5 +310,6 @@ describe('theme tokens', () => {
 		expect({ ...actual.light, ...actual.dark }).toEqual(themeToVariables(darkTheme));
 		expect(actual.dark['--sy-select-focus-border-color']).toBe('var(--sy-color-primary)');
 		expect(actual.dark).not.toHaveProperty('--sy-control-height-md');
+		expect(actual.dark).not.toHaveProperty('--sy-control-field-width');
 	});
 });

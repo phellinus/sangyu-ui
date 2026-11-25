@@ -46,7 +46,9 @@ describe('SySelect', () => {
 		const wrapper = mount(Host);
 		mountedWrappers.push(wrapper);
 		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
-		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#d8dee6');
+		const outerStyle = (outer.element as HTMLElement).style;
+		expect(outerStyle.getPropertyValue('--sy-select-border-color')).toBe('var(--sy-color-border)');
+		expect(outerStyle.getPropertyValue('--sy-color-border')).toBe('#d9d9d9');
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#b84242');
 		expect(wrapper.get('.sy-select-trigger').attributes('aria-invalid')).toBe('true');
 		await wrapper.get('.sy-select-trigger').trigger('click');
@@ -56,6 +58,7 @@ describe('SySelect', () => {
 		disabled.value = true;
 		await nextTick();
 		expect(outer.attributes('data-sy-theme')).toBe('dark');
+		expect(outerStyle.getPropertyValue('--sy-color-border')).toBe('#424242');
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#ee8585');
 		expect(wrapper.get('.sy-select').classes()).toContain('sy-select-disabled');
 		expect(wrapper.get('.sy-select').classes()).not.toContain('sy-select-open');
