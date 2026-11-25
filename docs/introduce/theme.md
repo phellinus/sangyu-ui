@@ -17,7 +17,28 @@ const scopedCSS = themeToCSS(brandTheme, '.brand-theme');
 
 语义色引用基础色板，Select 的焦点边框等组件 Token 引用语义色。覆盖基础值会沿引用传递；显式设置语义或组件值时，以更具体的设置为准。合并不会修改预设或传入的覆盖对象。
 
-可以给 DOM 元素设置 `data-sy-theme="dark"` 或 `data-sy-theme="light"` 来开启新的静态主题作用域。组件库的 Drawer 和带主题上下文的 Notification 会将来源作用域的主题带到浮层容器。使用自定义 Teleport 时，可以通过 `useTheme()` 在实际容器上应用来源的模式和变量。
+## 主题作用域
+
+`data-sy-theme="dark"` 和 `data-sy-theme="light"` 用于静态 CSS 主题，样式沿 DOM 继承。`useTheme()` 读取最近的 Vue `ThemeProvider`，在 Provider 外返回默认亮色上下文。如果在两个 Provider 之间用静态属性切换模式，CSS 和 `useTheme()` 可能读到不同的主题。
+
+子树里有 `useTheme()`、Drawer 或 Notification 时，用 `ThemeProvider` 设置亮暗模式，让组件样式、Vue 主题上下文和浮层使用同一作用域。
+
+```vue
+<script setup lang="ts">
+import { SyButton, ThemeProvider } from 'sangyu-ui';
+</script>
+
+<template>
+	<ThemeProvider mode="dark">
+		<SyButton>暗色区域</SyButton>
+		<ThemeProvider mode="light">
+			<SyButton>局部恢复亮色</SyButton>
+		</ThemeProvider>
+	</ThemeProvider>
+</template>
+```
+
+Drawer 和带主题上下文的 Notification 会将来源作用域的主题带到浮层容器。使用自定义 Teleport 时，可以通过 `useTheme()` 在实际容器上应用来源的模式和变量。
 
 在事件或异步回调中调用 `SyNotification.info()` 时，可以在 `setup` 中先取得 `const theme = useTheme()`，再通过通知的 `theme` 选项传入。
 
