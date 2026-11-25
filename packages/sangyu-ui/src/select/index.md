@@ -14,6 +14,20 @@
 
 <demo src="./demos/basic-select.vue"></demo>
 
+## 尺寸
+
+通过 `size` 设置选择器尺寸。省略 `size` 时，优先继承所在表单项的尺寸，默认使用 `default`（中号）。
+
+<demo src="./demos/size-select.vue"></demo>
+
+| `size`    | 触发框最小高度 | 字号 |
+| --------- | -------------- | ---- |
+| `small`   | 28px           | 12px |
+| `default` | 36px           | 14px |
+| `large`   | 44px           | 16px |
+
+以上为默认主题的尺寸。三档单独使用时的基础宽度均为 `240px`，可通过 `width` 调整。下拉选项的字号跟随 `size`，行高由 `itemHeight` 设置。
+
 ## 可清空与状态
 
 <demo src="./demos/state-select.vue"></demo>
@@ -60,7 +74,7 @@
 | remoteMethod         | `(query: string, signal: AbortSignal) => void \| Promise<void>` | 远程搜索方法；`signal` 用于取消上一次未完成的请求 | `undefined`  |
 | remoteDebounce       | `number`                                                        | 远程搜索防抖时间，单位为毫秒                      | `300`        |
 | filterMethod         | `(query: string, option: SelectOption) => boolean`              | 自定义本地过滤方法                                | `undefined`  |
-| size                 | `'small' \| 'default' \| 'large'`                               | 选择器尺寸                                        | `'default'`  |
+| size                 | `'small' \| 'default' \| 'large'`                               | 选择器尺寸，见[尺寸示例](#尺寸)                   | `'default'`  |
 | width                | `string`                                                        | 选择器宽度，例如 `'280px'`、`'100%'`              | `undefined`  |
 | placement            | `'top' \| 'bottom'`                                             | 下拉方向，预留配置                                | `'bottom'`   |
 | virtual              | `boolean`                                                       | 是否启用虚拟滚动                                  | `true`       |

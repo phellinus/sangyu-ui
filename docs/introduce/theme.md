@@ -4,6 +4,8 @@ Sangyu Design UI 使用 CSS Variables 管理主题颜色。你可以在不重新
 
 V2 主题配置按基础 Token、语义 Token、组件 Token 三层组织。`lightTheme` 与 `darkTheme` 是官方预设；`mergeTheme` 合并局部覆盖，`themeToVariables` 或 `themeToCSS` 将合并后的配置转换为现有 `--sy-*` 变量。`ThemeProvider` 会将变量应用到局部 DOM 作用域，并支持嵌套覆盖和亮暗主题切换。
 
+发布的 `style.css` 和 `ThemeProvider` 共用 TypeScript 预设。引入样式即可使用默认 Token。
+
 ```ts
 import { lightTheme, mergeTheme, themeToCSS } from 'sangyu-ui';
 
@@ -24,6 +26,31 @@ const scopedCSS = themeToCSS(brandTheme, '.brand-theme');
 ```ts
 import 'sangyu-ui/style.css';
 import './styles/sangyu-theme.css';
+```
+
+## 控件尺寸
+
+Button、Input 和 Select 单行触发器共用三档控件高度和默认圆角。
+
+| `size`    | 外框高度 |
+| --------- | -------: |
+| `small`   |     28px |
+| `default` |     36px |
+| `large`   |     44px |
+
+默认圆角为 8px。Input 和 Select 的默认宽度为 240px，容器更窄时会随之收缩，仍可通过 `width` 单独设置。横向和纵向 Form 默认使用布局分配的字段宽度，行内 Form 沿用控件默认宽度。Select 多选标签换行时，触发器会随内容增高。
+
+用 `ThemeProvider` 可以在局部同时调整三种控件。共享高度位于 `semantic.controlHeight`，圆角和字段宽度位于 `semantic.control`。
+
+```ts
+import type { ThemeOverride } from 'sangyu-ui';
+
+const tokens: ThemeOverride = {
+	semantic: {
+		controlHeight: { md: '40px' },
+		control: { radius: '10px', fieldWidth: '280px' },
+	},
+};
 ```
 
 ## 修改品牌色
