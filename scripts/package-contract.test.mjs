@@ -126,6 +126,8 @@ test('sangyu-ui ships theme defaults in the public stylesheet', async () => {
 	);
 	assert.equal(tokens.light['--sy-base-control-height-md'], '36px');
 	assert.equal(tokens.light['--sy-control-field-width'], '240px');
+	assert.equal(tokens.light['--sy-base-shadow-focus'], 'none');
+	assert.equal(tokens.light['--sy-pagination-active-shadow'], 'none');
 	assert.equal(tokens.dark['--sy-color-surface'], '#1f1f1f');
 	assert.equal(tokens.dark['--sy-select-focus-border-color'], 'var(--sy-color-primary)');
 
@@ -136,4 +138,17 @@ test('sangyu-ui ships theme defaults in the public stylesheet', async () => {
 		});
 	});
 	assert.deepEqual(inputHeights, ['var(--sy-input-height)']);
+});
+
+test('sangyu-ui stylesheet keeps focus indicators within the control', () => {
+	const css = postcss.parse(readFileSync(new URL('../packages/sangyu-ui/dist/style.css', import.meta.url), 'utf8'));
+	css.walkDecls(/^outline(?:-offset)?$/, (declaration) => {
+		assert.equal(declaration.prop, 'outline', declaration.parent.selector);
+		assert.equal(declaration.value, 'none', declaration.parent.selector);
+	});
+	css.walkRules(/:focus\b/, (rule) => {
+		rule.walkDecls('box-shadow', (declaration) => {
+			assert.equal(declaration.value, 'none', rule.selector);
+		});
+	});
 });

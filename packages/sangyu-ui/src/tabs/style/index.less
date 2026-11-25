@@ -72,6 +72,7 @@
 		min-height: var(--sy-tabs-height-medium);
 		padding: 0 var(--sy-tabs-padding);
 		border: 0;
+		outline: none;
 		background: transparent;
 		color: var(--sy-tabs-color);
 		cursor: pointer;
@@ -85,6 +86,15 @@
 		}
 		&--active {
 			color: var(--sy-tabs-active-color);
+		}
+
+		&:focus-visible {
+			outline: none;
+
+			.sy-tabs__label {
+				text-decoration: underline;
+				text-underline-offset: 0.18em;
+			}
 		}
 
 		&:disabled {
@@ -134,9 +144,16 @@
 		height: 24px;
 		border: 0;
 		border-radius: 50%;
+		outline: none;
 		background: transparent;
 		color: var(--sy-tabs-color);
 		cursor: pointer;
+
+		&:focus-visible {
+			outline: none;
+			background: var(--sy-tabs-close-hover-background);
+			color: var(--sy-tabs-active-color);
+		}
 	}
 	&__close {
 		flex: none;
@@ -174,6 +191,11 @@
 		min-width: 0;
 		padding: var(--sy-tabs-panel-padding);
 		background: var(--sy-tabs-panel-background);
+	}
+
+	&__panels > [role='tabpanel']:focus-visible {
+		outline: none;
+		background: var(--sy-color-bg);
 	}
 	&--card > &__panels {
 		border: 1px solid var(--sy-tabs-border-color);

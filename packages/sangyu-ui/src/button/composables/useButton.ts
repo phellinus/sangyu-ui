@@ -43,9 +43,6 @@ export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs
 		if (colorToken !== 'primary' || Object.hasOwn(instance?.vnode.props ?? {}, 'color')) {
 			result['--sy-button-color'] = color;
 			result['--sy-button-color-soft'] = getColorWithAlpha(colorToken, 0.16);
-			result['--sy-button-shadow-color'] = getColorWithAlpha(colorToken, 0.38);
-			result['--sy-button-focus-shadow'] = `0 0 0 3px ${getColorWithAlpha(colorToken, 0.16)}`;
-			result['--sy-button-hover-shadow'] = `0 8px 25px -8px ${getColorWithAlpha(colorToken, 0.38)}`;
 			result['--sy-button-relief-color'] = `color-mix(in srgb, ${color} 70%, black)`;
 		}
 		if (props.gradientColorSecondary) {

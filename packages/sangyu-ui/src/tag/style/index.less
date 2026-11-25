@@ -65,10 +65,10 @@
 			opacity: 0.85;
 		}
 
-		// 键盘聚焦时显示清晰的焦点环。
 		&:focus-visible {
 			outline: none;
-			box-shadow: var(--sy-tag-focus-shadow, 0 0 0 3px var(--sy-tag-border-color));
+			text-decoration: underline;
+			text-underline-offset: 0.18em;
 		}
 	}
 
@@ -111,19 +111,14 @@
 			pointer-events: none;
 		}
 
-		// 关闭按钮悬停状态。
-		&:hover {
+		&:hover,
+		&:focus-visible {
+			outline: none;
 			opacity: 1;
 			background-color: var(
 				--sy-tag-close-hover-background,
 				color-mix(in srgb, var(--sy-color-text) 8%, transparent)
 			);
-		}
-
-		// 关闭按钮键盘聚焦状态。
-		&:focus-visible {
-			opacity: 1;
-			box-shadow: var(--sy-tag-close-focus-shadow, 0 0 0 2px var(--sy-tag-border-color));
 		}
 	}
 }

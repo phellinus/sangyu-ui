@@ -22,6 +22,7 @@
 	width: 100%;
 	padding: var(--sy-collapse-header-padding, 16px 20px);
 	border: 0;
+	outline: none;
 	background: transparent;
 	color: var(--sy-collapse-color, inherit);
 	font: inherit;
@@ -30,9 +31,9 @@
 }
 
 .sy-collapse-item__trigger:focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: -3px;
-	box-shadow: var(--sy-collapse-focus-shadow, none);
+	outline: none;
+	background: var(--sy-color-bg);
+	color: var(--sy-color-primary-active);
 }
 
 .sy-collapse-item__trigger:disabled {

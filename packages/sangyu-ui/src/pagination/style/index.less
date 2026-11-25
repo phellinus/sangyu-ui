@@ -42,6 +42,10 @@
 			background-color 0.2s ease,
 			transform 0.15s ease,
 			box-shadow 0.2s ease;
+
+		&:focus {
+			outline: none;
+		}
 	}
 
 	&-prev:hover:not(:disabled),
@@ -49,6 +53,18 @@
 	.sy-pager-button:hover:not(.sy-pager-disabled),
 	.sy-pager-more:hover {
 		background: var(--sy-pagination-hover-bg);
+	}
+
+	&-prev:focus-visible,
+	&-next:focus-visible,
+	.sy-pager-button:focus-visible:not(.sy-pager-active),
+	.sy-pager-more:focus-visible {
+		background: var(--sy-color-primary-select);
+		color: var(--sy-color-primary-active);
+	}
+
+	&:has(.sy-pager-active:focus-visible) .sy-pager-aria-active {
+		background: var(--sy-color-primary-active);
 	}
 
 	&-prev:active:not(:disabled),
@@ -115,6 +131,10 @@
 
 		.sy-pager-button:hover:not(.sy-pager-disabled) {
 			background: var(--sy-color-text-secondary);
+		}
+
+		.sy-pager-button:focus-visible:not(.sy-pager-active) {
+			background: var(--sy-color-primary-active);
 		}
 
 		.sy-pager-active {
@@ -250,6 +270,10 @@
 		border-radius: var(--sy-pagination-radius);
 		text-align: center;
 		outline: none;
+
+		&:focus {
+			border-color: var(--sy-color-primary);
+		}
 	}
 }
 

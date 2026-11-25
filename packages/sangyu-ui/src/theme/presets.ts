@@ -46,7 +46,7 @@ const lightBase: ThemeTokens['base'] = {
 	...commonBase,
 	shadow: {
 		control: '0 1px 2px 0 #0000000d',
-		focus: '0 0 0 2px #1677ff33',
+		focus: 'none',
 		popover: '0 6px 16px 0 #00000014',
 		overlay: '0 12px 32px 0 #0000001f',
 	},
@@ -422,8 +422,8 @@ const commonMenu = {
 const commonPagination = {
 	activeColor: semantic('semantic.color.primary'),
 	activeTextColor: '#ffffff',
-	activeShadow: '0 5px 20px rgba(22, 93, 255, 0.3)',
-	dottedActiveShadow: '0 8px 24px rgba(22, 93, 255, 0.28)',
+	activeShadow: 'none',
+	dottedActiveShadow: 'none',
 	height: '32px',
 	minWidth: '32px',
 	radius: semantic('semantic.radius.md'),
@@ -549,7 +549,7 @@ const commonTag: ThemeTokens['components']['tag'] = {
 	borderAlpha: '30%',
 	backgroundAlpha: '20%',
 	borderRadius: '6px',
-	focusShadow: '0 0 0 3px color-mix(in srgb, var(--sy-tag-border-color) 100%, transparent)',
+	focusShadow: semantic('semantic.shadow.focus'),
 	heightSmall: '20px',
 	heightDefault: '28px',
 	heightLarge: '32px',
@@ -565,7 +565,7 @@ const commonTag: ThemeTokens['components']['tag'] = {
 	closeOffset: '-4px',
 	closeRadius: semantic('semantic.radius.round'),
 	closeOpacity: '0.6',
-	closeFocusShadow: '0 0 0 2px var(--sy-tag-border-color)',
+	closeFocusShadow: semantic('semantic.shadow.focus'),
 };
 
 const commonAvatar: ThemeTokens['components']['avatar'] = {
@@ -912,7 +912,7 @@ export const darkTheme: ThemeTokens = {
 		...commonBase,
 		shadow: {
 			control: '0 1px 2px 0 #00000052',
-			focus: '0 0 0 2px #1677ff66',
+			focus: 'none',
 			popover: '0 6px 16px 0 #00000052',
 			overlay: '0 12px 32px 0 #00000066',
 		},

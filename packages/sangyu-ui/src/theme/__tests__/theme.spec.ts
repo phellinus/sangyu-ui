@@ -66,7 +66,8 @@ describe('theme tokens', () => {
 		}
 		expect(light['--sy-base-spacing-xs']).toBe('4px');
 		expect(light['--sy-base-control-height-md']).toBe('36px');
-		expect(dark['--sy-base-shadow-focus']).toBe('0 0 0 2px #1677ff66');
+		expect(light['--sy-base-shadow-focus']).toBe('none');
+		expect(dark['--sy-base-shadow-focus']).toBe('none');
 		expect(themeToCSS(lightTheme, '.scope')).toContain('--sy-spacing-xs: var(--sy-base-spacing-xs);');
 	});
 
@@ -309,6 +310,7 @@ describe('theme tokens', () => {
 		expect(actual.light).toEqual(themeToVariables(lightTheme));
 		expect({ ...actual.light, ...actual.dark }).toEqual(themeToVariables(darkTheme));
 		expect(actual.dark['--sy-select-focus-border-color']).toBe('var(--sy-color-primary)');
+		expect(actual.dark).not.toHaveProperty('--sy-input-focus-shadow');
 		expect(actual.dark).not.toHaveProperty('--sy-control-height-md');
 		expect(actual.dark).not.toHaveProperty('--sy-control-field-width');
 	});

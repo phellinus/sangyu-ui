@@ -1,6 +1,5 @@
 .sy-button {
 	--sy-button-color-soft: color-mix(in srgb, var(--sy-button-color) 16%, transparent);
-	--sy-button-shadow-color: color-mix(in srgb, var(--sy-button-color) 38%, transparent);
 	--sy-button-gradient-direction: 30deg;
 	--sy-button-gradient-secondary: color-mix(in srgb, var(--sy-button-color) 70%, black);
 	--sy-button-relief-color: color-mix(in srgb, var(--sy-button-color) 70%, black);
@@ -31,7 +30,13 @@
 		transform 0.2s ease;
 
 	&:focus-visible {
-		box-shadow: var(--sy-button-focus-shadow);
+		outline: none;
+		filter: brightness(0.85);
+	}
+
+	&:focus-visible &-content {
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
 	}
 
 	&-content {

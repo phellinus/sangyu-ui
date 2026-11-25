@@ -35,20 +35,22 @@
 	// border类型
 	&--border {
 		border-color: var(--border-color, var(--sy-input-border-color));
+	}
 
+	&--filled,
+	&--border,
+	&--label-border {
 		&:focus-within {
 			border-color: var(--focus-border-color, var(--sy-input-focus-color));
-			box-shadow: var(--sy-input-focus-shadow);
 		}
 	}
 	// underline类型
 	&--underline {
-		&:focus-within {
+		&:focus-within,
+		&.hasfocu {
 			border-bottom: 2px solid var(--focus-border-color, var(--sy-input-focus-color));
+			padding-bottom: max(0px, calc(var(--sy-input-padding-y) - 1px));
 		}
-	}
-	&--underline.hasfocu {
-		border-bottom: 2px solid var(--focus-border-color, var(--sy-input-focus-color));
 	}
 	// bottom-line 类型
 	&--bottom-line {
@@ -102,7 +104,6 @@
 		> .sy-input__backicon {
 			background-color: var(--sy-color-surface);
 			color: var(--focus-border-color, var(--sy-input-focus-color));
-			box-shadow: var(--sy-input-icon-shadow);
 		}
 
 		> .sy-input__fronticon {
@@ -289,8 +290,9 @@
 		appearance: none;
 
 		&:focus-visible {
-			outline: 2px solid var(--focus-border-color, var(--sy-input-focus-color));
-			outline-offset: 2px;
+			outline: none;
+			color: var(--focus-border-color, var(--sy-input-focus-color));
+			background: var(--sy-color-primary-select);
 			border-radius: 50%;
 		}
 	}

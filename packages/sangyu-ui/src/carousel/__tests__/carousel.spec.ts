@@ -248,7 +248,6 @@ describe('SyCarousel', () => {
 			'arrow-hover-background',
 			'indicator-color',
 			'indicator-active-color',
-			'focus-shadow',
 		]) {
 			const property = `--sy-carousel-${name}`;
 			expect(dark[property], `${property} must recalculate in the dark scope`).toBe(root[property]);

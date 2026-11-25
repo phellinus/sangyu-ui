@@ -15,6 +15,7 @@
 		padding: var(--sy-spacing-xs) var(--sy-spacing-sm);
 		border: 1px solid var(--sy-select-border-color, var(--sy-color-border, #d9d9d9));
 		border-radius: var(--sy-control-radius);
+		outline: none;
 		background: var(--sy-select-bg, #fff);
 		line-height: 1;
 		cursor: pointer;
@@ -23,8 +24,7 @@
 			box-shadow 0.2s;
 	}
 
-	&-trigger:focus {
-		outline: none;
+	&-trigger:focus-within {
 		border-color: var(--sy-select-focus-border-color, var(--sy-color-primary, #409eff));
 	}
 
@@ -57,7 +57,7 @@
 		min-width: 24px;
 		flex: 1;
 		border: 0;
-		outline: 0;
+		outline: none;
 		background: transparent;
 		color: inherit;
 		font: inherit;
@@ -79,6 +79,7 @@
 		padding: 0;
 		border: 0;
 		border-radius: 50%;
+		outline: none;
 		background: transparent;
 		color: var(--sy-select-icon-color);
 		cursor: pointer;
@@ -88,7 +89,9 @@
 			color 0.18s ease;
 	}
 
-	&-clear:hover {
+	&-clear:hover,
+	&-clear:focus-visible {
+		outline: none;
 		background: var(--sy-select-clear-hover-bg);
 		color: var(--sy-color-text);
 	}
@@ -278,10 +281,18 @@
 		height: 16px;
 		padding: 0;
 		border: 0;
+		border-radius: 50%;
+		outline: none;
 		background: transparent;
 		color: var(--sy-color-text);
 		cursor: pointer;
 		line-height: 1;
+
+		&:focus-visible {
+			outline: none;
+			background: var(--sy-select-clear-hover-bg);
+			color: var(--sy-select-focus-border-color);
+		}
 	}
 
 	&-close-icon {

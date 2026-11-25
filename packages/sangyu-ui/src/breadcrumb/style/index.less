@@ -32,8 +32,10 @@
 		}
 		&__inner.is-link {
 			cursor: pointer;
+			outline: none;
 		}
-		&__inner.is-link:hover {
+		&__inner.is-link:hover,
+		&__inner.is-link:focus-visible {
 			color: var(--sy-breadcrumb-link-hover-color);
 			background-color: var(--sy-breadcrumb-link-hover-bg);
 		}
