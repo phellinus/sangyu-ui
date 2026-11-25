@@ -99,7 +99,7 @@
 	}
 	&-input:focus-visible + &-icon {
 		border-color: var(--sy-radio-hover-color);
-		box-shadow: var(--sy-radio-focus-shadow);
+		background: var(--sy-color-primary-select);
 	}
 	&:active:not(&-disabled) &-icon {
 		border-color: var(--sy-radio-active-color);
@@ -190,7 +190,10 @@
 		box-shadow: var(--sy-radio-button-checked-shadow);
 	}
 	&-input:focus-visible + &-inner {
-		box-shadow: var(--sy-radio-focus-shadow);
+		border-color: var(--sy-radio-button-hover-color);
+		color: var(--sy-radio-button-hover-color);
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
 	}
 
 	&-disabled {

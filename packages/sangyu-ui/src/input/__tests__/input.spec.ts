@@ -21,9 +21,7 @@ describe('SyInput', () => {
 		);
 		const wrapper = mount(Host);
 		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
-		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-input-border-color')).toBe(
-			'var(--sy-color-border)',
-		);
+		expect(outer.attributes('style')).toBeUndefined();
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-input-border-color')).toBe('#bb4422');
 		expect(wrapper.get('.sy-input').attributes('style') ?? '').not.toContain('--sy-input-bg:');
 		expect(wrapper.get('input').attributes('aria-invalid')).toBe('true');
@@ -34,7 +32,7 @@ describe('SyInput', () => {
 		disabled.value = true;
 		await nextTick();
 		expect(outer.attributes('data-sy-theme')).toBe('dark');
-		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-input-bg')).toBe('var(--sy-color-bg)');
+		expect(outer.attributes('style')).toBeUndefined();
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-input-border-color')).toBe('#ee7755');
 		expect(wrapper.get('.sy-input').classes()).toContain('sy-input--disabled');
 		wrapper.unmount();

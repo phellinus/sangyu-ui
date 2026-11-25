@@ -46,7 +46,7 @@ describe('SySelect', () => {
 		const wrapper = mount(Host);
 		mountedWrappers.push(wrapper);
 		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
-		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#d8dee6');
+		expect(outer.attributes('style')).toBeUndefined();
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#b84242');
 		expect(wrapper.get('.sy-select-trigger').attributes('aria-invalid')).toBe('true');
 		await wrapper.get('.sy-select-trigger').trigger('click');
@@ -56,6 +56,7 @@ describe('SySelect', () => {
 		disabled.value = true;
 		await nextTick();
 		expect(outer.attributes('data-sy-theme')).toBe('dark');
+		expect(outer.attributes('style')).toBeUndefined();
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-select-border-color')).toBe('#ee8585');
 		expect(wrapper.get('.sy-select').classes()).toContain('sy-select-disabled');
 		expect(wrapper.get('.sy-select').classes()).not.toContain('sy-select-open');
@@ -100,6 +101,35 @@ describe('SySelect', () => {
 		expect(wrapper.classes()).not.toContain('sy-select-open');
 		expect(wrapper.find('.sy-select-dropdown').exists()).toBe(false);
 		expect(wrapper.emitted('visibleChange')).toEqual([[true], [false]]);
+	});
+
+	it('uses the rendered option height and spacing for virtual scroll offsets', async () => {
+		const wrapper = mountSelect({
+			props: {
+				options: Array.from({ length: 12 }, (_, i) => ({ value: i, label: `选项 ${i}` })),
+				itemHeight: '40px',
+				listHeight: 100,
+				overscan: 0,
+			},
+		});
+		await wrapper.get('.sy-select-trigger').trigger('click');
+
+		const dropdown = wrapper.get<HTMLElement>('.sy-select-dropdown');
+		const list = wrapper.get<HTMLElement>('.sy-select-dropdown__list');
+		expect(dropdown.element.style.getPropertyValue('--sy-select-option-height')).toBe('40px');
+		expect(dropdown.element.style.getPropertyValue('--sy-select-list-spacing')).toBe('4px');
+		expect(list.element.parentElement?.style.height).toBe('532px');
+		expect(wrapper.findAll('.sy-select-option')).toHaveLength(3);
+
+		dropdown.element.scrollTop = 92;
+		await dropdown.trigger('scroll');
+		expect(list.element.style.transform).toBe('translateY(88px)');
+		expect(wrapper.findAll('.sy-select-option')[0].text()).toBe('选项 2');
+
+		await wrapper.setProps({ itemHeight: 36, virtual: false });
+		expect(dropdown.element.style.getPropertyValue('--sy-select-option-height')).toBe('36px');
+		expect(list.element.style.transform).toBe('');
+		expect(wrapper.findAll('.sy-select-option')).toHaveLength(12);
 	});
 
 	it('selects an enabled option and closes single-select dropdown', async () => {

@@ -4,6 +4,8 @@ Sangyu Design UI 使用 CSS Variables 管理主题颜色。你可以在不重新
 
 V2 主题配置按基础 Token、语义 Token、组件 Token 三层组织。`lightTheme` 与 `darkTheme` 是官方预设；`mergeTheme` 合并局部覆盖，`themeToVariables` 或 `themeToCSS` 将合并后的配置转换为现有 `--sy-*` 变量。`ThemeProvider` 会将变量应用到局部 DOM 作用域，并支持嵌套覆盖和亮暗主题切换。
 
+发布的 `style.css` 从 TypeScript 预设生成完整的亮暗主题。引入样式即可使用默认 Token。`ThemeProvider` 在自己的节点上写入局部覆盖和受影响的引用，同模式嵌套沿用父级覆盖，切换模式时从目标预设重新开始。`useTheme()` 继续提供当前作用域合并后的主题和完整变量表。
+
 ```ts
 import { lightTheme, mergeTheme, themeToCSS } from 'sangyu-ui';
 
@@ -15,7 +17,30 @@ const scopedCSS = themeToCSS(brandTheme, '.brand-theme');
 
 语义色引用基础色板，Select 的焦点边框等组件 Token 引用语义色。覆盖基础值会沿引用传递；显式设置语义或组件值时，以更具体的设置为准。合并不会修改预设或传入的覆盖对象。
 
-暗色静态样式可在目标元素上设置 `data-sy-theme="dark"`，并沿 DOM 层级继承。使用 `ThemeProvider` 时，组件与其后代会自动获得对应主题变量。浮层若挂载到 Provider 之外（例如 Teleport 到 `body`），需在实际容器上设置同样的属性并应用 `themeToVariables` 生成的变量。
+## 主题作用域
+
+`data-sy-theme="dark"` 和 `data-sy-theme="light"` 用于静态 CSS 主题，样式沿 DOM 继承。`useTheme()` 读取最近的 Vue `ThemeProvider`，在 Provider 外返回默认亮色上下文。如果在两个 Provider 之间用静态属性切换模式，CSS 和 `useTheme()` 可能读到不同的主题。
+
+子树里有 `useTheme()`、Drawer 或 Notification 时，用 `ThemeProvider` 设置亮暗模式，让组件样式、Vue 主题上下文和浮层使用同一作用域。
+
+```vue
+<script setup lang="ts">
+import { SyButton, ThemeProvider } from 'sangyu-ui';
+</script>
+
+<template>
+	<ThemeProvider mode="dark">
+		<SyButton>暗色区域</SyButton>
+		<ThemeProvider mode="light">
+			<SyButton>局部恢复亮色</SyButton>
+		</ThemeProvider>
+	</ThemeProvider>
+</template>
+```
+
+Drawer 和带主题上下文的 Notification 会将来源作用域的主题带到浮层容器。使用自定义 Teleport 时，可以通过 `useTheme()` 在实际容器上应用来源的模式和变量。
+
+在事件或异步回调中调用 `SyNotification.info()` 时，可以在 `setup` 中先取得 `const theme = useTheme()`，再通过通知的 `theme` 选项传入。
 
 ## 引入顺序
 
@@ -24,6 +49,31 @@ const scopedCSS = themeToCSS(brandTheme, '.brand-theme');
 ```ts
 import 'sangyu-ui/style.css';
 import './styles/sangyu-theme.css';
+```
+
+## 控件尺寸
+
+Button、Input 和 Select 单行触发器共用三档控件高度和默认圆角。
+
+| `size`    | 外框高度 |
+| --------- | -------: |
+| `small`   |     28px |
+| `default` |     36px |
+| `large`   |     44px |
+
+默认圆角为 8px。Input 和 Select 的默认宽度为 240px，容器更窄时会随之收缩，仍可通过 `width` 单独设置。横向和纵向 Form 默认使用布局分配的字段宽度，行内 Form 沿用控件默认宽度。Select 多选标签换行时，触发器会随内容增高。
+
+用 `ThemeProvider` 可以在局部同时调整三种控件。共享高度位于 `semantic.controlHeight`，圆角和字段宽度位于 `semantic.control`。
+
+```ts
+import type { ThemeOverride } from 'sangyu-ui';
+
+const tokens: ThemeOverride = {
+	semantic: {
+		controlHeight: { md: '40px' },
+		control: { radius: '10px', fieldWidth: '280px' },
+	},
+};
 ```
 
 ## 修改品牌色

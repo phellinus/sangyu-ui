@@ -3,6 +3,7 @@ import {
 	computed,
 	CSSProperties,
 	defineComponent,
+	inject,
 	PropType,
 	nextTick,
 	onMounted,
@@ -14,7 +15,7 @@ import {
 	watch,
 	withDirectives,
 } from 'vue';
-import { useTheme } from '../theme/context';
+import { getThemeScopeProps, themeContextKey } from '../theme/context';
 import { DrawerContainer, DrawerPlacement, DrawerProps } from './Drawer.type';
 import { useBodyScrollLock, useDrawerFocus, useDrawerStack } from './composables';
 import { SyIcon } from '@sangyu-ui/icons';
@@ -90,7 +91,8 @@ export default defineComponent({
 	emits: ['update:visible', 'close'],
 	setup(props, { attrs, emit, slots }) {
 		const { c, ce, cm } = useClassnames('drawer');
-		const theme = useTheme();
+		const theme = inject(themeContextKey, null);
+		const themeScope = computed(() => (props.getContainer === false ? undefined : getThemeScopeProps(theme)));
 		const titleId = `${useId()}-title`;
 		// 抽屉面板元素引用
 		const panelRef = ref<HTMLElement>();
@@ -209,12 +211,13 @@ export default defineComponent({
 			return (
 				<div
 					{...attrs}
+					data-sy-theme={themeScope.value?.['data-sy-theme'] ?? attrs['data-sy-theme']}
 					class={{
 						[c()]: true,
 						[c(cm(props.placement))]: true,
 					}}
 					style={[
-						theme.variables.value,
+						themeScope.value?.style,
 						props.customStyle,
 						{
 							zIndex: props.zIndex,

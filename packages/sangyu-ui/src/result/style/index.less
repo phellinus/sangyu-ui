@@ -58,7 +58,11 @@
 			),
 			var(--sy-result-surface);
 		color: var(--sy-result-color);
-		box-shadow: var(--sy-result-visual-shadow, var(--sy-shadow-control));
+		box-shadow: var(
+			--sy-result-visual-shadow,
+			inset 0 1px 0 color-mix(in srgb, var(--sy-color-surface) 80%, transparent),
+			0 14px 28px -22px var(--sy-result-color)
+		);
 		flex-shrink: 0;
 	}
 

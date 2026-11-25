@@ -67,7 +67,7 @@ export function useNotification(): NotificationManager & {
 			position: options.position ?? DEFAULT_NOTIFICATION_POSITION,
 			showClose: options.showClose ?? true,
 			clamp: Math.max(1, Math.trunc(options.clamp ?? DEFAULT_NOTIFICATION_CLAMP)),
-			theme,
+			theme: options.theme ?? theme,
 		};
 
 		notifications.value = [...notifications.value, notification];

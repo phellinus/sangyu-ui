@@ -305,4 +305,12 @@
 	.sy-submenu-title:hover {
 		color: var(--sy-menu-hover-color);
 	}
+
+	.sy-menu-item:focus-visible,
+	.sy-submenu-title:focus-visible {
+		outline: none;
+		background: var(--sy-menu-hover-bg);
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
+	}
 }

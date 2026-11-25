@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, ref, watch, type CSSProperties } from 'vue';
-import { getColor, getColorWithAlpha, useClassnames } from '@sangyu-ui/utils';
+import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { BUTTON_RIPPLE_TYPES } from '../constants';
 import { createButtonRipple } from '../helpers';
 import type { ButtonEmits, ButtonProps, ButtonVariant } from '../Button.type';
@@ -36,17 +36,13 @@ export function useButton(props: Readonly<ButtonProps>, emit: ButtonEmits, attrs
 		const colorToken = props.color || 'primary';
 		const color = getColor(colorToken);
 
-		const result: Record<string, string> = {
-			'--sy-button-gradient-direction': props.gradientDirection || '30deg',
-		};
+		const result: Record<string, string> = {};
 
 		if (colorToken !== 'primary' || Object.hasOwn(instance?.vnode.props ?? {}, 'color')) {
 			result['--sy-button-color'] = color;
-			result['--sy-button-color-soft'] = getColorWithAlpha(colorToken, 0.16);
-			result['--sy-button-shadow-color'] = getColorWithAlpha(colorToken, 0.38);
-			result['--sy-button-focus-shadow'] = `0 0 0 3px ${getColorWithAlpha(colorToken, 0.16)}`;
-			result['--sy-button-hover-shadow'] = `0 8px 25px -8px ${getColorWithAlpha(colorToken, 0.38)}`;
-			result['--sy-button-relief-color'] = `color-mix(in srgb, ${color} 70%, black)`;
+		}
+		if (props.gradientDirection) {
+			result['--sy-button-gradient-direction'] = props.gradientDirection;
 		}
 		if (props.gradientColorSecondary) {
 			result['--sy-button-gradient-secondary'] = getColor(props.gradientColorSecondary);

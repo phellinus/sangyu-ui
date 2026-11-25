@@ -1,106 +1,79 @@
-import type { CommonScales, SemanticColors, ThemeTokens, TokenReference } from './types';
+import type { ThemeTokens, TokenReference } from './types';
 
-const commonGroups = [
-	'spacing',
-	'controlHeight',
-	'fontSize',
-	'radius',
-	'shadow',
-] as const satisfies (keyof CommonScales)[];
+type CSSVariables = Record<string, string>;
 
 const kebab = (value: string) => value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 
 const nameForPath = (path: string): string => {
-	const parts = path.split('.');
-	if (parts[0] === 'base' && parts[1] === 'color' && parts.length === 4) {
-		return parts[2] === 'gray' ? `--gray-${parts[3]}` : `--sy-color-${parts[2]}-${parts[3]}`;
+	const [layer, group, key, step, ...rest] = path.split('.');
+	if (layer === 'base' && group === 'color' && step && !rest.length) {
+		return key === 'gray' ? `--gray-${step}` : `--sy-color-${kebab(key)}-${step}`;
 	}
-	if (parts[0] === 'semantic' && parts[1] === 'color' && parts.length === 3) {
-		return `--sy-color-${kebab(parts[2])}`;
+	if (!step && group && key) {
+		if (layer === 'base') return `--sy-base-${kebab(group)}-${kebab(key)}`;
+		if (layer === 'semantic' || layer === 'components') return `--sy-${kebab(group)}-${kebab(key)}`;
 	}
-	if (parts.length === 3 && commonGroups.some((group) => group === parts[1])) {
-		if (parts[0] === 'base') return `--sy-base-${kebab(parts[1])}-${kebab(parts[2])}`;
-		if (parts[0] === 'semantic') return `--sy-${kebab(parts[1])}-${kebab(parts[2])}`;
-	}
-	throw new Error(`Unknown token reference: ${path}`);
+	throw new Error(`Unknown token path: ${path}`);
 };
 
-const cssValue = (value: string | TokenReference<string>): string =>
-	typeof value === 'string' ? value : `var(${nameForPath(value.ref)})`;
+type TokenTree = { [key: string]: TokenTree | TokenReference<string> | string | undefined };
+const isReference = (token: TokenTree | TokenReference<string>): token is TokenReference<string> =>
+	typeof token.ref === 'string';
 
 /** Flatten all three token layers to the existing CSS variable names. */
-export const themeToVariables = (theme: ThemeTokens): Record<string, string> => {
-	const variables: Record<string, string> = {};
-	for (const [palette, steps] of Object.entries(theme.base.color)) {
-		for (const [step, value] of Object.entries(steps)) {
-			variables[nameForPath(`base.color.${palette}.${step}`)] = value;
+export const themeToVariables = (theme: ThemeTokens): CSSVariables => {
+	const variables: CSSVariables = {};
+
+	const visit = (tree: TokenTree, prefix: string) => {
+		for (const [key, token] of Object.entries(tree)) {
+			if (token === undefined) continue;
+			const path = prefix ? `${prefix}.${key}` : key;
+			if (typeof token !== 'string' && !isReference(token)) {
+				visit(token, path);
+				continue;
+			}
+			const name = nameForPath(path);
+			if (name in variables) throw new Error(`Duplicate CSS variable ${name} at ${path}`);
+			variables[name] = typeof token === 'string' ? token : `var(${nameForPath(token.ref)})`;
 		}
-	}
-	for (const [key, value] of Object.entries(theme.semantic.color) as [
-		keyof SemanticColors,
-		ThemeTokens['semantic']['color'][keyof SemanticColors],
-	][]) {
-		variables[nameForPath(`semantic.color.${key}`)] = cssValue(value);
-	}
-	for (const group of commonGroups) {
-		for (const [key, value] of Object.entries(theme.base[group])) {
-			variables[nameForPath(`base.${group}.${key}`)] = value;
-		}
-		for (const [key, value] of Object.entries(theme.semantic[group])) {
-			variables[nameForPath(`semantic.${group}.${key}`)] = cssValue(value);
-		}
-	}
-	for (const component of [
-		'select',
-		'button',
-		'input',
-		'checkbox',
-		'checkboxGroup',
-		'radio',
-		'radioGroup',
-		'radioButton',
-		'switch',
-		'form',
-		'menu',
-		'pagination',
-		'breadcrumb',
-		'step',
-		'card',
-		'collapse',
-		'tag',
-		'avatar',
-		'divider',
-		'space',
-		'layout',
-		'result',
-		'progress',
-		'tooltip',
-		'drawer',
-		'notification',
-		'table',
-		'tabs',
-		'carousel',
-		'verify',
-	] as const) {
-		for (const [key, value] of Object.entries(theme.components[component])) {
-			const prefix =
-				component === 'checkboxGroup'
-					? 'checkbox-group'
-					: component === 'radioGroup'
-						? 'radio-group'
-						: component === 'radioButton'
-							? 'radio-button'
-							: component;
-			variables[`--sy-${prefix}-${kebab(key)}`] = cssValue(value);
-		}
-	}
+	};
+
+	visit({ base: theme.base, semantic: theme.semantic, components: theme.components }, '');
 	return variables;
 };
 
-/** Generate declarations for a root or future Provider-owned scope. */
-export const themeToCSS = (theme: ThemeTokens, selector = ':root'): string => {
-	const declarations = Object.entries(themeToVariables(theme))
+export const variableReferences = (value: string): string[] =>
+	Array.from(value.matchAll(/var\(\s*(--[\w-]+)/g), ([, name]) => name);
+
+/** Re-declare affected aliases where CSS can compute them against the new values. */
+export const themeVariableOverrides = (inherited: CSSVariables, effective: CSSVariables): CSSVariables | undefined => {
+	if (inherited === effective) return;
+	const entries = Object.entries(effective);
+	const changed = new Set(entries.filter(([name, value]) => value !== inherited[name]).map(([name]) => name));
+	if (!changed.size) return;
+
+	const dependents = new Map<string, string[]>();
+	for (const [name, value] of entries) {
+		for (const reference of variableReferences(value)) {
+			const aliases = dependents.get(reference);
+			if (aliases) aliases.push(name);
+			else dependents.set(reference, [name]);
+		}
+	}
+	// Set iteration also visits the newly added dependents.
+	for (const name of changed) {
+		for (const dependent of dependents.get(name) ?? []) changed.add(dependent);
+	}
+	return Object.fromEntries(entries.filter(([name]) => changed.has(name)));
+};
+
+export const variablesToCSS = (variables: CSSVariables, selector: string): string => {
+	const declarations = Object.entries(variables)
 		.map(([name, value]) => `\t${name}: ${value};`)
 		.join('\n');
 	return `${selector} {\n${declarations}\n}`;
 };
+
+/** Generate declarations for a theme scope. */
+export const themeToCSS = (theme: ThemeTokens, selector = ':root'): string =>
+	variablesToCSS(themeToVariables(theme), selector);

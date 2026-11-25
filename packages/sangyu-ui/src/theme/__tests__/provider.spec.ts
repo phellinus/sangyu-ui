@@ -1,7 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { defineComponent, h, nextTick, ref } from 'vue';
 import { renderToString } from 'vue/server-renderer';
-import { describe, expect, expectTypeOf, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, expectTypeOf, it } from 'vitest';
+import { renderThemeCSS } from '../../../../../scripts/sangyu-theme-css';
 import { ThemeProvider, useTheme } from '../../index';
 import type { ThemeMode, ThemeOverride } from '../../index';
 
@@ -13,6 +14,14 @@ const Probe = defineComponent({
 });
 
 describe('ThemeProvider', () => {
+	let stylesheet: HTMLStyleElement;
+	beforeEach(() => {
+		stylesheet = document.createElement('style');
+		stylesheet.textContent = renderThemeCSS();
+		document.head.appendChild(stylesheet);
+	});
+	afterEach(() => stylesheet.remove());
+
 	it('mounts variables on its own scope and updates mode and refs', async () => {
 		const mode = ref<ThemeMode>('light');
 		const primary = ref('#7342ee');
@@ -39,7 +48,8 @@ describe('ThemeProvider', () => {
 		await nextTick();
 		expect(scope.attributes('data-sy-theme')).toBe('dark');
 		expect((scope.element as HTMLElement).style.getPropertyValue('--sy-color-primary-6')).toBe('#aabbcc');
-		expect((scope.element as HTMLElement).style.getPropertyValue('--sy-color-bg')).toBe('#141414');
+		expect(getComputedStyle(scope.element).getPropertyValue('--sy-color-bg')).toBe('#141414');
+		expect((scope.element as HTMLElement).style.getPropertyValue('--sy-color-bg')).toBe('');
 		expect(scope.find('.probe').text()).toContain('dark:');
 		wrapper.unmount();
 		expect(scope.element.isConnected).toBe(false);
@@ -65,11 +75,14 @@ describe('ThemeProvider', () => {
 		const parent = wrapper.find('[data-sy-theme]');
 		const child = wrapper.findAll('[data-sy-theme]')[1];
 		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-color-primary')).toBe('#111111');
-		expect((child.element as HTMLElement).style.getPropertyValue('--sy-color-primary')).toBe('#111111');
+		expect(child.attributes('data-sy-theme-inherit')).toBe('');
+		expect((child.element as HTMLElement).style.getPropertyValue('--sy-color-primary')).toBe('');
+		expect(getComputedStyle(child.element).getPropertyValue('--sy-color-primary')).toBe('#111111');
 		expect((child.element as HTMLElement).style.getPropertyValue('--sy-select-focus-border-color')).toBe('#222222');
 		parentColor.value = '#333333';
 		await nextTick();
-		expect((child.element as HTMLElement).style.getPropertyValue('--sy-color-primary')).toBe('#333333');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-color-primary')).toBe('#333333');
+		expect((child.element as HTMLElement).style.getPropertyValue('--sy-color-primary')).toBe('');
 		childVisible.value = false;
 		await nextTick();
 		expect(wrapper.findAll('[data-sy-theme]')).toHaveLength(1);
@@ -79,12 +92,18 @@ describe('ThemeProvider', () => {
 
 	it('resets to the selected preset when a nested provider changes mode', () => {
 		const wrapper = mount(ThemeProvider, {
-			props: { mode: 'dark', tokens: { semantic: { color: { text: '#abcd12' } } } },
+			props: {
+				mode: 'dark',
+				tokens: { semantic: { color: { text: '#abcd12' } }, base: { spacing: { xs: '12px' } } },
+			},
 			slots: { default: () => h(ThemeProvider, { mode: 'light' }, () => h(Probe)) },
 		});
 		const [parent, child] = wrapper.findAll('[data-sy-theme]');
 		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-color-text')).toBe('#abcd12');
-		expect((child.element as HTMLElement).style.getPropertyValue('--sy-color-text')).toBe('#000000e0');
+		expect(child.attributes('data-sy-theme-inherit')).toBeUndefined();
+		expect(child.attributes('style')).toBeUndefined();
+		expect(getComputedStyle(child.element).getPropertyValue('--sy-color-text')).toBe('#000000e0');
+		expect(getComputedStyle(child.element).getPropertyValue('--sy-base-spacing-xs')).toBe('4px');
 		wrapper.unmount();
 	});
 
@@ -98,15 +117,15 @@ describe('ThemeProvider', () => {
 		);
 		const wrapper = mount(Host);
 		const [parent, child] = wrapper.findAll('[data-sy-theme]');
-		for (const scope of [parent, child]) {
-			expect((scope.element as HTMLElement).style.getPropertyValue('--sy-base-spacing-xs')).toBe('6px');
-			expect((scope.element as HTMLElement).style.getPropertyValue('--sy-spacing-xs')).toBe(
-				'var(--sy-base-spacing-xs)',
-			);
-		}
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-spacing-xs')).toBe(
+			'var(--sy-base-spacing-xs)',
+		);
+		expect(child.attributes('style')).toBeUndefined();
+		expect(getComputedStyle(child.element).getPropertyValue('--sy-base-spacing-xs')).toBe('6px');
 		spacing.value = '10px';
 		await nextTick();
-		expect((child.element as HTMLElement).style.getPropertyValue('--sy-base-spacing-xs')).toBe('10px');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-base-spacing-xs')).toBe('10px');
+		expect(child.attributes('style')).toBeUndefined();
 		wrapper.unmount();
 	});
 
@@ -127,7 +146,7 @@ describe('ThemeProvider', () => {
 		);
 		const wrapper = mount(Host);
 		const [parent, child] = wrapper.findAll('[data-sy-theme]');
-		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		const css = (scope: typeof parent, name: string) => getComputedStyle(scope.element).getPropertyValue(name);
 		expect(parent.attributes('data-sy-theme')).toBe('light');
 		expect(css(parent, '--sy-checkbox-color')).toBe('#a12345');
 		expect(css(child, '--sy-checkbox-color')).toBe('#a12345');
@@ -138,8 +157,8 @@ describe('ThemeProvider', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(parent.attributes('data-sy-theme')).toBe('dark');
-		expect(css(child, '--sy-checkbox-color')).toBe('#654321');
-		expect(css(child, '--sy-radio-size')).toBe('21px');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-checkbox-color')).toBe('#654321');
+		expect((child.element as HTMLElement).style.getPropertyValue('--sy-radio-size')).toBe('21px');
 		wrapper.unmount();
 	});
 
@@ -170,11 +189,11 @@ describe('ThemeProvider', () => {
 		);
 		const wrapper = mount(Host);
 		const [parent, child] = wrapper.findAll('[data-sy-theme]');
-		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		const css = (scope: typeof parent, name: string) => getComputedStyle(scope.element).getPropertyValue(name);
 		expect(css(parent, '--sy-menu-active-bg')).toBe('#eee');
 		expect(css(child, '--sy-menu-active-bg')).toBe('#eee');
 		expect(css(child, '--sy-pagination-height')).toBe('40px');
-		expect(css(parent, '--sy-pagination-height')).toBe('var(--sy-control-height-md)');
+		expect(css(parent, '--sy-pagination-height')).toBe('32px');
 		expect(css(child, '--sy-breadcrumb-current-color')).toBe('#123456');
 		expect(css(child, '--sy-step-indicator-size')).toBe('42px');
 		menuBg.value = '#ddd';
@@ -182,8 +201,8 @@ describe('ThemeProvider', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(parent.attributes('data-sy-theme')).toBe('dark');
-		expect(css(child, '--sy-menu-active-bg')).toBe('#ddd');
-		expect(css(child, '--sy-pagination-height')).toBe('44px');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-menu-active-bg')).toBe('#ddd');
+		expect((child.element as HTMLElement).style.getPropertyValue('--sy-pagination-height')).toBe('44px');
 		wrapper.unmount();
 	});
 
@@ -223,7 +242,7 @@ describe('ThemeProvider', () => {
 		);
 		const wrapper = mount(Host);
 		const [parent, child] = wrapper.findAll('[data-sy-theme]');
-		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		const css = (scope: typeof parent, name: string) => getComputedStyle(scope.element).getPropertyValue(name);
 		expect(css(parent, '--sy-card-background')).toBe('#f0f0f0');
 		expect(css(child, '--sy-card-background')).toBe('#f0f0f0');
 		expect(css(child, '--sy-tag-success-color')).toBe('#12ab34');
@@ -236,8 +255,8 @@ describe('ThemeProvider', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(parent.attributes('data-sy-theme')).toBe('dark');
-		expect(css(child, '--sy-card-background')).toBe('#e0e0e0');
-		expect(css(child, '--sy-progress-line-height')).toBe('16px');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-card-background')).toBe('#e0e0e0');
+		expect((child.element as HTMLElement).style.getPropertyValue('--sy-progress-line-height')).toBe('16px');
 		wrapper.unmount();
 	});
 
@@ -268,7 +287,7 @@ describe('ThemeProvider', () => {
 		);
 		const wrapper = mount(Host);
 		const [parent, child] = wrapper.findAll('[data-sy-theme]');
-		const css = (scope: typeof parent, name: string) => (scope.element as HTMLElement).style.getPropertyValue(name);
+		const css = (scope: typeof parent, name: string) => getComputedStyle(scope.element).getPropertyValue(name);
 		expect(css(parent, '--sy-tooltip-background')).toBe('#283848');
 		expect(css(child, '--sy-tooltip-arrow-size')).toBe('9px');
 		expect(css(child, '--sy-drawer-panel-background')).toBe('#fefefe');
@@ -280,8 +299,10 @@ describe('ThemeProvider', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(parent.attributes('data-sy-theme')).toBe('dark');
-		expect(css(child, '--sy-tooltip-arrow-size')).toBe('11px');
-		expect(css(child, '--sy-table-row-hover-background')).toBe('#e0e0e0');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-tooltip-arrow-size')).toBe('11px');
+		expect((parent.element as HTMLElement).style.getPropertyValue('--sy-table-row-hover-background')).toBe(
+			'#e0e0e0',
+		);
 		expect(css(child, '--sy-table-header-background')).toBe('#eeeeee');
 		wrapper.unmount();
 	});
@@ -290,16 +311,11 @@ describe('ThemeProvider', () => {
 		const html = await renderToString(h(ThemeProvider, { mode: 'dark', as: 'section' }, () => h(Probe)));
 		expect(html).toContain('<section');
 		expect(html).toContain('data-sy-theme="dark"');
-		expect(html).toContain('--sy-color-bg:#141414');
-		expect(html).toContain('--sy-spacing-xs:var(--sy-base-spacing-xs)');
-		expect(html).toContain('--sy-menu-active-bg:var(--sy-color-bg)');
-		expect(html).toContain('--sy-step-finish-color:var(--sy-color-success)');
-		expect(html).toContain('--sy-card-background:var(--sy-color-surface)');
-		expect(html).toContain('--sy-progress-default-color:var(--sy-color-primary)');
-		expect(html).toContain('--sy-tooltip-background:#2c3f51');
-		expect(html).toContain('--sy-drawer-panel-background:var(--sy-color-surface)');
-		expect(html).toContain('--sy-notification-success-color:var(--sy-color-success)');
-		expect(html).toContain('--sy-table-cell-padding-y:var(--sy-spacing-md)');
+		expect(html).not.toContain('style=');
+		const overridden = await renderToString(h(ThemeProvider, { tokens: { base: { spacing: { xs: '10px' } } } }));
+		expect(overridden).toContain('--sy-base-spacing-xs:10px');
+		expect(overridden).toContain('--sy-spacing-xs:var(--sy-base-spacing-xs)');
+		expect(overridden).not.toContain('--sy-color-bg:');
 	});
 
 	it('accepts typed modes and nested token overrides', () => {

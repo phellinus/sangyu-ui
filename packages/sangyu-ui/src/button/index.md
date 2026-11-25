@@ -64,6 +64,7 @@
 | lineOrigin             | `'left' \| 'right' \| 'center'`                                       | `line` 类型的动画起点位置                                                      | `'center'`  |
 | linePosition           | `'top' \| 'bottom'`                                                   | `line` 类型的描边位置                                                          | `'bottom'`  |
 | radius                 | `'small' \| 'default' \| 'large'`                                     | 圆角尺寸                                                                       | `'default'` |
+| gradientDirection      | `string`                                                              | 渐变角度。省略时读取 `components.button.gradientDirection` 主题 Token          | `'30deg'`   |
 | gradientColorSecondary | `string`                                                              | 渐变按钮的第二个颜色值                                                         | `''`        |
 | customStyle            | `string`                                                              | 追加到按钮上的自定义内联样式（支持任何合法 CSS 字符串）                        | `''`        |
 

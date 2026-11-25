@@ -165,7 +165,6 @@ export default defineComponent({
 						onChange={state.handleChange}
 					/>
 					<span class={c('control')} aria-hidden='true'>
-						<span class={c('border-wave')} />
 						<span class={c('selected-bg')} />
 						<span class={c('icon')}>
 							{props.loading ? (

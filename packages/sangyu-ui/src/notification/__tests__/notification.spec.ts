@@ -5,6 +5,7 @@ import { createNotification } from '../Notification.service';
 import SyNotificationContainer from '../SyNotification';
 import type { NotificationManager } from '../Notification.type';
 import { ThemeProvider } from '../../theme/ThemeProvider';
+import { useTheme } from '../../theme/context';
 
 enableAutoUnmount(afterEach);
 
@@ -100,14 +101,16 @@ describe('SyNotification', () => {
 	it('captures the calling Provider scope for service-created notification items', async () => {
 		const service = createNotification();
 		try {
-			service.info({ title: '初始化', content: '服务容器', duration: 0 });
-			await nextTick();
 			const successColor = ref('#167744');
 			const mode = ref<'light' | 'dark'>('light');
 			const Caller = defineComponent({
 				setup() {
+					const theme = useTheme();
 					service.info({ title: '作用域通知', content: 'Provider 主题', type: 'success', duration: 0 });
-					return () => h('span');
+					return () =>
+						h('button', {
+							onClick: () => service.info({ title: '事件通知', content: '显式主题', duration: 0, theme }),
+						});
 				},
 			});
 			const Host = defineComponent(
@@ -122,16 +125,22 @@ describe('SyNotification', () => {
 					),
 			);
 			const wrapper = mount(Host);
-			await nextTick();
-			const item = [...document.body.querySelectorAll<HTMLElement>('.sy-notification-notify')].find((node) =>
-				node.textContent?.includes('作用域通知'),
-			)!;
+			service.info({ title: '全局通知', content: '默认主题', duration: 0 });
+			await wrapper.get('button').trigger('click');
+			const items = [...document.body.querySelectorAll<HTMLElement>('.sy-notification-notify')];
+			const item = items.find((node) => node.textContent?.includes('作用域通知'))!;
+			const globalItem = items.find((node) => node.textContent?.includes('全局通知'))!;
+			const eventItem = items.find((node) => node.textContent?.includes('事件通知'))!;
+			expect(globalItem.closest('[data-sy-theme]')).toBeNull();
 			expect(item.style.getPropertyValue('--sy-notification-success-color')).toBe('#167744');
 			successColor.value = '#225588';
 			mode.value = 'dark';
 			await nextTick();
 			expect(item.style.getPropertyValue('--sy-notification-success-color')).toBe('#225588');
-			expect(item.style.getPropertyValue('--sy-color-surface')).toBe('#1f1f1f');
+			expect(item.getAttribute('data-sy-theme')).toBe('dark');
+			expect(item.style.getPropertyValue('--sy-color-surface')).toBe('');
+			expect(eventItem.getAttribute('data-sy-theme')).toBe('dark');
+			expect(eventItem.style.getPropertyValue('--sy-notification-success-color')).toBe('#225588');
 			wrapper.unmount();
 		} finally {
 			service.destroy();

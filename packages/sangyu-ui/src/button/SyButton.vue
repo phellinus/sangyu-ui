@@ -45,7 +45,6 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 	radius: 'default',
 	lineOrigin: 'center',
 	linePosition: 'bottom',
-	gradientDirection: '30deg',
 	gradientColorSecondary: '',
 	customStyle: '',
 });

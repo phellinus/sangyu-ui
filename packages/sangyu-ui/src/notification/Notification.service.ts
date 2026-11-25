@@ -13,7 +13,7 @@ export function createNotification(): NotificationService {
 	let rootVNode: VNode | undefined;
 
 	/** 挂载 Notification 容器 */
-	const mountContainer = (options: NotificationOptions, theme?: ThemeContext) => {
+	const mountContainer = (options: NotificationOptions) => {
 		/**
 		 * Notification 属于函数式组件，不能直接 render 到 body
 		 * 单独创建容器可以避免 Vue 接管或覆盖 body 中的其他内容
@@ -23,7 +23,6 @@ export function createNotification(): NotificationService {
 		document.body.appendChild(container);
 
 		rootVNode = createVNode(SyNotificationContainer, {
-			theme,
 			onReady(instance: NotificationManager) {
 				manager = instance;
 			},
@@ -52,12 +51,16 @@ export function createNotification(): NotificationService {
 
 		const caller = getCurrentInstance();
 		const instanceProvides = (caller as unknown as { provides?: Record<PropertyKey, unknown> } | null)?.provides;
-		const theme = instanceProvides?.[themeContextKey] ?? options.appContext?.provides[themeContextKey];
+		const theme =
+			options.theme ??
+			((instanceProvides?.[themeContextKey] ?? options.appContext?.provides[themeContextKey]) as
+				| ThemeContext
+				| undefined);
 		if (!manager) {
-			mountContainer(options, theme as ThemeContext | undefined);
+			mountContainer(options);
 		}
 
-		return manager?.add(options, theme as ThemeContext | undefined) ?? (() => undefined);
+		return manager?.add(options, theme) ?? (() => undefined);
 	};
 
 	/** 销毁整个 Notification 服务 */

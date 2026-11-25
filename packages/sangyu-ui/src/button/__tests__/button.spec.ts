@@ -18,11 +18,9 @@ describe('SyButton', () => {
 		);
 		const wrapper = mount(Host);
 		const [outer, inner] = wrapper.findAll('[data-sy-theme]');
-		expect((outer.element as HTMLElement).style.getPropertyValue('--sy-button-color')).toBe(
-			'var(--sy-color-primary)',
-		);
+		expect(outer.attributes('style')).toBeUndefined();
 		expect((inner.element as HTMLElement).style.getPropertyValue('--sy-button-color')).toBe('#8455cc');
-		expect(wrapper.get('button').attributes('style')).not.toContain('--sy-button-color:');
+		expect(wrapper.get('button').attributes('style') ?? '').not.toContain('--sy-button-color:');
 		mode.value = 'dark';
 		customColor.value = '#bb88ff';
 		await nextTick();
@@ -152,7 +150,7 @@ describe('SyButton', () => {
 		} as DOMRect);
 
 		expect(button.attributes('style')).toContain('--sy-button-color: #336699;');
-		expect(button.attributes('style')).toContain('--sy-button-color-soft: rgba(51, 102, 153, 0.16);');
+		expect(button.attributes('style')).not.toContain('--sy-button-color-soft:');
 
 		await button.trigger('mouseover');
 		expect(wrapper.emitted('mouseover')).toHaveLength(1);

@@ -1,5 +1,3 @@
-@import '../../style/index.less';
-
 .sy-drawer {
 	position: fixed;
 	inset: 0;
@@ -87,6 +85,7 @@
 		background: transparent;
 		color: var(--sy-drawer-close-color, var(--sy-color-text-secondary));
 		cursor: pointer;
+		outline: none;
 
 		&:hover {
 			background: var(--sy-drawer-close-hover-background, var(--sy-color-bg));
@@ -94,8 +93,9 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--sy-drawer-focus-color, var(--sy-color-primary));
-			outline-offset: 2px;
+			outline: none;
+			background: var(--sy-color-primary-select);
+			color: var(--sy-drawer-focus-color, var(--sy-color-primary));
 		}
 	}
 

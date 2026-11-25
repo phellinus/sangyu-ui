@@ -1,11 +1,10 @@
-import { defineComponent, onMounted, PropType, TransitionGroup } from 'vue';
+import { computed, defineComponent, inject, onMounted, PropType, TransitionGroup } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { NotificationItem } from './components';
 import { useNotification } from './composables';
 import { NOTIFICATION_POSITIONS } from './constants';
 import type { NotificationManager } from './Notification.type';
-import { useTheme } from '../theme/context';
-import type { ThemeContext } from '../theme/context';
+import { getThemeScopeProps, themeContextKey, type ThemeContext } from '../theme/context';
 
 export default defineComponent({
 	name: 'SyNotificationContainer',
@@ -20,8 +19,8 @@ export default defineComponent({
 	},
 	setup(props, { expose }) {
 		const { c } = useClassnames('notification');
-		const inheritedTheme = useTheme();
-		const theme = props.theme ?? inheritedTheme;
+		const inheritedTheme = inject(themeContextKey, null);
+		const themeScope = computed(() => getThemeScopeProps(props.theme ?? inheritedTheme));
 
 		const { getByPosition, add, remove, clear } = useNotification();
 
@@ -59,7 +58,7 @@ export default defineComponent({
 							tag='div'
 							name={`sy-notification-${position}`}
 							class={[c(), c('position', position)]}
-							style={theme.variables.value}
+							{...themeScope.value}
 						>
 							{items.map((item) => (
 								<NotificationItem

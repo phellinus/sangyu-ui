@@ -1,7 +1,8 @@
-import { defineComponent, PropType, type CSSProperties } from 'vue';
+import { computed, defineComponent, PropType, type CSSProperties } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import NotificationIcon from './NotificationIcon';
 import type { NotificationRecord } from '../Notification.type';
+import { getThemeScopeProps } from '../../theme/context';
 
 export default defineComponent({
 	name: 'NotificationItem',
@@ -14,10 +15,10 @@ export default defineComponent({
 	emits: ['close'],
 	setup(props, { emit }) {
 		const { c } = useClassnames('notification');
+		const themeScope = computed(() => getThemeScopeProps(props.notification.theme));
 
 		return () => {
 			const item = props.notification;
-			const themeStyle = item.theme?.variables.value as CSSProperties | undefined;
 			const contentStyle = {
 				'--sy-notification-line-clamp': String(item.clamp),
 			} as CSSProperties;
@@ -25,7 +26,7 @@ export default defineComponent({
 			return (
 				<article
 					class={c('notify')}
-					style={themeStyle}
+					{...themeScope.value}
 					role={item.type === 'error' ? 'alert' : 'status'}
 					aria-live={item.type === 'error' ? 'assertive' : 'polite'}
 				>

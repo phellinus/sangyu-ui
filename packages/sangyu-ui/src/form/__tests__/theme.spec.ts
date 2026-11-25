@@ -23,7 +23,7 @@ describe('Form theme integration', () => {
 		const vars = themeToVariables(lightTheme);
 		expect(vars['--sy-form-required-mark-margin']).toBe('4px');
 		expect(vars['--sy-form-vertical-label-padding']).toBe('0 0 6px');
-		expect(vars['--sy-form-control-width']).toBe('90%');
+		expect(vars['--sy-form-control-width']).toBe('100%');
 		expect(vars['--sy-form-warning-color']).toBe('var(--sy-color-warning)');
 		expect(vars['--sy-form-warning-message-color']).toBe('var(--sy-color-warning-active)');
 	});

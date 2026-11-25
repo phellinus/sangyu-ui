@@ -12,7 +12,7 @@ export default defineComponent({
 		visible: Boolean,
 		loading: Boolean,
 		emptyText: { type: String, default: '暂无数据' },
-		itemHeight: { type: [String, Number], default: 32 },
+		itemHeight: { type: Number, required: true },
 		listHeight: { type: [String, Number], default: 256 },
 		overscan: { type: Number, default: 6 },
 		virtual: { type: Boolean, default: true },
@@ -23,7 +23,7 @@ export default defineComponent({
 	setup(props, { emit, slots }) {
 		const { c, ce } = useClassnames('select-dropdown');
 		const listRef = toRef(props, 'options');
-		const itemHeight = computed(() => toNumber(props.itemHeight, 32));
+		const itemHeight = toRef(props, 'itemHeight');
 		const listHeight = computed(() => toNumber(props.listHeight, 256));
 		const overscan = computed(() => props.overscan);
 		const virtual = useVirtualList(listRef, itemHeight, listHeight, overscan);
@@ -86,7 +86,15 @@ export default defineComponent({
 			if (!props.visible) return null;
 
 			return (
-				<div class={c()} style={{ maxHeight: `${listHeight.value}px` }} onScroll={virtual.handleScroll}>
+				<div
+					class={c()}
+					style={{
+						maxHeight: `${listHeight.value}px`,
+						'--sy-select-option-height': `${itemHeight.value}px`,
+						'--sy-select-list-spacing': `${virtual.listSpacing}px`,
+					}}
+					onScroll={virtual.handleScroll}
+				>
 					{props.loading ? renderLoading() : props.options.length ? renderOptions() : renderEmpty()}
 				</div>
 			);

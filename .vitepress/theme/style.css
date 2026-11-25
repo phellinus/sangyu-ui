@@ -158,8 +158,9 @@ html::-webkit-scrollbar-thumb,
 .VPButton:focus-visible,
 .sy-preview a:focus-visible,
 .sy-showcase a:focus-visible {
-	outline: 2px solid var(--vp-c-text-1);
-	outline-offset: 4px;
+	outline: none;
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
 }
 .VPHome {
 	margin-bottom: 0 !important;
@@ -573,8 +574,8 @@ html::-webkit-scrollbar-thumb,
 	opacity: 0.65;
 }
 .sy-story-link:focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: 4px;
+	outline: none;
+	opacity: 0.65;
 }
 .sy-story-visual {
 	min-width: 0;
@@ -873,8 +874,9 @@ html::-webkit-scrollbar-thumb,
 .VPSidebarItem .link:focus-visible,
 .VPSidebarItem .item:focus-visible,
 .VPNavBarMenuLink:focus-visible {
-	outline: 2px solid var(--vp-c-text-1);
-	outline-offset: 2px;
+	outline: none;
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
 }
 
 .VPSidebarItem .caret {
@@ -1156,8 +1158,9 @@ html::-webkit-scrollbar-thumb,
 }
 
 .sy-components-catalog a:focus-visible {
-	outline: 2px solid var(--vp-c-text-1);
-	outline-offset: 3px;
+	outline: none;
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
 }
 
 .sy-catalog-guide {

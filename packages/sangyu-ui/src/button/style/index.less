@@ -1,11 +1,6 @@
-@import '../../style/index.less';
-
 .sy-button {
-	--sy-button-color-soft: color-mix(in srgb, var(--sy-button-color) 16%, transparent);
-	--sy-button-shadow-color: color-mix(in srgb, var(--sy-button-color) 38%, transparent);
-	--sy-button-gradient-direction: 30deg;
-	--sy-button-gradient-secondary: color-mix(in srgb, var(--sy-button-color) 70%, black);
-	--sy-button-relief-color: color-mix(in srgb, var(--sy-button-color) 70%, black);
+	--sy-button-derived-color-soft: color-mix(in srgb, var(--sy-button-color) 16%, transparent);
+	--sy-button-derived-color-dark: color-mix(in srgb, var(--sy-button-color) 70%, black);
 
 	position: relative;
 	display: inline-flex;
@@ -16,13 +11,14 @@
 	height: var(--sy-control-height-md);
 	padding: var(--sy-spacing-xs) var(--sy-button-padding-medium);
 	border: 1px solid transparent;
-	border-radius: var(--sy-radius-md);
+	border-radius: var(--sy-control-radius);
 	outline: none;
 	overflow: hidden;
 	cursor: pointer;
 	user-select: none;
 	text-decoration: none;
 	font: inherit;
+	font-size: var(--sy-font-size-md);
 	line-height: 1;
 	transition:
 		background-color 0.2s ease,
@@ -32,7 +28,13 @@
 		transform 0.2s ease;
 
 	&:focus-visible {
-		box-shadow: var(--sy-button-focus-shadow);
+		outline: none;
+		filter: brightness(0.85);
+	}
+
+	&:focus-visible &-content {
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
 	}
 
 	&-content {
@@ -87,7 +89,7 @@
 		color: var(--sy-button-text-color, var(--sy-button-color));
 
 		&:hover {
-			background: var(--sy-button-color-soft);
+			background: var(--sy-button-color-soft, var(--sy-button-derived-color-soft));
 		}
 
 		&:active,
@@ -103,7 +105,7 @@
 		color: var(--sy-button-text-color, var(--sy-button-color));
 
 		&:hover {
-			background: var(--sy-button-color-soft);
+			background: var(--sy-button-color-soft, var(--sy-button-derived-color-soft));
 		}
 
 		&:active,
@@ -190,7 +192,7 @@
 		background: linear-gradient(
 			var(--sy-button-gradient-direction),
 			var(--sy-button-color) 0%,
-			var(--sy-button-gradient-secondary) 100%
+			var(--sy-button-gradient-secondary, var(--sy-button-derived-color-dark)) 100%
 		);
 		color: var(--sy-button-text-color, var(--sy-button-filled-text-color));
 
@@ -216,7 +218,7 @@
 			bottom: 0;
 			left: 0;
 			height: 3px;
-			background: var(--sy-button-relief-color);
+			background: var(--sy-button-relief-color, var(--sy-button-derived-color-dark));
 		}
 
 		&:active {

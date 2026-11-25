@@ -1,5 +1,3 @@
-@import '../../style/index.less';
-
 .sy-switch {
 	--sy-switch-control-width: var(--sy-switch-width);
 	--sy-switch-control-height: var(--sy-switch-height);
@@ -34,6 +32,7 @@
 	&-input {
 		position: absolute;
 		opacity: 0;
+		outline: none;
 		pointer-events: none;
 	}
 
@@ -49,7 +48,7 @@
 		background: var(--sy-switch-inactive-background);
 		box-sizing: border-box;
 		transition:
-			box-shadow 0.24s ease,
+			border-color 0.24s ease,
 			background 0.24s ease;
 		overflow: hidden;
 	}
@@ -113,10 +112,6 @@
 		color: var(--sy-color-text-disabled);
 	}
 
-	&-disabled &-track {
-		box-shadow: none;
-	}
-
 	&-disabled &-thumb {
 		box-shadow: var(--sy-switch-disabled-thumb-shadow);
 	}
@@ -178,7 +173,11 @@
 	}
 
 	&-input:focus-visible + &-track {
-		box-shadow: var(--sy-switch-focus-shadow);
+		border-color: var(--sy-color-primary);
+	}
+
+	&-input:focus-visible + &-track &-thumb {
+		filter: brightness(0.85);
 	}
 }
 

@@ -40,5 +40,8 @@ jobs:
             - name: Check project
               run: pnpm check
 
+            - name: Test theme in Chrome
+              run: pnpm test:browser:theme
+
             - name: Test deployment tooling
               run: node --test scripts/deploy-cloudbase.test.mjs

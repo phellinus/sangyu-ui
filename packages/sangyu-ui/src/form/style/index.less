@@ -57,10 +57,15 @@
 		}
 	}
 
+	&--has-feedback > &__control > &__control-input {
+		box-sizing: border-box;
+		padding-inline-end: calc(var(--sy-form-feedback-right) + var(--sy-form-feedback-width));
+	}
+
 	&__feedback {
 		position: absolute;
 		top: 50%;
-		right: var(--sy-form-feedback-right);
+		inset-inline-end: var(--sy-form-feedback-right);
 		z-index: 1;
 		display: inline-flex;
 		align-items: center;
@@ -143,6 +148,14 @@
 .sy-form--inline {
 	.sy-form-item {
 		display: inline-flex;
+		max-width: 100%;
 		margin-bottom: 0;
+
+		&__control-input {
+			> .sy-input,
+			> .sy-select {
+				width: var(--sy-control-field-width);
+			}
+		}
 	}
 }

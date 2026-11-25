@@ -1,9 +1,6 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import process from 'node:process';
 import { mount } from '@vue/test-utils';
-import less from 'less';
 import postcss from 'postcss';
+import { renderThemeCSS } from '../../../../../scripts/sangyu-theme-css';
 import { createApp, createSSRApp, defineComponent, h, nextTick, ref } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -216,18 +213,18 @@ describe('SyCarousel', () => {
 		mode.value = 'dark';
 		await nextTick();
 		expect(wrapper.get('[data-sy-theme]').attributes('data-sy-theme')).toBe('dark');
-		expect(
-			(wrapper.get('[data-sy-theme]').element as HTMLElement).style.getPropertyValue('--sy-carousel-arrow-color'),
-		).toBe('var(--sy-color-text)');
+		expect(wrapper.get('[data-sy-theme]').attributes('style')).toBeUndefined();
 	});
 
-	it('keeps carousel tokens usable with only the static style entry', async () => {
-		const filename = resolve(process.cwd(), 'packages/sangyu-ui/src/style/index.less');
-		const compiled = await less.render(readFileSync(filename, 'utf8'), { filename });
+	it('keeps carousel tokens usable with only the static style entry', () => {
 		const root: Record<string, string> = {};
 		const dark: Record<string, string> = {};
-		postcss.parse(compiled.css).walkRules((rule) => {
-			const target = rule.selector === ':root' ? root : rule.selector === "[data-sy-theme='dark']" ? dark : null;
+		postcss.parse(renderThemeCSS()).walkRules((rule) => {
+			const target = rule.selectors.includes(':root')
+				? root
+				: rule.selector.startsWith("[data-sy-theme='dark']")
+					? dark
+					: null;
 			if (target)
 				rule.walkDecls((declaration) => {
 					target[declaration.prop] = declaration.value;
@@ -253,7 +250,6 @@ describe('SyCarousel', () => {
 			'arrow-hover-background',
 			'indicator-color',
 			'indicator-active-color',
-			'focus-shadow',
 		]) {
 			const property = `--sy-carousel-${name}`;
 			expect(dark[property], `${property} must recalculate in the dark scope`).toBe(root[property]);
