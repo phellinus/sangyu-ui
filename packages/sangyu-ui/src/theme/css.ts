@@ -60,8 +60,9 @@ export const themeToVariables = (theme: ThemeTokens): CSSVariables => {
 			}
 			const name = nameForPath(path);
 			if (name in variables) {
-				variables[name] = toCSSValue(token);
+				throw new Error(`Duplicate CSS variable ${name} at ${path}`);
 			}
+			variables[name] = toCSSValue(token);
 		}
 	};
 

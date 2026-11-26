@@ -27,7 +27,7 @@ describe('theme tokens', () => {
 		expect(vars['--sy-color-error']).toBe('var(--sy-color-error-5)');
 		expect(vars['--sy-color-text']).toBe('#000000e0');
 		expect(vars['--gray-1']).toBe('#a6a6a6');
-		expect(vars['--sy-select-bg']).toBe('#fff');
+		expect(vars['--sy-select-bg']).toBe('var(--sy-color-surface)');
 	});
 
 	it('keeps light and dark token structures identical and resolves all references', () => {
@@ -69,6 +69,33 @@ describe('theme tokens', () => {
 		expect(light['--sy-base-shadow-focus']).toBe('none');
 		expect(dark['--sy-base-shadow-focus']).toBe('none');
 		expect(themeToCSS(lightTheme, '.scope')).toContain('--sy-spacing-xs: var(--sy-base-spacing-xs);');
+	});
+
+	it('shares Select color references across modes and redeclares them for local semantic overrides', () => {
+		const selectColors = {
+			'--sy-select-color': 'var(--sy-color-text)',
+			'--sy-select-bg': 'var(--sy-color-surface)',
+			'--sy-select-disabled-bg': 'var(--sy-color-bg)',
+			'--sy-select-disabled-color': 'var(--sy-color-text-disabled)',
+			'--sy-select-placeholder-color': 'var(--sy-color-text-secondary)',
+			'--sy-select-dropdown-bg': 'var(--sy-color-surface)',
+			'--sy-select-option-selected-bg': 'var(--sy-color-primary-select)',
+			'--sy-select-option-hover-bg': 'color-mix(in srgb, var(--sy-color-text) 8%, var(--sy-color-surface))',
+		};
+		for (const theme of [lightTheme, darkTheme]) {
+			expect(themeToVariables(theme)).toMatchObject(selectColors);
+		}
+		const override = mergeTheme(darkTheme, {
+			semantic: { color: { surface: '#252d36', text: '#e5e7eb', textDisabled: '#818990' } },
+			components: { select: { dropdownBg: '#303943' } },
+		});
+		expect(themeVariableOverrides(themeToVariables(darkTheme), themeToVariables(override))).toMatchObject({
+			'--sy-select-color': selectColors['--sy-select-color'],
+			'--sy-select-bg': selectColors['--sy-select-bg'],
+			'--sy-select-disabled-color': selectColors['--sy-select-disabled-color'],
+			'--sy-select-option-hover-bg': selectColors['--sy-select-option-hover-bg'],
+			'--sy-select-dropdown-bg': '#303943',
+		});
 	});
 
 	it('shares the control sizes across input and select with per-component overrides', () => {
