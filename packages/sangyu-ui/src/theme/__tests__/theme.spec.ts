@@ -2,7 +2,7 @@ import postcss from 'postcss';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { renderThemeCSS } from '../../../../../scripts/sangyu-theme-css';
 import * as publicUI from '../../index';
-import { themeToCSS, themeToVariables } from '../css';
+import { themeToCSS, themeToVariables, themeVariableOverrides } from '../css';
 import { mergeTheme } from '../merge';
 import { darkTheme, lightTheme } from '../presets';
 import type { BaseTokenPath, SemanticTokenPath, ThemeOverride } from '../types';
@@ -130,6 +130,27 @@ describe('theme tokens', () => {
 		expect(dark['--sy-switch-thumb-background']).toBe(
 			'linear-gradient(135deg, var(--sy-color-surface) 0%, var(--sy-color-bg) 100%)',
 		);
+	});
+
+	it('redeclares Switch expressions when their semantic or component color changes', () => {
+		const inherited = themeToVariables(darkTheme);
+		const effective = themeToVariables(
+			mergeTheme(darkTheme, {
+				semantic: { color: { primary: '#7c3aed' } },
+				components: { switch: { inactiveColor: '#232323' } },
+			}),
+		);
+		const overrides = themeVariableOverrides(inherited, effective);
+		expect(overrides).toMatchObject({
+			'--sy-switch-active-color-soft': 'color-mix(in srgb, var(--sy-color-primary) 18%, transparent)',
+			'--sy-switch-active-background':
+				'linear-gradient(135deg, color-mix(in srgb, var(--sy-switch-active-color) 82%, var(--sy-color-surface)) 0%, var(--sy-switch-active-color) 100%)',
+			'--sy-switch-inactive-background':
+				'linear-gradient(180deg, var(--sy-color-surface) 0%, var(--sy-switch-inactive-color) 100%)',
+			'--sy-switch-inactive-hover-background':
+				'linear-gradient(180deg, var(--sy-color-surface) 0%, color-mix(in srgb, var(--sy-switch-inactive-color) 88%, var(--sy-color-surface)) 100%)',
+		});
+		expect(overrides).not.toHaveProperty('--sy-switch-thumb-background');
 	});
 
 	it('emits navigation component tokens with stable names in both presets', () => {

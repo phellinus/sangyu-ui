@@ -1,8 +1,18 @@
+import { toCSSValue } from './css';
 import { mergeTheme } from './merge';
 import type { ThemeOverride, ThemeTokens, TokenReference } from './types';
 
 const base = <Path extends `base.${string}`>(path: Path): TokenReference<Path> => ({ ref: path });
 const semantic = <Path extends `semantic.${string}`>(path: Path): TokenReference<Path> => ({ ref: path });
+const component = <Path extends `components.${string}`>(path: Path): TokenReference<Path> => ({ ref: path });
+
+type Color = string | TokenReference<`${'base' | 'semantic' | 'components'}.${string}`>;
+
+const mix = (color: Color, percentage: number, other: Color = 'transparent'): string =>
+	`color-mix(in srgb, ${toCSSValue(color)} ${percentage}%, ${toCSSValue(other)})`;
+
+const linearGradient = (angle: number, start: Color, end: Color): string =>
+	`linear-gradient(${angle}deg, ${toCSSValue(start)} 0%, ${toCSSValue(end)} 100%)`;
 
 const commonBase = {
 	spacing: { xs: '4px', sm: '8px', md: '16px', lg: '24px', xl: '32px' },
@@ -299,16 +309,26 @@ const commonSwitch = {
 	fontSizeSmall: semantic('semantic.fontSize.sm'),
 	fontSizeLarge: semantic('semantic.fontSize.lg'),
 	activeColor: semantic('semantic.color.primary'),
-	activeColorSoft: 'color-mix(in srgb, var(--sy-color-primary) 18%, transparent)',
-	activeColorStrong: 'color-mix(in srgb, var(--sy-color-primary) 30%, transparent)',
+	activeColorSoft: mix(semantic('semantic.color.primary'), 18),
+	activeColorStrong: mix(semantic('semantic.color.primary'), 30),
 	inactiveColor: '#eef1f4',
-	inactiveBorderColor: 'color-mix(in srgb, var(--sy-color-border) 82%, var(--sy-color-surface))',
-	inactiveBackground: 'linear-gradient(180deg, var(--sy-color-surface) 0%, var(--sy-switch-inactive-color) 100%)',
-	inactiveHoverBackground:
-		'linear-gradient(180deg, var(--sy-color-surface) 0%, color-mix(in srgb, var(--sy-switch-inactive-color) 88%, var(--sy-color-surface)) 100%)',
-	activeBackground:
-		'linear-gradient(135deg, color-mix(in srgb, var(--sy-switch-active-color) 82%, var(--sy-color-surface)) 0%, var(--sy-switch-active-color) 100%)',
-	thumbBackground: 'linear-gradient(135deg, var(--sy-color-surface) 0%, var(--sy-color-bg) 100%)',
+	inactiveBorderColor: mix(semantic('semantic.color.border'), 82, semantic('semantic.color.surface')),
+	inactiveBackground: linearGradient(
+		180,
+		semantic('semantic.color.surface'),
+		component('components.switch.inactiveColor'),
+	),
+	inactiveHoverBackground: linearGradient(
+		180,
+		semantic('semantic.color.surface'),
+		mix(component('components.switch.inactiveColor'), 88, semantic('semantic.color.surface')),
+	),
+	activeBackground: linearGradient(
+		135,
+		mix(component('components.switch.activeColor'), 82, semantic('semantic.color.surface')),
+		component('components.switch.activeColor'),
+	),
+	thumbBackground: linearGradient(135, semantic('semantic.color.surface'), semantic('semantic.color.bg')),
 	thumbColor: semantic('semantic.color.textSecondary'),
 	thumbShadow: semantic('semantic.shadow.control'),
 	disabledThumbShadow: semantic('semantic.shadow.control'),
@@ -453,7 +473,7 @@ const commonBreadcrumb = {
 	separatorColor: semantic('semantic.color.textDisabled'),
 	separatorFontSize: semantic('semantic.fontSize.md'),
 	linkHoverColor: semantic('semantic.color.text'),
-	linkHoverBg: 'color-mix(in srgb, var(--sy-color-border) 40%, transparent)',
+	linkHoverBg: mix(semantic('semantic.color.border'), 40),
 	currentColor: semantic('semantic.color.text'),
 	separatorGap: semantic('semantic.spacing.sm'),
 	contentGap: '6px',
@@ -474,7 +494,7 @@ const commonStep = {
 	tailColor: semantic('semantic.color.border'),
 	indicatorSize: '36px',
 	indicatorFontSize: '15px',
-	indicatorProcessShadow: '0 0 0 5px color-mix(in srgb, var(--sy-color-text) 8%, transparent)',
+	indicatorProcessShadow: `0 0 0 5px ${mix(semantic('semantic.color.text'), 8)}`,
 	horizontalHeadMinWidth: '64px',
 	verticalMinHeight: '92px',
 	verticalHeadGap: semantic('semantic.spacing.md'),
@@ -491,8 +511,8 @@ const commonStep = {
 	waitDescriptionColor: semantic('semantic.color.textSecondary'),
 	finishTitleColor: semantic('semantic.color.success'),
 	errorTitleColor: semantic('semantic.color.error'),
-	tailFinishColor: 'color-mix(in srgb, var(--sy-color-success) 28%, transparent)',
-	tailProcessColor: 'color-mix(in srgb, var(--sy-color-text) 28%, transparent)',
+	tailFinishColor: mix(semantic('semantic.color.success'), 28),
+	tailProcessColor: mix(semantic('semantic.color.text'), 28),
 	headMinWidth: '36px',
 	horizontalHeadPaddingTop: '2px',
 	indicatorRadius: semantic('semantic.radius.round'),
@@ -507,10 +527,8 @@ const commonCard = {
 	headerColor: semantic('semantic.color.text'),
 	contentColor: semantic('semantic.color.textSecondary'),
 	sectionBorderColor: semantic('semantic.color.divider'),
-	shadowAlways:
-		'0 20px 48px -12px rgba(140, 144, 150, 0.2), 0 8px 20px -6px rgba(140, 144, 150, 0.12), inset 0 0 0 1px var(--sy-color-surface)',
-	shadowHover:
-		'0 20px 48px -12px rgba(140, 144, 150, 0.2), 0 8px 20px -6px rgba(140, 144, 150, 0.12), inset 0 0 0 1px var(--sy-color-surface)',
+	shadowAlways: `0 20px 48px -12px rgba(140, 144, 150, 0.2), 0 8px 20px -6px rgba(140, 144, 150, 0.12), inset 0 0 0 1px ${toCSSValue(semantic('semantic.color.surface'))}`,
+	shadowHover: `0 20px 48px -12px rgba(140, 144, 150, 0.2), 0 8px 20px -6px rgba(140, 144, 150, 0.12), inset 0 0 0 1px ${toCSSValue(semantic('semantic.color.surface'))}`,
 	borderRadius: '20px',
 	headerPadding: '20px 24px 16px',
 	headerFontSize: '18px',
@@ -550,7 +568,7 @@ const commonTag = {
 	fontSizeSmall: semantic('semantic.fontSize.sm'),
 	fontSizeDefault: semantic('semantic.fontSize.md'),
 	fontSizeLarge: semantic('semantic.fontSize.lg'),
-	closeHoverBackground: 'color-mix(in srgb, var(--sy-color-text) 8%, transparent)',
+	closeHoverBackground: mix(semantic('semantic.color.text'), 8),
 	closeSize: '1.25em',
 	closeGap: '0.4rem',
 	closeOffset: '-4px',
@@ -566,7 +584,7 @@ const commonAvatar = {
 	background: semantic('semantic.color.bg'),
 	loadingBackground: semantic('semantic.color.bg'),
 	loadingColor: semantic('semantic.color.textSecondary'),
-	loadingOverlay: 'color-mix(in srgb, var(--sy-color-surface) 45%, transparent)',
+	loadingOverlay: mix(semantic('semantic.color.surface'), 45),
 	loadingSize: '18px',
 	badgeColor: semantic('semantic.color.primary'),
 	badgeSize: '11px',
@@ -630,11 +648,11 @@ const commonResult = {
 	serverErrorColor: semantic('semantic.color.error'),
 	surfaceAlpha: '14%',
 	compactSurfaceAlpha: '10%',
-	borderColor: 'color-mix(in srgb, var(--sy-color-border) 72%, transparent)',
-	backgroundTop: 'color-mix(in srgb, var(--sy-color-surface) 96%, transparent)',
-	backgroundBottom: 'color-mix(in srgb, var(--sy-color-bg) 96%, transparent)',
-	shadow: '0 18px 48px -28px color-mix(in srgb, var(--sy-color-text) 18%, transparent)',
-	innerHighlight: 'color-mix(in srgb, var(--sy-color-surface) 88%, transparent)',
+	borderColor: mix(semantic('semantic.color.border'), 72),
+	backgroundTop: mix(semantic('semantic.color.surface'), 96),
+	backgroundBottom: mix(semantic('semantic.color.bg'), 96),
+	shadow: `0 18px 48px -28px ${mix(semantic('semantic.color.text'), 18)}`,
+	innerHighlight: mix(semantic('semantic.color.surface'), 88),
 	gap: '24px',
 	padding: '44px 32px',
 	borderRadius: '26px',
@@ -643,7 +661,7 @@ const commonResult = {
 	compactBorderRadius: '20px',
 	visualSize: '112px',
 	visualRadius: '32px',
-	visualHighlight: 'color-mix(in srgb, var(--sy-color-surface) 92%, transparent)',
+	visualHighlight: mix(semantic('semantic.color.surface'), 92),
 	// The fallback uses the status color computed on each Result instance.
 	visualShadow: 'initial',
 	compactVisualSize: '72px',
@@ -665,7 +683,7 @@ const commonResult = {
 	bodyMarginTop: '18px',
 	bodyPadding: '16px 18px',
 	bodyRadius: '16px',
-	bodyBackground: 'color-mix(in srgb, var(--sy-color-bg) 92%, transparent)',
+	bodyBackground: mix(semantic('semantic.color.bg'), 92),
 	bodyFontSize: semantic('semantic.fontSize.md'),
 	bodyColor: semantic('semantic.color.textSecondary'),
 	extraMarginTop: '22px',
@@ -680,7 +698,7 @@ const commonResult = {
 
 const commonProgress = {
 	defaultColor: semantic('semantic.color.primary'),
-	defaultTrackColor: 'color-mix(in srgb, var(--sy-color-primary) 16%, transparent)',
+	defaultTrackColor: mix(semantic('semantic.color.primary'), 16),
 	lineHeight: '8px',
 	lineRadius: '999px',
 	lineMinWidth: '160px',
@@ -689,7 +707,7 @@ const commonProgress = {
 	infoInsideFontSize: '21.6px',
 	infoColor: semantic('semantic.color.textSecondary'),
 	infoInsideColor: semantic('semantic.color.text'),
-	trackShadow: 'inset 0 1px 2px color-mix(in srgb, var(--sy-color-text) 6%, transparent)',
+	trackShadow: `inset 0 1px 2px ${mix(semantic('semantic.color.text'), 6)}`,
 	gradientMix: '78%',
 	gap: semantic('semantic.spacing.sm'),
 };
@@ -699,7 +717,7 @@ const commonTooltip = {
 	textColor: '#ffffff',
 	borderColor: '#2c3f51',
 	borderBackground: semantic('semantic.color.surface'),
-	borderThickShadow: 'var(--sy-shadow-popover)',
+	borderThickShadow: toCSSValue(semantic('semantic.shadow.popover')),
 	fontSize: '14px',
 	paddingX: semantic('semantic.spacing.sm'),
 	paddingY: semantic('semantic.spacing.xs'),
@@ -712,7 +730,7 @@ const commonDrawer = {
 	maskBackground: 'rgba(0, 0, 0, 0.45)',
 	panelBackground: semantic('semantic.color.surface'),
 	panelColor: semantic('semantic.color.text'),
-	panelShadow: 'var(--sy-shadow-overlay)',
+	panelShadow: toCSSValue(semantic('semantic.shadow.overlay')),
 	headerMinHeight: '56px',
 	headerPadding: '12px 20px',
 	headerBorderColor: semantic('semantic.color.divider'),
@@ -746,7 +764,7 @@ const commonNotification = {
 	borderColor: semantic('semantic.color.border'),
 	borderRadius: '16px',
 	color: semantic('semantic.color.textSecondary'),
-	shadow: 'var(--sy-shadow-overlay)',
+	shadow: toCSSValue(semantic('semantic.shadow.overlay')),
 	titleColor: semantic('semantic.color.text'),
 	titleFontSize: '16px',
 	titleMarginBottom: semantic('semantic.spacing.sm'),
@@ -766,7 +784,7 @@ const commonTable = {
 	textColor: semantic('semantic.color.text'),
 	headerBackground: semantic('semantic.color.bg'),
 	rowBackground: semantic('semantic.color.surface'),
-	rowHoverBackground: 'color-mix(in srgb, var(--sy-color-primary) 4%, var(--sy-color-surface))',
+	rowHoverBackground: mix(semantic('semantic.color.primary'), 4, semantic('semantic.color.surface')),
 	stripedBackground: semantic('semantic.color.bg'),
 	cellBorderColor: semantic('semantic.color.divider'),
 	borderRadius: '18px',
@@ -781,12 +799,12 @@ const commonTable = {
 	headerFontWeight: '600',
 	cellFontSize: semantic('semantic.fontSize.md'),
 	cellLineHeight: '1.5',
-	fixedShadow: 'inset 8px 0 8px -8px color-mix(in srgb, var(--sy-color-text) 14%, transparent)',
-	fixedShadowRight: 'inset -8px 0 8px -8px color-mix(in srgb, var(--sy-color-text) 14%, transparent)',
+	fixedShadow: `inset 8px 0 8px -8px ${mix(semantic('semantic.color.text'), 14)}`,
+	fixedShadowRight: `inset -8px 0 8px -8px ${mix(semantic('semantic.color.text'), 14)}`,
 	emptyColor: semantic('semantic.color.textSecondary'),
 	emptyMinHeight: '160px',
 	emptyPadding: semantic('semantic.spacing.lg'),
-	loadingBackground: 'color-mix(in srgb, var(--sy-color-surface) 72%, transparent)',
+	loadingBackground: mix(semantic('semantic.color.surface'), 72),
 	loadingOpacity: '1',
 	loadingColor: semantic('semantic.color.textSecondary'),
 	loadingSpinnerSize: '16px',
@@ -794,9 +812,9 @@ const commonTable = {
 	loadingSpinnerTrack: semantic('semantic.color.border'),
 	loadingSpinnerActive: semantic('semantic.color.primary'),
 	scrollbarSize: '8px',
-	scrollbarTrack: 'color-mix(in srgb, var(--sy-color-text) 4%, transparent)',
-	scrollbarThumb: 'color-mix(in srgb, var(--sy-color-text-secondary) 38%, transparent)',
-	scrollbarThumbHover: 'color-mix(in srgb, var(--sy-color-text-secondary) 62%, transparent)',
+	scrollbarTrack: mix(semantic('semantic.color.text'), 4),
+	scrollbarThumb: mix(semantic('semantic.color.textSecondary'), 38),
+	scrollbarThumbHover: mix(semantic('semantic.color.textSecondary'), 62),
 	scrollbarRadius: semantic('semantic.radius.round'),
 	transitionDuration: '180ms',
 };
@@ -817,7 +835,7 @@ const commonTabs = {
 	heightSmall: '32px',
 	heightMedium: '40px',
 	heightLarge: '48px',
-	closeHoverBackground: 'color-mix(in srgb, var(--sy-color-text) 8%, transparent)',
+	closeHoverBackground: mix(semantic('semantic.color.text'), 8),
 };
 
 const commonCarousel = {
@@ -828,14 +846,14 @@ const commonCarousel = {
 	controlSize: '32px',
 	controlRadius: semantic('semantic.radius.round'),
 	controlOffset: semantic('semantic.spacing.md'),
-	arrowBackground: 'color-mix(in srgb, var(--sy-color-surface) 78%, transparent)',
+	arrowBackground: mix(semantic('semantic.color.surface'), 78),
 	arrowColor: semantic('semantic.color.text'),
 	arrowHoverBackground: semantic('semantic.color.surface'),
 	indicatorOffset: semantic('semantic.spacing.md'),
 	indicatorGap: semantic('semantic.spacing.sm'),
 	indicatorSize: '8px',
 	indicatorRadius: semantic('semantic.radius.round'),
-	indicatorColor: 'color-mix(in srgb, var(--sy-color-text-secondary) 65%, transparent)',
+	indicatorColor: mix(semantic('semantic.color.textSecondary'), 65),
 	indicatorActiveColor: semantic('semantic.color.primary'),
 	indicatorLineWidth: '24px',
 	indicatorLineHeight: '4px',
