@@ -1,0 +1,28 @@
+import { mix, semantic } from '../values';
+
+export const tagTokens = {
+	primaryColor: semantic('semantic.color.primary'),
+	successColor: semantic('semantic.color.success'),
+	warningColor: semantic('semantic.color.warning'),
+	errorColor: semantic('semantic.color.error'),
+	borderAlpha: '30%',
+	backgroundAlpha: '20%',
+	borderRadius: '6px',
+	focusShadow: semantic('semantic.shadow.focus'),
+	heightSmall: '20px',
+	heightDefault: '28px',
+	heightLarge: '32px',
+	paddingXSmall: '8px',
+	paddingXDefault: '10px',
+	paddingXLarge: '16px',
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeDefault: semantic('semantic.fontSize.md'),
+	fontSizeLarge: semantic('semantic.fontSize.lg'),
+	closeHoverBackground: mix(semantic('semantic.color.text'), 8),
+	closeSize: '1.25em',
+	closeGap: '0.4rem',
+	closeOffset: '-4px',
+	closeRadius: semantic('semantic.radius.round'),
+	closeOpacity: '0.6',
+	closeFocusShadow: semantic('semantic.shadow.focus'),
+};

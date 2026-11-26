@@ -1,0 +1,27 @@
+import { mix, semantic } from '../values';
+
+export const avatarTokens = {
+	size: '40px',
+	fontSize: '16px',
+	textColor: semantic('semantic.color.text'),
+	background: semantic('semantic.color.bg'),
+	loadingBackground: semantic('semantic.color.bg'),
+	loadingColor: semantic('semantic.color.textSecondary'),
+	loadingOverlay: mix(semantic('semantic.color.surface'), 45),
+	loadingSize: '18px',
+	badgeColor: semantic('semantic.color.primary'),
+	badgeSize: '11px',
+	badgeTextMinWidth: '12px',
+	badgeTextHeight: '14px',
+	badgeTextPaddingX: '6px',
+	badgeTextColor: '#ffffff',
+	badgeBorderColor: semantic('semantic.color.surface'),
+	badgeTextFontSize: '11px',
+	badgeFontSize: '12px',
+	badgeBorderWidth: '1px',
+	badgeTextRadius: semantic('semantic.radius.sm'),
+	circleRadius: semantic('semantic.radius.round'),
+	squareRadius: '35%',
+	hoverBrightness: '1.09',
+	loadingOpacity: '0.45',
+};

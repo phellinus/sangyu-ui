@@ -1,0 +1,56 @@
+import { semantic } from '../values';
+
+export const radioTokens = {
+	size: '16px',
+	sizeSmall: '14px',
+	sizeLarge: '18px',
+	dotSize: '8px',
+	dotSizeSmall: '6px',
+	dotSizeLarge: '10px',
+	fontSize: semantic('semantic.fontSize.md'),
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeLarge: semantic('semantic.fontSize.lg'),
+	gap: '6px',
+	gapSmall: semantic('semantic.spacing.xs'),
+	gapLarge: semantic('semantic.spacing.sm'),
+	squareRadius: semantic('semantic.radius.sm'),
+	color: semantic('semantic.color.primary'),
+	hoverColor: semantic('semantic.color.primaryHover'),
+	activeColor: semantic('semantic.color.primaryActive'),
+	borderColor: semantic('semantic.color.border'),
+	background: semantic('semantic.color.surface'),
+	disabledColor: semantic('semantic.color.textDisabled'),
+	disabledBackground: semantic('semantic.color.bg'),
+	squareDotRadius: '2px',
+	focusShadow: semantic('semantic.shadow.focus'),
+};
+
+export const radioGroupTokens = {
+	gapX: '16px',
+	gapY: '12px',
+};
+
+export const radioButtonTokens = {
+	fontSize: semantic('semantic.fontSize.md'),
+	fontSizeSmall: semantic('semantic.fontSize.sm'),
+	fontSizeLarge: '18px',
+	height: '36px',
+	heightSmall: '26px',
+	heightLarge: '48px',
+	paddingX: semantic('semantic.spacing.md'),
+	paddingXSmall: '10px',
+	paddingXLarge: semantic('semantic.spacing.lg'),
+	radius: '10px',
+	radiusSmall: semantic('semantic.radius.md'),
+	radiusLarge: '14px',
+	color: semantic('semantic.color.text'),
+	hoverColor: semantic('semantic.color.primaryActive'),
+	activeColor: semantic('semantic.color.primary'),
+	borderColor: semantic('semantic.color.border'),
+	background: semantic('semantic.color.surface'),
+	checkedColor: semantic('semantic.color.primaryActive'),
+	checkedBackground: semantic('semantic.color.primarySelect'),
+	checkedShadow: semantic('semantic.shadow.control'),
+	disabledColor: semantic('semantic.color.textDisabled'),
+	disabledBackground: semantic('semantic.color.bg'),
+};
