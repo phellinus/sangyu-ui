@@ -1,8 +1,9 @@
+import '@sangyu-ui/icons/style.css';
+import 'virtual:sangyu-theme.css';
 import type { App, Plugin } from 'vue';
 import pkg from '../package.json';
 import * as components from './components';
 import type { SangyuUIPlugin } from './Component.type';
-import './style';
 
 export * from './components';
 export { lightTheme, darkTheme } from './theme/presets';

@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, CSSProperties, defineComponent, PropType, provide, ref, useId } from 'vue';
 import { FormItemProps, FormRule, FormSize, NamePath, ValidateStatus, ValidateTrigger } from './Form.type';
 import { useClassnames } from '@sangyu-ui/utils';

@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, defineComponent, inject, onMounted, PropType, TransitionGroup } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { NotificationItem } from './components';

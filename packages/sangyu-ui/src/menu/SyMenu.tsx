@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, defineComponent, provide, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import type { MenuEmits, MenuItemPosition, MenuMode, MenuProps, MenuVerticalPosition } from './Menu.type';

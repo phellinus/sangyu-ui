@@ -1,3 +1,4 @@
+import './style/index.less';
 import { Comment, createTextVNode, defineComponent, Fragment, Text, type PropType, type VNode } from 'vue';
 import type { SpaceGap, SpaceProps } from './Space.type';
 

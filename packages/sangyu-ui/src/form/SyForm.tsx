@@ -1,3 +1,4 @@
+import './style/index.less';
 import { CSSProperties, defineComponent, PropType, provide } from 'vue';
 import {
 	FormContext,

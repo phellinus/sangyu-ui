@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import './style/index.less';
 import { useClassnames } from '@sangyu-ui/utils';
 import type { TagEmits, TagProps, TagSlots } from './Tag.type';
 import { TagClose } from './components';

@@ -1,3 +1,4 @@
+import './style/index.less';
 import { defineComponent, h, type PropType } from 'vue';
 
 import type { LayoutContentProps, LayoutSiderProps } from './Layout.type';

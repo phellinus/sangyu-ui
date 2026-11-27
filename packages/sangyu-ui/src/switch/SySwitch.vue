@@ -61,6 +61,7 @@
 </template>
 
 <script lang="ts" setup>
+import './style/index.less';
 import { computed, useAttrs } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { SyIcon } from '@sangyu-ui/icons';

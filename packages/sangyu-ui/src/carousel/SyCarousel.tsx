@@ -1,3 +1,4 @@
+import './style/index.less';
 import { cloneVNode, defineComponent, Fragment, ref, type PropType, type StyleValue, type VNode } from 'vue';
 import { SyArrowDown, SyArrowLeft, SyArrowRight, SyArrowUp } from '@sangyu-ui/icons';
 import type {
