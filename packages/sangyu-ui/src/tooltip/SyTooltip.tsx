@@ -1,3 +1,4 @@
+import './style/index.less';
 import { cloneVNode, computed, defineComponent, getCurrentInstance, type PropType } from 'vue';
 import type { Placement } from '@floating-ui/vue';
 import { TooltipContent } from './components';

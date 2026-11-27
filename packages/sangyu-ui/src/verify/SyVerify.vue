@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import './style/index.less';
 import { shallowRef, useTemplateRef } from 'vue';
 
 import SliderChallenge from './components/SliderChallenge.vue';

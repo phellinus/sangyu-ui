@@ -1,3 +1,4 @@
+import './style/index.less';
 import { cloneVNode, computed, defineComponent, provide, type CSSProperties, type PropType, type VNode } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import type { BreadcrumbProps } from './Breadcrumb.type';

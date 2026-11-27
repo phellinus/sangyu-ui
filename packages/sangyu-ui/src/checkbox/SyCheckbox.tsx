@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, CSSProperties, defineComponent, mergeProps, PropType, type AriaAttributes } from 'vue';
 import {
 	CheckboxEmits,

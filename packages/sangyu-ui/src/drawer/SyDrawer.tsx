@@ -1,3 +1,4 @@
+import './style/index.less';
 import { useClassnames } from '@sangyu-ui/utils';
 import {
 	computed,

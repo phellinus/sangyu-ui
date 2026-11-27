@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, defineComponent, PropType } from 'vue';
 import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { DividerProps } from './interface';

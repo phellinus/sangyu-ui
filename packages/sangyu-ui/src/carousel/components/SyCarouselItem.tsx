@@ -1,3 +1,4 @@
+import '../style/index.less';
 import { defineComponent } from 'vue';
 
 /** 轮播中的单个内容项 */
