@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+import './style/index.less';
 import { useAttrs } from 'vue';
 import { ButtonLoadingIcon } from './components';
 import type { ButtonEmits, ButtonProps, ButtonSlots, SyButtonInstance } from './Button.type';

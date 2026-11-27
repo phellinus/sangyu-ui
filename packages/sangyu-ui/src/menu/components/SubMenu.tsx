@@ -1,3 +1,4 @@
+import '../style/index.less';
 import { computed, defineComponent, type PropType } from 'vue';
 import { SyIcon } from '@sangyu-ui/icons';
 import { useClassnames } from '@sangyu-ui/utils';

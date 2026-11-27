@@ -1,3 +1,4 @@
+import './style/index.less';
 import { cloneVNode, Comment, defineComponent, Fragment, PropType, provide, toRef, VNode } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import { StepDirection, StepsProps } from './interface';

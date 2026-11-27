@@ -1,3 +1,4 @@
+import './style/index.less';
 import { defineComponent, PropType, type CSSProperties } from 'vue';
 import { ResultContent, ResultVisual } from './components';
 import { useResult } from './composables';

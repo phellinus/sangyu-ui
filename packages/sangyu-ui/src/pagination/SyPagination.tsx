@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, CSSProperties, defineComponent, PropType } from 'vue';
 import { PaginationLayoutItem, PaginationProps, PaginationShape, PaginationSize } from './Pagination.type';
 import { DEFAULT_LAYOUT, DEFAULT_PAGE_SIZES } from './constants';

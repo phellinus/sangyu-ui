@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import './style/index.less';
 import { useClassnames } from '@sangyu-ui/utils';
 import { useFormItemContext } from '../form/composable/useFormItemContext';
 import { computed, mergeProps, useAttrs } from 'vue';

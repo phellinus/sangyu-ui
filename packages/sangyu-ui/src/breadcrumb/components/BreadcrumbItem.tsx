@@ -1,3 +1,4 @@
+import '../style/index.less';
 import { computed, defineComponent, inject } from 'vue';
 import { SyIcon } from '@sangyu-ui/icons';
 import { breadcrumbContextKey } from '../context';

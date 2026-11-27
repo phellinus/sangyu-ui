@@ -1,3 +1,4 @@
+import './style/index.less';
 import { computed, defineComponent, type CSSProperties, type PropType } from 'vue';
 import { useClassnames } from '@sangyu-ui/utils';
 import type {

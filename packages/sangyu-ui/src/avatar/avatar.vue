@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import './style/index.less';
 import { computed, getCurrentInstance, ref, useSlots, watch } from 'vue';
 import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { AvatarProps } from './interface';

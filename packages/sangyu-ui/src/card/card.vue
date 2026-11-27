@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import './style/index.less';
 import { useClassnames } from '@sangyu-ui/utils';
 import { SyCardProps } from './Card.type';
 import { computed, getCurrentInstance } from 'vue';

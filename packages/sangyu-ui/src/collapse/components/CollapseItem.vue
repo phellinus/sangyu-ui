@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '../style/index.less';
 import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { collapseKey } from '../context';
 import type { SyCollapseItemProps } from '../Collapse.type';

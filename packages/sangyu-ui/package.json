@@ -41,7 +41,6 @@
 		"LICENSE"
 	],
 	"sideEffects": [
-		"./src/style.ts",
 		"**/*.css",
 		"**/*.less"
 	],

@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import './style/index.less';
 import { computed, getCurrentInstance } from 'vue';
 import { getColor, useClassnames } from '@sangyu-ui/utils';
 import { ProgressProps } from './interface';
